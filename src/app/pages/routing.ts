@@ -16,6 +16,11 @@ const Routing: Routes = [
     loadChildren: () =>
       import('./actes/details/details.module').then((m) => m.DetailsModule),
   },
+  {
+    path: 'actes/demande/:slug',
+    loadChildren: () =>
+      import('./actes/demande/demande.module').then((m) => m.DemandeModule),
+  },
   // {
   //   path: 'contact',
   //   loadChildren: () =>

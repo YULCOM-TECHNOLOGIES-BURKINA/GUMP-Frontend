@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-details',
-  templateUrl: './details.component.html',
-  styleUrl: './details.component.scss'
+  selector: 'app-demande',
+  templateUrl: './demande.component.html',
 })
-export class DetailsComponent implements OnInit {
+export class DemandeComponent implements OnInit {
   actes: { label: string, description: string, slug: string }[] = [
     {
       label: 'Attestation DRTSS',
