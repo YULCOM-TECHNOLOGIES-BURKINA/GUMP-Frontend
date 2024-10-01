@@ -7,10 +7,15 @@ const Routing: Routes = [
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: 'builder',
+    path: 'actes',
     loadChildren: () =>
-      import('./builder/builder.module').then((m) => m.BuilderModule),
+      import('./actes/actes.module').then((m) => m.ActesModule),
   },
+  // {
+  //   path: 'contact',
+  //   loadChildren: () =>
+  //     import('./contact/contact.module').then((m) => m.ContactModule),
+  // },
   {
     path: 'crafted/pages/profile',
     loadChildren: () =>
