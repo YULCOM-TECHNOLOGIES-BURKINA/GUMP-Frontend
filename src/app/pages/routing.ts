@@ -11,6 +11,11 @@ const Routing: Routes = [
     loadChildren: () =>
       import('./actes/actes.module').then((m) => m.ActesModule),
   },
+  {
+    path: 'actes/details/:slug',
+    loadChildren: () =>
+      import('./actes/details/details.module').then((m) => m.DetailsModule),
+  },
   // {
   //   path: 'contact',
   //   loadChildren: () =>

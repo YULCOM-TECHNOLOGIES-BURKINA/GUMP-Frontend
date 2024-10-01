@@ -1,0 +1,21 @@
+<div class="card mb-10" *ngFor="let acte of actes">
+    <div class="card-body d-flex align-items-center py-8">
+      <!-- begin::Description  -->
+      <div class="ms-6" *ngIf="acte.slug ===acte_slug">
+        <p class="list-unstyled text-gray-600 fw-bold fs-6 p-0 m-0">
+            {{acte.label}}
+        </p>
+      </div>
+      <!-- end::Description  -->
+    </div>
+</div>
+  
+  
+<!-- begin::Header -->
+<div class="card card-custom">
+        <div class="card-header card-header-stretch overflow-auto">
+      
+        </div>
+</div>
+<!-- end::Header -->
+  

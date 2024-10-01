@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-actes',
-  templateUrl: './actes.component.html',
+  selector: 'app-details',
+  templateUrl: './details.component.html',
+  styleUrl: './details.component.scss'
 })
-export class ActesComponent implements OnInit {
+export class DetailsComponent implements OnInit {
   actes: { label: string, description: string, slug: string }[] = [
     {
       label: 'Attestation DRTSS',
@@ -50,10 +52,12 @@ export class ActesComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  acte_slug: any;
+
+  constructor(private route: ActivatedRoute,) {}
 
   ngOnInit(): void {
-
+    this.acte_slug = this.route.snapshot.paramMap.get('slug');
   }
 
 }
