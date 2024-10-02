@@ -21,18 +21,28 @@ const Routing: Routes = [
     loadChildren: () =>
       import('./actes/demande/demande.module').then((m) => m.DemandeModule),
   },
+  {
+    path: 'mes-demandes',
+    loadChildren: () =>
+      import('./historique/historique.module').then((m) => m.HistoriqueModule),
+  },
+  // {
+  //   path: 'mes-demandes/demande/:id',
+  //   loadChildren: () =>
+  //     import('./historique/historique/historique.module').then((m) => m.HistoriqueModule),
+  // },
   // {
   //   path: 'contact',
   //   loadChildren: () =>
   //     import('./contact/contact.module').then((m) => m.ContactModule),
   // },
   {
-    path: 'crafted/pages/profile',
+    path: 'profile',
     loadChildren: () =>
       import('../modules/profile/profile.module').then((m) => m.ProfileModule),
   },
   {
-    path: 'crafted/account',
+    path: 'compte',
     loadChildren: () =>
       import('../modules/account/account.module').then((m) => m.AccountModule),
   },

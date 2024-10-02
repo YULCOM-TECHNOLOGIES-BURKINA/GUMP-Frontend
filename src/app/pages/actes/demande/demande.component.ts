@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-demande',
   templateUrl: './demande.component.html',
 })
-export class DemandeComponent implements OnInit {
+export class DemandeComponent implements OnInit, OnDestroy  {
   actes: { label: string, description: string, slug: string }[] = [
     {
       label: 'Attestation DRTSS',
@@ -55,7 +56,18 @@ export class DemandeComponent implements OnInit {
 
   acte: any;
 
-  constructor(private route: ActivatedRoute,) {}
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoading: boolean;
+  private unsubscribe: Subscription[] = [];
+
+  constructor(private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef
+  ) {
+    const loadingSubscr = this.isLoading$
+      .asObservable()
+      .subscribe((res) => (this.isLoading = res));
+    this.unsubscribe.push(loadingSubscr);
+  }
 
   ngOnInit(): void {
     this.acte_slug = this.route.snapshot.paramMap.get('slug');
@@ -65,6 +77,18 @@ export class DemandeComponent implements OnInit {
         this.acte = item;
       }
     }
+  }
+
+  saveSettings() {
+    this.isLoading$.next(true);
+    setTimeout(() => {
+      this.isLoading$.next(false);
+      this.cdr.detectChanges();
+    }, 1500);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 
 }
