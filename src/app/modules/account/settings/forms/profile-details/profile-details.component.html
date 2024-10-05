@@ -8,7 +8,7 @@
     aria-controls="kt_account_profile_details"
   >
     <div class="card-title m-0">
-      <h3 class="fw-bolder m-0">Profile Details</h3>
+      <h3 class="fw-bolder m-0">Paramètres du compte </h3>
     </div>
   </div>
   <div id="kt_account_profile_details" class="collapse show">
@@ -33,7 +33,7 @@
         </div>
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label required fw-bold fs-6"
-            >Full Name</label
+            >Nom </label
           >
           <div class="col-lg-8">
             <div class="row">
@@ -63,7 +63,7 @@
         </div>
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label required fw-bold fs-6"
-            >Company</label
+            >Email</label
           >
           <div class="col-lg-8 fv-row">
             <input
@@ -71,13 +71,28 @@
               class="form-control form-control-lg form-control-solid"
               placeholder="Company name"
               name="company"
-              value="Keenthemes"
+              value="admin@admin.com"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label required fw-bold fs-6"
+            >Entreprise</label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="text"
+              class="form-control form-control-lg form-control-solid"
+              placeholder="Company name"
+              name="company"
+              value="Yulcom"
             />
           </div>
         </div>
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6"
-            ><span class="required">Contact Phone</span></label
+            ><span class="required">Numéro de téléphone</span></label
           >
           <div class="col-lg-8 fv-row">
             <input
@@ -85,25 +100,12 @@
               class="form-control form-control-lg form-control-solid"
               placeholder="Phone number"
               name="contactPhone"
-              value="044 3276 454 935"
+              value="70 70 70 70"
             />
           </div>
         </div>
-        <div class="row mb-6">
-          <label class="col-lg-4 col-form-label fw-bold fs-6"
-            ><span class="required">Company Site</span></label
-          >
-          <div class="col-lg-8 fv-row">
-            <input
-              type="text"
-              class="form-control form-control-lg form-control-solid"
-              placeholder="Company website"
-              name="companySite"
-              value="keenthemes.com"
-            />
-          </div>
-        </div>
-        <div class="row mb-6">
+        
+        <!-- <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6"
             ><span class="required">Country</span></label
           >
@@ -367,9 +369,9 @@
               <option value="ZM">Zambia</option>
               <option value="ZW">Zimbabwe</option>
             </select>
-            <!-- <div class="fv-plugins-message-container">
+            !-- <div class="fv-plugins-message-container">
               <div class="fv-help-block">Country is required</div>
-            </div> -->
+            </div> --
           </div>
         </div>
         <div class="row mb-6">
@@ -628,8 +630,8 @@
               <option value="CHF">CHF - Swiss franc</option>
             </select>
           </div>
-        </div>
-        <div class="row mb-6">
+        </div> -->
+        <!-- <div class="row mb-6"> 
           <label class="col-lg-4 col-form-label fw-bold fs-6"
             >Communication</label
           >
@@ -650,8 +652,8 @@
               >
             </div>
           </div>
-        </div>
-        <div class="row mb-0">
+        </div> -->
+        <!-- <div class="row mb-0">
           <label class="col-lg-4 col-form-label fw-bold fs-6"
             >Allow Marketing</label
           >
@@ -664,7 +666,7 @@
               /><label class="form-check-label"></label>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="card-footer d-flex justify-content-end py-6 px-9">
         <button
@@ -673,7 +675,7 @@
           [disabled]="isLoading"
           (click)="saveSettings()"
         >
-          <ng-container *ngIf="!isLoading">Save Changes</ng-container>
+          <ng-container *ngIf="!isLoading">Enregistrer les changements</ng-container>
           <ng-container *ngIf="isLoading">
             <span clas="indicator-progress" [style.display]="'block'">
               Please wait...{{ " " }}
