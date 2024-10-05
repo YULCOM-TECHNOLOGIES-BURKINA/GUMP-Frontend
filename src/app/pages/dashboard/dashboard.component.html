@@ -1,4 +1,4 @@
-<!-- begin::Row -->
+<!-- begin::Row --
 <div class="row gy-5 g-xl-8">
   <div class="col-xxl-4">
     <app-mixed-widget2
@@ -24,9 +24,9 @@
     ></app-mixed-widget11>
   </div>
 </div>
-<!-- end::Row -->
+!-- end::Row -->
 
-<!-- begin::Row -->
+<!-- begin::Row --
 <div class="row gy-5 gx-xl-8">
   <div class="col-xxl-4">
     <app-lists-widget3
@@ -39,9 +39,9 @@
     ></app-tables-widget10>
   </div>
 </div>
-<!-- end::Row -->
+!-- end::Row -->
 
-<!-- begin::Row -->
+<!-- begin::Row --
 <div class="row gy-5 g-xl-8">
   <div class="col-xl-4">
     <app-lists-widget2 class="card card-xl-stretch mb-xl-8"></app-lists-widget2>
@@ -55,9 +55,9 @@
     ></app-lists-widget4>
   </div>
 </div>
-<!-- end::Row -->
+!-- end::Row -->
 
-<div class="row g-5 gx-xxl-8">
+<!-- <div class="row g-5 gx-xxl-8">
   <div class="col-xxl-4">
     <app-mixed-widget8
       class="card card-xxl-stretch mb-xl-3"
@@ -70,7 +70,7 @@
       class="card card-xxl-stretch mb-5 mb-xxl-8"
     ></app-tables-widget5>
   </div>
-</div>
+</div> -->
 
 <!-- begin:: Modal example -->
 <!-- <app-modal #modal [modalConfig]="modalConfig">
@@ -78,3 +78,59 @@
 </app-modal>
 <button class="btn btn-primary" (click)="openModal()">Open modal</button> -->
 <!-- end:: Modal example -->
+
+<div class="card mb-10">
+  <div class="card-body d-flex align-items-center py-8">
+    <!-- begin::Icon --
+    <div
+      class="d-flex h-80px w-80px flex-shrink-0 flex-center position-relative"
+    >
+      <span
+        class="svg-icon svg-icon-primary position-absolute opacity-15"
+        [inlineSVG]="'./assets/media/icons/duotune/abstract/abs051.svg'"
+        [setSVGAttributes]="{ class: 'h-80px w-80px' }"
+      ></span>
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/coding/cod009.svg'"
+        class="svg-icon svg-icon-3x svg-icon-primary position-absolute"
+      ></span>
+    </div>
+    !-- end::Icon  -->
+
+    <!-- begin::Description  -->
+    <div class="ms-6">
+      <p class="list-unstyled text-gray-600 fw-bold fs-6 p-0 m-0">
+        Le Guichet Unique a pour objectif de permettre aux opérateurs économiques nationaux,
+personnes morales et physiques, d&#39;accomplir sur une même plateforme numérique dans un
+délai réduit, les formalités et actes d'établissement auxquels, ils sont tenus.
+
+L’objectif principal est d’offrir aux opérateurs économiques nationaux, qu&#39;ils soient
+personnes morales ou physiques, la possibilité d&#39;effectuer rapidement toutes les
+formalités et actes d&#39;établissement requis sur une seule plateforme numérique.
+      </p>
+      <br/>
+      <p class="list-unstyled text-gray-600 fw-bold fs-6 p-0 m-0">Les opérateurs économiques, comme les entreprises ou les entrepreneurs, rencontrent souvent des obstacles
+        lorsqu’ils doivent obtenir des documents ou certifications pour répondre aux appels d'offres.
+         Ce Guichet Unique des Marchés Publics simplifiera ces démarches en regroupant toutes les formalités sur une seule plateforme.
+          Plus besoin de vous déplacer d’un ministère à l’autre ou de perdre des jours entiers à remplir des papiers.</p>
+    </div>
+    <!-- end::Description  -->
+  </div>
+</div>
+
+<div class="card card-custom">
+  <!-- begin::Header -->
+  <div class="card-header card-header-stretch overflow-auto">
+    <h1>Objectifs du Guichet Unique des Marchés Publics</h1>
+  </div>
+  <!-- end::Header -->
+   <ul class=" border-transparent flex-nowrap ">
+    <li><strong>Améliorer la qualité des services administratifs :</strong> Un accès plus rapide et sécurisé aux services publics.</li>
+    <li><strong>Simplifier les démarches en ligne : </strong>Réduire les délais de traitement des documents, vous permettant de vous concentrer sur l’essentiel, votre activité.</li>
+    <li><strong>Faciliter l’ouverture des systèmes d’information :</strong> Interconnecter les différents ministères pour une fluidité dans l’échange de données.</li>
+    <li><strong>Développer des plateformes numériques pour les administrations : </strong>Assurer que chaque structure administrative
+       ait les outils nécessaires pour délivrer des documents en ligne.</li>
+    </ul>
+
+</div>
+

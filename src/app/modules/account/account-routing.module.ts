@@ -14,7 +14,7 @@ const routes: Routes = [
         component: OverviewComponent,
       },
       {
-        path: 'settings',
+        path: 'paramètres',
         component: SettingsComponent,
       },
       { path: '', redirectTo: 'overview', pathMatch: 'full' },

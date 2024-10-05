@@ -7,17 +7,42 @@ const Routing: Routes = [
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
-    path: 'builder',
+    path: 'actes',
     loadChildren: () =>
-      import('./builder/builder.module').then((m) => m.BuilderModule),
+      import('./actes/actes.module').then((m) => m.ActesModule),
   },
   {
-    path: 'crafted/pages/profile',
+    path: 'actes/details/:slug',
+    loadChildren: () =>
+      import('./actes/details/details.module').then((m) => m.DetailsModule),
+  },
+  {
+    path: 'actes/demande/:slug',
+    loadChildren: () =>
+      import('./actes/demande/demande.module').then((m) => m.DemandeModule),
+  },
+  {
+    path: 'mes-demandes',
+    loadChildren: () =>
+      import('./historique/historique.module').then((m) => m.HistoriqueModule),
+  },
+  // {
+  //   path: 'mes-demandes/demande/:id',
+  //   loadChildren: () =>
+  //     import('./historique/historique/historique.module').then((m) => m.HistoriqueModule),
+  // },
+  // {
+  //   path: 'contact',
+  //   loadChildren: () =>
+  //     import('./contact/contact.module').then((m) => m.ContactModule),
+  // },
+  {
+    path: 'profile',
     loadChildren: () =>
       import('../modules/profile/profile.module').then((m) => m.ProfileModule),
   },
   {
-    path: 'crafted/account',
+    path: 'compte',
     loadChildren: () =>
       import('../modules/account/account.module').then((m) => m.AccountModule),
   },
