@@ -1,0 +1,40 @@
+{
+	"data": [
+		{
+			"id": "1000",
+			"code": "f230fh0g3",
+			"name": "Grande campagne",
+			"description": "Product Description",
+			"image": "bamboo-watch.jpg",
+			"price": "CNTS, Ouagadougou",
+			"category": "Grandes Campagnes",
+			"quantity": 24,
+			"inventoryStatus": "En cours",
+			"rating": 5
+		},
+		{
+			"id": "1001",
+			"code": "nvklal433",
+			"name": "Grande campagne",
+			"description": "Product Description",
+			"image": "black-watch.jpg",
+			"price": "Bobo-Dioulasso",
+			"category": "Campagnes scolaires",
+			"quantity": 61,
+			"inventoryStatus": "Regulière",
+			"rating": 4
+		},
+		{
+			"id": "1002",
+			"code": "zz21cz3c1",
+			"name": "Grande campagne",
+			"description": "Product Description",
+			"image": "blue-band.jpg",
+			"price": "Yalgado, Ouagadougou",
+			"category": "Campagnes d'association",
+			"quantity": 2,
+			"inventoryStatus": "Urgente",
+			"rating": 3
+		}
+	]
+}
