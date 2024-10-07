@@ -1,14 +1,13 @@
-<div class="grid">
-    <div *ngFor="let acte of actes" class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
+<div class="grid justify-content-between">
+    <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
         <div style=" padding:2px; border-radius:10px; background: linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(180, 130, 4, 0.466),rgba(3, 73, 26, 0.2));">
             <div class="p-3 surface-card h-full" style="border-radius:8px;">
                 <div class="flex align-items-center justify-content-center bg-bluegray-200 mb-3" style="width:3.5rem;height:3.5rem; border-radius:10px;">
                     <i class="pi pi-fw pi-id-card text-2xl text-bluegray-700"></i>
                 </div>
-                <h5 class="mb-2 text-900">{{acte.label}}</h5>
-                <!-- <span class="text-600">{{acte.description}}</span> -->
+                <h5 class="mb-2 text-900">Attestation DRTSS</h5>
                 <div class="pt-1">
-                    <a routerLink="/actes/demande/{{acte.slug}}" class="p-button font-light bg-green-600 text-white">
+                    <a routerLink="/app/pages/actes/attestation-drtss" class="p-button font-light bg-green-600 text-white">
                     Faire une demande
                     </a>
                 </div>
@@ -16,23 +15,99 @@
         </div>
     </div>
 
-    <div class="col-12 lg:col-6 xl:col-3" *ngFor="let acte of actes" >
-        <div class="card mb-0">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium mb-3">{{acte.label}}</span>
+    <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
+        <div style=" padding:2px; border-radius:10px; background: linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(180, 130, 4, 0.466),rgba(3, 73, 26, 0.2));">
+            <div class="p-3 surface-card h-full" style="border-radius:8px;">
+                <div class="flex align-items-center justify-content-center bg-bluegray-200 mb-3" style="width:3.5rem;height:3.5rem; border-radius:10px;">
+                    <i class="pi pi-fw pi-id-card text-2xl text-bluegray-700"></i>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width:2.5rem;height:2.5rem;">
-                    <i class="pi pi-map-marker text-blue-500 text-xl"></i>
+                <h5 class="mb-2 text-900">Attestation de situation cotisante CNSS</h5>
+                <div class="pt-1">
+                    <a routerLink="/app/pages/actes/attestation-cnss" class="p-button font-light bg-green-600 text-white">
+                    Faire une demande
+                    </a>
                 </div>
             </div>
-            <div class="pt-1">
-                <a routerLink="/actes/demande/{{acte.slug}}" class="p-button font-light bg-green-600 text-white">
-                Faire une demande
-                </a>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
+        <div style=" padding:2px; border-radius:10px; background: linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(180, 130, 4, 0.466),rgba(3, 73, 26, 0.2));">
+            <div class="p-3 surface-card h-full" style="border-radius:8px;">
+                <div class="flex align-items-center justify-content-center bg-bluegray-200 mb-3" style="width:3.5rem;height:3.5rem; border-radius:10px;">
+                    <i class="pi pi-fw pi-id-card text-2xl text-bluegray-700"></i>
+                </div>
+                <h5 class="mb-2 text-900">Attestation de Situation Fiscale</h5>
+                <div class="pt-1">
+                    <a routerLink="/app/pages/actes/attestation-situation-fiscale" class="p-button font-light bg-green-600 text-white">
+                    Faire une demande
+                    </a>
+                </div>
             </div>
-            <!-- <span class="text-green-500 font-medium">24 new </span>
-            <span class="text-500">since last visit</span> -->
+        </div>
+    </div>
+
+    <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
+        <div style=" padding:2px; border-radius:10px; background: linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(180, 130, 4, 0.466),rgba(3, 73, 26, 0.2));">
+            <div class="p-3 surface-card h-full" style="border-radius:8px;">
+                <div class="flex align-items-center justify-content-center bg-bluegray-200 mb-3" style="width:3.5rem;height:3.5rem; border-radius:10px;">
+                    <i class="pi pi-fw pi-id-card text-2xl text-bluegray-700"></i>
+                </div>
+                <h5 class="mb-2 text-900">Attestation de non engagement de l'Agent judiciaire de l'ETAT (AJE)</h5>
+                <div class="pt-1">
+                    <a routerLink="/app/pages/actes/attestation-aje" class="p-button font-light bg-green-600 text-white">
+                    Faire une demande
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
+        <div style=" padding:2px; border-radius:10px; background: linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(180, 130, 4, 0.466),rgba(3, 73, 26, 0.2));">
+            <div class="p-3 surface-card h-full" style="border-radius:8px;">
+                <div class="flex align-items-center justify-content-center bg-bluegray-200 mb-3" style="width:3.5rem;height:3.5rem; border-radius:10px;">
+                    <i class="pi pi-fw pi-id-card text-2xl text-bluegray-700"></i>
+                </div>
+                <h5 class="mb-2 text-900">Registre du commerce et du crédit Mobilier (RCCM)</h5>
+                <div class="pt-1">
+                    <a routerLink="/app/pages/actes/rccm" class="p-button font-light bg-green-600 text-white">
+                    Faire une demande
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
+        <div style=" padding:2px; border-radius:10px; background: linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(180, 130, 4, 0.466),rgba(3, 73, 26, 0.2));">
+            <div class="p-3 surface-card h-full" style="border-radius:8px;">
+                <div class="flex align-items-center justify-content-center bg-bluegray-200 mb-3" style="width:3.5rem;height:3.5rem; border-radius:10px;">
+                    <i class="pi pi-fw pi-id-card text-2xl text-bluegray-700"></i>
+                </div>
+                <h5 class="mb-2 text-900">Certificat de non faillite</h5>
+                <div class="pt-1">
+                    <a routerLink="/app/pages/actes/certificat-de-non-faillite" class="p-button font-light bg-green-600 text-white">
+                    Faire une demande
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
+        <div style=" padding:2px; border-radius:10px; background: linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(180, 130, 4, 0.466),rgba(3, 73, 26, 0.2));">
+            <div class="p-3 surface-card h-full" style="border-radius:8px;">
+                <div class="flex align-items-center justify-content-center bg-bluegray-200 mb-3" style="width:3.5rem;height:3.5rem; border-radius:10px;">
+                    <i class="pi pi-fw pi-id-card text-2xl text-bluegray-700"></i>
+                </div>
+                <h5 class="mb-2 text-900">Attestation ANPE</h5>
+                <div class="pt-1">
+                    <a routerLink="/app/pages/actes/attestation-anpe" class="p-button font-light bg-green-600 text-white">
+                    Faire une demande
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
