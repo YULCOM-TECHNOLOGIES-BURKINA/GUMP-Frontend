@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/app/demo/api/product';
+import { Demande } from '../../../models/demande';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { ProductService } from 'src/app/demo/service/product.service';
+import { DemandeService } from '../../../services/demande.service';
 
 @Component({
   selector: 'app-demandes',
@@ -11,125 +11,57 @@ import { ProductService } from 'src/app/demo/service/product.service';
 })
 export class DemandesComponent implements OnInit {
 
-  productDialog: boolean = false;
+  deleteRequestDialog: boolean = false;
+  deleteRequestsDialog: boolean = false;
 
-  deleteProductDialog: boolean = false;
+  requests: Demande[] = [];
+  request: Demande = {};
 
-  deleteProductsDialog: boolean = false;
-
-  products: Product[] = [];
-
-  product: Product = {};
-
-  selectedProducts: Product[] = [];
-
-  submitted: boolean = false;
-
+  selectedRequests: Demande[] = [];
   cols: any[] = [];
 
-  statuses: any[] = [];
-
-  rowsPerPageOptions = [5, 10, 20];
-
-  constructor(private productService: ProductService, private messageService: MessageService) { }
+  constructor(private demandeService: DemandeService, private messageService: MessageService) { }
 
   ngOnInit() {
-      this.productService.getProductsSmall().then(data => this.products = data);
+      // Récupération des demandes via un service qui gère l'appel API pour chaque acte.
+      this.demandeService.getDemandes().then(data => this.requests = data);
 
-      this.statuses = [
-          { label: 'En cours ', value: 'En cours ' },
-          { label: 'Urgente', value: 'Urgente' },
-          { label: 'Regulière', value: 'Regulière' }
+      this.cols = [
+          { field: 'acte', header: 'Acte' },
+          { field: 'date', header: 'Date' },
+          { field: 'status', header: 'Statut' }
       ];
   }
 
-  openNew() {
-      this.product = {};
-      this.submitted = false;
-      this.productDialog = true;
+  deleteSelectedRequests() {
+      this.deleteRequestsDialog = true;
   }
 
-  deleteSelectedProducts() {
-      this.deleteProductsDialog = true;
+  editRequest(request: Demande) {
+      this.request = { ...request };
+      // Logique d'édition ici
   }
 
-  editProduct(product: Product) {
-      this.product = { ...product };
-      this.productDialog = true;
+  deleteRequest(request: Demande) {
+      this.deleteRequestDialog = true;
+      this.request = { ...request };
   }
 
-  deleteProduct(product: Product) {
-      this.deleteProductDialog = true;
-      this.product = { ...product };
+  confirmDeleteRequest() {
+      this.deleteRequestDialog = false;
+      this.requests = this.requests.filter(val => val.id !== this.request.id);
+      this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande supprimée', life: 3000 });
+      this.request = {};
   }
 
   confirmDeleteSelected() {
-      this.deleteProductsDialog = false;
-      this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
-      this.selectedProducts = [];
-  }
-
-  confirmDelete() {
-      this.deleteProductDialog = false;
-      this.products = this.products.filter(val => val.id !== this.product.id);
-      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-      this.product = {};
-  }
-
-  hideDialog() {
-      this.productDialog = false;
-      this.submitted = false;
-  }
-
-  saveProduct() {
-      this.submitted = true;
-
-      if (this.product.name?.trim()) {
-          if (this.product.id) {
-              // @ts-ignore
-              this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-              this.products[this.findIndexById(this.product.id)] = this.product;
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-          } else {
-              this.product.id = this.createId();
-              this.product.code = this.createId();
-              this.product.image = 'product-placeholder.svg';
-              // @ts-ignore
-              this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
-              this.products.push(this.product);
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
-          }
-
-          this.products = [...this.products];
-          this.productDialog = false;
-          this.product = {};
-      }
-  }
-
-  findIndexById(id: string): number {
-      let index = -1;
-      for (let i = 0; i < this.products.length; i++) {
-          if (this.products[i].id === id) {
-              index = i;
-              break;
-          }
-      }
-
-      return index;
-  }
-
-  createId(): string {
-      let id = '';
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      for (let i = 0; i < 5; i++) {
-          id += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return id;
+      this.deleteRequestsDialog = false;
+      this.requests = this.requests.filter(val => !this.selectedRequests.includes(val));
+      this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demandes supprimées', life: 3000 });
+      this.selectedRequests = [];
   }
 
   onGlobalFilter(table: Table, event: Event) {
       table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
-
 }

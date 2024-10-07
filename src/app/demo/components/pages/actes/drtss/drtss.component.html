@@ -1,1 +1,45 @@
-<p>drtss works!</p>
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<h5>Formulaire de demande d'une attestation DRTSS</h5>
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-6">
+					<label htmlFor="city">Attestion ANPE</label>
+                    <p-toast />
+                    <p-fileUpload 
+                    mode="basic" 
+                    chooseLabel="Charger l'attestion ANPE" 
+                    chooseIcon="pi pi-upload"
+                    styleClass="p-button-secondary"
+                    name="anpeFile" 
+                    accept="image/*,.pdf" 
+                    maxFileSize="1000000" 
+                    (onSelect)="onFileSelect($event, 'anpeFile')"/>
+				</div>
+                <div class="field col-12 md:col-6">
+					<label htmlFor="city">Attestion CNSS</label>
+					<p-toast />
+                    <p-fileUpload 
+                        mode="basic" 
+                        chooseLabel="Charger l'attestion CNSS" 
+                        styleClass="p-button-secondary"
+                        chooseIcon="pi pi-upload"
+                        name="cnssFile" 
+                        accept="image/*,.pdf" 
+                        maxFileSize="1000000" 
+                        (onSelect)="onFileSelect($event, 'cnssFile')"/>
+				</div>
+			</div>            
+            <div class="field col-12 text-right">
+                <button 
+                    pButton 
+                    pRipple 
+                    icon="pi pi-check" 
+                    label="Valider et envoyer le formulaire" 
+                    class="p-button-success" 
+                    (click)="onSubmit()">
+                </button>
+            </div>
+		</div>
+	</div>
+</div>

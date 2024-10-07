@@ -1,69 +1,73 @@
-<div class="grid">
-    <div class="col-12 lg:col-6 xl:col-6">
-        <div class="card mb-0">
+<div class="grid ">
+    <!-- Card 1: Nombre de demandes -->
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-red-100">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Demandes</span>
-                    <div class="text-900 font-medium text-xl">2</div>
+                    <span class="block text-500 font-medium text-lg mb-2">Nombre de demandes</span>
+                    <div class="text-900 font-bold text-3xl">250</div>
+                    <span class="text-green-500 font-medium text-sm">+5% depuis le mois dernier</span>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-map-marker text-blue-500 text-xl"></i>
+                <div class="flex align-items-center justify-content-center bg-red-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-file text-red-800 text-2xl"></i>
                 </div>
             </div>
-            <!-- <span class="text-green-500 font-medium">24 new </span>
-            <span class="text-500">since last visit</span> -->
         </div>
     </div>
-    <div class="col-12 lg:col-6 xl:col-6">
-        <div class="card mb-0">
+
+    <!-- Card 2: Actes délivrés -->
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-green-100">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Actes</span>
-                    <div class="text-900 font-medium text-xl">3</div>
+                    <span class="block text-500 font-medium text-lg mb-2">Actes délivrés</span>
+                    <div class="text-900 font-bold text-3xl">180</div>
+                    <span class="text-green-500 font-medium text-sm">+10% cette semaine </span>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-inbox text-orange-500 text-xl"></i>
+                <div class="flex align-items-center justify-content-center bg-green-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-check-circle text-green-800 text-2xl"></i>
                 </div>
             </div>
-            <!-- <span class="text-green-500 font-medium">%52+ </span>
-            <span class="text-500">since last week</span> -->
         </div>
     </div>
-    <!-- <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-0">
+
+    <!-- Card 3: Entreprises inscrites -->
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-yellow-100">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Annonces</span>
-                    <div class="text-900 font-medium text-xl">28</div>
+                    <span class="block text-500 font-medium text-lg mb-2">Entreprises inscrites</span>
+                    <div class="text-900 font-bold text-3xl">75</div>
+                    <span class="text-red-500 font-medium text-sm">-2% ce mois-ci</span>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-comment text-cyan-500 text-xl"></i>
+                <div class="flex align-items-center justify-content-center bg-yellow-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-building text-yellow-800 text-2xl"></i>
                 </div>
             </div>
-           
         </div>
-    </div> -->
-    <!-- <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-0">
+    </div>
+
+    <!-- Card 4: PME actives -->
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-orange-100">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Poches de sang</span>
-                    <div class="text-900 font-medium text-xl">152 restants</div>
+                    <span class="block text-500 font-medium text-lg mb-2">PME actives</span>
+                    <div class="text-900 font-bold text-3xl">55</div>
+                    <span class="text-green-500 font-medium text-sm">+8% ce trimestre</span>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-database text-purple-500 text-xl"></i>
+                <div class="flex align-items-center justify-content-center bg-orange-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-users text-orange-800 text-2xl"></i>
                 </div>
             </div>
-           
         </div>
-    </div> -->
+    </div>
 
-
-    <!-- <div class="col-12 xl:col-12">
-        <div class="card">
-            <h5>Exemple de graphique</h5>
+    <!-- Exemple de graphique -->
+    <div class="col-12 xl:col-12">
+        <div class="card p-4 shadow-lg">
+            <h5 class="font-medium text-xl mb-4">Évolution des demandes et des actes délivrés</h5>
             <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
         </div>
-    </div> -->
+    </div>
 </div>
-
