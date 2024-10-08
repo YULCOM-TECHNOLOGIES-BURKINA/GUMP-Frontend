@@ -15,6 +15,7 @@ export class TraitementDrtssComponent implements OnInit {
   
   displayProcessModal: boolean = false;
   displayRejectModal: boolean = false;
+  displayProcessDetailModal: boolean = false;
   
   rejectionReason: string = '';
 
@@ -41,6 +42,11 @@ export class TraitementDrtssComponent implements OnInit {
       { field: 'date', header: 'Date' },
       { field: 'status', header: 'Statut' }
   ];
+  }
+
+  openViewRequest(request: Demande) {
+    this.selectedRequest = { ...request };
+    this.displayProcessDetailModal = true;
   }
 
   openProcessRequest(request: Demande) {

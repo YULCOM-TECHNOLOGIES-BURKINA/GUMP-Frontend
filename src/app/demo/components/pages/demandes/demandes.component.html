@@ -23,37 +23,39 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3rem">
+                        <!-- <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
+                        </th> -->
                         <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
                         <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-request>
                     <tr>
-                        <td>
+                        <!-- <td>
                             <p-tableCheckbox [value]="request"></p-tableCheckbox>
-                        </td>
+                        </td> -->
                         <td>
                             <span class="p-column-title">Acte</span>
                             {{ request.acte }}
                         </td>
+                        <td>{{ request.date | date: 'dd/MM/yyyy' }}</td>
                         <td>
-                            <span class="p-column-title">Date</span>
-                            {{ request.date | date: 'dd/MM/yyyy' }}
+                            <span class="p-badge" [ngClass]="{
+                                'p-badge-success': request.status === 'Validée',
+                                'p-badge-success': request.status === 'Traitée',
+                                'p-badge-danger': request.status === 'Rejetée',
+                                'p-badge-info': request.status === 'En attente'
+                            }">
+                                {{ request.status === 'Traitée' ? 'Validée' : request.status }}
+                            </span>
                         </td>
                         <td>
-                            <span class="p-column-title">Statut</span>
-                            <span [class]="'status-badge status-' + request.status.toLowerCase()">{{ request.status }}</span>
-                        </td>
-                        <td>
-                            <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editRequest(request)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRequest(request)"></button>
-                            </div>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary" (click)="viewRequest(request)"  pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                            <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined p-button-info" (click)="editRequest(request)"  pTooltip="Modifier la demande" tooltipPosition="bottom"></button> -->
+                            <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-outlined p-button-danger" (click)="deleteRequest(request)"  pTooltip="Supprimer la demande" tooltipPosition="bottom"></button> -->
                         </td>
                     </tr>
                 </ng-template>
@@ -61,6 +63,29 @@
         </div>
 
         <!-- Dialogs -->
+        <p-dialog header="Détails de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="one">
+            <div class="grid">
+                <div class="col-12">
+                    <span class="font-bold">Entreprise: {{ one.company.name }}</span>
+                </div>
+                <div class="col-6">
+                    <p><strong>Localisation: </strong> {{ one.company.location }}</p>
+                    <p><strong>BP: </strong> {{ one.company.bp }}</p>
+                </div>
+                <div class="col-6">
+                    <p><strong>Adresse: </strong> {{ one.company.address }}</p>
+                    <p><strong>Téléphone: </strong> {{ one.company.phone }}</p>
+                </div>
+                <div class="col-6 mt-2">
+                    <span><strong>N° Attestation ANPE: </strong> {{ one.anpeNumber }}</span>
+                </div>
+                <div class="col-6 mt-2">
+                    <span><strong>N° Attestation CNSS: </strong> {{ one.cnssNumber }} </span>
+                </div>
+            </div>
+        </p-dialog>
+
+        
         <p-dialog [(visible)]="deleteRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>

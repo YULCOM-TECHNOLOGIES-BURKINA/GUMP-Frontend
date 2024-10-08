@@ -18,6 +18,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { DialogModule } from 'primeng/dialog';
     DropdownModule,
     RadioButtonModule,
     InputNumberModule,
-    DialogModule
+    DialogModule,
+		TooltipModule
   ]
 })
 export class DemandesModule { }

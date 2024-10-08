@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "acte": "Demande d'attestation de soumission au marchés publics",
+      "acte": "Demande d'attestation DRTSS",
       "date": "2024-10-01",
       "status": "Traitée",
       "company": {
@@ -17,7 +17,7 @@
     },
     {
       "id": 2,
-      "acte": "Demande d'attestation de soumission au marchés publics",
+      "acte": "Demande d'attestation de situation fiscale",
       "date": "2024-09-28",
       "status": "En attente",
       "company": {
@@ -33,7 +33,7 @@
     },
     {
       "id": 3,
-      "acte": "Demande d'attestation de soumission au marchés publics",
+      "acte": "Demande d'attestation ANPE",
       "date": "2024-09-15",
       "status": "Rejetée",
       "company": {
@@ -49,7 +49,7 @@
     },
     {
       "id": 4,
-      "acte": "Demande d'attestation de soumission au marchés publics",
+      "acte": "Demande de certificat de non faillite",
       "date": "2024-09-10",
       "status": "Traitée",
       "company": {

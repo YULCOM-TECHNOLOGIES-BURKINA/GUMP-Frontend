@@ -34,12 +34,8 @@
                         <td>
                             <p-tableCheckbox [value]="request"></p-tableCheckbox>
                         </td>
-                        <!-- <td>{{ request.acte }}</td> -->
                         <td>{{ request.company.name }}</td>
                         <td>{{ request.date | date: 'dd/MM/yyyy' }}</td>
-                        <!-- <td>
-                            <span class="p-badge" [ngClass]="request.status === 'Traité' ? 'p-badge-success' : 'p-badge-warning'">{{ request.status }}</span>
-                        </td> -->
                         <td>
                             <span class="p-badge" [ngClass]="{
                                 'p-badge-success': request.status === 'Validée',
@@ -83,6 +79,28 @@
             <button pButton label="Annuler" icon="pi pi-times" (click)="closeProcessModal()" class="p-button-secondary"></button>
         </ng-template>
     </p-dialog> -->
+
+    <p-dialog header="Détails de la demande" [(visible)]="displayProcessDetailModal" [modal]="true" [style]="{width: '500px'}" *ngIf="one">
+        <div class="grid">
+            <div class="col-12">
+                <span class="font-bold">Entreprise: {{ one.company.name }}</span>
+            </div>
+            <div class="col-6">
+                <p><strong>Localisation: </strong> {{ one.company.location }}</p>
+                <p><strong>BP: </strong> {{ one.company.bp }}</p>
+            </div>
+            <div class="col-6">
+                <p><strong>Adresse: </strong> {{ one.company.address }}</p>
+                <p><strong>Téléphone: </strong> {{ one.company.phone }}</p>
+            </div>
+            <div class="col-6 mt-2">
+                <span><strong>N° Attestation ANPE: </strong> {{ one.anpeNumber }}</span>
+            </div>
+            <div class="col-6 mt-2">
+                <span><strong>N° Attestation CNSS: </strong> {{ one.cnssNumber }} </span>
+            </div>
+        </div>
+    </p-dialog>
 
     <p-dialog header="Traitement de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="one">
         <div class="grid">

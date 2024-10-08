@@ -20,11 +20,25 @@ export class DemandesComponent implements OnInit {
   selectedRequests: Demande[] = [];
   cols: any[] = [];
 
+  displayProcessModal: boolean = false;
+
+  one: Demande | null = null;
+
   constructor(private demandeService: DemandeService, private messageService: MessageService) { }
 
   ngOnInit() {
       // Récupération des demandes via un service qui gère l'appel API pour chaque acte.
-      this.demandeService.getDemandesP().then(data => this.requests = data);
+      this.demandeService.getDemandes().subscribe(data => {
+        this.requests = data;
+      });
+
+    //   this.demandeService.getOneDemande().subscribe(data => {
+    //     this.requests = data;
+    //   });
+
+    this.demandeService.getOneDemande().subscribe(data => {
+        this.one = data;
+      });
 
       this.cols = [
           { field: 'acte', header: 'Acte' },
@@ -40,6 +54,15 @@ export class DemandesComponent implements OnInit {
   editRequest(request: Demande) {
       this.request = { ...request };
       // Logique d'édition ici
+  }
+
+  viewRequest(request: Demande) {
+    this.request = { ...request };
+    this.displayProcessModal = true;
+  }
+
+  closeProcessModal() {
+    this.displayProcessModal = false;
   }
 
   deleteRequest(request: Demande) {
