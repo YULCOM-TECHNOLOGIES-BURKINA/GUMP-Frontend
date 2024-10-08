@@ -23,4 +23,10 @@ export class UtilisateurService {
     supprimerUtilisateur(id: number): Observable<any> {
         return this.http.delete(`${this.apiUrl}/${id}`);
     }
+
+    // Méthode pour soumettre la demande d'attestation
+  submitUtilisateurRequest(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/submit`, formData);
+  }
+
 }
