@@ -1,0 +1,45 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column  p-4 shadow-2 ">
+        <img src="assets/image.png" alt="GUMP logo" class="mb-5 w-6rem flex-shrink-0 ">
+        <h3 class="text-center">Inscription</h3>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="field mt-3">
+                <label for="nom">Nom</label>
+                <input id="nom" pInputText formControlName="nom" class="w-full" placeholder="Entrez votre nom" />
+                <p-message *ngIf="submitted && registerForm.controls['nom'].errors" severity="error" text="Le nom est requis"></p-message>
+            </div>
+
+            <div class="field mt-3">
+                <label for="prenom">Prénom</label>
+                <input id="prenom" pInputText formControlName="prenom" class="w-full" placeholder="Entrez votre prénom" />
+                <p-message *ngIf="submitted && registerForm.controls['prenom'].errors" severity="error" text="Le prénom est requis"></p-message>
+            </div>
+
+            <div class="field mt-3">
+                <label for="email">Email</label>
+                <input id="email" pInputText formControlName="email" type="email" class="w-full" placeholder="Entrez votre email" />
+                <p-message *ngIf="submitted && registerForm.controls['email'].errors" severity="error" text="Email valide requis"></p-message>
+            </div>
+
+            <div class="field mt-3">
+                <label for="password">Mot de passe</label>
+                <input id="password" pInputText formControlName="password" type="password" class="w-full" placeholder="Entrez votre mot de passe" />
+                <p-message *ngIf="submitted && registerForm.controls['password'].errors" severity="error" text="Mot de passe requis"></p-message>
+            </div>
+
+            <div class="field mt-3">
+                <label for="confirmPassword">Confirmer le mot de passe</label>
+                <input id="confirmPassword" pInputText formControlName="confirmPassword" type="password" class="w-full" placeholder="Confirmez votre mot de passe" />
+                <p-message *ngIf="submitted && registerForm.controls['confirmPassword'].errors" severity="error" text="Les mots de passe ne correspondent pas"></p-message>
+            </div>
+
+            <div class="mt-4">
+                <button pButton type="submit" label="S'inscrire" icon="pi pi-user-plus" class="w-full p-button-success"></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<p-toast></p-toast>
+
