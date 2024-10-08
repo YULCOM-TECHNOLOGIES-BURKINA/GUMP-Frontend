@@ -1,8 +1,13 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
+
 :root {
-  font-family: "Inter var", sans-serif;
+  font-family: 'Open-Sans', sans-serif ;
+  /* font-family: "Inter var", sans-serif; */
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   font-variation-settings: normal;
-  --font-family: "Inter var", sans-serif;
+  /* --font-family: "Inter var", sans-serif; */
+  --font-family:   'Open-Sans', sans-serif;
   --font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   --surface-a: #ffffff;
   --surface-b: #f9fafb;
@@ -52,21 +57,30 @@
 }
 
 @font-face {
-  font-family: "Inter var";
-  font-weight: 100 900;
+  font-family: "Open-Sans";
+  font-weight: 400 700;
   font-display: swap;
   font-style: normal;
   font-named-instance: "Regular";
-  src: url("./fonts/Inter-roman.var.woff2?v=3.19") format("woff2");
+  src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap");
 }
 @font-face {
-  font-family: "Inter var";
+  font-family: "Open-Sans";
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: italic;
+  font-named-instance: "Italic";
+  src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap");
+}
+
+/* @font-face {
+  font-family: "Open-Sans";
   font-weight: 100 900;
   font-display: swap;
   font-style: italic;
   font-named-instance: "Italic";
   src: url("./fonts/Inter-italic.var.woff2?v=3.19") format("woff2");
-}
+} */
 :root {
   --blue-50:#f5f9ff;
   --blue-100:#d0e1fd;

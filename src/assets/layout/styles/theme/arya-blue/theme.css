@@ -1,6 +1,6 @@
 :root {
-  font-family: Open-Sans, ;
-  --font-family:   Open-Sans;
+  font-family: 'Roboto', sans-serif ;
+  --font-family:   'Roboto', sans-serif;
   --surface-a: #1e1e1e;
   --surface-b: #121212;
   --surface-c: rgba(255, 255, 255, 0.03);
