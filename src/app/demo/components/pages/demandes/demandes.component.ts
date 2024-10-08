@@ -24,7 +24,7 @@ export class DemandesComponent implements OnInit {
 
   ngOnInit() {
       // Récupération des demandes via un service qui gère l'appel API pour chaque acte.
-      this.demandeService.getDemandes().then(data => this.requests = data);
+      this.demandeService.getDemandesP().then(data => this.requests = data);
 
       this.cols = [
           { field: 'acte', header: 'Acte' },

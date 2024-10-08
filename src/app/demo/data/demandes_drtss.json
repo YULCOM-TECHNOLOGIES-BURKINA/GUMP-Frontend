@@ -1,0 +1,115 @@
+[
+    {
+      "id": 1,
+      "acte": "Demande d'attestation de soumission au marchés publics",
+      "date": "2024-10-01",
+      "status": "Traité",
+      "company": {
+        "name": "Société Industrielle du Faso",
+        "address": "Quartier Dapoya",
+        "location": "Ouagadougou",
+        "bp": "01 BP 1234 Ouagadougou",
+        "phone": "+226 70 12 34 56"
+      },
+      "anpeNumber": "ANPE-2023-01",
+      "cnssNumber": "CNSS-2023-001",
+      "rejectionReason": ""
+    },
+    {
+      "id": 2,
+      "acte": "Demande d'attestation de soumission au marchés publics",
+      "date": "2024-09-28",
+      "status": "En attente",
+      "company": {
+        "name": "Kaboré et Frères SARL",
+        "address": "Quartier Patte d'oie",
+        "location": "Ouagadougou",
+        "bp": "01 BP 5678 Ouagadougou",
+        "phone": "+226 70 45 67 89"
+      },
+      "anpeNumber": "ANPE-2023-02",
+      "cnssNumber": "CNSS-2023-002",
+      "rejectionReason": ""
+    },
+    {
+      "id": 3,
+      "acte": "Demande d'attestation de soumission au marchés publics",
+      "date": "2024-09-15",
+      "status": "Rejeté",
+      "company": {
+        "name": "Ouédraogo et Associés",
+        "address": "Quartier Karpala",
+        "location": "Bobo-Dioulasso",
+        "bp": "01 BP 7890 Bobo-Dioulasso",
+        "phone": "+226 70 33 44 55"
+      },
+      "anpeNumber": "ANPE-2023-03",
+      "cnssNumber": "CNSS-2023-003",
+      "rejectionReason": "Documents manquants"
+    },
+    {
+      "id": 4,
+      "acte": "Demande d'attestation de soumission au marchés publics",
+      "date": "2024-09-10",
+      "status": "Traité",
+      "company": {
+        "name": "Tech Innov Afrique",
+        "address": "Quartier Zogona",
+        "location": "Ouagadougou",
+        "bp": "01 BP 1011 Ouagadougou",
+        "phone": "+226 70 98 76 54"
+      },
+      "anpeNumber": "ANPE-2023-04",
+      "cnssNumber": "CNSS-2023-004",
+      "rejectionReason": ""
+    },
+    {
+      "id": 5,
+      "acte": "Demande d'attestation de soumission au marchés publics",
+      "date": "2024-08-30",
+      "status": "En attente",
+      "company": {
+        "name": "Traoré Construction",
+        "address": "Quartier Pissy",
+        "location": "Ouagadougou",
+        "bp": "01 BP 1112 Ouagadougou",
+        "phone": "+226 70 22 33 44"
+      },
+      "anpeNumber": "ANPE-2023-05",
+      "cnssNumber": "CNSS-2023-005",
+      "rejectionReason": ""
+    },
+    {
+      "id": 6,
+      "acte": "Demande d'attestation de soumission au marchés publics",
+      "date": "2024-08-20",
+      "status": "Traité",
+      "company": {
+        "name": "Zongo Transport",
+        "address": "Quartier Kossodo",
+        "location": "Ouagadougou",
+        "bp": "01 BP 4321 Ouagadougou",
+        "phone": "+226 70 55 66 77"
+      },
+      "anpeNumber": "ANPE-2023-06",
+      "cnssNumber": "CNSS-2023-006",
+      "rejectionReason": ""
+    },
+    {
+      "id": 7,
+      "acte": "Demande d'attestation de soumission au marchés publics",
+      "date": "2024-07-25",
+      "status": "Rejeté",
+      "company": {
+        "name": "Bamogo Agro Business",
+        "address": "Quartier Tanghin",
+        "location": "Ouagadougou",
+        "bp": "01 BP 8765 Ouagadougou",
+        "phone": "+226 70 88 99 00"
+      },
+      "anpeNumber": "ANPE-2023-07",
+      "cnssNumber": "CNSS-2023-007",
+      "rejectionReason": "Non-conformité des locaux"
+    }
+  ]
+  

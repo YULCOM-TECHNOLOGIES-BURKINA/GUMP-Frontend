@@ -25,16 +25,23 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Actes', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'] },
                     { label: 'Mes demandes', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'] },
-                    // { label: 'Notifications', icon: 'pi pi-fw pi-comment', routerLink: ['/app/pages/notifications'] },
+                    // { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/pages/drtss'] },
                    
                 ]
             },
-            // {
-            //     label: 'Configuration',
-            //     items: [
-            //         { label: 'Type de campagnes', icon: 'pi pi-fw pi-eye', routerLink: ['/blocks'], badge: 'NEW' },
-            //     ]
-            // },
+            {
+                label: 'Traitement des deamndes',
+                items: [
+                    { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
+                    { label: 'Attestation ANPE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/anpe'] },
+                    { label: 'Attestation CNSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/cnss'] },
+                    { label: 'Attestation Situation Fiscale', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/situation-fiscale'] },
+                    { label: 'Certificat de non faillite', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/cnf'] },
+                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] },
+                    { label: 'RCCM', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/rccm'] },
+
+                ]
+            },
             {
                 label: 'Sécurité',
                 items: [
