@@ -1,0 +1,129 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <!-- <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nouvelle demande" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewRequest()"></button>
+                        <button pButton pRipple label="Supprimer" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedRequests()" [disabled]="!selectedRequests || !selectedRequests.length"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar> -->
+
+            <p-table #dt [value]="requests" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['acte','date','status']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" [(selection)]="selectedRequests" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Historique de mes demandes</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                        <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-request>
+                    <tr>
+                        <!-- <td>
+                            <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                        </td> -->
+                        <td>
+                            <span class="p-column-title">Acte</span>
+                            {{ request.acte }}
+                        </td>
+                        <td>{{ request.date | date: 'dd/MM/yyyy' }}</td>
+                        <td>
+                            <span class="p-badge" [ngClass]="{
+                                'p-badge-success': request.status === 'Validée',
+                                'p-badge-success': request.status === 'Traitée',
+                                'p-badge-danger': request.status === 'Rejetée',
+                                'p-badge-info': request.status === 'En attente'
+                            }">
+                                {{ request.status === 'Traitée' ? 'Validée' : request.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary" (click)="viewRequest(request)"  pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                            <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-outlined p-button-info" (click)="editRequest(request)"  pTooltip="Modifier la demande" tooltipPosition="bottom"></button> -->
+                            <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-outlined p-button-danger" (click)="deleteRequest(request)"  pTooltip="Supprimer la demande" tooltipPosition="bottom"></button> -->
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <!-- Dialogs -->
+        <p-dialog header="Détails de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="one">
+            <div class="grid">
+                <div class="col-12">
+                    <span class="font-bold">Entreprise: {{ one.company.name }}</span>
+                </div>
+                <div class="col-6">
+                    <p><strong>Localisation: </strong> {{ one.company.location }}</p>
+                    <p><strong>BP: </strong> {{ one.company.bp }}</p>
+                </div>
+                <div class="col-6">
+                    <p><strong>Adresse: </strong> {{ one.company.address }}</p>
+                    <p><strong>Téléphone: </strong> {{ one.company.phone }}</p>
+                </div>
+                <div class="col-6 mt-2">
+                    <span><strong>N° Attestation ANPE: </strong> {{ one.anpeNumber }}</span>
+                </div>
+                <div class="col-6 mt-2">
+                    <span><strong>N° Attestation CNSS: </strong> {{ one.cnssNumber }} </span>
+                </div>
+                <div class="col-12 mt-2 flex">            
+                    <button 
+                        pButton 
+                        pRipple 
+                        icon="pi pi-download" 
+                        label="Télécharge l'attestation ANPE"
+                        class="p-button-secondary p-button-outlined mr-2"
+                        (click)="download()" >
+                    </button>
+                    <button 
+                        pButton 
+                        pRipple 
+                        icon="pi pi-download" 
+                        label="Télécharge l'attestation CNSS"
+                        class="p-button-secondary p-button-outlined" 
+                        (click)="download()">
+                    </button>
+                </div>
+            </div>
+        </p-dialog>
+
+        
+        <p-dialog [(visible)]="deleteRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Voulez-vous vraiment supprimer la demande <b>{{request.acte}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteRequestDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteRequest()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteRequestsDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Voulez-vous vraiment supprimer les demandes sélectionnées ?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteRequestsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+{
+    "id": 1,
+    "acte": "Demande d'attestation de soumission au marchés publics",
+    "date": "2024-10-01",
+    "status": "Traitée",
+    "company": {
+      "name": "Société Industrielle du Faso",
+      "address": "Quartier Dapoya",
+      "location": "Ouagadougou",
+      "bp": "01 BP 1234 Ouagadougou",
+      "phone": "+226 70 12 34 56"
+    },
+    "anpeNumber": "ANPE-2023-01",
+    "cnssNumber": "CNSS-2023-001",
+    "rejectionReason": ""
+  }
