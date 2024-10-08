@@ -39,7 +39,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Sécurité',
                 items: [
                     { label: 'Profil', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
-                    // { label: 'Utilisateurs ', icon: 'pi pi-fw pi-users', url: ['/app/utilisateurs'], target: '_blank' },
+                    { label: 'Utilisateurs ', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'] },
                 ]
             }
         ];
