@@ -35,8 +35,6 @@ export class TraitementDrtssComponent implements OnInit {
     });
 
 
-    // this.demandeService.getDemandesP().then(data => this.requests = data);
-
     this.cols = [
       { field: 'acte', header: 'Acte' },
       { field: 'date', header: 'Date' },
@@ -57,6 +55,10 @@ export class TraitementDrtssComponent implements OnInit {
   openRejectRequest(request: Demande) {
     this.selectedRequest = { ...request };
     this.displayRejectModal = true;
+  }
+
+  download() {
+    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
   processRequest() {

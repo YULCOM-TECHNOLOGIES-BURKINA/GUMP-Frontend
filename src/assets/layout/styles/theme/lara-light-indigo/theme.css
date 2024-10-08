@@ -1,6 +1,4 @@
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
-
 :root {
   font-family: 'Open-Sans', sans-serif ;
   /* font-family: "Inter var", sans-serif; */
@@ -62,7 +60,7 @@
   font-display: swap;
   font-style: normal;
   font-named-instance: "Regular";
-  src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap");
+  src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap") format('woff2');
 }
 @font-face {
   font-family: "Open-Sans";
@@ -70,7 +68,7 @@
   font-display: swap;
   font-style: italic;
   font-named-instance: "Italic";
-  src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap");
+  src: url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap") format('woff2');
 }
 
 /* @font-face {

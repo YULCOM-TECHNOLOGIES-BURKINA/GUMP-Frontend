@@ -51,6 +51,10 @@ export class DemandesComponent implements OnInit {
       this.deleteRequestsDialog = true;
   }
 
+  download() {
+    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
+  }
+
   editRequest(request: Demande) {
       this.request = { ...request };
       // Logique d'édition ici

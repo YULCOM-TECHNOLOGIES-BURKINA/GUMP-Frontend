@@ -82,6 +82,24 @@
                 <div class="col-6 mt-2">
                     <span><strong>N° Attestation CNSS: </strong> {{ one.cnssNumber }} </span>
                 </div>
+                <div class="col-12 mt-2 flex">            
+                    <button 
+                        pButton 
+                        pRipple 
+                        icon="pi pi-download" 
+                        label="Télécharge l'attestation ANPE"
+                        class="p-button-secondary p-button-outlined mr-2"
+                        (click)="download()" >
+                    </button>
+                    <button 
+                        pButton 
+                        pRipple 
+                        icon="pi pi-download" 
+                        label="Télécharge l'attestation CNSS"
+                        class="p-button-secondary p-button-outlined" 
+                        (click)="download()">
+                    </button>
+                </div>
             </div>
         </p-dialog>
 
