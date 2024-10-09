@@ -32,15 +32,17 @@ export class UtilisateursComponent implements OnInit {
       // this.utilisateurService.getUtilisateurs().then(data => this.requests = data);
       this.getUtilisateurs();
       this.cols = [
-        { field: 'nom', header: 'Nom' },
+        { field: 'nom', header: 'Nom et Prénom' },
         { field: 'email', header: 'Email' },
-        { field: 'status', header: 'Statut' }
+        { field: 'status', header: 'Statut' },
+        { field: 'role', header: 'Rôle' }
     ];
     }
 
     getUtilisateurs() {
         this.utilisateurService.getUtilisateurs().subscribe((data: Utilisateur[]) => {
             this.utilisateurs = data;
+            this.requests = data;
         });
     }
 
