@@ -22,8 +22,9 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th pSortableColumn="acte">Demandeur <p-sortIcon field="acte"></p-sortIcon></th>
-                        <th pSortableColumn="date">Date de demande<p-sortIcon field="date"></p-sortIcon></th>
+                        <!-- <th pSortableColumn="acte">Demandeur <p-sortIcon field="acte"></p-sortIcon></th> -->
+                        <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
+                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                         <th>Actions</th>
                     </tr>
@@ -34,14 +35,15 @@
                         <td>
                             <p-tableCheckbox [value]="request"></p-tableCheckbox>
                         </td>
-                        <td>{{ request.company.name }}</td>
-                        <td>{{ request.date | date: 'dd/MM/yyyy' }}</td>
+                        <!-- <td>{{ request.company.name }}</td> -->
+                        <td>{{ request.id }}</td>
+                        <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                         <td>
                             <span class="p-badge" [ngClass]="{
                                 'p-badge-success': request.status === 'Validée',
                                 'p-badge-success': request.status === 'Traitée',
                                 'p-badge-danger': request.status === 'Rejetée',
-                                'p-badge-info': request.status === 'En attente'
+                                'p-badge-info': request.status === 'PENDING'
                             }">
                                 {{ request.status === 'Traitée' ? 'Validée' : request.status }}
                             </span>

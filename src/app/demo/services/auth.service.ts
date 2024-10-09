@@ -16,12 +16,14 @@ export class AuthService {
     const user = this.users.find(u => u.username === username && u.password === password);
     if (user) {
       this.currentUser = user;
+      //localStorage.setItem('currentUser', JSON.stringify(user));
       return true;
     }
     return false;
   }
 
   getUserRole(): string | null {
+    //const currentUser = localStorage.getItem('currentUser');
     return this.currentUser ? this.currentUser.role : null;
   }
 
