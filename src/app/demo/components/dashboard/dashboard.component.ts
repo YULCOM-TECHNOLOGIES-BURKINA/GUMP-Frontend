@@ -3,6 +3,8 @@ import { MenuItem } from 'primeng/api';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
+import { AuthService } from '../../services/auth.service';
+
 @Component({
     templateUrl: './dashboard.component.html',
 })
@@ -13,7 +15,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartOptions: any;
     subscription!: Subscription;
 
-    constructor(public layoutService: LayoutService) {
+    userRole: string = '';
+
+    constructor(public layoutService: LayoutService, private authService: AuthService) {
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe(() => {
@@ -22,6 +26,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // Récupérer le rôle de l'utilisateur lors de l'initialisation du composant
+        this.userRole = this.authService.getUserRole();
         this.initChart();
 
         this.items = [

@@ -28,4 +28,9 @@ export class AuthService {
   isAuthenticated(): boolean {
     return this.currentUser !== null;
   }
+
+//   getUserRole(): string {
+//     // Exemple : Récupérer depuis un localStorage, JWT, ou API.
+//     return localStorage.getItem('role') || '';
+//   }
 }
