@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { DrtssService } from '../../../services/drtss.service';
-import { DemandeDrtss } from '../../../models/drtss';
+import { DemandeService } from '../../../services/demande.service';
+import { Demande } from '../../../models/demande';
 
 @Component({
   selector: 'app-drtss',
@@ -9,9 +9,9 @@ import { DemandeDrtss } from '../../../models/drtss';
   providers: [MessageService],
 })
 export class TraitementDrtssComponent implements OnInit {
-  requests: DemandeDrtss[] = [];
-  selectedRequest: DemandeDrtss | null = null;
-  selectedRequests: DemandeDrtss[] = [];
+  requests: Demande[] = [];
+  selectedRequest: Demande | null = null;
+  selectedRequests: Demande[] = [];
   
   displayProcessModal: boolean = false;
   displayRejectModal: boolean = false;
@@ -21,18 +21,18 @@ export class TraitementDrtssComponent implements OnInit {
 
   cols: any[] = [];
 
-  one: DemandeDrtss | null = null;
+  one: Demande | null = null;
 
-  constructor(private drtssService: DrtssService, private messageService: MessageService) {}
+  constructor(private demandeService: DemandeService, private messageService: MessageService) {}
 
   ngOnInit() {
-    this.drtssService.getDemandes().subscribe(data => {
+    this.demandeService.getDemandes().subscribe(data => {
       this.requests = data;
     });
 
-    // this.drtssService.getOneDemande().subscribe(data => {
-    //   this.one = data;
-    // });
+    this.demandeService.getOneDemande().subscribe(data => {
+      this.one = data;
+    });
 
 
     this.cols = [
@@ -42,17 +42,17 @@ export class TraitementDrtssComponent implements OnInit {
   ];
   }
 
-  openViewRequest(request: DemandeDrtss) {
+  openViewRequest(request: Demande) {
     this.selectedRequest = { ...request };
     this.displayProcessDetailModal = true;
   }
 
-  openProcessRequest(request: DemandeDrtss) {
+  openProcessRequest(request: Demande) {
     this.selectedRequest = { ...request };
     this.displayProcessModal = true;
   }
 
-  openRejectRequest(request: DemandeDrtss) {
+  openRejectRequest(request: Demande) {
     this.selectedRequest = { ...request };
     this.displayRejectModal = true;
   }
@@ -61,29 +61,29 @@ export class TraitementDrtssComponent implements OnInit {
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
-  // processRequest() {
-  //   if (this.selectedRequest) {
-  //     this.selectedRequest.status = 'Traité';
-  //     this.drtssService.updateDemande(this.selectedRequest).subscribe(() => {
-  //       this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande traitée', life: 3000 });
-  //       this.displayProcessModal = false;
-  //       this.selectedRequest = null;
-  //     });
-  //   }
-  // }
+  processRequest() {
+    if (this.selectedRequest) {
+      this.selectedRequest.status = 'Traité';
+      this.demandeService.updateDemande(this.selectedRequest).subscribe(() => {
+        this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande traitée', life: 3000 });
+        this.displayProcessModal = false;
+        this.selectedRequest = null;
+      });
+    }
+  }
 
-  // rejectRequest() {
-  //   if (this.selectedRequest) {
-  //     this.selectedRequest.status = 'Rejeté';
-  //     this.selectedRequest.rejectionReason = this.rejectionReason;
-  //     this.drtssService.updateDemande(this.selectedRequest).subscribe(() => {
-  //       this.messageService.add({ severity: 'error', summary: 'Rejetée', detail: 'Demande rejetée', life: 3000 });
-  //       this.displayRejectModal = false;
-  //       this.selectedRequest = null;
-  //       this.rejectionReason = '';
-  //     });
-  //   }
-  // }
+  rejectRequest() {
+    if (this.selectedRequest) {
+      this.selectedRequest.status = 'Rejeté';
+      this.selectedRequest.rejectionReason = this.rejectionReason;
+      this.demandeService.updateDemande(this.selectedRequest).subscribe(() => {
+        this.messageService.add({ severity: 'error', summary: 'Rejetée', detail: 'Demande rejetée', life: 3000 });
+        this.displayRejectModal = false;
+        this.selectedRequest = null;
+        this.rejectionReason = '';
+      });
+    }
+  }
 
   closeProcessModal() {
     this.displayProcessModal = false;

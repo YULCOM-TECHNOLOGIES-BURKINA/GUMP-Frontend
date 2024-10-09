@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // Récupérer le rôle de l'utilisateur lors de l'initialisation du composant
-        this.userRole = this.authService.getUserRole();
+        //this.userRole = this.authService.getUserRole();
         this.initChart();
 
         this.items = [

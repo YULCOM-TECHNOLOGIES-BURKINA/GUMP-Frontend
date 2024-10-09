@@ -1,5 +1,4 @@
-<div class="grid " *ngIf="userRole === 'admin' || userRole === 'admin_drtss'">
-    <!-- Card 1: Nombre de demandes -->
+<!-- <div class="grid " *ngIf="userRole === 'admin' || userRole === 'admin_drtss'">
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-4 p-4 shadow-lg border-round-lg bg-red-100">
             <div class="flex justify-content-between mb-3">
@@ -15,7 +14,6 @@
         </div>
     </div>
 
-    <!-- Card 2: Actes délivrés -->
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-4 p-4 shadow-lg border-round-lg bg-green-100">
             <div class="flex justify-content-between mb-3">
@@ -31,7 +29,6 @@
         </div>
     </div>
 
-    <!-- Card 3: Entreprises inscrites -->
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-4 p-4 shadow-lg border-round-lg bg-yellow-100">
             <div class="flex justify-content-between mb-3">
@@ -47,7 +44,6 @@
         </div>
     </div>
 
-    <!-- Card 4: PME actives -->
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-4 p-4 shadow-lg border-round-lg bg-orange-100">
             <div class="flex justify-content-between mb-3">
@@ -63,17 +59,16 @@
         </div>
     </div>
 
-    <!-- Exemple de graphique -->
     <div class="col-12 xl:col-12">
         <div class="card p-4 shadow-lg">
             <h5 class="font-medium text-xl mb-4">Évolution des demandes et des actes délivrés</h5>
             <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
         </div>
     </div>
-</div>
+</div> -->
 
-<div class="grid " *ngIf="userRole === 'entreprise'">
-    <!-- Card 1: Nombre de demandes -->
+<div class="grid ">
+    <!-- <div class="grid " *ngIf="userRole === 'entreprise'"> -->
     <div class="col-12 lg:col-6 xl:col-6">
         <div class="card mb-4 p-4 shadow-lg border-round-lg bg-red-100">
             <div class="flex justify-content-between mb-3">
@@ -88,7 +83,6 @@
         </div>
     </div>
 
-    <!-- Card 2: Actes délivrés -->
     <div class="col-12 lg:col-6 xl:col-6">
         <div class="card mb-4 p-4 shadow-lg border-round-lg bg-green-100">
             <div class="flex justify-content-between mb-3">

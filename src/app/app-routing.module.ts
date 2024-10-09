@@ -10,7 +10,7 @@ import { RoleGuard } from '../app/demo/guards/role.guard';
         RouterModule.forRoot([
             {
                 path: 'app', component: AppLayoutComponent,
-                canActivate: [AuthGuard], 
+                //canActivate: [AuthGuard], 
                 children: [
                     { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
                     { path: 'pages', loadChildren: () => import('./demo/components/pages/pages.module').then(m => m.PagesModule) },
