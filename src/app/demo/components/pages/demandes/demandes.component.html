@@ -39,15 +39,15 @@
                         </td> -->
                         <td>
                             <span class="p-column-title">Acte</span>
-                            {{ request.acte }}
+                            Demande d'attestation de soumission au marchés publics
                         </td>
-                        <td>{{ request.date | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                         <td>
                             <span class="p-badge" [ngClass]="{
                                 'p-badge-success': request.status === 'Validée',
                                 'p-badge-success': request.status === 'Traitée',
                                 'p-badge-danger': request.status === 'Rejetée',
-                                'p-badge-info': request.status === 'En attente'
+                                'p-badge-info': request.status === 'PENDING'
                             }">
                                 {{ request.status === 'Traitée' ? 'Validée' : request.status }}
                             </span>
@@ -63,9 +63,9 @@
         </div>
 
         <!-- Dialogs -->
-        <p-dialog header="Détails de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="one">
+        <p-dialog header="Détails de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="request">
             <div class="grid">
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <span class="font-bold">Entreprise: {{ one.company.name }}</span>
                 </div>
                 <div class="col-6">
@@ -81,8 +81,21 @@
                 </div>
                 <div class="col-6 mt-2">
                     <span><strong>N° Attestation CNSS: </strong> {{ one.cnssNumber }} </span>
+                </div> -->
+
+                <div class="col-12">
+                    <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
                 </div>
-                <div class="col-12 mt-2 flex">            
+                <div class="col-6">
+                    <p><strong>Localisation: </strong> Ouagadougou</p>
+                    <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
+                </div>
+                <div class="col-6">
+                    <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
+                    <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
+                </div>
+
+                <div class="col-12 mt-2 flex" *ngIf="request.files">            
                     <button 
                         pButton 
                         pRipple 
@@ -107,7 +120,8 @@
         <p-dialog [(visible)]="deleteRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Voulez-vous vraiment supprimer la demande <b>{{request.acte}}</b>?</span>
+                <!-- <span>Voulez-vous vraiment supprimer la demande <b>{{request.acte}}</b>?</span> -->
+                <span>Voulez-vous vraiment supprimer la demande <b>Demande d'attestation de soumission au marchés publics</b>?</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteRequestDialog = false"></button>

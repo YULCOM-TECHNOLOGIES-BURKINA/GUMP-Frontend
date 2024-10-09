@@ -26,6 +26,10 @@ export class DrtssService {
     return this.http.get(`${this.apiUrl}/status/${requestId}`);
   }
 
+  getOneDemande(requestId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${requestId}`);
+  }
+
   // Méthode pour traiter ou valider une demande
   processRequest(requestId: string, action: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/process/${requestId}`, { action });

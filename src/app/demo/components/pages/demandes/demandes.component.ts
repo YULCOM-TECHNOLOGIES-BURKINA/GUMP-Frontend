@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Demande } from '../../../models/demande';
+import { DemandeDrtss } from '../../../models/drtss';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { DemandeService } from '../../../services/demande.service';
+import { DrtssService } from '../../../services/drtss.service';
 
 @Component({
   selector: 'app-demandes',
@@ -14,35 +14,28 @@ export class DemandesComponent implements OnInit {
   deleteRequestDialog: boolean = false;
   deleteRequestsDialog: boolean = false;
 
-  requests: Demande[] = [];
-  request: Demande = {};
+  requests: DemandeDrtss[] = [];
+  request: DemandeDrtss = {};
 
-  selectedRequests: Demande[] = [];
+  selectedRequests: DemandeDrtss[] = [];
   cols: any[] = [];
 
   displayProcessModal: boolean = false;
 
-  one: Demande | null = null;
+  // one: DemandeDrtss | null = null;
 
-  constructor(private demandeService: DemandeService, private messageService: MessageService) { }
+  constructor(private drtssService: DrtssService, private messageService: MessageService) { }
 
   ngOnInit() {
       // Récupération des demandes via un service qui gère l'appel API pour chaque acte.
-      this.demandeService.getDemandes().subscribe(data => {
+      this.drtssService.getDemandes().subscribe(data => {
         this.requests = data;
       });
 
-    //   this.demandeService.getOneDemande().subscribe(data => {
-    //     this.requests = data;
-    //   });
-
-    this.demandeService.getOneDemande().subscribe(data => {
-        this.one = data;
-      });
 
       this.cols = [
-          { field: 'acte', header: 'Acte' },
-          { field: 'date', header: 'Date' },
+          { field: 'requesterId', header: 'id' },
+          { field: 'createdAt', header: 'Date' },
           { field: 'status', header: 'Statut' }
       ];
   }
@@ -55,13 +48,15 @@ export class DemandesComponent implements OnInit {
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
-  editRequest(request: Demande) {
+  editRequest(request: DemandeDrtss) {
       this.request = { ...request };
       // Logique d'édition ici
   }
 
-  viewRequest(request: Demande) {
-    this.request = { ...request };
+  viewRequest(request: DemandeDrtss) {
+    this.drtssService.getOneDemande(request.requesterId).subscribe(data => {
+      this.request = data;
+    });
     this.displayProcessModal = true;
   }
 
@@ -69,14 +64,14 @@ export class DemandesComponent implements OnInit {
     this.displayProcessModal = false;
   }
 
-  deleteRequest(request: Demande) {
+  deleteRequest(request: DemandeDrtss) {
       this.deleteRequestDialog = true;
       this.request = { ...request };
   }
 
   confirmDeleteRequest() {
       this.deleteRequestDialog = false;
-      this.requests = this.requests.filter(val => val.id !== this.request.id);
+      this.requests = this.requests.filter(val => val.requesterId !== this.request.requesterId);
       this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande supprimée', life: 3000 });
       this.request = {};
   }
@@ -84,7 +79,7 @@ export class DemandesComponent implements OnInit {
   confirmDeleteSelected() {
       this.deleteRequestsDialog = false;
       this.requests = this.requests.filter(val => !this.selectedRequests.includes(val));
-      this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demandes supprimées', life: 3000 });
+      this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande supprimées', life: 3000 });
       this.selectedRequests = [];
   }
 
