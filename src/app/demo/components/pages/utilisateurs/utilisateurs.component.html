@@ -27,9 +27,10 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th pSortableColumn="acte">Nom et prenom<p-sortIcon field="acte"></p-sortIcon></th>
-                        <th pSortableColumn="date">Email <p-sortIcon field="date"></p-sortIcon></th>
+                        <th pSortableColumn="nom">Nom et prenom<p-sortIcon field="nom"></p-sortIcon></th>
+                        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                        <th pSortableColumn="role">Rôle <p-sortIcon field="role"></p-sortIcon></th>
                         <th></th>
                     </tr>
                 </ng-template>
@@ -40,7 +41,7 @@
                         </td>
                         <td>
                             <span class="p-column-title">Nom et prénom</span>
-                            {{ request.nom }} {{ request.prenom }}
+                            {{ request.firstName }} {{ request.lastName }}
                         </td>
 
                         <td>
@@ -52,9 +53,13 @@
                             <span [class]="'status-badge status-' + request.status.toLowerCase()">{{ request.status }}</span>
                         </td>
                         <td>
+                            <span class="p-column-title">Rôle</span>
+                            <span [class]="'status-badge status-' + request.status.toLowerCase()">{{ request.role }}</span>
+                        </td>
+                        <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editRequest(request)"></button>
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2" (click)="desactivateRequest(request)"></button>
+                                <button pButton pRipple icon="pi pi-lock" class="p-button-rounded p-button-warning mr-2" (click)="desactivateRequest(request)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteRequest(request)"></button>
                             </div>
                         </td>

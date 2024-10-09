@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UtilisateurService {
 
-    private apiUrl = 'https://api.monsite.com/utilisateurs'; // 
+    private apiUrl = 'assets/users.json';
 
     constructor(private http: HttpClient) { }
 

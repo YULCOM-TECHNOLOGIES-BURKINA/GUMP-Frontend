@@ -1,0 +1,61 @@
+{
+    "users": [
+      {
+        "firstName": "Salif",
+        "lastName": "Ouédraogo",
+        "email": "salif.ouedraogo@example.com",
+        "status": "active",
+        "role": "admin"
+      },
+      {
+        "firstName": "Aminata",
+        "lastName": "Sawadogo",
+        "email": "aminata.sawadogo@example.com",
+        "status": "active",
+        "role": "entreprise"
+      },
+      {
+        "firstName": "Issa",
+        "lastName": "Zongo",
+        "email": "issa.zongo@example.com",
+        "status": "inactive",
+        "role": "admin_drtss"
+      },
+      {
+        "firstName": "Fatoumata",
+        "lastName": "Kaboré",
+        "email": "fatoumata.kabore@example.com",
+        "status": "active",
+        "role": "entreprise"
+      },
+      {
+        "firstName": "Moussa",
+        "lastName": "Compaoré",
+        "email": "moussa.compaore@example.com",
+        "status": "pending",
+        "role": "admin"
+      },
+      {
+        "firstName": "Bintou",
+        "lastName": "Traoré",
+        "email": "bintou.traore@example.com",
+        "status": "active",
+        "role": "admin_drtss"
+      },
+      {
+        "firstName": "Yacouba",
+        "lastName": "Konaté",
+        "email": "yacouba.konate@example.com",
+        "status": "inactive",
+        "role": "entreprise"
+      },
+      {
+        "firstName": "Awa",
+        "lastName": "Sanou",
+        "email": "awa.sanou@example.com",
+        "status": "active",
+        "role": "admin"
+      }
+    ]
+  }
+  
