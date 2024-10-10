@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DemandeDrtss } from '../../../models/drtss';
+import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { DrtssService } from '../../../services/drtss.service';
@@ -22,22 +22,30 @@ export class DemandesComponent implements OnInit {
 
   displayProcessModal: boolean = false;
 
+  totalRecords: number = 0; 
+
   // one: DemandeDrtss | null = null;
 
   constructor(private drtssService: DrtssService, private messageService: MessageService) { }
 
   ngOnInit() {
       // Récupération des demandes via un service qui gère l'appel API pour chaque acte.
-      this.drtssService.getDemandes().subscribe(data => {
-        this.requests = data;
-      });
+      this.getDemandes();
 
 
       this.cols = [
-          { field: 'requesterId', header: 'id' },
+          { field: 'acte', header: 'Acte' },
           { field: 'createdAt', header: 'Date' },
           { field: 'status', header: 'Statut' }
       ];
+  }
+
+   // Méthode pour récupérer les demandes
+   getDemandes() {
+    this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
+      this.requests = data.content;  // Récupère le tableau des demandes
+      this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+    });
   }
 
   deleteSelectedRequests() {
@@ -53,7 +61,7 @@ export class DemandesComponent implements OnInit {
       // Logique d'édition ici
   }
 
-  viewRequest(request: DemandeDrtss) {
+  viewRequest(request: DemandeDrtss) { //TODO: harmoniser les requeétes
     this.drtssService.getOneDemande(request.requesterId).subscribe(data => {
       this.request = data;
     });

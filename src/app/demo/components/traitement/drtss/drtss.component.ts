@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DrtssService } from '../../../services/drtss.service';
-import { DemandeDrtss } from '../../../models/drtss';
+import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 
 @Component({
   selector: 'app-drtss',
@@ -23,23 +23,25 @@ export class TraitementDrtssComponent implements OnInit {
 
   one: DemandeDrtss | null = null;
 
+  totalRecords: number = 0; 
+
   constructor(private drtssService: DrtssService, private messageService: MessageService) {}
 
   ngOnInit() {
-    this.drtssService.getDemandes().subscribe(data => {
-      this.requests = data;
-    });
-
-    // this.drtssService.getOneDemande().subscribe(data => {
-    //   this.one = data;
-    // });
-
+    this.getDemandes();
 
     this.cols = [
       { field: 'acte', header: 'Acte' },
       { field: 'date', header: 'Date' },
       { field: 'status', header: 'Statut' }
-  ];
+    ];
+  }
+
+  getDemandes() {
+    this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
+      this.requests = data.content;  // Récupère le tableau des demandes
+      this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+    });
   }
 
   openViewRequest(request: DemandeDrtss) {

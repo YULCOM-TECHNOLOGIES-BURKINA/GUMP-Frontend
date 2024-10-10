@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DemandeDrtss } from '../models/drtss';
+import { DemandeDrtss, DemandeDrtssResponse } from '../models/drtss';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,16 @@ export class DrtssService {
     return this.http.post(`${this.apiUrl}`, formData);
   }
 
-  getDemandes(): Observable<DemandeDrtss[]> {
-    return this.http.get<DemandeDrtss[]>(this.apiUrl);
+  // getDemandes(): Observable<DemandeDrtss[]> {
+  //   return this.http.get<DemandeDrtss[]>(this.apiUrl);
+  // }
+
+  // getDemandes(): Observable<DemandeDrtssResponse[]> {
+  //   return this.http.get<DemandeDrtssResponse[]>(this.apiUrl);
+  // }
+
+  getDemandes(): Observable<DemandeDrtssResponse> {
+    return this.http.get<DemandeDrtssResponse>(this.apiUrl);  // Récupère les données de type DemandeDrtssResponse
   }
 
   // Méthode pour obtenir le statut d'une demande
