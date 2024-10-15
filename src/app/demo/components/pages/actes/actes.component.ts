@@ -5,11 +5,11 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 @Component({
   selector: 'app-actes',
   templateUrl: './actes.component.html',
-  styleUrl: './actes.component.css',
+  styleUrls: ['./actes.component.css'],
 })
 export class ActesComponent  {
 
-  actes = [
+  actes_item = [
     {
       title: 'Attestation DRTSS',
       routerLink: '/app/pages/actes/attestation-drtss'
