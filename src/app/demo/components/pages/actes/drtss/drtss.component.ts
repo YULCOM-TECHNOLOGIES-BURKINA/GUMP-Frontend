@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DrtssService } from '../../../../services/drtss.service';
+import { Router } from '@angular/router';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -20,7 +21,10 @@ export class DrtssComponent {
   cnssFile: File | null = null; // Fichier CNSS
   // requesterId: string = ''; // Fichier CNSS
 
-  constructor(private messageService: MessageService, private drtssService: DrtssService) {}
+  constructor(
+    private messageService: MessageService, 
+    private drtssService: DrtssService,
+    private router: Router) {}
 
   // Méthode pour gérer la sélection des fichiers
   onFileSelect(event: any, fileType: string) {
@@ -45,6 +49,9 @@ export class DrtssComponent {
       this.drtssService.submitAttestationRequest(formData).subscribe({
         next: (response) => {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !' });
+          setTimeout(() => {
+            this.router.navigate(['/app/pages/demandes']); 
+          }, 2000); // délai de 2 secondes avant la redirection
         },
         error: (err) => {
           this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de l\'envoi.' });
