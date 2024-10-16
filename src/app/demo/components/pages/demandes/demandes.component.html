@@ -2,15 +2,6 @@
     <div class="col-12">
         <div class="card px-6 py-6">
             <p-toast></p-toast>
-            <!-- <p-toolbar styleClass="mb-4">
-                <ng-template pTemplate="left">
-                    <div class="my-2">
-                        <button pButton pRipple label="Nouvelle demande" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewRequest()"></button>
-                        <button pButton pRipple label="Supprimer" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedRequests()" [disabled]="!selectedRequests || !selectedRequests.length"></button>
-                    </div>
-                </ng-template>
-            </p-toolbar> -->
-
             <p-table #dt [value]="requests" [columns]="cols" responsiveLayout="scroll" 
             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -100,17 +91,9 @@
                         pButton 
                         pRipple 
                         icon="pi pi-download" 
-                        label="Télécharger "+ {{file.label}}
+                        [label]="'Télécharger ' + file.label"
                         class="p-button-secondary p-button-outlined mr-2"
-                        (click)="download()" >
-                    </button>
-                    <button 
-                        pButton 
-                        pRipple 
-                        icon="pi pi-download" 
-                        label="Télécharger "+ {{file.label}}
-                        class="p-button-secondary p-button-outlined" 
-                        (click)="download()">
+                        (click)="download(file)" >
                     </button>
                 </div>
             </div>

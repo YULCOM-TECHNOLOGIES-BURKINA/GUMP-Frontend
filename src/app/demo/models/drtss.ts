@@ -4,6 +4,7 @@ export interface File {
 }
 
 export interface DemandeDrtss {
+    id?: number;
     requesterId?: string;
     status?: string;
     reviewedBy?: string;

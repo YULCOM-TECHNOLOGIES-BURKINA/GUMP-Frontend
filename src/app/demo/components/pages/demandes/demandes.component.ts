@@ -52,7 +52,10 @@ export class DemandesComponent implements OnInit {
       this.deleteRequestsDialog = true;
   }
 
-  download() {
+  download(file: any) {
+    console.log('Téléchargement du fichier:', file);
+    const url = file.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
+    window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
@@ -62,7 +65,7 @@ export class DemandesComponent implements OnInit {
   }
 
   viewRequest(request: DemandeDrtss) { //TODO: harmoniser les requeétes
-    this.drtssService.getOneDemande(request.requesterId).subscribe(data => {
+    this.drtssService.getOneDemande(request.id).subscribe(data => {
       this.request = data;
     });
     this.displayProcessModal = true;
