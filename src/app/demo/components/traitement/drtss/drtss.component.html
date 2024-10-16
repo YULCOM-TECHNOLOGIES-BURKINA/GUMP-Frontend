@@ -35,7 +35,6 @@
                         <td>
                             <p-tableCheckbox [value]="request"></p-tableCheckbox>
                         </td>
-                        <!-- <td>{{ request.company.name }}</td> -->
                         <td>{{ request.id }}</td>
                         <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                         <td>
@@ -45,7 +44,7 @@
                                 'p-badge-danger': request.status === 'Rejetée',
                                 'p-badge-info': request.status === 'PENDING'
                             }">
-                                {{ request.status === 'Traitée' ? 'Validée' : request.status }}
+                                {{ request.status === 'PENDING' ? 'En attente' : request.status }}
                             </span>
                         </td>
                         <td>
@@ -105,7 +104,7 @@
         </div>
     </p-dialog>
 
-    <p-dialog header="Traitement de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="request">
+    <p-dialog header="Traitement de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '600px'}" *ngIf="request">
         <div class="grid">
             <div class="col-12">
                 <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
@@ -120,23 +119,23 @@
             </div>
             <div class="col-6 mt-2">
                 <span>N° Attestation ANPE</span>
-                <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Numéro Attestation ANPE" />
+                <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Numéro Attestation ANPE" required />
             </div>
             <div class="col-6 mt-2">
                 <span>Date Attestation ANPE</span>
-                <input pInputText id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="Date Attestation ANPE" />
+                <p-calendar [(ngModel)]="attestationAnpeDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" required  />
             </div>
             <div class="col-6 mt-2">
                 <span>N° Attestation CNSS</span>
-                <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Numéro Attestation CNSS" />
+                <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Numéro Attestation CNSS" required  />
             </div>
             <div class="col-6 mt-2">
                 <span>Date Attestation CNSS</span>
-                <input pInputText id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="Date Attestation CNSS" />
+                <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" required />
             </div>
         </div>
         <ng-template pTemplate="footer">
-            <button pButton label="Valider la demande" icon="pi pi-check" (click)="processRequest()" class="p-button-success"></button>
+            <button pButton label="Valider la demande" icon="pi pi-check" (click)="processRequest()" class="p-button-success" [disabled]="!isFormValid()"></button>
             <button pButton label="Annuler" icon="pi pi-times" (click)="closeProcessModal()" class="p-button-secondary"></button>
         </ng-template>
     </p-dialog>
