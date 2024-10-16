@@ -31,6 +31,7 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     { label: 'Actes', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'] },
                     { label: 'Mes demandes', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'] },
+                    { label: 'Nouvelle demande DRTSS', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/actes/attestation-drtss'] },
                 ]
             },
             {
