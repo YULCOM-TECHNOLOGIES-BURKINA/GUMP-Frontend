@@ -1,0 +1,52 @@
+.acte-carte
+{
+  box-shadow: 0 2px 5px rgb(0 0 0 / 50%);
+  cursor: pointer;
+  height: 280px;
+}
+
+
+.login-btn
+{
+    background: #019944;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 50%);
+  border: none;
+}
+
+.acte-icon
+{
+    display: flex;
+  justify-content: center;
+}
+.acte-icon div
+{
+    width: 45%;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 0px!important;
+}
+.acte-icon div img
+{
+    width: 100%;
+}
+.acte-carte h5
+{
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.acte-button
+{
+    display: flex;
+  justify-content: center;
+}
+.acte-button .p-button
+{
+    border: none!important;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 50%);
+  cursor: pointer;
+
+}
