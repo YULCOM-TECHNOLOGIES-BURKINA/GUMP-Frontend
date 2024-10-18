@@ -1,0 +1,89 @@
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<h5>Fiche de demande et de retrait d'attestation de non engament</h5>
+			<div class="p-fluid p-formgrid grid">
+                <div class="card  justify-content-center gap-3 col-12">
+                    <div class="flex align-items-center">
+                        <p-checkbox 
+                            label="Soumission" 
+                            name="pizza" 
+                            value="Pepper" />
+                            <div class="col-6 mt-2">
+                                <p-inputNumber id="attestationAnpeNumber"  placeholder="Nombre" required />
+                            </div>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-checkbox 
+                            label="Liquidation" 
+                            name="pizza" 
+                            value="Onion" />
+                            <div class="col-6 mt-2">
+                                <input pInputText id="attestationAnpeNumber"  placeholder="Nombre" required />
+                            </div>
+                    </div>
+                </div>
+
+                <div class="col-6 mt-2">
+                    <span>Identifiant du demandeur</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Identifiant du demandeur" required />
+                </div>
+                <div class="col-6 mt-2">
+                    <span>Domaine d'activités</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Domaine d'activités" required />
+                </div>
+                <div class="col-6 mt-2">
+                    <span>Reference du RCCM</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Reference du RCCM" required />
+                </div>
+
+                <div class="col-6 mt-2">
+                    <span>N° IFU</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="N° IFU" required />
+                </div>
+                <div class="col-6 mt-2">
+                    <span>Adresse</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Adresse" required />
+                </div>
+                <div class="col-6 mt-2">
+                    <span>Numéro de téléphone</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Numéro de téléphone" required />
+                </div>
+                <div class="col-4 mt-2">
+                    <span>Reference du compte bancaire</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Reference du compte bancaire" required />
+                </div>
+                <div class="col-4 mt-2">
+                    <span>Reference du contrat</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Reference du contrat" required />
+                </div>
+                <div class="col-4 mt-2">
+                    <span>Objet du contrat</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Objet du contrat" required />
+                </div>
+                <div class="col-4 mt-2">
+                    <span>Identité de l'organisme attribuant le marché</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Identité de l'organisme attribuant le marché" required />
+                </div>
+                <div class="col-4 mt-2">
+                    <span>Adresse</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Adresse" required />
+                </div>
+                <div class="col-4 mt-2">
+                    <span>Numéro de téléphone</span>
+                    <input pInputText id="attestationAnpeNumber"  placeholder="Numéro de téléphone" required />
+                </div>
+			</div>            
+            <div class="field col-12 text-right">
+                <button 
+                    pButton 
+                    pRipple 
+                    icon="pi pi-check" 
+                    label="Valider et envoyer le formulaire" 
+                    class="p-button-success" 
+                    (click)="onSubmit()">
+                </button>
+            </div>
+		</div>
+	</div>
+</div>
