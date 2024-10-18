@@ -7,6 +7,7 @@ export class AuthService {
   private users = [
     { username: 'admin', password: 'admin123', role: 'admin' },
     { username: 'drtss', password: 'drtss123', role: 'admin_drtss' },
+    { username: 'drtss_agent', password: 'drtss_agent123', role: 'agent_drtss' },
     { username: 'entreprise', password: 'entreprise123', role: 'entreprise' }
   ];
 

@@ -46,6 +46,21 @@ export class TraitementDrtssComponent implements OnInit {
     ];
   }
 
+  getTranslatedStatus(status: string): string {
+    switch (status) {
+      case 'APPROVED':
+        return 'Approuvée';
+      case 'PROCESSING':
+        return 'En cours de traitement';
+      case 'REJECTED':
+        return 'Rejetée';
+      case 'PENDING':
+        return 'En attente';
+      default:
+        return status;  // Si le statut est inconnu, on le retourne tel quel
+    }
+  }
+
   getDemandes() {
     this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
       this.requests = data.content;  // Récupère le tableau des demandes
@@ -74,6 +89,13 @@ export class TraitementDrtssComponent implements OnInit {
     this.displayRejectModal = true;
   }
 
+  openDownloadRequest(file: any) {
+    console.log('Téléchargement du fichier:', file);
+    const url = file.attestation.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
+    window.open(url, '_blank');
+    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
+  }
+
   download(file: any) {
     console.log('Téléchargement du fichier:', file);
     const url = file.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
@@ -99,20 +121,19 @@ export class TraitementDrtssComponent implements OnInit {
       return;
     }
     if (this.request) {
-      const formData = new FormData();
-      formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
-      // formData.append('attestationAnpeDate', this.attestationAnpeDate ? this.attestationAnpeDate.toISOString(): '');
-      formData.append('attestationAnpeDate', this.attestationAnpeDate ? this.attestationAnpeDate.toISOString(): '');
-      formData.append('attestationCnssNumber', this.attestationCnssNumber);
-      formData.append('attestationCnssDate', this.attestationCnssDate ? this.attestationCnssDate.toISOString(): '');
-      // formData.append('attestationCnssDate', this.attestationCnssDate ? this.attestationCnssDate.toISOString(): '');
+      const requestData = {
+        attestationAnpeNumber: this.attestationAnpeNumber,
+        attestationAnpeDate: this.attestationAnpeDate ? this.attestationAnpeDate.toISOString().split('T')[0] : '',
+        attestationCnssNumber: this.attestationCnssNumber,
+        attestationCnssDate: this.attestationCnssDate ? this.attestationCnssDate.toISOString().split('T')[0] : ''
+      };
 
-      this.drtssService.approveRequest(this.request.id, formData).subscribe({
+      this.drtssService.approveRequest(this.request.id, requestData).subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
             summary: 'Succès',
-            detail: 'Demande traitée et approuvée',
+            detail: 'Demande approuvée et attestation générée!',
             life: 3000
           });
           this.displayProcessModal = false;
@@ -131,6 +152,32 @@ export class TraitementDrtssComponent implements OnInit {
         }
       });
     }
+  }
+
+
+  processReviewRequest(identifiant) {
+      this.drtssService.reviewRequest(identifiant).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Succès',
+            detail: 'Demande traitée et en attente de validation',
+            life: 3000
+          });
+          this.displayProcessModal = false;
+          setTimeout(() => {
+            this.router.navigate(['/app/traitement/drtss']); 
+          }, 500); 
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erreur',
+            detail: 'Une erreur est survenue lors de la validation de la demande.',
+            life: 3000
+          });
+        }
+      });
   }
 
   // rejectRequest() {

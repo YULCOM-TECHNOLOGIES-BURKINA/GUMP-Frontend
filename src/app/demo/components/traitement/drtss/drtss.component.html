@@ -39,18 +39,33 @@
                         <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                         <td>
                             <span class="p-badge" [ngClass]="{
-                                'p-badge-success': request.status === 'Validée',
-                                'p-badge-success': request.status === 'Traitée',
-                                'p-badge-danger': request.status === 'Rejetée',
+                                'p-badge-success': request.status === 'APPROVED',
+                                'p-badge-primary': request.status === 'PROCESSING',
+                                'p-badge-danger': request.status === 'REJECTED',
                                 'p-badge-info': request.status === 'PENDING'
                             }">
-                                {{ request.status === 'PENDING' ? 'En attente' : request.status }}
+                                {{ getTranslatedStatus(request.status) }}
                             </span>
                         </td>
                         <td>
                             <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary mr-2" (click)="openViewRequest(request)"   pTooltip="Voir la demande" tooltipPosition="bottom" ></button>
-                            <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-success mr-2" (click)="openProcessRequest(request)"  pTooltip="Valider la demande" tooltipPosition="bottom"></button>
-                            <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-danger mr-2" (click)="openRejectRequest(request)"  pTooltip="Rejeter la demande" tooltipPosition="bottom"></button>
+                            <!-- <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-success mr-2" (click)="openProcessRequest(request)"  pTooltip="Valider la demande" tooltipPosition="bottom"></button>
+                            <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-danger mr-2" (click)="openRejectRequest(request)"  pTooltip="Rejeter la demande" tooltipPosition="bottom"></button> -->
+                            <button *ngIf="request.status == 'PENDING'" pButton pRipple icon="pi pi-clock" 
+                            class="p-button-outlined p-button-success mr-2" (click)="processReviewRequest(request.id)" 
+                            pTooltip="Traiter la demande" tooltipPosition="bottom"></button>
+
+                            <button *ngIf="request.status == 'PROCESSING'" pButton pRipple icon="pi pi-check" 
+                            class="p-button-outlined p-button-success mr-2" (click)="openProcessRequest(request)" 
+                            pTooltip="Valider la demande" tooltipPosition="bottom"></button>
+
+                            <button *ngIf="request.status !== 'APPROVED'" pButton pRipple icon="pi pi-times" 
+                            class="p-button-outlined p-button-danger mr-2" (click)="openRejectRequest(request)" 
+                            pTooltip="Rejeter la demande" tooltipPosition="bottom"></button>
+
+                            <button *ngIf="request.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(request)" 
+                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                         </td>
                     </tr>
                 </ng-template>
@@ -123,7 +138,9 @@
             </div>
             <div class="col-6 mt-2">
                 <span>Date Attestation ANPE</span>
-                <p-calendar [(ngModel)]="attestationAnpeDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" required  />
+                <p-calendar [(ngModel)]="attestationAnpeDate" dateFormat="yy-mm-dd" required  />
+                <!-- <input type="'date" id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="Date Attestation ANPE" required /> -->
+
             </div>
             <div class="col-6 mt-2">
                 <span>N° Attestation CNSS</span>
@@ -131,7 +148,8 @@
             </div>
             <div class="col-6 mt-2">
                 <span>Date Attestation CNSS</span>
-                <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" required />
+                <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" dateFormat="yy-mm-dd" required />
+                <!-- <input type="'date" id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="Date Attestation CNSS" required /> -->
             </div>
         </div>
         <ng-template pTemplate="footer">

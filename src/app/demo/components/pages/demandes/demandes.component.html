@@ -36,16 +36,19 @@
                         <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                         <td>
                             <span class="p-badge" [ngClass]="{
-                            'p-badge-success': request.status === 'Validée',
-                            'p-badge-success': request.status === 'Traitée',
-                            'p-badge-danger': request.status === 'Rejetée',
-                            'p-badge-info': request.status === 'PENDING'
+                               'p-badge-success': request.status === 'APPROVED',
+                                'p-badge-primary': request.status === 'PROCESSING',
+                                'p-badge-danger': request.status === 'REJECTED',
+                                'p-badge-info': request.status === 'PENDING'
                             }">
-                            {{ request.status === 'PENDING' ? 'En attente' : request.status }}
+                            {{ getTranslatedStatus(request.status) }}
                             </span>
                         </td>
                         <td>
-                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary" (click)="viewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                            <button *ngIf="request.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(request)" 
+                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                         </td>
                     </tr>
                 </ng-template>
