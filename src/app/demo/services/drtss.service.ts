@@ -30,10 +30,6 @@ export class DrtssService {
     return this.http.get(`${this.apiUrl}/${requestId}`);
   }
 
-  // approveRequest(requestId: number, formData: FormData): Observable<any> {
-  //   return this.http.post(`${this.apiUrl}/${requestId}/approve`, formData, {
-  //     headers: { 'Content-Type': 'application/json' }});
-  // }
 
   approveRequest(requestId: number, requestData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/${requestId}/approve`, requestData, {

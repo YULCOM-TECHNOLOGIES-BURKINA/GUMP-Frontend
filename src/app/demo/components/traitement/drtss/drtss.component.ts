@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
 })
 export class TraitementDrtssComponent implements OnInit {
   requests: DemandeDrtss[] = [];
+  pendingRequests: DemandeDrtss[] = [];
+  processingRequests: DemandeDrtss[] = [];
+  approvedRequests: DemandeDrtss[] = [];
   selectedRequest: DemandeDrtss | null = null;
   selectedRequests: DemandeDrtss[] = [];
   request: DemandeDrtss = {};
@@ -27,6 +30,9 @@ export class TraitementDrtssComponent implements OnInit {
   one: DemandeDrtss | null = null;
 
   totalRecords: number = 0; 
+  countPending = 0;
+  countProcessing = 0;
+  countApproved = 0;
 
   requesterId: string = ''; 
   attestationAnpeNumber: string = '';
@@ -65,7 +71,18 @@ export class TraitementDrtssComponent implements OnInit {
     this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
       this.requests = data.content;  // Récupère le tableau des demandes
       this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+      this.categorizeRequests();
     });
+  }
+
+  categorizeRequests() {
+    this.pendingRequests = this.requests.filter(request => request.status === 'PENDING');
+    this.processingRequests = this.requests.filter(request => request.status === 'PROCESSING');
+    this.approvedRequests = this.requests.filter(request => request.status === 'APPROVED');
+
+    this.countPending = this.pendingRequests.length;
+    this.countProcessing = this.processingRequests.length;
+    this.countApproved = this.approvedRequests.length;
   }
 
   openViewRequest(request: DemandeDrtss) {

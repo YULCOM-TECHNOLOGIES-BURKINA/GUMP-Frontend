@@ -24,7 +24,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { RatingModule } from 'primeng/rating';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TooltipModule } from 'primeng/tooltip';
-
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [TraitementDrtssComponent],
@@ -51,7 +51,8 @@ import { TooltipModule } from 'primeng/tooltip';
 		ToolbarModule,
 		RatingModule,
 		RadioButtonModule,
-		TooltipModule
+		TooltipModule,
+		TabViewModule
     
   ]
 })
