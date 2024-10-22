@@ -3,58 +3,146 @@
         <div class="card px-6 py-6">
             <p-toast></p-toast>
             
-            <p-table #dt [value]="requests" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                     [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
-                     currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
-                     [(selection)]="selectedRequests" selectionMode="multiple" dataKey="id">
-                <ng-template pTemplate="caption">
-                    <div class="flex justify-content-between">
-                        <h5 class="m-0">Liste des demandes d'attestation DRTSS</h5>
-                        <span class="block mt-2 md:mt-0 p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
-                        </span>
-                    </div>
-                </ng-template>
+            <!-- TabView PrimeNG -->
+            <p-tabView>
+                <!-- Onglet En attente -->
+                <p-tabPanel header="En attente ({{ countPending }})" leftIcon="pi pi-clock">
+                    <p-table #dt [value]="pendingRequests" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                             currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes en attente"
+                             [(selection)]="selectedRequests" selectionMode="multiple" dataKey="id">
+                        <!-- Caption and Global Filter -->
+                        <ng-template pTemplate="caption">
+                            <div class="flex justify-content-between">
+                                <h5 class="m-0">Demandes en attente</h5>
+                                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                </span>
+                            </div>
+                        </ng-template>
 
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
-                        <!-- <th pSortableColumn="acte">Demandeur <p-sortIcon field="acte"></p-sortIcon></th> -->
-                        <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
-                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
-                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
-                        <th>Actions</th>
-                    </tr>
-                </ng-template>
+                        <!-- Header -->
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
+                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
 
-                <ng-template pTemplate="body" let-request>
-                    <tr>
-                        <td>
-                            <p-tableCheckbox [value]="request"></p-tableCheckbox>
-                        </td>
-                        <td>{{ request.id }}</td>
-                        <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
-                        <td>
-                            <span class="p-badge" [ngClass]="{
-                                'p-badge-success': request.status === 'Validée',
-                                'p-badge-success': request.status === 'Traitée',
-                                'p-badge-danger': request.status === 'Rejetée',
-                                'p-badge-info': request.status === 'PENDING'
-                            }">
-                                {{ request.status === 'PENDING' ? 'En attente' : request.status }}
-                            </span>
-                        </td>
-                        <td>
-                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary mr-2" (click)="openViewRequest(request)"   pTooltip="Voir la demande" tooltipPosition="bottom" ></button>
-                            <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-success mr-2" (click)="openProcessRequest(request)"  pTooltip="Valider la demande" tooltipPosition="bottom"></button>
-                            <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-danger mr-2" (click)="openRejectRequest(request)"  pTooltip="Rejeter la demande" tooltipPosition="bottom"></button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                        <!-- Body -->
+                        <ng-template pTemplate="body" let-request>
+                            <tr>
+                                <td>
+                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                </td>
+                                <td>{{ request.id }}</td>
+                                <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>
+                                    <span class="p-badge p-badge-info">{{ getTranslatedStatus(request.status) }}</span>
+                                </td>
+                                <td>
+                                    <!-- Boutons d'action -->
+                                    <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                    <button pButton pRipple icon="pi pi-clock" class="p-button-outlined p-button-success mr-2" 
+                                    (click)="processReviewRequest(request.id)" pTooltip="Traiter la demande" tooltipPosition="bottom"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+
+                <!-- Onglet En cours de traitement -->
+                <p-tabPanel header="En cours de traitement ({{ countProcessing }})" leftIcon="pi pi-spin pi-spinner">
+                    <!-- Utiliser le même tableau que pour l'onglet précédent avec les demandes en traitement -->
+                    <p-table #dt [value]="processingRequests" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                             currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes en cours de traitement"
+                             [(selection)]="selectedRequests" selectionMode="multiple" dataKey="id">
+
+                             <ng-template pTemplate="caption">
+                                <div class="flex justify-content-between">
+                                    <h5 class="m-0">Demandes en cours de traitement</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                    </span>
+                                </div>
+                            </ng-template>
+                        <!-- Header et Body identiques -->
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
+                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-request>
+                            <tr>
+                                <td>
+                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                </td>
+                                <td>{{ request.id }}</td>
+                                <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>
+                                    <span class="p-badge p-badge-primary">{{ getTranslatedStatus(request.status) }}</span>
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-success mr-2"
+                                    (click)="openProcessRequest(request)" pTooltip="Valider la demande" tooltipPosition="bottom"></button>
+                                    <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-danger  mr-2" (click)="openRejectRequest(request)" pTooltip="Rejeter la demande" tooltipPosition="bottom"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+
+                <!-- Onglet Approuvée -->
+                <p-tabPanel header="Approuvée ({{ countApproved }})" leftIcon="pi pi-check">
+                    <p-table #dt [value]="approvedRequests" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                             currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes approuvées"
+                             [(selection)]="selectedRequests" selectionMode="multiple" dataKey="id">
+                        <!-- Header et Body identiques -->
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
+                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-request>
+                            <tr>
+                                <td>
+                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                </td>
+                                <td>{{ request.id }}</td>
+                                <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>
+                                    <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
+                                    (click)="openDownloadRequest(request)" pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+            </p-tabView>
         </div>
     </div>
 
@@ -123,7 +211,9 @@
             </div>
             <div class="col-6 mt-2">
                 <span>Date Attestation ANPE</span>
-                <p-calendar [(ngModel)]="attestationAnpeDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" required  />
+                <p-calendar [(ngModel)]="attestationAnpeDate" dateFormat="yy-mm-dd" required  />
+                <!-- <input type="'date" id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="Date Attestation ANPE" required /> -->
+
             </div>
             <div class="col-6 mt-2">
                 <span>N° Attestation CNSS</span>
@@ -131,7 +221,8 @@
             </div>
             <div class="col-6 mt-2">
                 <span>Date Attestation CNSS</span>
-                <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" required />
+                <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" dateFormat="yy-mm-dd" required />
+                <!-- <input type="'date" id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="Date Attestation CNSS" required /> -->
             </div>
         </div>
         <ng-template pTemplate="footer">

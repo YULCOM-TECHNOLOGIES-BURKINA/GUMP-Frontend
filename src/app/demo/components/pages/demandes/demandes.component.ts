@@ -48,6 +48,22 @@ export class DemandesComponent implements OnInit {
     });
   }
 
+  getTranslatedStatus(status: string): string {
+    switch (status) {
+      case 'APPROVED':
+        return 'Approuvée';
+      case 'PROCESSING':
+        return 'En cours de traitement';
+      case 'REJECTED':
+        return 'Rejetée';
+      case 'PENDING':
+        return 'En attente';
+      default:
+        return status;  // Si le statut est inconnu, on le retourne tel quel
+    }
+  }
+
+
   deleteSelectedRequests() {
       this.deleteRequestsDialog = true;
   }
@@ -55,6 +71,13 @@ export class DemandesComponent implements OnInit {
   download(file: any) {
     console.log('Téléchargement du fichier:', file);
     const url = file.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
+    window.open(url, '_blank');
+    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
+  }
+
+  openDownloadRequest(file: any) {
+    console.log('Téléchargement du fichier:', file);
+    const url = file.attestation.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
     window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }

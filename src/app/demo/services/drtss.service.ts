@@ -17,14 +17,6 @@ export class DrtssService {
     return this.http.post(`${this.apiUrl}`, formData);
   }
 
-  // getDemandes(): Observable<DemandeDrtss[]> {
-  //   return this.http.get<DemandeDrtss[]>(this.apiUrl);
-  // }
-
-  // getDemandes(): Observable<DemandeDrtssResponse[]> {
-  //   return this.http.get<DemandeDrtssResponse[]>(this.apiUrl);
-  // }
-
   getDemandes(): Observable<DemandeDrtssResponse> {
     return this.http.get<DemandeDrtssResponse>(this.apiUrl);  // Récupère les données de type DemandeDrtssResponse
   }
@@ -38,9 +30,18 @@ export class DrtssService {
     return this.http.get(`${this.apiUrl}/${requestId}`);
   }
 
-  approveRequest(requestId: number, formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, formData);
-}
+
+  approveRequest(requestId: number, requestData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/approve`, requestData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  reviewRequest(requestId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING`, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 
 
 }
