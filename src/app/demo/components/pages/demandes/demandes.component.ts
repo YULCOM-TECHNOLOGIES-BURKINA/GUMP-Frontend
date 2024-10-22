@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
+import { DemandeAje, DemandeAjeResponse } from '../../../models/aje';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { DrtssService } from '../../../services/drtss.service';
+import { AjeService } from '../../../services/aje.service';
 
 @Component({
   selector: 'app-demandes',
@@ -17,23 +19,28 @@ export class DemandesComponent implements OnInit {
   requestsDrtss: DemandeDrtss[] = [];
   requestDrtss: DemandeDrtss = {};
 
-  selectedRequests: DemandeDrtss[] = [];
+  requestsAje: DemandeAje[] = [];
+  requestAje: DemandeAje = {};
+
+  selectedDrtssRequests: DemandeDrtss[] = [];
+  selectedAjeRequests: DemandeAje[] = [];
+
   cols: any[] = [];
 
   displayProcessModal: boolean = false;
 
   totalRecords: number = 0; 
+  totalRecordsAje: number = 0; 
 
   countDrtss = 0;
   countAje= 0;
 
-  // one: DemandeDrtss | null = null;
 
-  constructor(private drtssService: DrtssService, private messageService: MessageService) { }
+  constructor(private drtssService: DrtssService, private ajeService: AjeService, private messageService: MessageService) { }
 
   ngOnInit() {
-      // Récupération des demandes via un service qui gère l'appel API pour chaque acte.
-      this.getDemandes();
+      this.getDemandesDrtss();
+      this.getDemandesAje();
 
 
       this.cols = [
@@ -43,12 +50,19 @@ export class DemandesComponent implements OnInit {
       ];
   }
 
-   // Méthode pour récupérer les demandes
-   getDemandes() {
+  getDemandesDrtss() {
     this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
-      this.requestsDrtss = data.content;  // Récupère le tableau des demandes
-      this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+      this.requestsDrtss = data.content;
+      this.totalRecords = data.totalElements;
       this.countDrtss = this.requestsDrtss.length;
+    });
+  }
+
+  getDemandesAje() {
+    this.ajeService.getDemandes().subscribe((data: DemandeAjeResponse) => {
+      this.requestsAje = data.content;
+      this.totalRecordsAje = data.totalElements;
+      this.countAje= this.requestsAje.length;
     });
   }
 
@@ -63,7 +77,7 @@ export class DemandesComponent implements OnInit {
       case 'PENDING':
         return 'En attente';
       default:
-        return status;  // Si le statut est inconnu, on le retourne tel quel
+        return status;
     }
   }
 
@@ -74,24 +88,23 @@ export class DemandesComponent implements OnInit {
 
   download(file: any) {
     console.log('Téléchargement du fichier:', file);
-    const url = file.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
+    const url = file.path;
     window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
   openDownloadRequest(file: any) {
     console.log('Téléchargement du fichier:', file);
-    const url = file.attestation.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
+    const url = file.attestation.path;
     window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
   editRequest(requestDrtss: DemandeDrtss) {
       this.requestDrtss = { ...requestDrtss };
-      // Logique d'édition ici
   }
 
-  viewRequest(requestDrtss: DemandeDrtss) { //TODO: harmoniser les requeétes
+  viewRequest(requestDrtss: DemandeDrtss) {
     this.drtssService.getOneDemande(requestDrtss.id).subscribe(data => {
       this.requestDrtss = data;
     });
@@ -116,9 +129,9 @@ export class DemandesComponent implements OnInit {
 
   confirmDeleteSelected() {
       this.deleteRequestsDialog = false;
-      this.requestsDrtss = this.requestsDrtss.filter(val => !this.selectedRequests.includes(val));
+      this.requestsDrtss = this.requestsDrtss.filter(val => !this.selectedDrtssRequests.includes(val));
       this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande supprimées', life: 3000 });
-      this.selectedRequests = [];
+      this.selectedDrtssRequests = [];
   }
 
   onGlobalFilter(table: Table, event: Event) {

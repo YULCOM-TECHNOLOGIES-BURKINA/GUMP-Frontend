@@ -2,8 +2,13 @@
 
 export interface DemandeAje {
     id?: number;
+    requesteType?: string;
     requesterId?: string;
     status?: string;
+    rccmReference?: string,
+    ifuNumber?: string,
+    address?: string,
+    phoneNumber?: string,
     businessDomain?: string;
     bankAccountReference?: string;
     contractReference?: string;

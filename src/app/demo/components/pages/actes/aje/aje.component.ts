@@ -12,6 +12,12 @@ import { Router } from '@angular/router';
 
 export class AjeComponent {
 
+  requestType: string = 'SOUMISSION';
+  requesterId: string = 'YULCOM';
+  rccmReference: string;
+  ifuNumber: string;
+  address: string;
+  phoneNumber: string;
   businessDomain: string;
   bankAccountReference: string;
   contractReference: string;
@@ -32,6 +38,12 @@ export class AjeComponent {
           && !!this.contractPurpose
           && !!this.contractingOrganizationName
           && !!this.organizationAddress
+          && !!this.rccmReference
+          && !!this.ifuNumber
+          && !!this.address
+          && !!this.phoneNumber
+          && !!this.requestType
+          && !!this.requesterId
           && !!this.organizationPhone;
   }
 
@@ -45,16 +57,23 @@ export class AjeComponent {
       });
       return;
     } else {
-      const formData = new FormData();
-      formData.append('businessDomain', this.businessDomain);
-      formData.append('bankAccountReference', this.bankAccountReference);
-      formData.append('contractReference', this.contractReference);
-      formData.append('contractPurpose', this.contractPurpose);
-      formData.append('contractingOrganizationName', this.contractingOrganizationName);
-      formData.append('organizationAddress', this.organizationAddress);
-      formData.append('organizationPhone', this.organizationPhone);
-    
-      this.ajeService.submitAttestationRequest(formData).subscribe({
+      const requestData = {
+        requestType: this.requestType,
+        requesterId: this.requesterId,
+        rccmReference: this.rccmReference,
+        ifuNumber: this.ifuNumber,
+        address: this.address,
+        phoneNumber: this.phoneNumber,
+        businessDomain: this.businessDomain,
+        bankAccountReference: this.bankAccountReference,
+        contractReference: this.contractReference,
+        contractPurpose: this.contractPurpose,
+        contractingOrganizationName: this.contractingOrganizationName,
+        organizationAddress: this.organizationAddress,
+        organizationPhone: this.organizationPhone
+      };
+      
+      this.ajeService.submitAttestationRequest(requestData).subscribe({
         next: (response) => {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !' });
           setTimeout(() => {

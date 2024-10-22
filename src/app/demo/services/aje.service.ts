@@ -12,8 +12,14 @@ export class AjeService {
 
   constructor(private http: HttpClient) {}
 
-  submitAttestationRequest(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, formData);
+  // submitAttestationRequest(formData: FormData): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}`, formData);
+  // }
+
+  submitAttestationRequest(requestData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, requestData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   getDemandes(): Observable<DemandeAjeResponse> {
