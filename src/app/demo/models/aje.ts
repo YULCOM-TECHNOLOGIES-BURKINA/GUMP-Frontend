@@ -1,16 +1,16 @@
-export interface File {
-    label: string;
-    path: string;
-}
+
 
 export interface DemandeAje {
     id?: number;
     requesterId?: string;
     status?: string;
-    reviewedBy?: string;
-    approvedBy?: string;
-    createdAt?: string;
-    files?: File[];
+    businessDomain?: string;
+    bankAccountReference?: string;
+    contractReference?: string;
+    contractPurpose?: string;
+    contractingOrganizationName?: string;
+    organizationAddress?: string;
+    organizationPhone?: string;
 }
 
 export interface DemandeAjeResponse {
