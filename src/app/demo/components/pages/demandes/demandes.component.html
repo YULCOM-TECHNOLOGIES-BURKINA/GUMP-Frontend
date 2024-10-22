@@ -2,61 +2,67 @@
     <div class="col-12">
         <div class="card px-6 py-6">
             <p-toast></p-toast>
-            <p-table #dt [value]="requests" [columns]="cols" responsiveLayout="scroll" 
-            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-            [showCurrentPageReport]="true" 
-            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-            [totalRecords]="totalRecords" [(selection)]="selectedRequests" 
-            selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <!-- TabView PrimeNG -->
+            <p-tabView>
+                <!-- Onglet En attente -->
+                <p-tabPanel header="DRTSS ({{ countDrtss }})" leftIcon="pi pi-clock">
+                    <p-table #dt [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
+                    [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                    [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                    [showCurrentPageReport]="true" 
+                    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                    [totalRecords]="totalRecords" [(selection)]="selectedRequests" 
+                    selectionMode="multiple" [rowHover]="true" dataKey="id">
 
-                <ng-template pTemplate="caption">
-                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                    <h5 class="m-0">Historique de mes demandes</h5>
-                    <span class="block mt-2 md:mt-0 p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
-                    </span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
-                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
-                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
-                        <th>Actions</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-request>
-                    <tr>
-                        <td>
-                            <span class="p-column-title">Acte</span>
-                            Demande d'attestation de soumission au marchés publics
-                        </td>
-                        <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
-                        <td>
-                            <span class="p-badge" [ngClass]="{
-                               'p-badge-success': request.status === 'APPROVED',
-                                'p-badge-primary': request.status === 'PROCESSING',
-                                'p-badge-danger': request.status === 'REJECTED',
-                                'p-badge-info': request.status === 'PENDING'
-                            }">
-                            {{ getTranslatedStatus(request.status) }}
+                        <ng-template pTemplate="caption">
+                            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                            <h5 class="m-0">Historique de mes demandes d'attestation DRTSS</h5>
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
                             </span>
-                        </td>
-                        <td>
-                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
-                            <button *ngIf="request.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(request)" 
-                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                                <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-requestDrtss>
+                            <tr>
+                                <td>
+                                    <span class="p-column-title">Acte</span>
+                                    Demande d'attestation de soumission au marchés publics
+                                </td>
+                                <td>{{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>
+                                    <span class="p-badge" [ngClass]="{
+                                    'p-badge-success': requestDrtss.status === 'APPROVED',
+                                        'p-badge-primary': requestDrtss.status === 'PROCESSING',
+                                        'p-badge-danger': requestDrtss.status === 'REJECTED',
+                                        'p-badge-info': requestDrtss.status === 'PENDING'
+                                    }">
+                                    {{ getTranslatedStatus(requestDrtss.status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                    <button *ngIf="requestDrtss.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                    class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestDrtss)" 
+                                    pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+            </p-tabView>
         </div>
 
         <!-- Dialogs -->
-        <p-dialog header="Détails de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="request">
+        <p-dialog header="Détails de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="requestDrtss">
             <div class="grid">
                 <!-- <div class="col-12">
                     <span class="font-bold">Entreprise: {{ one.company.name }}</span>
@@ -88,9 +94,9 @@
                     <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
                 </div>
 
-                <div class="col-12 mt-2 flex" *ngIf="request.files">            
+                <div class="col-12 mt-2 flex" *ngIf="requestDrtss.files">            
                     <button 
-                    *ngFor="let file of request.files"
+                    *ngFor="let file of requestDrtss.files"
                         pButton 
                         pRipple 
                         icon="pi pi-download" 
@@ -105,7 +111,6 @@
         <p-dialog [(visible)]="deleteRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <!-- <span>Voulez-vous vraiment supprimer la demande <b>{{request.acte}}</b>?</span> -->
                 <span>Voulez-vous vraiment supprimer la demande <b>Demande d'attestation de soumission au marchés publics</b>?</span>
             </div>
             <ng-template pTemplate="footer">

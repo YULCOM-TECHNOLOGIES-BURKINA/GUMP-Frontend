@@ -14,8 +14,8 @@ export class DemandesComponent implements OnInit {
   deleteRequestDialog: boolean = false;
   deleteRequestsDialog: boolean = false;
 
-  requests: DemandeDrtss[] = [];
-  request: DemandeDrtss = {};
+  requestsDrtss: DemandeDrtss[] = [];
+  requestDrtss: DemandeDrtss = {};
 
   selectedRequests: DemandeDrtss[] = [];
   cols: any[] = [];
@@ -23,6 +23,9 @@ export class DemandesComponent implements OnInit {
   displayProcessModal: boolean = false;
 
   totalRecords: number = 0; 
+
+  countDrtss = 0;
+  countAje= 0;
 
   // one: DemandeDrtss | null = null;
 
@@ -43,8 +46,9 @@ export class DemandesComponent implements OnInit {
    // Méthode pour récupérer les demandes
    getDemandes() {
     this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
-      this.requests = data.content;  // Récupère le tableau des demandes
+      this.requestsDrtss = data.content;  // Récupère le tableau des demandes
       this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+      this.countDrtss = this.requestsDrtss.length;
     });
   }
 
@@ -82,14 +86,14 @@ export class DemandesComponent implements OnInit {
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
-  editRequest(request: DemandeDrtss) {
-      this.request = { ...request };
+  editRequest(requestDrtss: DemandeDrtss) {
+      this.requestDrtss = { ...requestDrtss };
       // Logique d'édition ici
   }
 
-  viewRequest(request: DemandeDrtss) { //TODO: harmoniser les requeétes
-    this.drtssService.getOneDemande(request.id).subscribe(data => {
-      this.request = data;
+  viewRequest(requestDrtss: DemandeDrtss) { //TODO: harmoniser les requeétes
+    this.drtssService.getOneDemande(requestDrtss.id).subscribe(data => {
+      this.requestDrtss = data;
     });
     this.displayProcessModal = true;
   }
@@ -98,21 +102,21 @@ export class DemandesComponent implements OnInit {
     this.displayProcessModal = false;
   }
 
-  deleteRequest(request: DemandeDrtss) {
+  deleteRequest(requestDrtss: DemandeDrtss) {
       this.deleteRequestDialog = true;
-      this.request = { ...request };
+      this.requestDrtss = { ...requestDrtss };
   }
 
   confirmDeleteRequest() {
       this.deleteRequestDialog = false;
-      this.requests = this.requests.filter(val => val.requesterId !== this.request.requesterId);
+      this.requestsDrtss = this.requestsDrtss.filter(val => val.requesterId !== this.requestDrtss.requesterId);
       this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande supprimée', life: 3000 });
-      this.request = {};
+      this.requestDrtss = {};
   }
 
   confirmDeleteSelected() {
       this.deleteRequestsDialog = false;
-      this.requests = this.requests.filter(val => !this.selectedRequests.includes(val));
+      this.requestsDrtss = this.requestsDrtss.filter(val => !this.selectedRequests.includes(val));
       this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande supprimées', life: 3000 });
       this.selectedRequests = [];
   }
