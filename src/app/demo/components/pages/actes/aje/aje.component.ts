@@ -75,7 +75,7 @@ export class AjeComponent {
       
       this.ajeService.submitAttestationRequest(requestData).subscribe({
         next: (response) => {
-          this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !' });
+          this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !', life: 2000 });
           setTimeout(() => {
             this.router.navigate(['/app/pages/demandes']); 
           }, 2000); 
