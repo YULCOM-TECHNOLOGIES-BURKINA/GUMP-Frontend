@@ -1,16 +1,21 @@
-export interface File {
-    label: string;
-    path: string;
-}
+
 
 export interface DemandeAje {
     id?: number;
+    requesteType?: string;
     requesterId?: string;
     status?: string;
-    reviewedBy?: string;
-    approvedBy?: string;
-    createdAt?: string;
-    files?: File[];
+    rccmReference?: string,
+    ifuNumber?: string,
+    address?: string,
+    phoneNumber?: string,
+    businessDomain?: string;
+    bankAccountReference?: string;
+    contractReference?: string;
+    contractPurpose?: string;
+    contractingOrganizationName?: string;
+    organizationAddress?: string;
+    organizationPhone?: string;
 }
 
 export interface DemandeAjeResponse {

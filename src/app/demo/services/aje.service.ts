@@ -8,12 +8,18 @@ import { DemandeAje, DemandeAjeResponse } from '../models/aje';
 })
 export class AjeService {
 
-  private apiUrl = 'http://54.37.13.176:8082/api/demandes'; 
+  private apiUrl = 'http://54.37.13.176:8080/api/demandes'; 
 
   constructor(private http: HttpClient) {}
 
-  submitAttestationRequest(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, formData);
+  // submitAttestationRequest(formData: FormData): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}`, formData);
+  // }
+
+  submitAttestationRequest(requestData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, requestData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   getDemandes(): Observable<DemandeAjeResponse> {
@@ -28,8 +34,16 @@ export class AjeService {
     return this.http.get(`${this.apiUrl}/${requestId}`);
   }
 
-  approveRequest(requestId: number, formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, formData);
-}
+  approveRequest(requestId: number, requestData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/approve`, requestData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  reviewRequest(requestId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING`, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 
 }

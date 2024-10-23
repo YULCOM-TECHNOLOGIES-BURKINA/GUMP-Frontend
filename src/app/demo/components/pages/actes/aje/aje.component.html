@@ -7,8 +7,8 @@
                     <div class="flex align-items-center">
                         <p-checkbox 
                             label="Soumission" 
-                            name="pizza" 
-                            value="Pepper" />
+                            name="soumission" 
+                            value="soumission" />
                             <div class="col-6 mt-2">
                                 <p-inputNumber id="attestationAnpeNumber"  placeholder="Nombre" required />
                             </div>
@@ -16,8 +16,8 @@
                     <div class="flex align-items-center">
                         <p-checkbox 
                             label="Liquidation" 
-                            name="pizza" 
-                            value="Onion" />
+                            name="liquidation" 
+                            value="liquidation" />
                             <div class="col-6 mt-2">
                                 <input pInputText id="attestationAnpeNumber"  placeholder="Nombre" required />
                             </div>
@@ -30,48 +30,48 @@
                 </div>
                 <div class="col-6 mt-2">
                     <span>Domaine d'activités</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Domaine d'activités" required />
+                    <input [(ngModel)]="businessDomain" pInputText id="businessDomain"  placeholder="Domaine d'activités" required />
                 </div>
                 <div class="col-6 mt-2">
                     <span>Reference du RCCM</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Reference du RCCM" required />
+                    <input  [(ngModel)]="rccmReference" pInputText id="rccmReference"  placeholder="Reference du RCCM" required />
                 </div>
 
                 <div class="col-6 mt-2">
                     <span>N° IFU</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="N° IFU" required />
+                    <input [(ngModel)]="ifuNumber" pInputText id="ifuNumber"  placeholder="N° IFU" required />
                 </div>
                 <div class="col-6 mt-2">
                     <span>Adresse</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Adresse" required />
+                    <input [(ngModel)]="address" pInputText id="address"  placeholder="Adresse" required />
                 </div>
                 <div class="col-6 mt-2">
                     <span>Numéro de téléphone</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Numéro de téléphone" required />
+                    <input [(ngModel)]="phoneNumber" pInputText id="phoneNumber"  placeholder="Numéro de téléphone" required />
                 </div>
                 <div class="col-4 mt-2">
                     <span>Reference du compte bancaire</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Reference du compte bancaire" required />
+                    <input [(ngModel)]="bankAccountReference" pInputText id="bankAccountReference"  placeholder="Reference du compte bancaire" required />
                 </div>
                 <div class="col-4 mt-2">
                     <span>Reference du contrat</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Reference du contrat" required />
+                    <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du contrat" required />
                 </div>
                 <div class="col-4 mt-2">
                     <span>Objet du contrat</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Objet du contrat" required />
+                    <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du contrat" required />
                 </div>
                 <div class="col-4 mt-2">
                     <span>Identité de l'organisme attribuant le marché</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Identité de l'organisme attribuant le marché" required />
+                    <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
                 </div>
                 <div class="col-4 mt-2">
                     <span>Adresse</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Adresse" required />
+                    <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
                 </div>
                 <div class="col-4 mt-2">
                     <span>Numéro de téléphone</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Numéro de téléphone" required />
+                    <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
                 </div>
 			</div>            
             <div class="field col-12 text-right">
