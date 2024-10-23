@@ -28,6 +28,7 @@ export class DemandesComponent implements OnInit {
   cols: any[] = [];
 
   displayProcessModal: boolean = false;
+  displayProcessModalAje: boolean = false;
 
   totalRecords: number = 0; 
   totalRecordsAje: number = 0; 
@@ -100,6 +101,13 @@ export class DemandesComponent implements OnInit {
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
+  openDownloadRequestAje(file: any) {
+    console.log('Téléchargement du fichier:', file);
+    const url = file.attestation.path;
+    window.open(url, '_blank');
+    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
+  }
+
   editRequest(requestDrtss: DemandeDrtss) {
       this.requestDrtss = { ...requestDrtss };
   }
@@ -111,8 +119,20 @@ export class DemandesComponent implements OnInit {
     this.displayProcessModal = true;
   }
 
+
+  viewRequestAje(requestAje: DemandeAje) {
+    this.ajeService.getOneDemande(requestAje.id).subscribe(data => {
+      this.requestAje = data;
+    });
+    this.displayProcessModalAje = true;
+  }
+
   closeProcessModal() {
     this.displayProcessModal = false;
+  }
+
+  closeProcessModalAje() {
+    this.displayProcessModalAje = false;
   }
 
   deleteRequest(requestDrtss: DemandeDrtss) {
