@@ -40,6 +40,63 @@
             <div class="mx-4 md:mx-8 mt-0 md:mt-4"></div>
         </div>
         
+        <!-- Statistics -->
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="grid">
+                <ng-container *ngFor="let stat of statistics">
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <div class="surface-card shadow-2 p-4 border-round">
+                            <div class="flex align-items-center justify-content-center mb-3">
+                                <div [class]="'flex align-items-center justify-content-center border-round-xl w-4rem h-4rem ' + stat.color">
+                                    <i [class]="stat.icon + ' text-2xl'"></i>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold mb-2">{{ stat.value }}</div>
+                                <div class="text-900">{{ stat.label }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Mission & Vision -->
+        <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+            <div class="grid">
+                <div class="col-12 lg:col-6 p-4">
+                    <p-card styleClass="h-full">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center gap-3 px-4 pt-4">
+                                <i class="pi pi-compass text-4xl text-green-600"></i>
+                                <h2 class="text-3xl font-semibold m-0">Notre Mission</h2>
+                            </div>
+                        </ng-template>
+                        <p class="line-height-3 text-lg">
+                            Faciliter l'accès aux services administratifs liés aux marchés publics à travers une plateforme 
+                            numérique innovante, sécurisée et performante. Notre objectif est de réduire les délais de 
+                            traitement et d'améliorer la transparence des procédures.
+                        </p>
+                    </p-card>
+                </div>
+                <div class="col-12 lg:col-6 p-4">
+                    <p-card styleClass="h-full">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center gap-3 px-4 pt-4">
+                                <i class="pi pi-eye text-4xl text-green-600"></i>
+                                <h2 class="text-3xl font-semibold m-0">Notre Vision</h2>
+                            </div>
+                        </ng-template>
+                        <p class="line-height-3 text-lg">
+                            Devenir la référence en matière de dématérialisation des services administratifs au Burkina Faso,
+                            en offrant une expérience utilisateur exceptionnelle et en contribuant à la modernisation de 
+                            l'administration publique.
+                        </p>
+                    </p-card>
+                </div>
+            </div>
+        </div>
+        
         <div id="features" class="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
             <div class="grid justify-content-between">
                 <div class="col-12 text-center mt-8 mb-4">
@@ -162,6 +219,57 @@
             </div>
         </div>
 
+        <!-- Values Section -->
+        <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-6">Nos Valeurs</h2>
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-3 p-3">
+                    <p-card styleClass="h-full">
+                        <div class="text-center">
+                            <i class="pi pi-shield text-4xl text-green-600 mb-3"></i>
+                            <h3 class="text-xl font-semibold">Intégrité</h3>
+                            <p class="line-height-3">
+                                Nous agissons avec honnêteté et transparence dans toutes nos interactions.
+                            </p>
+                        </div>
+                    </p-card>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 p-3">
+                    <p-card styleClass="h-full">
+                        <div class="text-center">
+                            <i class="pi pi-star text-4xl text-green-600 mb-3"></i>
+                            <h3 class="text-xl font-semibold">Excellence</h3>
+                            <p class="line-height-3">
+                                Nous visons l'excellence dans tous nos services et processus.
+                            </p>
+                        </div>
+                    </p-card>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 p-3">
+                    <p-card styleClass="h-full">
+                        <div class="text-center">
+                            <i class="pi pi-users text-4xl text-green-600 mb-3"></i>
+                            <h3 class="text-xl font-semibold">Collaboration</h3>
+                            <p class="line-height-3">
+                                Nous travaillons en synergie avec tous les acteurs pour un service optimal.
+                            </p>
+                        </div>
+                    </p-card>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 p-3">
+                    <p-card styleClass="h-full">
+                        <div class="text-center">
+                            <i class="pi pi-clock text-4xl text-green-600 mb-3"></i>
+                            <h3 class="text-xl font-semibold">Efficacité</h3>
+                            <p class="line-height-3">
+                                Nous optimisons nos processus pour des services rapides et fiables.
+                            </p>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+        </div>
+
         <div class="footer-container bg-gray-900 text-white py-8 px-6 mt-8">
             <div class="grid justify-content-center align-items-center gap-6 lg:gap-12">
                 <!-- Logo and Title Section -->
@@ -179,10 +287,10 @@
                         <div class="col-12 md:col-4">
                             <h4 class="font-bold text-2xl mb-4 text-white">Liens externes</h4>
                             <ul class="space-y-3">
-                                <li><a href="https://drtss.gov.bf" class="text-lg hover:text-gray-300 transition">DRTSS</a></li>
-                                <li><a href="https://e-cnss.gov.bf" class="text-lg hover:text-gray-300 transition">e-CNSS</a></li>
+                                <li><a href="https://www.fonction-publique.gov.bf/" class="text-lg hover:text-gray-300 transition">DRTSS</a></li>
+                                <li><a href="https://eservices.cnss.bf/" class="text-lg hover:text-gray-300 transition">e-CNSS</a></li>
                                 <li><a href="https://justice.gov.bf" class="text-lg hover:text-gray-300 transition">Justice</a></li>
-                                <li><a href="https://esintax.gov.bf" class="text-lg hover:text-gray-300 transition">eSINTAX</a></li>
+                                <li><a href="https://esintax.bf/" class="text-lg hover:text-gray-300 transition">eSINTAX</a></li>
                             </ul>
                         </div>
         
@@ -190,8 +298,9 @@
                         <div class="col-12 md:col-4 mt-6 md:mt-0">
                             <h4 class="font-bold text-2xl mb-4 text-white">Sites officiels</h4>
                             <ul class="space-y-3">
-                                <li><a href="https://finances.gov.bf" class="text-lg hover:text-gray-300 transition">Ministère | finances.gov.bf</a></li>
-                                <li><a href="https://dgi.bf" class="text-lg hover:text-gray-300 transition">DGI | dgi.bf</a></li>
+                                <li><a href="https://finances.gov.bf" class="text-lg hover:text-gray-300 transition">Ministère en charge des finances</a></li>
+                                <li><a href="https://dgcmef.gov.bf/" class="text-lg hover:text-gray-300 transition">DGCMEF</a></li>
+                                <li><a href="https://dgi.bf" class="text-lg hover:text-gray-300 transition">DGI</a></li>
                             </ul>
                         </div>
                     </div>

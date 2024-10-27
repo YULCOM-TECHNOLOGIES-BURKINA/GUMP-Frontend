@@ -10,6 +10,9 @@ import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import {SlideMenuModule} from 'primeng/slidemenu';
+import { FAQComponent } from './faq/faq.component';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from "primeng/inputtext";
 
 @NgModule({
     imports: [
@@ -22,8 +25,10 @@ import {SlideMenuModule} from 'primeng/slidemenu';
         ButtonModule,
         MenuModule,
         MenubarModule,
-        SlideMenuModule
+        SlideMenuModule,
+        CardModule,
+        InputTextModule
     ],
-    declarations: [LandingComponent]
+    declarations: [LandingComponent, FAQComponent]
 })
 export class LandingModule { }

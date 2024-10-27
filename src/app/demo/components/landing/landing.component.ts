@@ -10,6 +10,7 @@ import { MenuItem } from 'primeng/api';
 export class LandingComponent implements OnInit {
 
   items: MenuItem[] = [];
+  statistics: any[] = [];
 
   actes: { label: string, description: string, slug: string }[] = [
       {
@@ -65,15 +66,21 @@ export class LandingComponent implements OnInit {
         icon: 'pi pi-home',
         routerLink: ['/']
       },
+      // {
+      //   label: 'À propos',
+      //   icon: 'pi pi-info-circle',
+      //   routerLink: ['/about']
+      // },
+      
       {
-        label: 'À propos',
-        icon: 'pi pi-info-circle',
-        routerLink: ['/about']
-      },
-      {
-        label: 'Guide',
+        label: 'Guide d\'utilisation',
         icon: 'pi pi-book',
         items: [
+          {
+            label: 'Textes reglémentaires',
+            icon: 'pi pi-file-pdf',
+            routerLink: ['/about']
+          },
           {
             label: 'DRTSS',
             icon: 'pi pi-file',
@@ -102,14 +109,46 @@ export class LandingComponent implements OnInit {
         ]
       },
       {
+        label: 'Vérification',
+        icon: 'pi pi-check-circle',
+        routerLink: ['/about']
+      },
+      {
         label: 'FAQ',
         icon: 'pi pi-question-circle',
         routerLink: ['/faq']
+      }
+      // {
+      //   label: 'Contact',
+      //   icon: 'pi pi-envelope',
+      //   routerLink: ['/contact']
+      // }
+    ];
+
+    this.statistics = [
+      {
+        value: '50K+',
+        label: 'Utilisateurs',
+        icon: 'pi pi-users',
+        color: 'bg-green-100 text-green-700'
       },
       {
-        label: 'Contact',
-        icon: 'pi pi-envelope',
-        routerLink: ['/contact']
+        value: '100K+',
+        label: 'Documents traités',
+        icon: 'pi pi-file',
+        color: 'bg-blue-100 text-blue-700'
+      },
+      {
+        value: '99.9%',
+        label: 'Disponibilité',
+        icon: 'pi pi-check-circle',
+        color: 'bg-purple-100 text-purple-700'
+      },
+      {
+        value: '24/7',
+        label: 'Support',
+        icon: 'pi pi-phone',
+        color: 'bg-yellow-100 text-yellow-700'
       }
     ];
   }
