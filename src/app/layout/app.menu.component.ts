@@ -43,7 +43,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Attestation CNSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/cnss'], visible: this.userRole === 'admin' },
                     { label: 'Attestation Situation Fiscale', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/situation-fiscale'], visible: this.userRole === 'admin' },
                     { label: 'Certificat de non faillite', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/cnf'], visible: this.userRole === 'admin' },
-                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole === 'admin' },
+                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole === 'admin' || this.userRole === 'admin_aje' },
                     { label: 'RCCM', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/rccm'], visible: this.userRole === 'admin' },
                 ]
             },

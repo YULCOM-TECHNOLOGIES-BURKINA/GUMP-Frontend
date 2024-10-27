@@ -34,8 +34,8 @@ export class AjeService {
     return this.http.get(`${this.apiUrl}/${requestId}`);
   }
 
-  approveRequest(requestId: number, requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, requestData, {
+  approveRequest(requestId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/approve`, {
       headers: { 'Content-Type': 'application/json' }
     });
   }
