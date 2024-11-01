@@ -27,7 +27,7 @@ jobs:
 
     - name: Build
       run: |
-        ng build
+        ng build --base-href="/dist/gump/" --deploy-url="/dist/gump/"
         ls
     - name: Copy build to remote server
       uses: appleboy/scp-action@master
