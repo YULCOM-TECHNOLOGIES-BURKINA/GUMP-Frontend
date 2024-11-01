@@ -29,7 +29,8 @@
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
                                 <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
-                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="contractReference">Reference du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="contractPurpose">Objet du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
                             </tr>
@@ -42,7 +43,8 @@
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <td>{{ request.id }}</td>
-                                <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>{{ request.contractReference }}</td>
+                                <td>{{ request.contractPurpose }}</td>
                                 <td>
                                     <span class="p-badge p-badge-info">{{ getTranslatedStatus(request.status) }}</span>
                                 </td>
@@ -50,7 +52,10 @@
                                     <!-- Boutons d'action -->
                                     <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                     <button pButton pRipple icon="pi pi-clock" class="p-button-outlined p-button-success mr-2" 
-                                    (click)="processReviewRequest(request.id)" pTooltip="Traiter la demande" tooltipPosition="bottom"></button>
+                                    (click)="processReviewRequest(request.id)" pTooltip="Traiter la demande" tooltipPosition="bottom"></button> 
+                                    <!-- TODO: à implementer coté back -->
+                                    <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-success mr-2"
+                                    (click)="processRequest(request.id)" pTooltip="Valider la demande" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -81,7 +86,8 @@
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
                                 <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
-                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="contractReference">Reference du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="contractPurpose">Objet du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
                             </tr>
@@ -92,7 +98,8 @@
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <td>{{ request.id }}</td>
-                                <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>{{ request.contractReference }}</td>
+                                <td>{{ request.contractPurpose }}</td>
                                 <td>
                                     <span class="p-badge p-badge-primary">{{ getTranslatedStatus(request.status) }}</span>
                                 </td>
@@ -119,7 +126,8 @@
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
                                 <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
-                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="contractReference">Reference du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="contractPurpose">Objet du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
                             </tr>
@@ -130,7 +138,8 @@
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <td>{{ request.id }}</td>
-                                <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>{{ request.contractReference }}</td>
+                                <td>{{ request.contractPurpose }}</td>
                                 <td>
                                     <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
                                 </td>
@@ -149,45 +158,26 @@
 
     <p-dialog header="Détails de la demande" [(visible)]="displayProcessDetailModal" [modal]="true" [style]="{width: '500px'}" *ngIf="request">
         <div class="grid">
-            <!-- <div class="col-12">
-                <span class="font-bold">Entreprise: {{ one.company.name }}</span>
-            </div>
-            <div class="col-6">
-                <p><strong>Localisation: </strong> {{ one.company.location }}</p>
-                <p><strong>BP: </strong> {{ one.company.bp }}</p>
-            </div>
-            <div class="col-6">
-                <p><strong>Adresse: </strong> {{ one.company.address }}</p>
-                <p><strong>Téléphone: </strong> {{ one.company.phone }}</p>
-            </div>
-            <div class="col-6 mt-2">
-                <span><strong>N° Attestation ANPE: </strong> {{ one.anpeNumber }}</span>
-            </div>
-            <div class="col-6 mt-2">
-                <span><strong>N° Attestation CNSS: </strong> {{ one.cnssNumber }} </span>
-            </div> -->
-
             <div class="col-12">
-                <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
+                <span class="font-bold">Entreprise: {{request.requesterId }}</span>
             </div>
             <div class="col-6">
-                <p><strong>Localisation: </strong> Ouagadougou</p>
-                <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
+                <p><strong>Localisation: </strong> {{request.address }}</p>
+                <p><strong>Téléphone: </strong>{{request.phoneNumber }}</p>
             </div>
             <div class="col-6">
-                <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
-                <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
+                <p><strong>RCCM: </strong> {{request.rccmNumber }}</p>
+                <p><strong>IFU: </strong>{{request.ifuNumber }}</p>
             </div>
-            <div class="col-12 mt-2 flex" *ngIf="request.files">            
-                <button 
-                    *ngFor="let file of request.files"
-                    pButton 
-                    pRipple 
-                    icon="pi pi-download" 
-                    [label]="'Télécharger ' + file.label"
-                    class="p-button-secondary p-button-outlined mr-2"
-                    (click)="download(file)" >
-                </button>
+
+            <div class="col-6">
+                <p><strong>Refrence du contrat: </strong> {{request.contractReference }}</p>
+                <p><strong>Objet du contrat: </strong>{{request.contractPurpose }}</p>
+            </div>
+
+            <div class="col-6">
+                <p><strong>Organisme attribuant le marché: </strong> {{request.contractingOrganizationName }}</p>
+                <p><strong>Adresse: </strong>{{request.organizationAddress }}</p>
             </div>
         </div>
     </p-dialog>

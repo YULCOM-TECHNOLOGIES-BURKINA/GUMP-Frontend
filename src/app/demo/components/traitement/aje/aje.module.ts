@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TraitementDrtssRoutingModule } from './drtss-routing.module';
+import { TraitementAjeRoutingModule } from './aje-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
@@ -14,7 +14,7 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
-import { TraitementDrtssComponent } from './drtss.component';
+import { TraitementAjeComponent } from './aje.component';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 
@@ -27,10 +27,10 @@ import { TooltipModule } from 'primeng/tooltip';
 import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
-  declarations: [TraitementDrtssComponent],
+  declarations: [TraitementAjeComponent],
   imports: [
     CommonModule,
-    TraitementDrtssRoutingModule,
+    TraitementAjeRoutingModule,
     FormsModule,
 		AutoCompleteModule,
 		CalendarModule,
@@ -56,4 +56,4 @@ import { TabViewModule } from 'primeng/tabview';
     
   ]
 })
-export class DrtssModule { }
+export class AjeModule { }

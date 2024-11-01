@@ -19,7 +19,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
-
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [DemandesComponent],
@@ -40,7 +40,8 @@ import { TooltipModule } from 'primeng/tooltip';
     RadioButtonModule,
     InputNumberModule,
     DialogModule,
-		TooltipModule
+		TooltipModule,
+    TabViewModule
   ]
 })
 export class DemandesModule { }

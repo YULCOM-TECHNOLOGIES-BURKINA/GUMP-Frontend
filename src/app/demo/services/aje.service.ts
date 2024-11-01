@@ -1,27 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DemandeDrtss, DemandeDrtssResponse } from '../models/drtss';
+import { DemandeAje, DemandeAjeResponse } from '../models/aje';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DrtssService {
+export class AjeService {
 
-  private apiUrl = 'http://54.37.13.176:8082/api/demandes'; 
+  private apiUrl = 'http://54.37.13.176:8080/api/demandes'; 
 
   constructor(private http: HttpClient) {}
 
-  // Méthode pour soumettre la demande d'attestation
-  submitAttestationRequest(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, formData);
+  // submitAttestationRequest(formData: FormData): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}`, formData);
+  // }
+
+  submitAttestationRequest(requestData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, requestData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
-  getDemandes(): Observable<DemandeDrtssResponse> {
-    return this.http.get<DemandeDrtssResponse>(this.apiUrl);  // Récupère les données de type DemandeDrtssResponse
+  getDemandes(): Observable<DemandeAjeResponse> {
+    return this.http.get<DemandeAjeResponse>(this.apiUrl); 
   }
 
-  // Méthode pour obtenir le statut d'une demande
   getRequestStatus(requestId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/status/${requestId}`);
   }
@@ -30,9 +34,8 @@ export class DrtssService {
     return this.http.get(`${this.apiUrl}/${requestId}`);
   }
 
-
-  approveRequest(requestId: number, requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, requestData, {
+  approveRequest(requestId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/approve`, {
       headers: { 'Content-Type': 'application/json' }
     });
   }
@@ -42,6 +45,5 @@ export class DrtssService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
-
 
 }

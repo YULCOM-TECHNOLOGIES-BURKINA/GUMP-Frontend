@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Demande } from '../../../models/demande';
+import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
+import { DemandeAje, DemandeAjeResponse } from '../../../models/aje';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { DemandeService } from '../../../services/demande.service';
+import { DrtssService } from '../../../services/drtss.service';
+import { AjeService } from '../../../services/aje.service';
 
 @Component({
   selector: 'app-demandes',
@@ -14,78 +16,142 @@ export class DemandesComponent implements OnInit {
   deleteRequestDialog: boolean = false;
   deleteRequestsDialog: boolean = false;
 
-  requests: Demande[] = [];
-  request: Demande = {};
+  requestsDrtss: DemandeDrtss[] = [];
+  requestDrtss: DemandeDrtss = {};
 
-  selectedRequests: Demande[] = [];
+  requestsAje: DemandeAje[] = [];
+  requestAje: DemandeAje = {};
+
+  selectedDrtssRequests: DemandeDrtss[] = [];
+  selectedAjeRequests: DemandeAje[] = [];
+
   cols: any[] = [];
 
   displayProcessModal: boolean = false;
+  displayProcessModalAje: boolean = false;
 
-  one: Demande | null = null;
+  totalRecords: number = 0; 
+  totalRecordsAje: number = 0; 
 
-  constructor(private demandeService: DemandeService, private messageService: MessageService) { }
+  countDrtss = 0;
+  countAje= 0;
+
+
+  constructor(private drtssService: DrtssService, private ajeService: AjeService, private messageService: MessageService) { }
 
   ngOnInit() {
-      // Récupération des demandes via un service qui gère l'appel API pour chaque acte.
-      this.demandeService.getDemandes().subscribe(data => {
-        this.requests = data;
-      });
+      this.getDemandesDrtss();
+      this.getDemandesAje();
 
-    //   this.demandeService.getOneDemande().subscribe(data => {
-    //     this.requests = data;
-    //   });
-
-    this.demandeService.getOneDemande().subscribe(data => {
-        this.one = data;
-      });
 
       this.cols = [
           { field: 'acte', header: 'Acte' },
-          { field: 'date', header: 'Date' },
+          { field: 'createdAt', header: 'Date' },
           { field: 'status', header: 'Statut' }
       ];
   }
+
+  getDemandesDrtss() {
+    this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
+      this.requestsDrtss = data.content;
+      this.totalRecords = data.totalElements;
+      this.countDrtss = this.requestsDrtss.length;
+    });
+  }
+
+  getDemandesAje() {
+    this.ajeService.getDemandes().subscribe((data: DemandeAjeResponse) => {
+      this.requestsAje = data.content;
+      this.totalRecordsAje = data.totalElements;
+      this.countAje= this.requestsAje.length;
+    });
+  }
+
+  getTranslatedStatus(status: string): string {
+    switch (status) {
+      case 'APPROVED':
+        return 'Approuvée';
+      case 'PROCESSING':
+        return 'En cours de traitement';
+      case 'REJECTED':
+        return 'Rejetée';
+      case 'PENDING':
+        return 'En attente';
+      default:
+        return status;
+    }
+  }
+
 
   deleteSelectedRequests() {
       this.deleteRequestsDialog = true;
   }
 
-  download() {
+  download(file: any) {
+    console.log('Téléchargement du fichier:', file);
+    const url = file.path;
+    window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
-  editRequest(request: Demande) {
-      this.request = { ...request };
-      // Logique d'édition ici
+  openDownloadRequest(file: any) {
+    console.log('Téléchargement du fichier:', file);
+    const url = file.attestation.path;
+    window.open(url, '_blank');
+    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
-  viewRequest(request: Demande) {
-    this.request = { ...request };
+  openDownloadRequestAje(file: any) {
+    console.log('Téléchargement du fichier:', file);
+    const url = file.attestation.path;
+    window.open(url, '_blank');
+    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
+  }
+
+  editRequest(requestDrtss: DemandeDrtss) {
+      this.requestDrtss = { ...requestDrtss };
+  }
+
+  viewRequest(requestDrtss: DemandeDrtss) {
+    this.drtssService.getOneDemande(requestDrtss.id).subscribe(data => {
+      this.requestDrtss = data;
+    });
     this.displayProcessModal = true;
+  }
+
+
+  viewRequestAje(requestAje: DemandeAje) {
+    this.ajeService.getOneDemande(requestAje.id).subscribe(data => {
+      this.requestAje = data;
+    });
+    this.displayProcessModalAje = true;
   }
 
   closeProcessModal() {
     this.displayProcessModal = false;
   }
 
-  deleteRequest(request: Demande) {
+  closeProcessModalAje() {
+    this.displayProcessModalAje = false;
+  }
+
+  deleteRequest(requestDrtss: DemandeDrtss) {
       this.deleteRequestDialog = true;
-      this.request = { ...request };
+      this.requestDrtss = { ...requestDrtss };
   }
 
   confirmDeleteRequest() {
       this.deleteRequestDialog = false;
-      this.requests = this.requests.filter(val => val.id !== this.request.id);
+      this.requestsDrtss = this.requestsDrtss.filter(val => val.requesterId !== this.requestDrtss.requesterId);
       this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande supprimée', life: 3000 });
-      this.request = {};
+      this.requestDrtss = {};
   }
 
   confirmDeleteSelected() {
       this.deleteRequestsDialog = false;
-      this.requests = this.requests.filter(val => !this.selectedRequests.includes(val));
-      this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demandes supprimées', life: 3000 });
-      this.selectedRequests = [];
+      this.requestsDrtss = this.requestsDrtss.filter(val => !this.selectedDrtssRequests.includes(val));
+      this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Demande supprimées', life: 3000 });
+      this.selectedDrtssRequests = [];
   }
 
   onGlobalFilter(table: Table, event: Event) {
