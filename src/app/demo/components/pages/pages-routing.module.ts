@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
         { path: 'actes/attestation-cnss', loadChildren: () => import('./actes/cnss/cnss.module').then(m => m.CnssModule) },
         { path: 'actes/attestation-rccm', loadChildren: () => import('./actes/rccm/rccm.module').then(m => m.RccmModule) },
         { path: 'actes/certificat-de-non-faillite', loadChildren: () => import('./actes/cnf/cnf.module').then(m => m.CnfModule) },
+        { path: 'actes/attestation-situation-fiscale', loadChildren: () => import('./actes/asf/asf.module').then(m => m.AsfModule) },
         { path: 'utilisateurs', loadChildren: () => import('./utilisateurs/utilisateurs.module').then(m => m.UtilisateursModule) },
         { path: 'profil', loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },
         { path: '**', redirectTo: '/notfound' }
