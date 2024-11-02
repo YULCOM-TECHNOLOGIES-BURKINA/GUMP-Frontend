@@ -5,7 +5,7 @@
             <!-- TabView PrimeNG -->
             <p-tabView>
                 <!-- DRTSS -->
-                <p-tabPanel header="DRTSS ({{ countDrtss }})" leftIcon="pi pi-clock">
+                <p-tabPanel header="DRTPS ({{ countDrtss }})" leftIcon="pi pi-clock">
                     <p-table #dt [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
                     [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                     [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -16,7 +16,7 @@
 
                         <ng-template pTemplate="caption">
                             <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5 class="m-0">Historique de mes demandes d'attestation DRTSS</h5>
+                            <h5 class="m-0">Historique de mes demandes d'attestation DRTPS</h5>
                             <span class="block mt-2 md:mt-0 p-input-icon-left">
                                 <i class="pi pi-search"></i>
                                 <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
