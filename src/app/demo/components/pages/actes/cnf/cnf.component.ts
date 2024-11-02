@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { DrtssService } from '../../../../services/drtss.service';
+import { CnfService } from '../../../../services/cnf.service';
 import { Router } from '@angular/router';
 
 interface UploadEvent {
@@ -8,19 +8,22 @@ interface UploadEvent {
   files: File[];
 }
 
+interface Acte {
+  label: string;
+  code: string;
+}
+
 @Component({
-  selector: 'app-drtss',
+  selector: 'app-cnf',
   providers: [MessageService],
-  templateUrl: './drtss.component.html',
+  templateUrl: './cnf.component.html',
 })
 
 
-export class DrtssComponent {
+export class CnfComponent implements OnInit {
 
-  anpeFile: File | null = null; // Fichier ANPE
-  cnssFile: File | null = null; // Fichier CNSS
-  attestationAnpeNumber: string = '';
-  attestationCnssNumber: string = '';
+  cnfFile: File | null = null; // Fichier RCCM
+  statutFile: File | null = null; // Fichier statut
 
   contractReference: string;
   contractPurpose: string;
@@ -28,34 +31,45 @@ export class DrtssComponent {
   organizationAddress: string;
   organizationPhone: string;
 
+
+  actes: Acte[] | undefined;
+
+  selectedActe: Acte | undefined;
+
   constructor(
     private messageService: MessageService, 
-    private drtssService: DrtssService,
+    private cnfService: CnfService,
     private router: Router) {}
+
+  ngOnInit() {
+    this.actes = [
+        { label: 'Test 1', code: 'T01' },
+        { label: 'Test 2', code: 'T02' },
+        { label: 'Label 3', code: 'B03' }
+    ];
+  }
 
   // Méthode pour gérer la sélection des fichiers
   onFileSelect(event: any, fileType: string) {
     const file = event.files[0];
-    if (fileType === 'anpeFile') {
-      this.anpeFile = file;
-    } else if (fileType === 'cnssFile') {
-      this.cnssFile = file;
+    if (fileType === 'cnfFile') {
+      this.cnfFile = file;
+    } else if (fileType === 'statutFile') {
+      this.statutFile = file;
     }
     this.messageService.add({ severity: 'info', summary: 'Fichier chargé', detail: `${file.name} a été chargé.` });
   }
 
   // Méthode pour soumettre le formulaire
   onSubmit() {
-    if (this.anpeFile && this.cnssFile) {
+    if (this.cnfFile && this.statutFile) {
       const formData = new FormData();
-      formData.append('attestationAnpe', this.anpeFile);
-      formData.append('attestationCnss', this.cnssFile);
-      formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
-      formData.append('attestationCnssNumber', this.attestationCnssNumber);
-      // formData.append('requesterId', '02152');
+      formData.append('cnf', this.cnfFile);
+      formData.append('statut', this.statutFile);
 
       // Appel au service pour envoyer les fichiers
-      this.drtssService.submitAttestationRequest(formData).subscribe({
+      // TODO: envoyer directement dans le même opbjet les informations sur l'utlisateur et sur l'entrerpise
+      this.cnfService.submitAttestationRequest(formData).subscribe({
         next: (response) => {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !' });
           setTimeout(() => {

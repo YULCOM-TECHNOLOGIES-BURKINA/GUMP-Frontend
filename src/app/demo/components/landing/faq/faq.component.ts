@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 
 interface FAQCategory {
   icon: string;
@@ -17,17 +16,11 @@ interface FAQ {
   templateUrl: './faq.component.html'
 })
 export class FAQComponent implements OnInit {
-  breadcrumbItems: MenuItem[] = [];
   categories: FAQCategory[] = [];
   selectedCategory: FAQCategory | null = null;
   searchQuery: string = '';
 
   ngOnInit() {
-    this.breadcrumbItems = [
-      { label: 'Accueil', routerLink: '/' },
-      { label: 'FAQ' }
-    ];
-
     this.categories = [
       {
         icon: 'pi pi-file',

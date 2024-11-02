@@ -1,7 +1,7 @@
 <div class="grid">
 	<div class="col-12">
 		<div class="card">
-			<h5>Fiche de demande et de retrait d'attestation de non engament</h5>
+			<h5>Fiche de demande et de retrait d'attestation de non engagement</h5>
 			<div class="p-fluid p-formgrid grid">
                 <div class="card  justify-content-center gap-3 col-12">
                     <div class="flex align-items-center">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                <div class="col-6 mt-2">
+                <!-- <div class="col-6 mt-2">
                     <span>Identifiant du demandeur</span>
                     <input pInputText id="attestationAnpeNumber"  placeholder="Identifiant du demandeur" required />
                 </div>
@@ -48,20 +48,21 @@
                 <div class="col-6 mt-2">
                     <span>Numéro de téléphone</span>
                     <input [(ngModel)]="phoneNumber" pInputText id="phoneNumber"  placeholder="Numéro de téléphone" required />
-                </div>
-                <div class="col-4 mt-2">
-                    <span>Reference du compte bancaire</span>
-                    <input [(ngModel)]="bankAccountReference" pInputText id="bankAccountReference"  placeholder="Reference du compte bancaire" required />
-                </div>
-                <div class="col-4 mt-2">
+                </div> -->
+                
+                <div class="col-3 mt-2">
                     <span>Reference du contrat</span>
                     <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du contrat" required />
                 </div>
-                <div class="col-4 mt-2">
+                <div class="col-6 mt-2">
                     <span>Objet du contrat</span>
                     <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du contrat" required />
                 </div>
-                <div class="col-4 mt-2">
+                <div class="col-3 mt-2">
+                    <span>Compte bancaire</span>
+                    <input [(ngModel)]="bankAccountReference" pInputText id="bankAccountReference"  placeholder="Reference du compte " required />
+                </div>
+                <div class="col-5 mt-2">
                     <span>Identité de l'organisme attribuant le marché</span>
                     <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
                 </div>
@@ -69,7 +70,7 @@
                     <span>Adresse</span>
                     <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
                 </div>
-                <div class="col-4 mt-2">
+                <div class="col-3 mt-2">
                     <span>Numéro de téléphone</span>
                     <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
                 </div>

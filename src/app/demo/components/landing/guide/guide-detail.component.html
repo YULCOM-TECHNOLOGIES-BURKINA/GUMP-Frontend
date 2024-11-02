@@ -1,0 +1,143 @@
+<div class="surface-ground">
+    <app-header></app-header>
+    <div class="py-4 px-4 mx-0 md:mx-6 lg:mx-8">
+        <!-- Header avec breadcrumb et actions -->
+        <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+            <div>
+                <!-- <nav class="text-600 mb-3">
+                    -- <a [routerLink]="['/guide']" class="text-green-600 hover:text-green-700 no-underline">Guide</a> --
+                    <a class="text-green-600 hover:text-green-700 no-underline">Guide</a>
+                    <span class="px-2">/</span>
+                    <span class="text-900">{{act?.title}}</span>
+                </nav> -->
+                <h1 class="text-4xl font-bold text-900 m-0">{{act?.title}}</h1>
+            </div>
+            <div class="mt-3 md:mt-0">
+                <button pButton 
+                        label="Faire une demande" 
+                        icon="pi pi-file-edit" 
+                        class="p-button-success p-button-rounded"
+                        >
+                </button>
+            </div>
+        </div>
+
+        <!-- Grille d'informations principales -->
+        <div class="grid">
+            <!-- Carte d'aperçu -->
+            <div class="col-12 lg:col-4">
+                <div class="surface-card p-4 shadow-2 border-round-xl">
+                    <div class="flex align-items-center gap-3 mb-4">
+                        <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
+                            <i [class]="act?.icon + ' text-2xl text-green-600'"></i>
+                        </span>
+                        <div>
+                            <p class="text-600 m-0">Structure émettrice</p>
+                            <h3 class="text-900 font-medium m-0">{{act?.organization}}</h3>
+                        </div>
+                    </div>
+
+                    <ul class="list-none p-0 m-0">
+                        <li class="flex align-items-center gap-3 mb-3 pb-3 border-bottom-1 surface-border">
+                            <i class="pi pi-clock text-600"></i>
+                            <div>
+                                <p class="text-600 m-0">Validité</p>
+                                <p class="text-900 font-medium m-0">{{act?.validityPeriod}}</p>
+                            </div>
+                        </li>
+                        <li class="flex align-items-center gap-3 mb-3 pb-3 border-bottom-1 surface-border">
+                            <i class="pi pi-calendar text-600"></i>
+                            <div>
+                                <p class="text-600 m-0">Délai de traitement</p>
+                                <p class="text-900 font-medium m-0">{{act?.processingTime}}</p>
+                            </div>
+                        </li>
+                        <li class="flex align-items-center gap-3">
+                            <i class="pi pi-wallet text-600"></i>
+                            <div>
+                                <p class="text-600 m-0">Prix</p>
+                                <p class="text-900 font-medium m-0">{{act?.price}}</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contenu principal -->
+            <div class="col-12 lg:col-8">
+                <!-- Description et utilisation -->
+                <div class="surface-card p-4 shadow-2 border-round-xl mb-4">
+                    <h2 class="text-2xl font-bold text-900 mb-4">Description et utilisation</h2>
+                    <p class="line-height-3 text-700">{{act?.description}}</p>
+                    
+                    <h3 class="text-xl font-semibold text-900 mt-4 mb-3">Cas d'utilisation</h3>
+                    <ul class="m-0 p-0 list-none">
+                        <li *ngFor="let usage of act?.usages" class="flex align-items-center gap-2 mb-2">
+                            <i class="pi pi-check-circle text-green-600"></i>
+                            <span class="text-700">{{usage}}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Prérequis et conditions -->
+                <div class="surface-card p-4 shadow-2 border-round-xl mb-4">
+                    <h2 class="text-2xl font-bold text-900 mb-4">Prérequis et conditions</h2>
+                    
+                    <h3 class="text-xl font-semibold text-900 mb-3">Documents requis</h3>
+                    <ul class="m-0 p-0 list-none">
+                        <li *ngFor="let doc of act?.requiredDocuments" class="flex align-items-center gap-2 mb-2">
+                            <i class="pi pi-file text-600"></i>
+                            <span class="text-700">{{doc}}</span>
+                        </li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold text-900 mt-4 mb-3">Attestations préalables</h3>
+                    <div class="grid">
+                        <div *ngFor="let prerequisite of act?.prerequisites" class="col-12 md:col-6">
+                            <div class="surface-ground border-round-xl p-3">
+                                <div class="flex align-items-center gap-2">
+                                    <i class="pi pi-link text-600"></i>
+                                    <span class="text-900 font-medium">{{prerequisite.title}}</span>
+                                </div>
+                                <p class="text-600 mt-2 mb-0">{{prerequisite.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cadre légal -->
+                <div class="surface-card p-4 shadow-2 border-round-xl mb-4">
+                    <h2 class="text-2xl font-bold text-900 mb-4">Cadre légal</h2>
+                    <p-accordion [multiple]="true">
+                        <p-accordionTab *ngFor="let text of act?.legalTexts" [header]="text.title">
+                            <p class="text-700 line-height-3">{{text.content}}</p>
+                            <div *ngIf="text.link" class="mt-3">
+                                <a [href]="text.link" 
+                                   target="_blank"
+                                   class="text-green-600 hover:text-green-700 no-underline">
+                                    <i class="pi pi-external-link mr-2"></i>
+                                    Consulter le texte complet
+                                </a>
+                            </div>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
+
+                <!-- Guide étape par étape -->
+                <div class="surface-card p-4 shadow-2 border-round-xl">
+                    <h2 class="text-2xl font-bold text-900 mb-4">Étapes de la demande</h2>
+                    <p-timeline [value]="act?.steps" layout="vertical">
+                        <ng-template pTemplate="content" let-step>
+                            <div class="flex flex-column gap-2">
+                                <span class="text-xl font-medium text-900">{{step.title}}</span>
+                                <p class="text-700 line-height-3 m-0">{{step.description}}</p>
+                                <img *ngIf="step.image" [src]="step.image" [alt]="step.title" class="border-round-xl shadow-2 mt-2">
+                            </div>
+                        </ng-template>
+                    </p-timeline>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer></app-footer>  
+</div>

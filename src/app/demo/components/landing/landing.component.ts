@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { MenuItem } from 'primeng/api';
 
 @Component({
     selector: 'app-landing',
@@ -9,7 +8,6 @@ import { MenuItem } from 'primeng/api';
 })
 export class LandingComponent implements OnInit {
 
-  items: MenuItem[] = [];
   statistics: any[] = [];
 
   actes: { label: string, description: string, slug: string }[] = [
@@ -60,70 +58,6 @@ export class LandingComponent implements OnInit {
   constructor(public layoutService: LayoutService, public router: Router) { }
 
   ngOnInit() {
-    this.items = [
-      {
-        label: 'Accueil',
-        icon: 'pi pi-home',
-        routerLink: ['/']
-      },
-      // {
-      //   label: 'À propos',
-      //   icon: 'pi pi-info-circle',
-      //   routerLink: ['/about']
-      // },
-      
-      {
-        label: 'Guide d\'utilisation',
-        icon: 'pi pi-book',
-        items: [
-          {
-            label: 'Textes reglémentaires',
-            icon: 'pi pi-file-pdf',
-            routerLink: ['/about']
-          },
-          {
-            label: 'DRTSS',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/drtss']
-          },
-          {
-            label: 'AJE',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/aje']
-          },
-          {
-            label: 'CNSS',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/cnss']
-          },
-          {
-            label: 'ANPE',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/anpe']
-          },
-          {
-            label: 'ASF',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/asf']
-          }
-        ]
-      },
-      {
-        label: 'Vérification',
-        icon: 'pi pi-check-circle',
-        routerLink: ['/about']
-      },
-      {
-        label: 'FAQ',
-        icon: 'pi pi-question-circle',
-        routerLink: ['/faq']
-      }
-      // {
-      //   label: 'Contact',
-      //   icon: 'pi pi-envelope',
-      //   routerLink: ['/contact']
-      // }
-    ];
 
     this.statistics = [
       {
