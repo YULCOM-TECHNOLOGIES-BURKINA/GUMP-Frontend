@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
+import { DemandeAnpe, DemandeAnpeResponse } from '../../../models/anpe';
 import { DemandeAje, DemandeAjeResponse } from '../../../models/aje';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { DrtssService } from '../../../services/drtss.service';
+import { AnpeService } from '../../../services/anpe.service';
 import { AjeService } from '../../../services/aje.service';
 
 @Component({
@@ -22,27 +24,38 @@ export class DemandesComponent implements OnInit {
   requestsAje: DemandeAje[] = [];
   requestAje: DemandeAje = {};
 
+  requestsAnpe: DemandeAnpe[] = [];
+  requestAnpe: DemandeAnpe = {};
+
   selectedDrtssRequests: DemandeDrtss[] = [];
   selectedAjeRequests: DemandeAje[] = [];
+  selectedAnpeRequests: DemandeAnpe[] = [];
 
   cols: any[] = [];
 
   displayProcessModal: boolean = false;
   displayProcessModalAje: boolean = false;
+  displayProcessModalAnpe: boolean = false;
 
   totalRecords: number = 0; 
   totalRecordsAje: number = 0; 
+  totalRecordsAnpe: number = 0; 
 
   countDrtss = 0;
   countAje= 0;
+  countAnpe= 0;
 
 
-  constructor(private drtssService: DrtssService, private ajeService: AjeService, private messageService: MessageService) { }
+  constructor(
+    private drtssService: DrtssService, 
+    private ajeService: AjeService, 
+    private anpeService: AnpeService, 
+    private messageService: MessageService) { }
 
   ngOnInit() {
       this.getDemandesDrtss();
       this.getDemandesAje();
-
+      this.getDemandesAnpe();
 
       this.cols = [
           { field: 'acte', header: 'Acte' },
@@ -67,6 +80,14 @@ export class DemandesComponent implements OnInit {
     });
   }
 
+  getDemandesAnpe() {
+    this.anpeService.getDemandes().subscribe((data: DemandeAnpeResponse) => {
+      this.requestsAnpe = data.content;
+      this.totalRecordsAnpe = data.totalElements;
+      this.countAnpe= this.requestsAnpe.length;
+    });
+  }
+
   getTranslatedStatus(status: string): string {
     switch (status) {
       case 'APPROVED':
@@ -88,21 +109,18 @@ export class DemandesComponent implements OnInit {
   }
 
   download(file: any) {
-    console.log('Téléchargement du fichier:', file);
     const url = file.path;
     window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
   openDownloadRequest(file: any) {
-    console.log('Téléchargement du fichier:', file);
     const url = file.attestation.path;
     window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
   openDownloadRequestAje(file: any) {
-    console.log('Téléchargement du fichier:', file);
     const url = file.attestation.path;
     window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
@@ -127,12 +145,23 @@ export class DemandesComponent implements OnInit {
     this.displayProcessModalAje = true;
   }
 
+  viewRequestAnpe(requestAnpe: DemandeAnpe) {
+    this.anpeService.getOneDemande(requestAnpe.id).subscribe(data => {
+      this.requestAnpe = data;
+    });
+    this.displayProcessModalAnpe = true;
+  }
+
   closeProcessModal() {
     this.displayProcessModal = false;
   }
 
   closeProcessModalAje() {
     this.displayProcessModalAje = false;
+  }
+  
+  closeProcessModalAnpe() {
+    this.displayProcessModalAnpe = false;
   }
 
   deleteRequest(requestDrtss: DemandeDrtss) {

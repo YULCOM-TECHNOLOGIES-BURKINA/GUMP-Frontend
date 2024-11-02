@@ -113,30 +113,67 @@
                         </ng-template>
                     </p-table>
                 </p-tabPanel>
+
+                <!-- ANPE -->
+                <p-tabPanel header="ANPE ({{ countAnpe }})" leftIcon="pi pi-clock">
+                    <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                    [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                    [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                    [showCurrentPageReport]="true" 
+                    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                    [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                    selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                        <ng-template pTemplate="caption">
+                            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                            <h5 class="m-0">Historique de mes demandes d'attestation ANPE</h5>
+                            <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                            </span>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                                <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-requestAnpe>
+                            <tr>
+                                <td>
+                                    <span class="p-column-title">Acte</span>
+                                    Demande d'attestation de soumission au marchés publics
+                                </td>
+                                <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>
+                                    <span class="p-badge" [ngClass]="{
+                                    'p-badge-success': requestAnpe.status === 'APPROVED',
+                                        'p-badge-primary': requestAnpe.status === 'PROCESSING',
+                                        'p-badge-danger': requestAnpe.status === 'REJECTED',
+                                        'p-badge-info': requestAnpe.status === 'PENDING'
+                                    }">
+                                    {{ getTranslatedStatus(requestAnpe.status) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                    <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                    class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                    pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
             </p-tabView>
         </div>
 
         <!-- Dialogs -->
         <p-dialog header="Détails de la demande DRTSS" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '500px'}" *ngIf="requestDrtss">
             <div class="grid">
-                <!-- <div class="col-12">
-                    <span class="font-bold">Entreprise: {{ one.company.name }}</span>
-                </div>
-                <div class="col-6">
-                    <p><strong>Localisation: </strong> {{ one.company.location }}</p>
-                    <p><strong>BP: </strong> {{ one.company.bp }}</p>
-                </div>
-                <div class="col-6">
-                    <p><strong>Adresse: </strong> {{ one.company.address }}</p>
-                    <p><strong>Téléphone: </strong> {{ one.company.phone }}</p>
-                </div>
-                <div class="col-6 mt-2">
-                    <span><strong>N° Attestation ANPE: </strong> {{ one.anpeNumber }}</span>
-                </div>
-                <div class="col-6 mt-2">
-                    <span><strong>N° Attestation CNSS: </strong> {{ one.cnssNumber }} </span>
-                </div> -->
-
                 <div class="col-12">
                     <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
                 </div>
@@ -185,6 +222,34 @@
                 <div class="col-6">
                     <p><strong>Organisme attribuant le marché: </strong> {{requestAje.contractingOrganizationName }}</p>
                     <p><strong>Adresse: </strong>{{requestAje.organizationAddress }}</p>
+                </div>
+            </div>
+        </p-dialog>
+
+        <p-dialog header="Détails de la demande ANPE" [(visible)]="displayProcessModalAnpe" [modal]="true" [style]="{width: '500px'}" *ngIf="requestAnpe">
+            <div class="grid">
+                <div class="col-12">
+                    <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
+                </div>
+                <div class="col-6">
+                    <p><strong>Localisation: </strong> Ouagadougou</p>
+                    <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
+                </div>
+                <div class="col-6">
+                    <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
+                    <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
+                </div>
+
+                <div class="col-12 mt-2 flex" *ngIf="requestAnpe.files">            
+                    <button 
+                    *ngFor="let file of requestAnpe.files"
+                        pButton 
+                        pRipple 
+                        icon="pi pi-download" 
+                        [label]="'Télécharger ' + file.label"
+                        class="p-button-secondary p-button-outlined mr-2"
+                        (click)="download(file)" >
+                    </button>
                 </div>
             </div>
         </p-dialog>
