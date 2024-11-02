@@ -25,6 +25,13 @@ export class AnpeComponent implements OnInit {
   rccmFile: File | null = null; // Fichier RCCM
   statutFile: File | null = null; // Fichier statut
 
+  contractReference: string;
+  contractPurpose: string;
+  contractingOrganizationName: string;
+  organizationAddress: string;
+  organizationPhone: string;
+
+
   actes: Acte[] | undefined;
 
   selectedActe: Acte | undefined;
