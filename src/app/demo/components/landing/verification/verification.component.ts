@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 
 
@@ -19,7 +18,6 @@ interface VerificationResult {
   providers: [MessageService]
 })
 export class VerificationComponent implements OnInit {
-  items: MenuItem[] = [];
   reference: string = '';
   loading: boolean = false;
   showResult: boolean = false;
@@ -36,66 +34,7 @@ export class VerificationComponent implements OnInit {
 
   constructor(private messageService: MessageService) {}
 
-  ngOnInit() {
-    this.items = [
-      {
-        label: 'Accueil',
-        icon: 'pi pi-home',
-        routerLink: ['/']
-      },
-      {
-        label: 'Guide d\'utilisation',
-        icon: 'pi pi-book',
-        items: [
-          {
-            label: 'Textes reglémentaires',
-            icon: 'pi pi-file-pdf',
-            routerLink: ['/about']
-          },
-          {
-            label: 'DRTSS',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/drtss']
-          },
-          {
-            label: 'AJE',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/aje']
-          },
-          {
-            label: 'CNSS',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/cnss']
-          },
-          {
-            label: 'ANPE',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/anpe']
-          },
-          {
-            label: 'ASF',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/asf']
-          }
-        ]
-      },
-      {
-        label: 'Vérification',
-        icon: 'pi pi-check-circle',
-        routerLink: ['/verification']
-      },
-      {
-        label: 'FAQ',
-        icon: 'pi pi-question-circle',
-        routerLink: ['/faq']
-      }
-      // {
-      //   label: 'Contact',
-      //   icon: 'pi pi-envelope',
-      //   routerLink: ['/contact']
-      // }
-    ];
-  }
+  ngOnInit() { }
 
   verify() {
     if (!this.reference || !this.selectedDocType) {

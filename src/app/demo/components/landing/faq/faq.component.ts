@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 
 interface FAQCategory {
   icon: string;
@@ -21,68 +20,7 @@ export class FAQComponent implements OnInit {
   selectedCategory: FAQCategory | null = null;
   searchQuery: string = '';
 
-  items: MenuItem[] = [];
-
   ngOnInit() {
-    this.items = [
-      {
-        label: 'Accueil',
-        icon: 'pi pi-home',
-        routerLink: ['/']
-      },
-      {
-        label: 'Guide d\'utilisation',
-        icon: 'pi pi-book',
-        items: [
-          {
-            label: 'Textes reglémentaires',
-            icon: 'pi pi-file-pdf',
-            routerLink: ['/about']
-          },
-          {
-            label: 'DRTSS',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/drtss']
-          },
-          {
-            label: 'AJE',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/aje']
-          },
-          {
-            label: 'CNSS',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/cnss']
-          },
-          {
-            label: 'ANPE',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/anpe']
-          },
-          {
-            label: 'ASF',
-            icon: 'pi pi-file',
-            routerLink: ['/guide/asf']
-          }
-        ]
-      },
-      {
-        label: 'Vérification',
-        icon: 'pi pi-check-circle',
-        routerLink: ['/verification']
-      },
-      {
-        label: 'FAQ',
-        icon: 'pi pi-question-circle',
-        routerLink: ['/faq']
-      }
-      // {
-      //   label: 'Contact',
-      //   icon: 'pi pi-envelope',
-      //   routerLink: ['/contact']
-      // }
-    ];
-
     this.categories = [
       {
         icon: 'pi pi-file',

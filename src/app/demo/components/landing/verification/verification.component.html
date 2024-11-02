@@ -1,33 +1,6 @@
 <div class="surface-0">
     <div id="home" class="landing-wrapper overflow-hidden">
-        <div class="py-3 px-4 mx-0 md:mx-6 lg:mx-10 lg:px-10 flex align-items-center justify-content-between relative lg:static">
-            <a class="flex align-items-center" href="#">
-                <img src="assets/image.png" alt="GUMP Logo" height="50" class="mr-0 lg:mr-2">
-                <span class="text-900 font-bold text-2xl line-height-3 mr-2">Guichet Unique des Marchés Publics</span>
-            </a>
-    
-            <div class="flex align-items-center">
-                <!-- Desktop Menu -->
-                <div class="hidden lg:flex">
-                    <p-menubar [model]="items" [style]="{'border': 'none', 'background': 'transparent'}" styleClass="custom-menubar">
-                        <ng-template pTemplate="end">
-                            <button routerLink="/auth/login" pButton pRipple label="Connexion" 
-                                    class="p-button border-none font-semibold bg-green-600 hover:bg-green-700 transition-colors transition-duration-150"
-                                    style="border-radius: 2rem;">
-                            </button>
-                        </ng-template>
-                    </p-menubar>
-                </div>
-    
-                <!-- Mobile Menu -->
-                <div class="flex lg:hidden">
-                    <p-slideMenu #slideMenu [model]="items" [popup]="true" [viewportHeight]="300"></p-slideMenu>
-                    <button #btn type="button" pButton icon="pi pi-bars" 
-                            (click)="slideMenu.toggle($event)" 
-                            class="p-button-text p-button-rounded"></button>
-                </div>
-            </div>
-        </div>
+        <app-header></app-header>
 
 
         <div class="verification-wrapper overflow-hidden">
@@ -142,51 +115,7 @@
             <p-toast position="top-right"></p-toast>
         </div>
 
-        <div class="footer-container bg-gray-900 text-white py-8 px-6 mt-8">
-            <div class="grid justify-content-center align-items-center gap-6 lg:gap-12">
-                <!-- Logo and Title Section -->
-                <div class="col-12 md:col-3 text-center md:text-left">
-                    <a href="/" class="flex flex-wrap align-items-center justify-content-center md:justify-content-start mb-6 md:mb-0">
-                        <img src="assets/image.png" alt="logo guichet" width="125" height="150" class="mr-3">
-                        <h5 class="font-bold text-4xl text-white">Guichet Unique des Marchés Publics</h5>
-                    </a>
-                </div>
-        
-                <!-- Links Section -->
-                <div class="col-12 md:col-10 lg:col-7">
-                    <div class="grid text-center md:text-left">
-                        <!-- External Links -->
-                        <div class="col-12 md:col-4">
-                            <h4 class="font-bold text-2xl mb-4 text-white">Liens externes</h4>
-                            <ul class="space-y-3">
-                                <li><a href="https://www.fonction-publique.gov.bf/" class="text-lg hover:text-gray-300 transition">DRTSS</a></li>
-                                <li><a href="https://eservices.cnss.bf/" class="text-lg hover:text-gray-300 transition">e-CNSS</a></li>
-                                <li><a href="https://justice.gov.bf" class="text-lg hover:text-gray-300 transition">Justice</a></li>
-                                <li><a href="https://esintax.bf/" class="text-lg hover:text-gray-300 transition">eSINTAX</a></li>
-                            </ul>
-                        </div>
-        
-                        <!-- Official Sites -->
-                        <div class="col-12 md:col-4 mt-6 md:mt-0">
-                            <h4 class="font-bold text-2xl mb-4 text-white">Sites officiels</h4>
-                            <ul class="space-y-3">
-                                <li><a href="https://finances.gov.bf" class="text-lg hover:text-gray-300 transition">Ministère en charge des finances</a></li>
-                                <li><a href="https://dgcmef.gov.bf/" class="text-lg hover:text-gray-300 transition">DGCMEF</a></li>
-                                <li><a href="https://dgi.bf" class="text-lg hover:text-gray-300 transition">DGI</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <!-- Divider Line -->
-            <div class="my-6 border-t border-gray-600"></div>
-        
-            <!-- Footer Bottom Section -->
-            <div class="text-center text-sm lg:text-base font-medium">
-                &copy; 2024 - Guichet Unique des Marchés Publics <span class="font-semibold"> - MEFP</span>
-            </div>
-        </div>      
+        <app-footer></app-footer>       
         
     </div>
 </div>
@@ -194,57 +123,6 @@
 
 <style>
 :host ::ng-deep {
-    .p-breadcrumb {
-        border: none;
-        padding: 0;
-    }
-
-    .custom-menubar {
-        .p-menubar {
-            padding: 0.5rem;
-            background: transparent;
-            border: none;
-            border-radius: 0;
-        }
-
-        .p-menubar-root-list {
-            gap: 1rem;
-        }
-
-        .p-menuitem-link {
-            padding: 0.75rem 1.25rem;
-            border-radius: 2rem;
-            transition: all 0.2s;
-
-            &:hover {
-                background-color: rgba(0, 128, 0, 0.1);
-            }
-
-            .p-menuitem-text {
-                color: #374151;
-                font-weight: 500;
-            }
-
-            .p-menuitem-icon {
-                color: #374151;
-            }
-        }
-
-        .p-submenu-list {
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-                       0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            
-            .p-menuitem-link {
-                border-radius: 0;
-                
-                &:hover {
-                    background-color: #f3f4f6;
-                }
-            }
-        }
-    }
-
     .verification-toggle {
         .p-selectbutton {
             display: flex;
@@ -362,64 +240,7 @@
         }
     }
 }
-    .service-card-link:hover .service-card {
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-        transform: translateY(-8px);
-    }
 
-    .service-card {
-        transition: all 0.3s ease;
-    }
-
-    .icon-wrapper {
-        transition: all 0.3s ease;
-    }
-
-    .service-card-link:hover .icon-wrapper {
-        background: linear-gradient(145deg, #c9cdd1, #e4e8ec);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-
-     .footer-container {
-        background-color: #1f2937; /* Dark gray */
-        color: #f3f4f6; /* Light gray text */
-    }
-
-    .footer-container a {
-        color: #f3f4f6;
-        transition: color 0.3s ease;
-    }
-
-    .footer-container a:hover {
-        color: #a1a1aa; /* Hover color */
-    }
-
-    .footer-container h5, .footer-container h4 {
-        letter-spacing: 1px;
-    }
-
-    .footer-container ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .footer-container ul li {
-        padding-bottom: 0.5rem;
-    }
-
-    .footer-container img {
-        transition: transform 0.3s ease;
-    }
-
-    .footer-container a:hover img {
-        transform: scale(1.05);
-    }
-
-    .footer-container .border-t {
-        border-top: 1px solid #4b5563; /* Light border color */
-    }
 
 .verification-wrapper {
     animation: fadeIn 0.3s ease-in-out;

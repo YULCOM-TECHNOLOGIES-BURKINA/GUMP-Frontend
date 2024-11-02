@@ -11,6 +11,8 @@ import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { FAQComponent } from './faq/faq.component';
+import { GuideComponent } from './guide/guide.component';
+import { GuideDetailComponent } from './guide/guide-detail.component';
 import { VerificationComponent } from './verification/verification.component';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from "primeng/inputtext";
@@ -19,6 +21,9 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
+import { AccordionModule } from 'primeng/accordion';
+import { TimelineModule } from 'primeng/timeline';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     imports: [
@@ -37,8 +42,11 @@ import { FormsModule } from '@angular/forms';
         InputTextModule,
         SelectButtonModule,
         TagModule,
-        ToastModule
+        ToastModule,
+        AccordionModule,
+        TimelineModule,
+        SharedModule
     ],
-    declarations: [LandingComponent, FAQComponent, VerificationComponent]
+    declarations: [LandingComponent, FAQComponent, VerificationComponent, GuideComponent, GuideDetailComponent]
 })
 export class LandingModule { }
