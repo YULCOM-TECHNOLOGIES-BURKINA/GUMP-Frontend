@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
         { path: 'actes', loadChildren: () => import('./actes/actes.module').then(m => m.ActesModule) },
         { path: 'actes/attestation-drtss', loadChildren: () => import('./actes/drtss/drtss.module').then(m => m.DrtssModule) },
         { path: 'actes/attestation-aje', loadChildren: () => import('./actes/aje/aje.module').then(m => m.AjeModule) },
+        { path: 'actes/attestation-anpe', loadChildren: () => import('./actes/anpe/anpe.module').then(m => m.AnpeModule) },
         { path: 'utilisateurs', loadChildren: () => import('./utilisateurs/utilisateurs.module').then(m => m.UtilisateursModule) },
         { path: 'profil', loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },
         { path: '**', redirectTo: '/notfound' }
