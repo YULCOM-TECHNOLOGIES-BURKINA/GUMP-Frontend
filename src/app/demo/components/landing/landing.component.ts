@@ -111,7 +111,7 @@ export class LandingComponent implements OnInit {
       {
         label: 'Vérification',
         icon: 'pi pi-check-circle',
-        routerLink: ['/about']
+        routerLink: ['/verification']
       },
       {
         label: 'FAQ',

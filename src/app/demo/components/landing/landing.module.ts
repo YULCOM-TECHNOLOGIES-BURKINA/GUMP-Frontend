@@ -9,14 +9,21 @@ import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
-import {SlideMenuModule} from 'primeng/slidemenu';
+import { SlideMenuModule } from 'primeng/slidemenu';
 import { FAQComponent } from './faq/faq.component';
+import { VerificationComponent } from './verification/verification.component';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from "primeng/inputtext";
+
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
         LandingRoutingModule,
         DividerModule,
         StyleClassModule,
@@ -27,8 +34,11 @@ import { InputTextModule } from "primeng/inputtext";
         MenubarModule,
         SlideMenuModule,
         CardModule,
-        InputTextModule
+        InputTextModule,
+        SelectButtonModule,
+        TagModule,
+        ToastModule
     ],
-    declarations: [LandingComponent, FAQComponent]
+    declarations: [LandingComponent, FAQComponent, VerificationComponent]
 })
 export class LandingModule { }
