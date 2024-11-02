@@ -1,0 +1,135 @@
+<div class="surface-0 flex justify-content-center">
+    <div id="home" class="landing-wrapper overflow-hidden">
+        <app-header></app-header>
+
+        <!-- Hero Section -->
+        <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4">Comment pouvons-nous vous aider ?</h1>
+                <div class="p-input-icon-left w-full max-w-30rem mx-auto">
+                    <i class="pi pi-search"></i>
+                    <input type="text" pInputText 
+                        class="w-full pl-5 p-3 surface-card text-900" 
+                        placeholder="Rechercher dans la FAQ..."
+                        [style]="{'border-radius': '2rem'}"/>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Content -->
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="grid">
+                <!-- Categories Sidebar -->
+                <div class="col-12 lg:col-3">
+                    <div class="surface-card p-4 shadow-2 border-round">
+                        <h3 class="text-xl font-semibold mb-4">Catégories</h3>
+                        <div class="flex flex-column gap-2">
+                            <button *ngFor="let category of categories" 
+                                    pButton 
+                                    [label]="category.title"
+                                    [icon]="category.icon"
+                                    [class]="selectedCategory === category ? 'p-button-success' : 'p-button-text'"
+                                    (click)="selectCategory(category)"
+                                    class="p-button-lg justify-content-start">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Accordion -->
+                <div class="col-12 lg:col-9">
+                    <div class="surface-card p-4 shadow-2 border-round">
+                        <div *ngIf="selectedCategory" class="mb-4">
+                            <h2 class="text-3xl font-bold mb-4 flex align-items-center gap-2">
+                                <i [class]="selectedCategory.icon + ' text-green-600'"></i>
+                                {{selectedCategory.title}}
+                            </h2>
+                            
+                            <p-accordion [multiple]="true">
+                                <p-accordionTab *ngFor="let faq of filterQuestions(selectedCategory)"
+                                            [header]="faq.question"
+                                            [selected]="true">
+                                    <p class="line-height-3">
+                                        {{faq.answer}}
+                                    </p>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Support Section -->
+        <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">Vous n'avez pas trouvé votre réponse ?</h2>
+                <p class="text-lg line-height-3 mb-4">
+                    Notre équipe de support est là pour vous aider. Contactez-nous pour toute question supplémentaire.
+                </p>
+                <button pButton 
+                        label="Contacter le support" 
+                        icon="pi pi-envelope"
+                        routerLink="/contact"
+                        class="p-button-success p-button-lg"></button>
+            </div>
+        </div>
+        
+        
+
+        <app-footer></app-footer>      
+        
+    </div>
+</div>
+
+
+<style>
+    :host ::ng-deep {
+
+    .p-accordion {
+        .p-accordion-header {
+            .p-accordion-header-link {
+                border-radius: 0.5rem;
+                margin-bottom: 0.5rem;
+                background: transparent;
+                border: 1px solid #e5e7eb;
+                transition: all 0.2s;
+
+                &:not(.p-disabled):hover {
+                    background: #f3f4f6;
+                    border-color: #d1d5db;
+                }
+
+                .p-accordion-header-text {
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .p-accordion-content {
+            border: none;
+            background: transparent;
+            padding: 1rem 1.25rem;
+        }
+    }
+
+    .p-button {
+        &.p-button-lg {
+            padding: 1rem 1.25rem;
+            font-size: 1.1rem;
+        }
+
+        &.p-button-text {
+            &:hover {
+                background: rgba(0, 128, 0, 0.1);
+            }
+        }
+    }
+
+    .p-inputtext {
+        &:enabled:focus {
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(0, 128, 0, 0.4);
+        }
+    }
+}
+</style>

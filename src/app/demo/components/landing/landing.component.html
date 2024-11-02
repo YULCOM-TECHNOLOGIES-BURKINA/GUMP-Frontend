@@ -1,22 +1,7 @@
 <div class="surface-0 flex justify-content-center">
     <div id="home" class="landing-wrapper overflow-hidden">
-        <div class="py-4 px-4 mx-0 md:mx-6 lg:mx-8 lg:px-8 flex align-items-center justify-content-between relative lg:static mb-3">
-            <a class="flex align-items-center" href="#">
-                <img src="assets/{{layoutService.config().colorScheme === 'light' ? 'image' : 'image'}}.png" alt="GUMP Logo" height="50" class="mr-0 lg:mr-2">
-                <span class="text-900 font-bold text-2xl line-height-3 mr-8">Guichet Unique des Marchés Publics</span>
-            </a>
-            <a pRipple class="cursor-pointer block lg:hidden text-700" pStyleClass="@next" enterClass="hidden" leaveToClass="hidden" [hideOnOutsideClick]="true">
-                <i class="pi pi-bars text-4xl"></i>
-            </a>
-            <div class="align-items-center surface-0 flex-grow-1 justify-content-between hidden lg:flex absolute lg:static w-full left-0 px-6 lg:px-0 z-2" style="top:120px">
-                <ul class="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row cursor-pointer">
-                    <!-- Placeholder for navigation -->
-                </ul>
-                <div class="flex justify-content-between lg:block border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 lg:mt-0">
-                    <button routerLink="/auth/login" pButton pRipple label="Connexion" class="p-button border-none ml-5 font-semibold line-height-2 bg-green-600 text-white p-button-rounded"></button>
-                </div>
-            </div>
-        </div>
+        <!-- Header -->
+        <app-header></app-header>
     
         <div id="hero" class="flex flex-column pt-4 px-4 lg:px-8 overflow-hidden" 
             style="background: linear-gradient(0deg, rgb(255, 255, 255), rgba(42, 180, 7, 0.021)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #258b06 10%, #ec290f 100%); clip-path: ellipse(150% 87% at 93% 13%);">
@@ -27,6 +12,63 @@
                 </p>
             </div>
             <div class="mx-4 md:mx-8 mt-0 md:mt-4"></div>
+        </div>
+        
+        <!-- Statistics -->
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="grid">
+                <ng-container *ngFor="let stat of statistics">
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <div class="surface-card shadow-2 p-4 border-round">
+                            <div class="flex align-items-center justify-content-center mb-3">
+                                <div [class]="'flex align-items-center justify-content-center border-round-xl w-4rem h-4rem ' + stat.color">
+                                    <i [class]="stat.icon + ' text-2xl'"></i>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold mb-2">{{ stat.value }}</div>
+                                <div class="text-900">{{ stat.label }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Mission & Vision -->
+        <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+            <div class="grid">
+                <div class="col-12 lg:col-6 p-4">
+                    <p-card styleClass="h-full">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center gap-3 px-4 pt-4">
+                                <i class="pi pi-compass text-4xl text-green-600"></i>
+                                <h2 class="text-3xl font-semibold m-0">Notre Mission</h2>
+                            </div>
+                        </ng-template>
+                        <p class="line-height-3 text-lg">
+                            Faciliter l'accès aux services administratifs liés aux marchés publics à travers une plateforme 
+                            numérique innovante, sécurisée et performante. Notre objectif est de réduire les délais de 
+                            traitement et d'améliorer la transparence des procédures.
+                        </p>
+                    </p-card>
+                </div>
+                <div class="col-12 lg:col-6 p-4">
+                    <p-card styleClass="h-full">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center gap-3 px-4 pt-4">
+                                <i class="pi pi-eye text-4xl text-green-600"></i>
+                                <h2 class="text-3xl font-semibold m-0">Notre Vision</h2>
+                            </div>
+                        </ng-template>
+                        <p class="line-height-3 text-lg">
+                            Devenir la référence en matière de dématérialisation des services administratifs au Burkina Faso,
+                            en offrant une expérience utilisateur exceptionnelle et en contribuant à la modernisation de 
+                            l'administration publique.
+                        </p>
+                    </p-card>
+                </div>
+            </div>
         </div>
         
         <div id="features" class="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
@@ -151,50 +193,59 @@
             </div>
         </div>
 
-        <div class="footer-container bg-gray-900 text-white py-8 px-6 mt-8">
-            <div class="grid justify-content-center align-items-center gap-6 lg:gap-12">
-                <!-- Logo and Title Section -->
-                <div class="col-12 md:col-3 text-center md:text-left">
-                    <a href="/" class="flex flex-wrap align-items-center justify-content-center md:justify-content-start mb-6 md:mb-0">
-                        <img src="assets/image.png" alt="logo guichet" width="125" height="150" class="mr-3">
-                        <h5 class="font-bold text-4xl text-white">Guichet Unique des Marchés Publics</h5>
-                    </a>
+        <!-- Values Section -->
+        <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-6">Nos Valeurs</h2>
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-3 p-3">
+                    <p-card styleClass="h-full">
+                        <div class="text-center">
+                            <i class="pi pi-shield text-4xl text-green-600 mb-3"></i>
+                            <h3 class="text-xl font-semibold">Intégrité</h3>
+                            <p class="line-height-3">
+                                Nous agissons avec honnêteté et transparence dans toutes nos interactions.
+                            </p>
+                        </div>
+                    </p-card>
                 </div>
-        
-                <!-- Links Section -->
-                <div class="col-12 md:col-10 lg:col-7">
-                    <div class="grid text-center md:text-left">
-                        <!-- External Links -->
-                        <div class="col-12 md:col-4">
-                            <h4 class="font-bold text-2xl mb-4 text-white">Liens externes</h4>
-                            <ul class="space-y-3">
-                                <li><a href="https://drtss.gov.bf" class="text-lg hover:text-gray-300 transition">DRTSS</a></li>
-                                <li><a href="https://e-cnss.gov.bf" class="text-lg hover:text-gray-300 transition">e-CNSS</a></li>
-                                <li><a href="https://justice.gov.bf" class="text-lg hover:text-gray-300 transition">Justice</a></li>
-                                <li><a href="https://esintax.gov.bf" class="text-lg hover:text-gray-300 transition">eSINTAX</a></li>
-                            </ul>
+                <div class="col-12 md:col-6 lg:col-3 p-3">
+                    <p-card styleClass="h-full">
+                        <div class="text-center">
+                            <i class="pi pi-star text-4xl text-green-600 mb-3"></i>
+                            <h3 class="text-xl font-semibold">Excellence</h3>
+                            <p class="line-height-3">
+                                Nous visons l'excellence dans tous nos services et processus.
+                            </p>
                         </div>
-        
-                        <!-- Official Sites -->
-                        <div class="col-12 md:col-4 mt-6 md:mt-0">
-                            <h4 class="font-bold text-2xl mb-4 text-white">Sites officiels</h4>
-                            <ul class="space-y-3">
-                                <li><a href="https://finances.gov.bf" class="text-lg hover:text-gray-300 transition">Ministère | finances.gov.bf</a></li>
-                                <li><a href="https://dgi.bf" class="text-lg hover:text-gray-300 transition">DGI | dgi.bf</a></li>
-                            </ul>
+                    </p-card>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 p-3">
+                    <p-card styleClass="h-full">
+                        <div class="text-center">
+                            <i class="pi pi-users text-4xl text-green-600 mb-3"></i>
+                            <h3 class="text-xl font-semibold">Collaboration</h3>
+                            <p class="line-height-3">
+                                Nous travaillons en synergie avec tous les acteurs pour un service optimal.
+                            </p>
                         </div>
-                    </div>
+                    </p-card>
+                </div>
+                <div class="col-12 md:col-6 lg:col-3 p-3">
+                    <p-card styleClass="h-full">
+                        <div class="text-center">
+                            <i class="pi pi-clock text-4xl text-green-600 mb-3"></i>
+                            <h3 class="text-xl font-semibold">Efficacité</h3>
+                            <p class="line-height-3">
+                                Nous optimisons nos processus pour des services rapides et fiables.
+                            </p>
+                        </div>
+                    </p-card>
                 </div>
             </div>
-        
-            <!-- Divider Line -->
-            <div class="my-6 border-t border-gray-600"></div>
-        
-            <!-- Footer Bottom Section -->
-            <div class="text-center text-sm lg:text-base font-medium">
-                &copy; 2024 - Guichet Unique des Marchés Publics <span class="font-semibold"> - MEFP</span>
-            </div>
-        </div>      
+        </div>
+
+        <!-- footer -->
+        <app-footer></app-footer>    
         
     </div>
 </div>
@@ -217,46 +268,5 @@
     .service-card-link:hover .icon-wrapper {
         background: linear-gradient(145deg, #c9cdd1, #e4e8ec);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-
-     .footer-container {
-        background-color: #1f2937; /* Dark gray */
-        color: #f3f4f6; /* Light gray text */
-    }
-
-    .footer-container a {
-        color: #f3f4f6;
-        transition: color 0.3s ease;
-    }
-
-    .footer-container a:hover {
-        color: #a1a1aa; /* Hover color */
-    }
-
-    .footer-container h5, .footer-container h4 {
-        letter-spacing: 1px;
-    }
-
-    .footer-container ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .footer-container ul li {
-        padding-bottom: 0.5rem;
-    }
-
-    .footer-container img {
-        transition: transform 0.3s ease;
-    }
-
-    .footer-container a:hover img {
-        transform: scale(1.05);
-    }
-
-    .footer-container .border-t {
-        border-top: 1px solid #4b5563; /* Light border color */
     }
 </style>
