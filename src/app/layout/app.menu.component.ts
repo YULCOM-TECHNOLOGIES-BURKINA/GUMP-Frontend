@@ -29,9 +29,10 @@ export class AppMenuComponent implements OnInit {
                 label: 'Modules',
                 visible: this.userRole === 'admin' || this.userRole === 'entreprise',
                 items: [
-                    { label: 'Actes', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'] },
-                    { label: 'Mes demandes', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'] },
-                    // { label: 'Nouvelle demande DRTSS', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/actes/attestation-drtss'] },
+                    { label: 'Actes', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'], visible: this.userRole === 'entreprise'  },
+                    { label: 'Mes demandes', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole === 'entreprise'  },
+                    { label: 'Statistiques', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'], visible: this.userRole === 'admin' || this.userRole?.startsWith('admin_')  },
+                    { label: 'Rapport', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole === 'admin'  }
                 ]
             },
             {
@@ -45,6 +46,17 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Certificat de non faillite', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/cnf'], visible: this.userRole === 'admin' },
                     { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole === 'admin' || this.userRole === 'admin_aje' },
                     { label: 'RCCM', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/rccm'], visible: this.userRole === 'admin' },
+                ]
+            },
+            {
+                label: 'Paramètres',
+                visible: this.userRole === 'admin',
+                items: [
+                    { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
+                    { label: 'Frais de traitement', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'admin' },
+                    { label: 'Délais de traitement', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'admin' },
+                    { label: 'En-têtes et pieds de page des actes', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'admin' },
+                    { label: 'Signatures electroniques', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'admin' }
                 ]
             },
             {
