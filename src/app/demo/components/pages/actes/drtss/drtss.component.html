@@ -1,10 +1,41 @@
 <div class="grid">
 	<div class="col-12">
 		<div class="card">
-			<h5>Formulaire de demande d'une attestation DRTSS</h5>
-			<div class="p-fluid p-formgrid grid">
+			<h5>Formulaire de demande d'une attestation DRTPS</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="col-4 mt-2">
+                    <span>Reference du contrat</span>
+                    <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du contrat" required />
+                </div>
+                <div class="col-8 mt-2">
+                    <span>Objet du contrat</span>
+                    <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du contrat" required />
+                </div>
+                <div class="col-5 mt-2">
+                    <span>Identité de l'organisme attribuant le marché</span>
+                    <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
+                </div>
+                <div class="col-4 mt-2">
+                    <span>Adresse</span>
+                    <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
+                </div>
+                <div class="col-3 mt-2">
+                    <span>Numéro de téléphone</span>
+                    <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
+                </div>
+			
 				<div class="field col-12 md:col-6">
-					<label htmlFor="city">Attestion ANPE</label>
+					<label htmlFor="city">Reférence de l'attestion ANPE</label>
+                    <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Reférence de l'attestion ANPE" required />
+				</div>
+                <div class="field col-12 md:col-6">
+					<label htmlFor="city">Reférence de l'attestation de situation cotisante</label>
+                    <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Reférence de l'attestation de situation cotisante" required />
+				</div>
+			</div> 
+            <div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-6">
+					<label htmlFor="city">Joindre une copie de l'attestion ANPE</label>
                     <p-toast />
                     <p-fileUpload 
                     mode="basic" 
@@ -17,7 +48,7 @@
                     (onSelect)="onFileSelect($event, 'anpeFile')"/>
 				</div>
                 <div class="field col-12 md:col-6">
-					<label htmlFor="city">Attestion CNSS</label>
+					<label htmlFor="city">Joindre une copie de l'attestion de situation cotisante</label>
 					<p-toast />
                     <p-fileUpload 
                         mode="basic" 

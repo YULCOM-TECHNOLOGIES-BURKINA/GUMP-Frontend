@@ -19,7 +19,14 @@ export class DrtssComponent {
 
   anpeFile: File | null = null; // Fichier ANPE
   cnssFile: File | null = null; // Fichier CNSS
-  // requesterId: string = ''; // Fichier CNSS
+  attestationAnpeNumber: string = '';
+  attestationCnssNumber: string = '';
+
+  contractReference: string;
+  contractPurpose: string;
+  contractingOrganizationName: string;
+  organizationAddress: string;
+  organizationPhone: string;
 
   constructor(
     private messageService: MessageService, 
@@ -43,6 +50,8 @@ export class DrtssComponent {
       const formData = new FormData();
       formData.append('attestationAnpe', this.anpeFile);
       formData.append('attestationCnss', this.cnssFile);
+      formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
+      formData.append('attestationCnssNumber', this.attestationCnssNumber);
       // formData.append('requesterId', '02152');
 
       // Appel au service pour envoyer les fichiers
