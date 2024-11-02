@@ -22,32 +22,31 @@
                             </div>
                         </ng-template>
 
-                        <!-- Header -->
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width: 3rem">
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
                                 <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
+                                <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
                             </tr>
                         </ng-template>
 
-                        <!-- Body -->
                         <ng-template pTemplate="body" let-request>
                             <tr>
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <td>{{ request.id }}</td>
+                                <td>Demandeur</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <span class="p-badge p-badge-info">{{ getTranslatedStatus(request.status) }}</span>
                                 </td>
                                 <td>
-                                    <!-- Boutons d'action -->
                                     <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                     <button pButton pRipple icon="pi pi-clock" class="p-button-outlined p-button-success mr-2" 
                                     (click)="processReviewRequest(request.id)" pTooltip="Traiter la demande" tooltipPosition="bottom"></button>
@@ -59,7 +58,6 @@
 
                 <!-- Onglet En cours de traitement -->
                 <p-tabPanel header="En cours de traitement ({{ countProcessing }})" leftIcon="pi pi-spin pi-spinner">
-                    <!-- Utiliser le même tableau que pour l'onglet précédent avec les demandes en traitement -->
                     <p-table #dt [value]="processingRequests" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                              [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                              currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes en cours de traitement"
@@ -74,13 +72,13 @@
                                     </span>
                                 </div>
                             </ng-template>
-                        <!-- Header et Body identiques -->
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width: 3rem">
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
                                 <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
+                                <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
@@ -92,6 +90,7 @@
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <td>{{ request.id }}</td>
+                                <td>Demandeur</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <span class="p-badge p-badge-primary">{{ getTranslatedStatus(request.status) }}</span>
@@ -112,13 +111,13 @@
                              [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                              currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes approuvées"
                              [(selection)]="selectedRequests" selectionMode="multiple" dataKey="id">
-                        <!-- Header et Body identiques -->
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="width: 3rem">
                                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                                 </th>
                                 <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
+                                <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
@@ -130,6 +129,7 @@
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <td>{{ request.id }}</td>
+                                <td>Demandeur</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
@@ -149,24 +149,6 @@
 
     <p-dialog header="Détails de la demande" [(visible)]="displayProcessDetailModal" [modal]="true" [style]="{width: '500px'}" *ngIf="request">
         <div class="grid">
-            <!-- <div class="col-12">
-                <span class="font-bold">Entreprise: {{ one.company.name }}</span>
-            </div>
-            <div class="col-6">
-                <p><strong>Localisation: </strong> {{ one.company.location }}</p>
-                <p><strong>BP: </strong> {{ one.company.bp }}</p>
-            </div>
-            <div class="col-6">
-                <p><strong>Adresse: </strong> {{ one.company.address }}</p>
-                <p><strong>Téléphone: </strong> {{ one.company.phone }}</p>
-            </div>
-            <div class="col-6 mt-2">
-                <span><strong>N° Attestation ANPE: </strong> {{ one.anpeNumber }}</span>
-            </div>
-            <div class="col-6 mt-2">
-                <span><strong>N° Attestation CNSS: </strong> {{ one.cnssNumber }} </span>
-            </div> -->
-
             <div class="col-12">
                 <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
             </div>
