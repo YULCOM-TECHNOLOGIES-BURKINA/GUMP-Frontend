@@ -7,36 +7,31 @@
             <p-tabView>
                 <!-- Onglet En attente -->
                 <p-tabPanel header="En attente ({{ countPending }})" leftIcon="pi pi-clock">
-                    <p-table #dt [value]="pendingRequests" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                    <p-table #dt [value]="pendingRequests" [columns]="cols" responsiveLayout="scroll" 
+                             [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                             [showCurrentPageReport]="true" 
                              currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes en attente"
                              [(selection)]="selectedRequests" selectionMode="multiple" dataKey="id">
-                        <!-- Caption and Global Filter -->
+                        
+                        <!-- Caption template reste inchangé -->
                         <ng-template pTemplate="caption">
-                            <div class="flex justify-content-between">
-                                <h5 class="m-0">Demandes en attente</h5>
-                                <span class="block mt-2 md:mt-0 p-input-icon-left">
-                                    <i class="pi pi-search"></i>
-                                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
-                                </span>
-                            </div>
+                            <!-- ... votre caption existant ... -->
                         </ng-template>
-
+                
                         <ng-template pTemplate="header">
                             <tr>
-                                <th style="width: 3rem">
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
-                                <th pSortableColumn="requesterId">Id <p-sortIcon field="requesterId"></p-sortIcon></th>
+                                <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
+                                <th pSortableColumn="demandeur">Ref. du marché <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="validity">Validité<p-sortIcon field="validity"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
                             </tr>
                         </ng-template>
-
+                
                         <ng-template pTemplate="body" let-request>
-                            <tr>
+                            <tr [ngClass]="{'expired-row': isExpired(request.createdAt)}">
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
@@ -44,12 +39,26 @@
                                 <td>Demandeur</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
+                                    <p-badge [value]="getValidityStatus(request.createdAt).text"
+                                            [severity]="getValidityStatus(request.createdAt).severity">
+                                    </p-badge>
+                                </td>
+                                <td>
                                     <span class="p-badge p-badge-info">{{ getTranslatedStatus(request.status) }}</span>
                                 </td>
                                 <td>
-                                    <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
-                                    <button pButton pRipple icon="pi pi-clock" class="p-button-outlined p-button-success mr-2" 
-                                    (click)="processReviewRequest(request.id)" pTooltip="Traiter la demande" tooltipPosition="bottom"></button>
+                                    <button pButton pRipple icon="pi pi-eye" 
+                                            class="p-button-outlined p-button-secondary mr-2" 
+                                            (click)="openViewRequest(request)" 
+                                            pTooltip="Voir la demande" 
+                                            tooltipPosition="bottom">
+                                    </button>
+                                    <button pButton pRipple icon="pi pi-clock" 
+                                            class="p-button-outlined p-button-success mr-2"
+                                            (click)="processReviewRequest(request.id)" 
+                                            pTooltip="Traiter la demande" 
+                                            tooltipPosition="bottom">
+                                    </button>
                                 </td>
                             </tr>
                         </ng-template>

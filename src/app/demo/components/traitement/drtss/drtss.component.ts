@@ -3,12 +3,26 @@ import { MessageService } from 'primeng/api';
 import { DrtssService } from '../../../services/drtss.service';
 import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { Router } from '@angular/router';
-
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-drtss',
   templateUrl: './drtss.component.html',
   providers: [MessageService],
+  styles: [`
+    .expired-row {
+      background-color: #ffebee !important;
+    }
+    .warning-text {
+      color: #FF9800 !important;
+    }
+    .expired-text {
+      color: #f44336 !important;
+    }
+    .valid-text {
+      color: #4CAF50 !important;
+    }
+  `]
 })
 export class TraitementDrtssComponent implements OnInit {
   requests: DemandeDrtss[] = [];
@@ -40,16 +54,77 @@ export class TraitementDrtssComponent implements OnInit {
   attestationAnpeDate: Date = null;
   attestationCnssDate: Date = null;
 
+  readonly VALIDITY_DAYS = 90; // Durée de validité en jours
+  readonly WARNING_DAYS = 14; // Seuil d'alerte en jours
+
   constructor(private drtssService: DrtssService, private messageService: MessageService, private router: Router) {}
 
   ngOnInit() {
     this.getDemandes();
+    this.setupValidityCheck();
 
     this.cols = [
       { field: 'acte', header: 'Acte' },
       { field: 'createdAt', header: 'Date' },
       { field: 'status', header: 'Statut' }
     ];
+  }
+
+  setupValidityCheck() {
+    // Vérifier la validité toutes les heures
+    interval(3600000).subscribe(() => {
+      this.checkValidityAndNotify();
+    });
+  }
+
+  checkValidityAndNotify() {
+    this.requests.forEach(request => {
+      const daysLeft = this.calculateDaysLeft(request.createdAt);
+      if (daysLeft <= this.WARNING_DAYS && daysLeft > 0) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Attention',
+          detail: `La demande ${request.id} expire dans ${daysLeft} jours`,
+          life: 5000
+        });
+      }
+    });
+  }
+
+  calculateDaysLeft(createdAt: string): number {
+    const created = new Date(createdAt);
+    const expirationDate = new Date(created.getTime() + this.VALIDITY_DAYS * 24 * 60 * 60 * 1000);
+    const today = new Date();
+    const diffTime = expirationDate.getTime() - today.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
+
+  isExpired(createdAt: string): boolean {
+    return this.calculateDaysLeft(createdAt) <= 0;
+  }
+
+  getValidityStatus(createdAt: string) {
+    const daysLeft = this.calculateDaysLeft(createdAt);
+    
+    if (daysLeft <= 0) {
+      return {
+        text: 'Expiré',
+        class: 'expired-text',
+        severity: 'danger'
+      };
+    } else if (daysLeft <= this.WARNING_DAYS) {
+      return {
+        text: `${daysLeft} jours restants`,
+        class: 'warning-text',
+        severity: 'warning'
+      };
+    } else {
+      return {
+        text: `${daysLeft} jours restants`,
+        class: 'valid-text',
+        severity: 'success'
+      };
+    }
   }
 
   getTranslatedStatus(status: string): string {
@@ -69,7 +144,7 @@ export class TraitementDrtssComponent implements OnInit {
 
   getDemandes() {
     this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
-      this.requests = data.content;  // Récupère le tableau des demandes
+      this.requests = data.content; 
       this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
       this.categorizeRequests();
     });
@@ -107,15 +182,13 @@ export class TraitementDrtssComponent implements OnInit {
   }
 
   openDownloadRequest(file: any) {
-    console.log('Téléchargement du fichier:', file);
-    const url = file.attestation.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
+    const url = file.attestation.path; 
     window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
   download(file: any) {
-    console.log('Téléchargement du fichier:', file);
-    const url = file.path;  // Remplacez `file.url` par le champ qui contient l'URL du fichier
+    const url = file.path; 
     window.open(url, '_blank');
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
