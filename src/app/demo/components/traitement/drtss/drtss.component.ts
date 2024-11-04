@@ -54,8 +54,8 @@ export class TraitementDrtssComponent implements OnInit {
   attestationAnpeDate: Date = null;
   attestationCnssDate: Date = null;
 
-  readonly VALIDITY_DAYS = 90; // Durée de validité en jours
-  readonly WARNING_DAYS = 14; // Seuil d'alerte en jours
+  readonly VALIDITY_HOURS = 24;
+  readonly WARNING_HOURS = 12; 
 
   constructor(private drtssService: DrtssService, private messageService: MessageService, private router: Router) {}
 
@@ -80,11 +80,11 @@ export class TraitementDrtssComponent implements OnInit {
   checkValidityAndNotify() {
     this.requests.forEach(request => {
       const daysLeft = this.calculateDaysLeft(request.createdAt);
-      if (daysLeft <= this.WARNING_DAYS && daysLeft > 0) {
+      if (daysLeft <= this.WARNING_HOURS && daysLeft > 0) {
         this.messageService.add({
           severity: 'warn',
           summary: 'Attention',
-          detail: `La demande ${request.id} expire dans ${daysLeft} jours`,
+          detail: `La demande ${request.id} expire dans ${daysLeft} heures`,
           life: 5000
         });
       }
@@ -93,10 +93,10 @@ export class TraitementDrtssComponent implements OnInit {
 
   calculateDaysLeft(createdAt: string): number {
     const created = new Date(createdAt);
-    const expirationDate = new Date(created.getTime() + this.VALIDITY_DAYS * 24 * 60 * 60 * 1000);
+    const expirationDate = new Date(created.getTime() + this.VALIDITY_HOURS  * 60 * 60 * 1000);
     const today = new Date();
     const diffTime = expirationDate.getTime() - today.getTime();
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return Math.ceil(diffTime / (1000 * 60 * 60 ));
   }
 
   isExpired(createdAt: string): boolean {
@@ -112,15 +112,15 @@ export class TraitementDrtssComponent implements OnInit {
         class: 'expired-text',
         severity: 'danger'
       };
-    } else if (daysLeft <= this.WARNING_DAYS) {
+    } else if (daysLeft <= this.WARNING_HOURS) {
       return {
-        text: `${daysLeft} jours restants`,
+        text: `${daysLeft} heures restantes`,
         class: 'warning-text',
         severity: 'warning'
       };
     } else {
       return {
-        text: `${daysLeft} jours restants`,
+        text: `${daysLeft} heures restantes`,
         class: 'valid-text',
         severity: 'success'
       };

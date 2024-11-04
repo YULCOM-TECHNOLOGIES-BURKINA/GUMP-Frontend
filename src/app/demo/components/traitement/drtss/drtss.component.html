@@ -35,8 +35,9 @@
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
-                                <td>{{ request.id }}</td>
+                                <!-- <td>{{ request.id }}</td> -->
                                 <td>Demandeur</td>
+                                <td>Ref. du marché</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <p-badge [value]="getValidityStatus(request.createdAt).text"

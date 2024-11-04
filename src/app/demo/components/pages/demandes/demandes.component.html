@@ -5,7 +5,7 @@
             <!-- TabView PrimeNG -->
             <p-tabView>
                 <!-- DRTSS -->
-                <p-tabPanel header="DRTPS ({{ countDrtss }})" leftIcon="pi pi-clock">
+                <p-tabPanel header="DRTPS ({{ countDrtss }})">
                     <p-table #dt [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
                     [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                     [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -25,18 +25,15 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
-                                <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="demandeur">Ref. du marché <p-sortIcon field="demandeur"></p-sortIcon></th>
+                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-requestDrtss>
                             <tr>
-                                <td>
-                                    <span class="p-column-title">Acte</span>
-                                    Demande d'attestation de soumission au marchés publics
-                                </td>
+                                <td>Ref. du marché</td>
                                 <td>{{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <span class="p-badge" [ngClass]="{
@@ -60,7 +57,7 @@
                 </p-tabPanel>
 
                 <!-- AJE -->
-                <p-tabPanel header="AJE ({{ countAje }})" leftIcon="pi pi-clock">
+                <p-tabPanel header="AJE ({{ countAje }})" >
                     <p-table #dt [value]="requestsAje" [columns]="cols" responsiveLayout="scroll" 
                     [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                     [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -115,7 +112,7 @@
                 </p-tabPanel>
 
                 <!-- ANPE -->
-                <p-tabPanel header="ANPE ({{ countAnpe }})" leftIcon="pi pi-clock">
+                <p-tabPanel header="ANPE ({{ countAnpe }})">
                     <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
                     [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                     [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -196,6 +193,14 @@
                         class="p-button-secondary p-button-outlined mr-2"
                         (click)="download(file)" >
                     </button>
+                </div>
+
+                <div *ngIf="requestDrtss.status == 'APPROVED'">
+                    <p><strong>Validité de l'acte: </strong> 
+                        <p-badge [value]="getValidityStatus(requestDrtss.createdAt).text"
+                                [severity]="getValidityStatus(requestDrtss.createdAt).severity">
+                        </p-badge>
+                    </p>
                 </div>
             </div>
         </p-dialog>
