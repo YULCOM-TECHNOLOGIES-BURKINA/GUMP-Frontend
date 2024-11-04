@@ -1,90 +1,95 @@
 <div class="grid">
-	<div class="col-12">
-		<div class="card">
-			<h5>Fiche de demande et de retrait d'attestation de non engagement</h5>
-			<div class="p-fluid p-formgrid grid">
-                <div class="card  justify-content-center gap-3 col-12">
-                    <div class="flex align-items-center">
-                        <p-checkbox 
-                            label="Soumission" 
-                            name="soumission" 
-                            value="soumission" />
-                            <div class="col-6 mt-2">
-                                <p-inputNumber id="attestationAnpeNumber"  placeholder="Nombre" required />
-                            </div>
-                    </div>
-                    <div class="flex align-items-center">
-                        <p-checkbox 
-                            label="Liquidation" 
-                            name="liquidation" 
-                            value="liquidation" />
-                            <div class="col-6 mt-2">
-                                <input pInputText id="attestationAnpeNumber"  placeholder="Nombre" required />
-                            </div>
+    <div class="col-12">
+        <div class="card">
+            <h5>{{ formLabels.title }}</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="card justify-content-center gap-3 col-12">
+                    <div class="flex align-items-center justify-content-start gap-4">
+                        <div class="flex align-items-center">
+                            <p-radioButton 
+                                name="requestType" 
+                                value="LIQUIDATION" 
+                                [(ngModel)]="requestType"
+                                (ngModelChange)="onRequestTypeChange()"
+                                label="Liquidation">
+                            </p-radioButton>
+                        </div>
+                        <div class="flex align-items-center">
+                            <p-radioButton 
+                                name="requestType" 
+                                value="SOUMISSION" 
+                                [(ngModel)]="requestType"
+                                (ngModelChange)="onRequestTypeChange()"
+                                label="Soumission">
+                            </p-radioButton>
+                        </div>
                     </div>
                 </div>
 
-                <!-- <div class="col-6 mt-2">
-                    <span>Identifiant du demandeur</span>
-                    <input pInputText id="attestationAnpeNumber"  placeholder="Identifiant du demandeur" required />
-                </div>
-                <div class="col-6 mt-2">
-                    <span>Domaine d'activités</span>
-                    <input [(ngModel)]="businessDomain" pInputText id="businessDomain"  placeholder="Domaine d'activités" required />
-                </div>
-                <div class="col-6 mt-2">
-                    <span>Reference du RCCM</span>
-                    <input  [(ngModel)]="rccmReference" pInputText id="rccmReference"  placeholder="Reference du RCCM" required />
-                </div>
-
-                <div class="col-6 mt-2">
-                    <span>N° IFU</span>
-                    <input [(ngModel)]="ifuNumber" pInputText id="ifuNumber"  placeholder="N° IFU" required />
-                </div>
-                <div class="col-6 mt-2">
-                    <span>Adresse</span>
-                    <input [(ngModel)]="address" pInputText id="address"  placeholder="Adresse" required />
-                </div>
-                <div class="col-6 mt-2">
-                    <span>Numéro de téléphone</span>
-                    <input [(ngModel)]="phoneNumber" pInputText id="phoneNumber"  placeholder="Numéro de téléphone" required />
-                </div> -->
-                
                 <div class="col-3 mt-2">
-                    <span>Reference du contrat</span>
-                    <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du contrat" required />
+                    <span>{{ formLabels.reference }}</span>
+                    <input [(ngModel)]="contractReference" 
+                           pInputText 
+                           id="contractReference"  
+                           [placeholder]="formLabels.reference" 
+                           required />
                 </div>
+
                 <div class="col-6 mt-2">
-                    <span>Objet du contrat</span>
-                    <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du contrat" required />
+                    <span>{{ formLabels.purpose }}</span>
+                    <input [(ngModel)]="contractPurpose" 
+                           pInputText 
+                           id="contractPurpose"  
+                           [placeholder]="formLabels.purpose" 
+                           required />
                 </div>
+
                 <div class="col-3 mt-2">
                     <span>Compte bancaire</span>
-                    <input [(ngModel)]="bankAccountReference" pInputText id="bankAccountReference"  placeholder="Reference du compte " required />
+                    <input [(ngModel)]="bankAccountReference" 
+                           pInputText 
+                           id="bankAccountReference"  
+                           placeholder="Référence du compte" 
+                           required />
                 </div>
+
                 <div class="col-5 mt-2">
                     <span>Identité de l'organisme attribuant le marché</span>
-                    <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
+                    <input [(ngModel)]="contractingOrganizationName" 
+                           pInputText 
+                           id="contractingOrganizationName"  
+                           placeholder="Identité de l'organisme attribuant le marché" 
+                           required />
                 </div>
+
                 <div class="col-4 mt-2">
                     <span>Adresse</span>
-                    <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
+                    <input [(ngModel)]="organizationAddress" 
+                           pInputText 
+                           id="organizationAddress"  
+                           placeholder="Adresse" 
+                           required />
                 </div>
+
                 <div class="col-3 mt-2">
                     <span>Numéro de téléphone</span>
-                    <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
+                    <input [(ngModel)]="organizationPhone" 
+                           pInputText 
+                           id="organizationPhone"  
+                           placeholder="Numéro de téléphone" 
+                           required />
                 </div>
-			</div>            
+            </div>
+
             <div class="field col-12 text-right">
-                <button 
-                    pButton 
-                    pRipple 
-                    icon="pi pi-check" 
-                    label="Valider et envoyer le formulaire" 
-                    class="p-button-success" 
-                    (click)="onSubmit()">
+                <button pButton
+                        pRipple
+                        icon="pi pi-check"
+                        label="Valider et envoyer le formulaire"
+                        class="p-button-success"
+                        (click)="onSubmit()">
                 </button>
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
