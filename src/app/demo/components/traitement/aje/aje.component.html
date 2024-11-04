@@ -63,7 +63,7 @@
                 </p-tabPanel>
 
                 <!-- Onglet En cours de traitement -->
-                <p-tabPanel header="En cours de traitement ({{ countProcessing }})" leftIcon="pi pi-spin pi-spinner">
+                <p-tabPanel header="En cours de traitement ({{ countProcessing }})" leftIcon="pi pi-spinner">
                     <!-- Utiliser le même tableau que pour l'onglet précédent avec les demandes en traitement -->
                     <p-table #dt [value]="processingRequests" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                              [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
