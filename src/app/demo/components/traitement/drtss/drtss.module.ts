@@ -26,6 +26,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { TabViewModule } from 'primeng/tabview';
 import { BadgeModule } from 'primeng/badge';
+import { PanelModule } from 'primeng/panel';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { BadgeModule } from 'primeng/badge';
 		RadioButtonModule,
 		TooltipModule,
 		TabViewModule,
-		BadgeModule
+		BadgeModule,
+		PanelModule
     
   ]
 })

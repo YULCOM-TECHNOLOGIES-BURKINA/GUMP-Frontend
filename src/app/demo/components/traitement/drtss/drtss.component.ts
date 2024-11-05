@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DrtssService } from '../../../services/drtss.service';
 import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
+import { Table } from 'primeng/table';
+import { FilterMetadata } from 'primeng/api';
+
 
 @Component({
   selector: 'app-drtss',
@@ -22,9 +25,88 @@ import { interval } from 'rxjs';
     .valid-text {
       color: #4CAF50 !important;
     }
+
+    .search-panel {
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .filter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .filter-header h6 {
+      margin: 0;
+      color: #495057;
+    }
+
+    .search-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .filter-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    :host ::ng-deep .p-calendar {
+      width: 100%;
+    }
+
+    :host ::ng-deep .custom-filter-button .p-button-icon {
+      margin-right: 0.5rem;
+    }
+
+    :host ::ng-deep .p-button.filter-clear {
+      background: #fff;
+      border: 1px solid #ced4da;
+      color: #495057;
+    }
+
+    :host ::ng-deep .p-button.filter-clear:hover {
+      background: #f8f9fa;
+      border-color: #ced4da;
+    }
   `]
 })
 export class TraitementDrtssComponent implements OnInit {
+  @ViewChild('dt') table: Table;
+  // Propriétés existantes...
+  displayFilters: boolean = false;
+  statuses: any[];
+  // dateRange: Date[] = [null, null];
+  dateRange: Date[] = [new Date(), new Date()]; // Initialisé avec des dates par défaut
+  showRangeCalendar: boolean = true; // Pour forcer le réaffichage si nécessaire
+  maxDate: Date = new Date(); // Pour empêcher la sélection de dates futures
+  filteredRequests: DemandeDrtss[] = [];
+  searchFilters = {
+    demandeur: '',
+    reference: '',
+    status: null,
+    dateStart: null,
+    dateEnd: null,
+    region: ''
+  };
+
+  regions: any[] = [
+    { label: 'Toutes les régions', value: null },
+    { label: 'Centre', value: 'CENTRE' },
+    { label: 'Nord', value: 'NORD' },
+    // Ajoutez les autres régions...
+  ];
+
+  loading: boolean = false;
+
   requests: DemandeDrtss[] = [];
   pendingRequests: DemandeDrtss[] = [];
   processingRequests: DemandeDrtss[] = [];
@@ -57,15 +139,35 @@ export class TraitementDrtssComponent implements OnInit {
   readonly VALIDITY_HOURS = 24;
   readonly WARNING_HOURS = 12; 
 
-  constructor(private drtssService: DrtssService, private messageService: MessageService, private router: Router) {}
+  constructor(
+    private drtssService: DrtssService, 
+    private messageService: MessageService, 
+    private router: Router
+  ) {
+    this.initializeStatuses();
+  }
 
   ngOnInit() {
     this.getDemandes();
     this.setupValidityCheck();
+    this.initializeColumns();
+  }
 
+  private initializeStatuses() {
+    this.statuses = [
+      { label: 'Tous les statuts', value: null },
+      { label: 'En attente', value: 'PENDING' },
+      { label: 'En cours', value: 'PROCESSING' },
+      { label: 'Approuvé', value: 'APPROVED' },
+      { label: 'Rejeté', value: 'REJECTED' }
+    ];
+  }
+
+  private initializeColumns() {
     this.cols = [
-      { field: 'acte', header: 'Acte' },
-      { field: 'createdAt', header: 'Date' },
+      { field: 'demandeur', header: 'Demandeur' },
+      { field: 'reference', header: 'Ref. du marché' },
+      { field: 'createdAt', header: 'Date de demande' },
       { field: 'status', header: 'Statut' }
     ];
   }
@@ -143,22 +245,25 @@ export class TraitementDrtssComponent implements OnInit {
   }
 
   getDemandes() {
+    this.loading = true;
     this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
       this.requests = data.content; 
       this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+      this.filteredRequests = [...this.requests]; // Copie initiale pour les filtres
       this.categorizeRequests();
+      this.loading = false;
     });
   }
 
-  categorizeRequests() {
-    this.pendingRequests = this.requests.filter(request => request.status === 'PENDING');
-    this.processingRequests = this.requests.filter(request => request.status === 'PROCESSING');
-    this.approvedRequests = this.requests.filter(request => request.status === 'APPROVED');
+  // categorizeRequests() {
+  //   this.pendingRequests = this.requests.filter(request => request.status === 'PENDING');
+  //   this.processingRequests = this.requests.filter(request => request.status === 'PROCESSING');
+  //   this.approvedRequests = this.requests.filter(request => request.status === 'APPROVED');
 
-    this.countPending = this.pendingRequests.length;
-    this.countProcessing = this.processingRequests.length;
-    this.countApproved = this.approvedRequests.length;
-  }
+  //   this.countPending = this.pendingRequests.length;
+  //   this.countProcessing = this.processingRequests.length;
+  //   this.countApproved = this.approvedRequests.length;
+  // }
 
   openViewRequest(request: DemandeDrtss) {
     this.drtssService.getOneDemande(request.id).subscribe(data => {
@@ -295,4 +400,184 @@ export class TraitementDrtssComponent implements OnInit {
   onGlobalFilter(table: any, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
+
+  toggleFilters() {
+    this.displayFilters = !this.displayFilters;
+  }
+
+  onDateSelect(event: any) {
+    // Vérifiez si les deux dates sont sélectionnées
+    if (this.dateRange && this.dateRange[0] && this.dateRange[1]) {
+      // Assurez-vous que les dates sont des objets Date valides
+      this.dateRange = this.dateRange.map(date => {
+        if (date && !(date instanceof Date)) {
+          return new Date(date);
+        }
+        return date;
+      });
+    }
+  }
+
+  applyFilters() {
+    this.loading = true;
+
+    let filtered = [...this.requests];
+    
+    // Filtre par demandeur
+    // if (this.searchFilters.demandeur) {
+    //   filtered = filtered.filter(request => 
+    //     request.demandeur?.toLowerCase().includes(this.searchFilters.demandeur.toLowerCase())
+    //   );
+    // }
+
+    // Filtre par référence
+    // if (this.searchFilters.reference) {
+    //   filtered = filtered.filter(request => 
+    //     request.reference?.toLowerCase().includes(this.searchFilters.reference.toLowerCase())
+    //   );
+    // }
+
+    // Filtre par statut
+    if (this.searchFilters.status) {
+      filtered = filtered.filter(request => 
+        request.status === this.searchFilters.status
+      );
+    }
+
+    // Filtre par région
+    // if (this.searchFilters.region) {
+    //   filtered = filtered.filter(request => 
+    //     request.region === this.searchFilters.region
+    //   );
+    // }
+
+    // Filtre par date - Ajout de vérifications de sécurité
+    // if (this.dateRange && (this.dateRange[0] || this.dateRange[1])) {
+    //   filtered = filtered.filter(request => {
+    //     if (!request.createdAt) return false;
+        
+    //     const requestDate = new Date(request.createdAt);
+        
+    //     // Vérification que requestDate est valide
+    //     if (isNaN(requestDate.getTime())) return false;
+        
+    //     if (this.dateRange[0] && this.dateRange[1]) {
+    //       const startDate = new Date(this.dateRange[0]);
+    //       const endDate = new Date(this.dateRange[1]);
+    //       // Ajout d'un jour à la date de fin pour inclure tout le dernier jour
+    //       endDate.setDate(endDate.getDate() + 1);
+    //       return requestDate >= startDate && requestDate < endDate;
+    //     } else if (this.dateRange[0]) {
+    //       const startDate = new Date(this.dateRange[0]);
+    //       return requestDate >= startDate;
+    //     } else if (this.dateRange[1]) {
+    //       const endDate = new Date(this.dateRange[1]);
+    //       // Ajout d'un jour à la date de fin pour inclure tout le dernier jour
+    //       endDate.setDate(endDate.getDate() + 1);
+    //       return requestDate < endDate;
+    //     }
+    //     return true;
+    //   });
+    // }    
+
+    // Filtre par date - Avec vérifications de sécurité renforcées
+    if (this.dateRange && Array.isArray(this.dateRange) && this.dateRange.length === 2) {
+      filtered = filtered.filter(request => {
+        try {
+          if (!request.createdAt) return false;
+          
+          const requestDate = new Date(request.createdAt);
+          
+          // Vérification de la validité de la date
+          if (!requestDate || isNaN(requestDate.getTime())) return false;
+          
+          const startDate = this.dateRange[0] ? new Date(this.dateRange[0]) : null;
+          const endDate = this.dateRange[1] ? new Date(this.dateRange[1]) : null;
+
+          if (startDate && endDate) {
+            // Clone la date de fin et ajoute un jour pour inclure toute la journée
+            const endDatePlusOne = new Date(endDate);
+            endDatePlusOne.setDate(endDatePlusOne.getDate() + 1);
+            return requestDate >= startDate && requestDate < endDatePlusOne;
+          } else if (startDate) {
+            return requestDate >= startDate;
+          } else if (endDate) {
+            const endDatePlusOne = new Date(endDate);
+            endDatePlusOne.setDate(endDatePlusOne.getDate() + 1);
+            return requestDate < endDatePlusOne;
+          }
+        } catch (error) {
+          console.error('Error filtering date:', error);
+          return false;
+        }
+        return true;
+      });
+    }
+
+    // Mise à jour des listes filtrées
+    this.filteredRequests = filtered;
+    this.pendingRequests = filtered.filter(request => request.status === 'PENDING');
+    this.processingRequests = filtered.filter(request => request.status === 'PROCESSING');
+    this.approvedRequests = filtered.filter(request => request.status === 'APPROVED');
+
+    // Mise à jour des compteurs
+    this.countPending = this.pendingRequests.length;
+    this.countProcessing = this.processingRequests.length;
+    this.countApproved = this.approvedRequests.length;
+
+    this.loading = false;
+    
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Filtres appliqués',
+      detail: `${filtered.length} demandes trouvées`,
+      life: 3000
+    });
+  }
+
+  clearFilters() {
+    // Réinitialisation des filtres
+    this.searchFilters = {
+      demandeur: '',
+      reference: '',
+      status: null,
+      dateStart: null,
+      dateEnd: null,
+      region: ''
+    };
+    this.clearDateRange();
+    
+    // Réinitialisation des données
+    this.filteredRequests = [...this.requests];
+    this.categorizeRequests();
+    
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Filtres réinitialisés',
+      detail: 'Tous les filtres ont été effacés',
+      life: 3000
+    });
+  }
+
+  clearDateRange() {
+    this.dateRange = [null, null];
+    this.showRangeCalendar = false;
+    setTimeout(() => {
+        this.showRangeCalendar = true;
+    });
+  }
+
+  categorizeRequests() {
+    // Utiliser filteredRequests au lieu de requests
+    const requestsToUse = this.filteredRequests || this.requests;
+    
+    this.pendingRequests = requestsToUse.filter(request => request.status === 'PENDING');
+    this.processingRequests = requestsToUse.filter(request => request.status === 'PROCESSING');
+    this.approvedRequests = requestsToUse.filter(request => request.status === 'APPROVED');
+
+    this.countPending = this.pendingRequests.length;
+    this.countProcessing = this.processingRequests.length;
+    this.countApproved = this.approvedRequests.length;
+  }
+
 }

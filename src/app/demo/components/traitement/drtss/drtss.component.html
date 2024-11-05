@@ -7,11 +7,133 @@
             <p-tabView>
                 <!-- Onglet En attente -->
                 <p-tabPanel header="En attente ({{ countPending }})" leftIcon="pi pi-clock">
-                    <p-table #dt [value]="pendingRequests" [columns]="cols" responsiveLayout="scroll" 
-                             [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                             [showCurrentPageReport]="true" 
-                             currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes en attente"
-                             [(selection)]="selectedRequests" selectionMode="multiple" dataKey="id">
+                    <!-- Bouton de filtrage -->
+                    <div class="flex justify-content-end mb-3">
+                        <button pButton 
+                                pRipple 
+                                type="button" 
+                                (click)="toggleFilters()" 
+                                class="p-button-outlined custom-filter-button"
+                                [label]="displayFilters ? 'Masquer les filtres' : 'Afficher les filtres'"
+                                [icon]="displayFilters ? 'pi pi-filter-slash' : 'pi pi-filter'">
+                        </button>
+                    </div>
+
+                    <!-- Panneau de filtres -->
+                    <p-panel *ngIf="displayFilters" 
+                            [toggleable]="true" 
+                            class="search-panel">
+                        <ng-template pTemplate="header">
+                            <div class="filter-header">
+                                <h6>Recherche avancée</h6>
+                            </div>
+                        </ng-template>
+
+                        <div class="search-form">
+                            <!-- Période -->
+                            <div class="field">
+                                <label for="dateRange">Période</label>
+                                <p-calendar [(ngModel)]="dateRange" 
+                                        selectionMode="range" 
+                                        [readonlyInput]="true"
+                                        placeholder="Sélectionner une période"
+                                        [showIcon]="true"
+                                        dateFormat="dd/mm/yy"
+                                        [showButtonBar]="true"
+                                        [showClear]="true"
+                                        [maxDate]="maxDate"
+                                        [styleClass]="'w-full'"
+                                        (onSelect)="onDateSelect($event)"
+                                        [monthNavigator]="true"
+                                        [yearNavigator]="true"
+                                        yearRange="2000:2030"
+                                        [ngModelOptions]="{standalone: true}">
+                                </p-calendar>
+                            </div>
+
+                            <!-- Statut -->
+                            <div class="field">
+                                <label for="status">Statut</label>
+                                <p-dropdown [options]="statuses" 
+                                        [(ngModel)]="searchFilters.status"
+                                        placeholder="Sélectionner un statut"
+                                        [showClear]="true"
+                                        styleClass="w-full">
+                                </p-dropdown>
+                            </div>
+
+                            <!-- Région -->
+                            <div class="field">
+                                <label for="region">Région</label>
+                                <p-dropdown [options]="regions" 
+                                        [(ngModel)]="searchFilters.region"
+                                        placeholder="Sélectionner une région"
+                                        [showClear]="true"
+                                        styleClass="w-full">
+                                </p-dropdown>
+                            </div>
+
+                            <!-- Demandeur -->
+                            <div class="field">
+                                <label for="demandeur">Demandeur</label>
+                                <span class="p-input-icon-left w-full">
+                                    <i class="pi pi-user"></i>
+                                    <input type="text" 
+                                        pInputText 
+                                        [(ngModel)]="searchFilters.demandeur" 
+                                        placeholder="Rechercher par demandeur"
+                                        class="w-full">
+                                </span>
+                            </div>
+
+                            <!-- Référence -->
+                            <div class="field">
+                                <label for="reference">Référence</label>
+                                <span class="p-input-icon-left w-full">
+                                    <i class="pi pi-id-card"></i>
+                                    <input type="text" 
+                                        pInputText 
+                                        [(ngModel)]="searchFilters.reference" 
+                                        placeholder="Rechercher par référence"
+                                        class="w-full">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="filter-buttons">
+                            <button pButton 
+                                    pRipple 
+                                    type="button" 
+                                    label="Réinitialiser" 
+                                    icon="pi pi-refresh" 
+                                    (click)="clearFilters()"
+                                    class="p-button-outlined filter-clear">
+                            </button>
+                            <button pButton 
+                                    pRipple 
+                                    type="button" 
+                                    label="Appliquer les filtres" 
+                                    icon="pi pi-search" 
+                                    (click)="applyFilters()"
+                                    class="p-button-primary">
+                            </button>
+                        </div>
+                    </p-panel>
+
+                    <p-table #dt 
+                            [value]="pendingRequests" 
+                            [columns]="cols" 
+                            responsiveLayout="scroll" 
+                            [rows]="10" [paginator]="true" 
+                            [rowsPerPageOptions]="[10,20,30]" 
+                            [showCurrentPageReport]="true" 
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes en attente"
+                            [(selection)]="selectedRequests" 
+                            selectionMode="multiple" 
+                            dataKey="id"
+                            [globalFilterFields]="['demandeur', 'reference', 'status', 'region', 'createdAt']"
+                            [loading]="loading"
+                            [customSort]="true">
                         
                         <!-- Caption template reste inchangé -->
                         <ng-template pTemplate="caption">
@@ -22,7 +144,7 @@
                             <tr>
                                 <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
-                                <th pSortableColumn="demandeur">Ref. du marché <p-sortIcon field="demandeur"></p-sortIcon></th>
+                                <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="validity">Validité<p-sortIcon field="validity"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
