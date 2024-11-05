@@ -568,7 +568,6 @@ export class TraitementDrtssComponent implements OnInit {
   }
 
   categorizeRequests() {
-    // Utiliser filteredRequests au lieu de requests
     const requestsToUse = this.filteredRequests || this.requests;
     
     this.pendingRequests = requestsToUse.filter(request => request.status === 'PENDING');
