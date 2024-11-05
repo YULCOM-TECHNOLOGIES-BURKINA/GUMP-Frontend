@@ -187,7 +187,7 @@ export class TraitementDrtssComponent implements OnInit {
           severity: 'warn',
           summary: 'Attention',
           detail: `La demande ${request.id} expire dans ${daysLeft} heures`,
-          life: 5000
+          life: 60000
         });
       }
     });

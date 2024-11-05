@@ -306,8 +306,14 @@
         </div>
     </p-dialog>
 
-    <p-dialog header="Traitement de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '600px'}" *ngIf="request">
-        <div class="grid">
+    <p-dialog 
+        header="Traitement de la demande" 
+        [(visible)]="displayProcessModal" 
+        [modal]="true" 
+        [style]="{width: '50vw', minWidth: '850px'}" 
+        [contentStyle]="{padding: '2rem'}"
+        *ngIf="request">
+        <div class="grid p-fluid">
             <div class="col-12">
                 <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
             </div>
@@ -320,21 +326,21 @@
                 <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
             </div>
             <div class="col-6 mt-2">
-                <span>N° Attestation ANPE</span>
+                <label>N° Attestation ANPE</label>
                 <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Numéro Attestation ANPE" required />
             </div>
             <div class="col-6 mt-2">
-                <span>Date Attestation ANPE</span>
+                <label>Date Attestation ANPE</label>
                 <p-calendar [(ngModel)]="attestationAnpeDate" dateFormat="yy-mm-dd" required  />
                 <!-- <input type="'date" id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="Date Attestation ANPE" required /> -->
 
             </div>
             <div class="col-6 mt-2">
-                <span>N° Attestation CNSS</span>
+                <label>N° Attestation CNSS</label>
                 <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Numéro Attestation CNSS" required  />
             </div>
             <div class="col-6 mt-2">
-                <span>Date Attestation CNSS</span>
+                <label>Date Attestation CNSS</label>
                 <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" dateFormat="yy-mm-dd" required />
                 <!-- <input type="'date" id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="Date Attestation CNSS" required /> -->
             </div>
