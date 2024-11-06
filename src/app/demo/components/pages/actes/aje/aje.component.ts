@@ -13,11 +13,11 @@ import { Router } from '@angular/router';
 export class AjeComponent implements OnInit {
   requestType: 'LIQUIDATION' | 'SOUMISSION' = 'LIQUIDATION';
   requesterId: string = 'YULCOM';
-  rccmReference: string;
-  ifuNumber: string;
-  address: string;
-  phoneNumber: string;
-  businessDomain: string;
+  rccmReference: string = 'YULCOM';
+  ifuNumber: string = 'YULCOM';
+  address: string = 'YULCOM';
+  phoneNumber: string = 'YULCOM';
+  businessDomain: string = 'YULCOM';
   bankAccountReference: string;
   contractReference: string;
   contractPurpose: string;
@@ -62,20 +62,30 @@ export class AjeComponent implements OnInit {
     }
 
   isFormValid(): boolean {
-    return !!this.businessDomain 
-          && !!this.bankAccountReference 
+    return   !!this.bankAccountReference 
           && !!this.contractReference 
           && !!this.contractPurpose
           && !!this.contractingOrganizationName
           && !!this.organizationAddress
-          && !!this.rccmReference
-          && !!this.ifuNumber
-          && !!this.address
-          && !!this.phoneNumber
           && !!this.requestType
-          && !!this.requesterId
           && !!this.organizationPhone;
   }
+
+  // isFormValid(): boolean {
+  //   return !!this.businessDomain 
+  //         && !!this.bankAccountReference 
+  //         && !!this.contractReference 
+  //         && !!this.contractPurpose
+  //         && !!this.contractingOrganizationName
+  //         && !!this.organizationAddress
+  //         //&& !!this.rccmReference
+  //         //&& !!this.ifuNumber
+  //         //&& !!this.address
+  //         //&& !!this.phoneNumber
+  //         && !!this.requestType
+  //         //&& !!this.requesterId
+  //         && !!this.organizationPhone;
+  // }
 
   onSubmit() {
     if (!this.isFormValid()) {
