@@ -293,7 +293,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-request>
-                            <tr [ngClass]="{'expired-row': isExpired(request.createdAt)}">
+                            <tr>
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
