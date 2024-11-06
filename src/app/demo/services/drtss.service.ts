@@ -8,7 +8,7 @@ import { DemandeDrtss, DemandeDrtssResponse } from '../models/drtss';
 })
 export class DrtssService {
 
-  private apiUrl = 'http://54.37.13.176:8082/api/demandes'; 
+  private apiUrl = 'http://localhost:8082/api/demandes';
 
   constructor(private http: HttpClient) {}
 
