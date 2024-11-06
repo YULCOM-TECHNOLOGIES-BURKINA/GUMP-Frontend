@@ -76,118 +76,57 @@
                 <div class="col-12 text-center mt-8 mb-4">
                     <h2 class="text-900 font-bold mb-2 text-3xl">Services dématérialisés</h2>
                 </div>
-                  
-                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-drtss" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                            <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/image.png" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
-                                </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation DRTSS</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
 
-                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-cnss" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                            <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/cnss.jpg" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
+                <div *ngFor="let act of acts" class="col-12 md:col-6 lg:col-4 p-3">
+                    <div class="surface-card shadow-2 border-round-xl h-full">
+                        <div class="p-4">
+                            <div class="flex align-items-center justify-content-between mb-4">
+                                <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
+                                    <i [class]="act.icon + ' text-2xl text-green-600'"></i>
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-2xl font-bold text-900 mb-2">{{act.title}}</h2>
+                            <p class="line-height-3 text-700 mb-4">{{act.description}}</p>
+                            
+                            <div class="border-top-1 surface-border pt-4">
+                                <div class="flex flex-column gap-3">
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-clock text-500"></i>
+                                        <span class="text-600">Validité: {{act.validityPeriod}}</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-calendar text-500"></i>
+                                        <span class="text-600">Délai: {{act.processingTime}}</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-wallet text-500"></i>
+                                        <span class="text-600">Prix: {{act.price}}</span>
+                                    </div>
                                 </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation de situation cotisante CNSS</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
                             </div>
                         </div>
-                    </a>
-                </div>
-
-                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-situation-fiscale" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                            <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/image.png" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
-                                </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation de Situation Fiscale</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
-                            </div>
+                        
+                        <div class="flex align-items-center gap-2 p-4 surface-ground border-round-bottom-xl">
+                            <button pButton 
+                                    pRipple 
+                                    type="button" 
+                                    label="Voir les détails" 
+                                    icon="pi pi-arrow-right" 
+                                    (click)="navigateToDetail(act.id)"
+                                    class="p-button-success p-button-outlined flex-auto">
+                            </button>
+                            <button pButton 
+                                    pRipple 
+                                    type="button" 
+                                    icon="pi pi-file-edit"
+                                    pTooltip="Faire une demande"
+                                    tooltipPosition="top"
+                                    [routerLink]="['/demande', act.id]"
+                                    class="p-button-success">
+                            </button>
                         </div>
-                    </a>
-                </div>
-
-                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-aje" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                            <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/mjdhri.jpg" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
-                                </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation de non engagement de l'Agent judiciaire de l'ETAT (AJE)</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-     
-                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-rccm" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                            <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/image.png" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
-                                </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Registre du commerce et du crédit Mobilier (RCCM)</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/certificat-de-non-faillite" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                            <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <!-- <i class="pi pi-fw pi-id-card text-4xl" style="color: #4b5563;"></i> -->
-                                    <img src="assets/mjdhri.jpg" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
-                                </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Certificat de non faillite</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-anpe" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                            <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/anpe.jpg" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
-                                </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation ANPE</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
-                            </div>
-                        </div>
-                    </a>
+                    </div>
                 </div>
                 
             </div>
@@ -252,6 +191,72 @@
 
 
 <style>
+    :host ::ng-deep {
+    .guide-category-toggle {
+        .p-selectbutton {
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .p-button {
+            background: transparent;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 2rem;
+            transition: all 0.2s;
+
+            &:not(.p-disabled):not(.p-highlight):hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            &.p-highlight {
+                background: #ffffff;
+                color: #059669;
+            }
+        }
+    }
+
+    .p-inputtext {
+        &:enabled:focus {
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(5, 150, 105, 0.4);
+        }
+    }
+
+    .p-card {
+        border-radius: 1rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+        }
+    }
+
+    .p-tag {
+        padding: 0.5rem 1rem;
+    }
+}
+
+.guide-wrapper {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.surface-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
+    }
+}
     .service-card-link:hover .service-card {
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         transform: translateY(-8px);
