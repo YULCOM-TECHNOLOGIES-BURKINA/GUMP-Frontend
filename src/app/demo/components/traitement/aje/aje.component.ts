@@ -1,16 +1,100 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { AjeService } from '../../../services/aje.service';
 import { DemandeAje, DemandeAjeResponse } from '../../../models/aje';
 import { Router } from '@angular/router';
-
+import { interval } from 'rxjs';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-aje',
   templateUrl: './aje.component.html',
   providers: [MessageService],
+  styles: [`
+    .expired-row {
+      background-color: #ffebee !important;
+    }
+    .warning-text {
+      color: #FF9800 !important;
+    }
+    .expired-text {
+      color: #f44336 !important;
+    }
+    .valid-text {
+      color: #4CAF50 !important;
+    }
+
+    .search-panel {
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .filter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .filter-header h6 {
+      margin: 0;
+      color: #495057;
+    }
+
+    .search-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .filter-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    :host ::ng-deep .p-calendar {
+      width: 100%;
+    }
+
+    :host ::ng-deep .custom-filter-button .p-button-icon {
+      margin-right: 0.5rem;
+    }
+
+    :host ::ng-deep .p-button.filter-clear {
+      background: #fff;
+      border: 1px solid #ced4da;
+      color: #495057;
+    }
+
+    :host ::ng-deep .p-button.filter-clear:hover {
+      background: #f8f9fa;
+      border-color: #ced4da;
+    }
+  `]
 })
 export class TraitementAjeComponent implements OnInit {
+  @ViewChild('dt') table: Table;
+  displayFilters: boolean = false;
+  statuses: any[];
+  dateRange: Date[] = [new Date(), new Date()]; // Initialisé avec des dates par défaut
+  showRangeCalendar: boolean = true; // Pour forcer le réaffichage si nécessaire
+  maxDate: Date = new Date(); // Pour empêcher la sélection de dates futures
+  filteredRequests: DemandeAje[] = [];
+  searchFilters = {
+    demandeur: '',
+    contractReference: '',
+    status: null,
+    dateStart: null,
+    dateEnd: null
+  };
+
+  loading: boolean = false;
+
   requests: DemandeAje[] = [];
   pendingRequests: DemandeAje[] = [];
   processingRequests: DemandeAje[] = [];
@@ -41,16 +125,97 @@ export class TraitementAjeComponent implements OnInit {
   attestationAnpeDate: Date = null;
   attestationCnssDate: Date = null;
 
-  constructor(private ajeService: AjeService, private messageService: MessageService, private router: Router) {}
+  readonly VALIDITY_HOURS = 72;
+  readonly WARNING_HOURS = 48; 
+
+  constructor(
+    private ajeService: AjeService, 
+    private messageService: MessageService, 
+    private router: Router
+  ) {
+      this.initializeStatuses();
+  }
 
   ngOnInit() {
     this.getDemandes();
+    this.setupValidityCheck();
+    this.initializeColumns();
+  }
 
+  private initializeStatuses() {
+    this.statuses = [
+      { label: 'Tous les statuts', value: null },
+      { label: 'En attente', value: 'PENDING' },
+      { label: 'En cours', value: 'PROCESSING' },
+      { label: 'Approuvé', value: 'APPROVED' },
+      { label: 'Rejeté', value: 'REJECTED' }
+    ];
+  }
+
+  private initializeColumns() {
     this.cols = [
-      { field: 'acte', header: 'Acte' },
-      { field: 'createdAt', header: 'Date' },
+      { field: 'demandeur', header: 'Demandeur' },
+      { field: 'reference', header: 'Ref. du contrat' },
+      { field: 'createdAt', header: 'Date de demande' },
       { field: 'status', header: 'Statut' }
     ];
+  }
+
+  setupValidityCheck() {
+    // Vérifier la validité toutes les heures
+    interval(3600000).subscribe(() => {
+      this.checkValidityAndNotify();
+    });
+  }
+
+  checkValidityAndNotify() {
+    this.requests.forEach(request => {
+      const daysLeft = this.calculateDaysLeft(request.createdAt);
+      if (daysLeft <= this.WARNING_HOURS && daysLeft > 0) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Attention',
+          detail: `La demande ${request.id} expire dans ${daysLeft} heures`,
+          life: 60000
+        });
+      }
+    });
+  }
+
+  calculateDaysLeft(createdAt: string): number {
+    const created = new Date(createdAt);
+    const expirationDate = new Date(created.getTime() + this.VALIDITY_HOURS  * 60 * 60 * 1000);
+    const today = new Date();
+    const diffTime = expirationDate.getTime() - today.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 ));
+  }
+
+  isExpired(createdAt: string): boolean {
+    return this.calculateDaysLeft(createdAt) <= 0;
+  }
+
+  getValidityStatus(createdAt: string) {
+    const daysLeft = this.calculateDaysLeft(createdAt);
+    
+    if (daysLeft <= 0) {
+      return {
+        text: 'Expiré',
+        class: 'expired-text',
+        severity: 'danger'
+      };
+    } else if (daysLeft <= this.WARNING_HOURS) {
+      return {
+        text: `${daysLeft} heures restantes`,
+        class: 'warning-text',
+        severity: 'warning'
+      };
+    } else {
+      return {
+        text: `${daysLeft} heures restantes`,
+        class: 'valid-text',
+        severity: 'success'
+      };
+    }
   }
 
   getTranslatedStatus(status: string): string {
@@ -69,21 +234,14 @@ export class TraitementAjeComponent implements OnInit {
   }
 
   getDemandes() {
+    this.loading = true;
     this.ajeService.getDemandes().subscribe((data: DemandeAjeResponse) => {
       this.requests = data.content;  // Récupère le tableau des demandes
       this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+      this.filteredRequests = [...this.requests];
       this.categorizeRequests();
+      this.loading = false;
     });
-  }
-
-  categorizeRequests() {
-    this.pendingRequests = this.requests.filter(request => request.status === 'PENDING');
-    this.processingRequests = this.requests.filter(request => request.status === 'PROCESSING');
-    this.approvedRequests = this.requests.filter(request => request.status === 'APPROVED');
-
-    this.countPending = this.pendingRequests.length;
-    this.countProcessing = this.processingRequests.length;
-    this.countApproved = this.approvedRequests.length;
   }
 
   openViewRequest(request: DemandeAje) {
@@ -158,5 +316,147 @@ export class TraitementAjeComponent implements OnInit {
 
   onGlobalFilter(table: any, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+  }
+
+  toggleFilters() {
+    this.displayFilters = !this.displayFilters;
+  }
+
+  onDateSelect(event: any) {
+    // Vérifiez si les deux dates sont sélectionnées
+    if (this.dateRange && this.dateRange[0] && this.dateRange[1]) {
+      // Assurez-vous que les dates sont des objets Date valides
+      this.dateRange = this.dateRange.map(date => {
+        if (date && !(date instanceof Date)) {
+          return new Date(date);
+        }
+        return date;
+      });
+    }
+  }
+
+  applyFilters() {
+    this.loading = true;
+
+    let filtered = [...this.requests];
+    
+    // Filtre par demandeur
+    // if (this.searchFilters.demandeur) {
+    //   filtered = filtered.filter(request => 
+    //     request.demandeur?.toLowerCase().includes(this.searchFilters.demandeur.toLowerCase())
+    //   );
+    // }
+
+    // Filtre par référence
+    if (this.searchFilters.contractReference) {
+      filtered = filtered.filter(request => 
+        request.contractReference?.toLowerCase().includes(this.searchFilters.contractReference.toLowerCase())
+      );
+    }
+
+    // Filtre par statut
+    if (this.searchFilters.status) {
+      filtered = filtered.filter(request => 
+        request.status === this.searchFilters.status
+      );
+    }
+
+
+    // Filtre par date - Avec vérifications de sécurité renforcées
+    if (this.dateRange && Array.isArray(this.dateRange) && this.dateRange.length === 2) {
+      filtered = filtered.filter(request => {
+        try {
+          if (!request.createdAt) return false;
+          
+          const requestDate = new Date(request.createdAt);
+          
+          // Vérification de la validité de la date
+          if (!requestDate || isNaN(requestDate.getTime())) return false;
+          
+          const startDate = this.dateRange[0] ? new Date(this.dateRange[0]) : null;
+          const endDate = this.dateRange[1] ? new Date(this.dateRange[1]) : null;
+
+          if (startDate && endDate) {
+            // Clone la date de fin et ajoute un jour pour inclure toute la journée
+            const endDatePlusOne = new Date(endDate);
+            endDatePlusOne.setDate(endDatePlusOne.getDate() + 1);
+            return requestDate >= startDate && requestDate < endDatePlusOne;
+          } else if (startDate) {
+            return requestDate >= startDate;
+          } else if (endDate) {
+            const endDatePlusOne = new Date(endDate);
+            endDatePlusOne.setDate(endDatePlusOne.getDate() + 1);
+            return requestDate < endDatePlusOne;
+          }
+        } catch (error) {
+          console.error('Error filtering date:', error);
+          return false;
+        }
+        return true;
+      });
+    }
+
+    // Mise à jour des listes filtrées
+    this.filteredRequests = filtered;
+    this.pendingRequests = filtered.filter(request => request.status === 'PENDING');
+    this.processingRequests = filtered.filter(request => request.status === 'PROCESSING');
+    this.approvedRequests = filtered.filter(request => request.status === 'APPROVED');
+
+    // Mise à jour des compteurs
+    this.countPending = this.pendingRequests.length;
+    this.countProcessing = this.processingRequests.length;
+    this.countApproved = this.approvedRequests.length;
+
+    this.loading = false;
+    
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Filtres appliqués',
+      detail: `${filtered.length} demandes trouvées`,
+      life: 3000
+    });
+  }
+
+  clearFilters() {
+    // Réinitialisation des filtres
+    this.searchFilters = {
+      demandeur: '',
+      contractReference: '',
+      status: null,
+      dateStart: null,
+      dateEnd: null
+    };
+    this.clearDateRange();
+    
+    // Réinitialisation des données
+    this.filteredRequests = [...this.requests];
+    this.categorizeRequests();
+    
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Filtres réinitialisés',
+      detail: 'Tous les filtres ont été effacés',
+      life: 3000
+    });
+  }
+
+  clearDateRange() {
+    this.dateRange = [null, null];
+    this.showRangeCalendar = false;
+    setTimeout(() => {
+        this.showRangeCalendar = true;
+    });
+  }
+
+  categorizeRequests() {
+    const requestsToUse = this.filteredRequests || this.requests;
+    
+    this.pendingRequests = requestsToUse.filter(request => request.status === 'PENDING');
+    this.processingRequests = requestsToUse.filter(request => request.status === 'PROCESSING');
+    this.approvedRequests = requestsToUse.filter(request => request.status === 'APPROVED');
+
+    this.countPending = this.pendingRequests.length;
+    this.countProcessing = this.processingRequests.length;
+    this.countApproved = this.approvedRequests.length;
   }
 }
