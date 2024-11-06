@@ -5,7 +5,7 @@ import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { Table } from 'primeng/table';
-import { FilterMetadata } from 'primeng/api';
+
 
 
 @Component({
@@ -81,7 +81,6 @@ import { FilterMetadata } from 'primeng/api';
 })
 export class TraitementDrtssComponent implements OnInit {
   @ViewChild('dt') table: Table;
-  // Propriétés existantes...
   displayFilters: boolean = false;
   statuses: any[];
   // dateRange: Date[] = [null, null];
@@ -254,16 +253,6 @@ export class TraitementDrtssComponent implements OnInit {
       this.loading = false;
     });
   }
-
-  // categorizeRequests() {
-  //   this.pendingRequests = this.requests.filter(request => request.status === 'PENDING');
-  //   this.processingRequests = this.requests.filter(request => request.status === 'PROCESSING');
-  //   this.approvedRequests = this.requests.filter(request => request.status === 'APPROVED');
-
-  //   this.countPending = this.pendingRequests.length;
-  //   this.countProcessing = this.processingRequests.length;
-  //   this.countApproved = this.approvedRequests.length;
-  // }
 
   openViewRequest(request: DemandeDrtss) {
     this.drtssService.getOneDemande(request.id).subscribe(data => {
