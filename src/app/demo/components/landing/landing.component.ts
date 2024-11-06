@@ -1,18 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { MenuItem } from 'primeng/api';
+import { AuthService } from '../../services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-landing',
-    templateUrl: './landing.component.html'
+    templateUrl: './landing.component.html',
+    providers: [MessageService]
 })
 export class LandingComponent implements OnInit {
 
   statistics: any[] = [];
+  valCheck: string[] = ['remember'];
+
+  username: string = '';
+  password: string = '';
 
   actes: { label: string, description: string, slug: string }[] = [
       {
-        label: 'Attestation DRTSS',
+        label: 'Attestation DRTPS',
         description: 'Petite description de l\'acte',
         slug: 'attestation-drtss'
   
@@ -55,7 +63,12 @@ export class LandingComponent implements OnInit {
       }
   ];
       
-  constructor(public layoutService: LayoutService, public router: Router) { }
+  constructor(
+    private authService: AuthService,
+    public layoutService: LayoutService,
+    private router: Router, 
+    private messageService: MessageService 
+) { }
 
   ngOnInit() {
 
@@ -85,6 +98,14 @@ export class LandingComponent implements OnInit {
         color: 'bg-yellow-100 text-yellow-700'
       }
     ];
+  }
+
+  login() {
+    if (this.authService.login(this.username, this.password)) {
+      this.router.navigate(['/app']);
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Connexion échouée. Veuillez vérifier vos informations!' });
+    }
   }
     
 }

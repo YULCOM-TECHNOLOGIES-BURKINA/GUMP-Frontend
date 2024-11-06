@@ -2,18 +2,57 @@
     <div id="home" class="landing-wrapper overflow-hidden">
         <!-- Header -->
         <app-header></app-header>
-    
-        <div id="hero" class="flex flex-column pt-4 px-4 lg:px-8 overflow-hidden" 
+
+        <div id="hero" class="flex flex-column pt-4 px-4 lg:px-8 overflow-hidden"
             style="background: linear-gradient(0deg, rgb(255, 255, 255), rgba(42, 180, 7, 0.021)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #258b06 10%, #ec290f 100%); clip-path: ellipse(150% 87% at 93% 13%);">
-            <div class="mx-4 md:mx-8 mt-0 md:mt-4">
-                <h1 class="text-6xl font-bold text-gray-900 line-height-2">Guichet Unique des Marchés Publics</h1>
-                <p class="font-normal text-2xl line-height-3 md:mt-3 pb-4 text-gray-700">
-                    Simplifiez vos démarches administratives avec une plateforme centralisée et efficace. Gagnez du temps et optimisez vos formalités en toute sécurité.
-                </p>
+            <div class="mx-4 md:mx-8 mt-0 md:mt-4" style="display: flex;">
+                <div class="landing-page-banner">
+                    <h1 class="text-6xl font-bold text-gray-900 line-height-2">Guichet Unique des Marchés Publics</h1>
+                    <p class="font-normal text-2xl line-height-3 md:mt-3 pb-4 text-gray-700">
+                        Simplifiez vos démarches administratives avec une plateforme centralisée et efficace. Gagnez du
+                        temps et optimisez vos formalités en toute sécurité.
+                    </p>
+                    <p class="font-normal text-2xl line-height-3 md:mt-3 pb-4 text-gray-700">
+                        Inscrivez vous si vous n'avez pas encore de compte
+                    </p>
+                    <button pButton pRipple label="S'INSCRIRE" type="submit"
+                        class="inscription w-full p-3 text-xl p-button-secondary mb-3"></button>
+                </div>
+                <div class="landing-page-connexion">
+                    <div class="bg-logo" style="background-image: url('assets/image.png');">
+
+                    </div>
+                    <form (ngSubmit)="login()">
+                        <p-toast />
+                        <label for="email1" class="block text-900 text-xl font-medium mb-2">Identifiant</label>
+                        <input id="username" [(ngModel)]="username" name="username" type="text" pInputText
+                            class="w-full md:w-30rem mb-5" style="padding:1rem">
+
+                        <label for="password1" class="block text-900 font-medium text-xl mb-2">Mot de passe</label>
+                        <p-password id="password" type="password" [(ngModel)]="password" name="password"
+                            [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"
+                            feedback="false" promptLabel="Confirmer votre mot de passe" weakLabel="Très faible"
+                            mediumLabel="bon" strongLabel="Fort"></p-password>
+
+                        <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                            <div class="flex align-items-center">
+                                <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+                                <label for="rememberme1">Garder ma session active</label>
+                            </div>
+                            <a class="font-medium no-underline ml-2 text-right cursor-pointer"
+                                style="color: var(--gump-color)">Mot de passe oublié?</a>
+                        </div>
+                        <button pButton pRipple label="Connexion" type="submit"
+                            class="w-full p-3 text-xl p-button-secondary mb-3"></button>
+                        <a routerLink="/auth/login"
+                            class="align-items-center font-medium no-underline ml-2 text-right cursor-pointer"
+                            style="color: var(--gump-color)">Vous n'avez pas de compte? Inscrivez-vous</a>
+                    </form>
+                </div>
             </div>
             <div class="mx-4 md:mx-8 mt-0 md:mt-4"></div>
         </div>
-        
+
         <!-- Statistics -->
         <div class="px-4 py-8 md:px-6 lg:px-8">
             <div class="grid">
@@ -21,7 +60,8 @@
                     <div class="col-12 md:col-6 lg:col-3 p-3">
                         <div class="surface-card shadow-2 p-4 border-round">
                             <div class="flex align-items-center justify-content-center mb-3">
-                                <div [class]="'flex align-items-center justify-content-center border-round-xl w-4rem h-4rem ' + stat.color">
+                                <div
+                                    [class]="'flex align-items-center justify-content-center border-round-xl w-4rem h-4rem ' + stat.color">
                                     <i [class]="stat.icon + ' text-2xl'"></i>
                                 </div>
                             </div>
@@ -39,87 +79,155 @@
         <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
             <div class="grid">
                 <div class="col-12 lg:col-6 p-4">
-                    <p-card styleClass="h-full">
+                    <p-card styleClass="h-full nos-missions">
                         <ng-template pTemplate="header">
                             <div class="flex align-items-center gap-3 px-4 pt-4">
                                 <i class="pi pi-compass text-4xl text-green-600"></i>
-                                <h2 class="text-3xl font-semibold m-0">Notre Mission</h2>
+                                <h2 class="text-3xl font-semibold m-0 n-title">Notre Mission</h2>
                             </div>
                         </ng-template>
-                        <p class="line-height-3 text-lg">
-                            Faciliter l'accès aux services administratifs liés aux marchés publics à travers une plateforme 
-                            numérique innovante, sécurisée et performante. Notre objectif est de réduire les délais de 
+                        <p class="line-height-3 text-lg n-text">
+                            Faciliter l'accès aux services administratifs liés aux marchés publics à travers une
+                            plateforme
+                            numérique innovante, sécurisée et performante. Notre objectif est de réduire les délais de
                             traitement et d'améliorer la transparence des procédures.
                         </p>
                     </p-card>
                 </div>
                 <div class="col-12 lg:col-6 p-4">
-                    <p-card styleClass="h-full">
+                    <p-card styleClass="h-full nos-missions">
                         <ng-template pTemplate="header">
                             <div class="flex align-items-center gap-3 px-4 pt-4">
                                 <i class="pi pi-eye text-4xl text-green-600"></i>
-                                <h2 class="text-3xl font-semibold m-0">Notre Vision</h2>
+                                <h2 class="text-3xl font-semibold m-0 n-title">Notre Vision</h2>
                             </div>
                         </ng-template>
-                        <p class="line-height-3 text-lg">
-                            Devenir la référence en matière de dématérialisation des services administratifs au Burkina Faso,
-                            en offrant une expérience utilisateur exceptionnelle et en contribuant à la modernisation de 
+                        <p class="line-height-3 text-lg n-text">
+                            Devenir la référence en matière de dématérialisation des services administratifs au Burkina
+                            Faso,
+                            en offrant une expérience utilisateur exceptionnelle et en contribuant à la modernisation de
                             l'administration publique.
                         </p>
                     </p-card>
                 </div>
             </div>
         </div>
-        
+
+
         <div id="features" class="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
             <div class="grid justify-content-between">
                 <div class="col-12 text-center mt-8 mb-4">
                     <h2 class="text-900 font-bold mb-2 text-3xl">Services dématérialisés</h2>
                 </div>
-                  
+
                 <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-drtss" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
+                    <a href="/app/pages/actes/attestation-drtss" class="service-card-link"
+                        style="text-decoration: none;">
+                        <div class="service-card landing-service-card shadow-3"
+                            style="cursor: pointer; border-radius: 16px; overflow: hidden;  transition: all 0.3s ease;">
                             <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/image.png" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
+                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3"
+                                    style="width:8rem; height:8rem;  overflow: hidden; border-radius:50%;  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
+                                    <img src="assets/image.png" alt="Logo"
+                                        style="width: 8rem; height: 11rem; object-fit: contain;">
                                 </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation DRTSS</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
+                                <h5 class="mb-3"
+                                    style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">
+                                    Attestation DRTPS</h5>
+                                    <div class="border-top-1 surface-border pt-4">
+                                        <div class="flex flex-column gap-3">
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock text-500"></i>
+                                                <span class="text-600">Validité: 3 mois</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-calendar text-500"></i>
+                                                <span class="text-600">Délai: 3 jours</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-wallet text-500"></i>
+                                                <span class="text-600">Prix: 3000 FCFA</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-primary savoir-btn">en savoir plus.</button>
+                               
                             </div>
                         </div>
                     </a>
                 </div>
 
                 <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-cnss" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
+                    <a href="/app/pages/actes/attestation-cnss" class="service-card-link"
+                        style="text-decoration: none;">
+                        <div class="service-card landing-service-card shadow-3"
+                            style="cursor: pointer; border-radius: 16px; overflow: hidden; transition: all 0.3s ease;">
                             <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/cnss.jpg" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
+                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3"
+                                    style="width:8rem; height:8rem;  overflow: hidden; border-radius:50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
+                                    <img src="assets/cnss.jpg" alt="Logo"
+                                        style="width: 8rem; height: 11rem; object-fit: contain;">
                                 </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation de situation cotisante CNSS</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
+                                <h5 class="mb-3"
+                                    style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">
+                                    Attestation de situation cotisante CNSS</h5>
+                                    <div class="border-top-1 surface-border pt-4">
+                                        <div class="flex flex-column gap-3">
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock text-500"></i>
+                                                <span class="text-600">Validité: 3 mois</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-calendar text-500"></i>
+                                                <span class="text-600">Délai: 3 jours</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-wallet text-500"></i>
+                                                <span class="text-600">Prix: 3000 FCFA</span>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <button class="btn btn-primary savoir-btn">en savoir plus.</button>
+                               
                             </div>
                         </div>
                     </a>
                 </div>
 
                 <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-situation-fiscale" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
+                    <a href="/app/pages/actes/attestation-situation-fiscale" class="service-card-link"
+                        style="text-decoration: none;">
+                        <div class="service-card landing-service-card shadow-3"
+                            style="cursor: pointer; border-radius: 16px; overflow: hidden; transition: all 0.3s ease;">
                             <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/image.png" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
+                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3"
+                                    style="width:8rem; height:8rem;  overflow: hidden; border-radius:50%;  margin: 0 auto;">
+                                    <img src="assets/image.png" alt="Logo"
+                                        style="width: 8rem; height: 11rem; object-fit: contain;">
                                 </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation de Situation Fiscale</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
+                                <h5 class="mb-3"
+                                    style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">
+                                    Attestation de Situation Fiscale</h5>
+
+                                    <div class="border-top-1 surface-border pt-4">
+                                        <div class="flex flex-column gap-3">
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock text-500"></i>
+                                                <span class="text-600">Validité: 3 mois</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-calendar text-500"></i>
+                                                <span class="text-600">Délai: 3 jours</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-wallet text-500"></i>
+                                                <span class="text-600">Prix: 3000 FCFA</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary savoir-btn">en savoir plus.</button>
+                              
                             </div>
                         </div>
                     </a>
@@ -127,75 +235,162 @@
 
                 <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
                     <a href="/app/pages/actes/attestation-aje" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
+                        <div class="service-card landing-service-card shadow-3"
+                            style="cursor: pointer; border-radius: 16px; overflow: hidden; transition: all 0.3s ease;">
                             <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/mjdhri.jpg" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
+                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3"
+                                    style="width:8rem; height:8rem;  overflow: hidden; border-radius:50%;  margin: 0 auto;">
+                                    <img src="assets/mjdhri.jpg" alt="Logo"
+                                        style="width: 8rem; height: 11rem; object-fit: contain;">
                                 </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation de non engagement de l'Agent judiciaire de l'ETAT (AJE)</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-     
-                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-rccm" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
-                            <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/image.png" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
-                                </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Registre du commerce et du crédit Mobilier (RCCM)</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
+                                <h5 class="mb-3"
+                                    style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">
+                                    Attestation de non engagement de l'Agent judiciaire de l'ETAT (AJE)</h5>
+                                    <div class="border-top-1 surface-border pt-4">
+                                        <div class="flex flex-column gap-3">
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock text-500"></i>
+                                                <span class="text-600">Validité: 3 mois</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-calendar text-500"></i>
+                                                <span class="text-600">Délai: 3 jours</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-wallet text-500"></i>
+                                                <span class="text-600">Prix: 3000 FCFA</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary savoir-btn">en savoir plus.</button>
+                                
                             </div>
                         </div>
                     </a>
                 </div>
 
                 <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/certificat-de-non-faillite" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
+                    <a href="/app/pages/actes/attestation-rccm" class="service-card-link"
+                        style="text-decoration: none;">
+                        <div class="service-card landing-service-card shadow-3"
+                            style="cursor: pointer; border-radius: 16px; overflow: hidden; transition: all 0.3s ease;">
                             <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
+                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3"
+                                    style="width:8rem; height:8rem;  overflow: hidden; border-radius:50%;  margin: 0 auto;">
+                                    <img src="assets/image.png" alt="Logo"
+                                        style="width: 8rem; height: 11rem; object-fit: contain;">
+                                </div>
+                                <h5 class="mb-3"
+                                    style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">
+                                    Registre du commerce et du crédit Mobilier (RCCM)</h5>
+                                    <div class="border-top-1 surface-border pt-4">
+                                        <div class="flex flex-column gap-3">
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock text-500"></i>
+                                                <span class="text-600">Validité: 3 mois</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-calendar text-500"></i>
+                                                <span class="text-600">Délai: 3 jours</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-wallet text-500"></i>
+                                                <span class="text-600">Prix: 3000 FCFA</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary savoir-btn">en savoir plus.</button>
+                               
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
+                    <a href="/app/pages/actes/certificat-de-non-faillite" class="service-card-link"
+                        style="text-decoration: none;">
+                        <div class="service-card landing-service-card shadow-3"
+                            style="cursor: pointer; border-radius: 16px; overflow: hidden;  transition: all 0.3s ease;">
+                            <div class="p-4 h-full" style="text-align: center;">
+                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3"
+                                    style="width:8rem; height:8rem;  overflow: hidden; border-radius:50%;  margin: 0 auto;">
                                     <!-- <i class="pi pi-fw pi-id-card text-4xl" style="color: #4b5563;"></i> -->
-                                    <img src="assets/mjdhri.jpg" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
+                                    <img src="assets/mjdhri.jpg" alt="Logo"
+                                        style="width: 8rem; height: 11rem; object-fit: contain;">
                                 </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Certificat de non faillite</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
+                                <h5 class="mb-3"
+                                    style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">
+                                    Certificat de non faillite</h5>
+                                    <div class="border-top-1 surface-border pt-4">
+                                        <div class="flex flex-column gap-3">
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock text-500"></i>
+                                                <span class="text-600">Validité: 3 mois</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-calendar text-500"></i>
+                                                <span class="text-600">Délai: 3 jours</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-wallet text-500"></i>
+                                                <span class="text-600">Prix: 3000 FCFA</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary savoir-btn">en savoir plus.</button>
+                          
                             </div>
                         </div>
                     </a>
                 </div>
 
                 <div class="col-12 md:col-12 lg:col-4 p-0 lg:pr-5 lg:pb-5 mt-4 lg:mt-0">
-                    <a href="/app/pages/actes/attestation-anpe" class="service-card-link" style="text-decoration: none;">
-                        <div class="service-card shadow-3" style="cursor: pointer; border-radius: 16px; overflow: hidden; background: linear-gradient(145deg, #f5f7fa, #e6e9ef); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transition: all 0.3s ease;">
+                    <a href="/app/pages/actes/attestation-anpe" class="service-card-link"
+                        style="text-decoration: none;">
+                        <div class="service-card landing-service-card  shadow-3"
+                            style="cursor: pointer; border-radius: 16px; overflow: hidden;  transition: all 0.3s ease;">
                             <div class="p-4 h-full" style="text-align: center;">
-                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3" style="width:5rem; height:5rem; border-radius:50%; background: linear-gradient(145deg, #d3d6db, #f1f4f8); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 0 auto;">
-                                    <img src="assets/anpe.jpg" alt="Logo" style="width: 3rem; height: 3rem; object-fit: contain;">
+                                <div class="icon-wrapper flex align-items-center justify-content-center mb-3"
+                                    style="width:8rem; height:8rem;  overflow: hidden; border-radius:50%;  margin: 0 auto;">
+                                    <img src="assets/anpe.jpg" alt="Logo"
+                                        style="width: 8rem; height: 11rem; object-fit: contain;">
                                 </div>
-                                <h5 class="mb-3" style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">Attestation ANPE</h5>
-                                <p class="text-muted" style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; max-width: 260px; margin: 0 auto;">
-                                    Demandez votre attestation en ligne rapidement et en toute simplicité. Cliquez pour en savoir plus.
-                                </p>
+                                <h5 class="mb-3"
+                                    style="color: #1f2937; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px;">
+                                    Attestation ANPE</h5>
+                                    <div class="border-top-1 surface-border pt-4">
+                                        <div class="flex flex-column gap-3">
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-clock text-500"></i>
+                                                <span class="text-600">Validité: 3 mois</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-calendar text-500"></i>
+                                                <span class="text-600">Délai: 3 jours</span>
+                                            </div>
+                                            <div class="flex align-items-center gap-2">
+                                                <i class="pi pi-wallet text-500"></i>
+                                                <span class="text-600">Prix: 3000 FCFA</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary savoir-btn">en savoir plus.</button>
+                            
                             </div>
                         </div>
                     </a>
                 </div>
-                
+
             </div>
         </div>
 
+
         <!-- Values Section -->
-        <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-            <h2 class="text-4xl font-bold text-center mb-6">Nos Valeurs</h2>
+        <div class="surface-ground px-4 py-8 md:px-6 lg:px-8 nos-valeurs">
+            <div class="nos-valeurs-title">
+                <h2 class="text-4xl font-bold text-center mb-6" style="color: white;">Nos Valeurs</h2>
+            </div>
+
             <div class="grid">
                 <div class="col-12 md:col-6 lg:col-3 p-3">
                     <p-card styleClass="h-full">
@@ -244,9 +439,10 @@
             </div>
         </div>
 
+
         <!-- footer -->
-        <app-footer></app-footer>    
-        
+        <app-footer></app-footer>
+
     </div>
 </div>
 

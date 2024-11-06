@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-footer',
   template: `
-    <div class="footer-container bg-gray-900 text-white py-8 px-6 mt-8">
+    <div class="footer-container  text-white py-8 px-6 mt-8">
       <div class="grid justify-content-center align-items-center gap-6 lg:gap-12">
         <!-- Logo and Title Section -->
         <div class="col-12 md:col-3 text-center md:text-left">

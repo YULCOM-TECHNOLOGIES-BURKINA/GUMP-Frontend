@@ -16,6 +16,8 @@ import { GuideDetailComponent } from './guide/guide-detail.component';
 import { VerificationComponent } from './verification/verification.component';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from "primeng/inputtext";
+import { CheckboxModule } from 'primeng/checkbox';
+import { PasswordModule } from 'primeng/password';
 
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
@@ -45,7 +47,12 @@ import { SharedModule } from './shared/shared.module';
         ToastModule,
         AccordionModule,
         TimelineModule,
-        SharedModule
+        SharedModule,
+        CheckboxModule,
+        PasswordModule,
+        
+
+
     ],
     declarations: [LandingComponent, FAQComponent, VerificationComponent, GuideComponent, GuideDetailComponent]
 })
