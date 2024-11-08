@@ -12,7 +12,7 @@
                     </div>
                 </ng-template>
 
-               
+
             </p-toolbar>
         </div>
 
@@ -170,8 +170,8 @@
                         {{ res.email }}
                     </td>
 
-                    <td>
-                        <p-splitButton label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
+                    <td  appendTo="body">
+                        <p-splitButton  appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
                             styleClass="p-button-info"></p-splitButton>
                     </td>
                 </tr>
