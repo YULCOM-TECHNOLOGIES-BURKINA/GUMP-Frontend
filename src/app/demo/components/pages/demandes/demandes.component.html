@@ -6,12 +6,12 @@
             <p-tabView>
                 <!-- DRTSS -->
                 <p-tabPanel header="DRTPS ({{ countDrtss }})" leftIcon="pi pi-clock">
-                    <p-table #dt [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
-                    [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                    [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                    [showCurrentPageReport]="true" 
-                    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                    [totalRecords]="totalRecords" [(selection)]="selectedDrtssRequests" 
+                    <p-table #dt [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll"
+                    [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                    [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                    [totalRecords]="totalRecords" [(selection)]="selectedDrtssRequests"
                     selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                         <ng-template pTemplate="caption">
@@ -50,8 +50,8 @@
                                 </td>
                                 <td>
                                     <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
-                                    <button *ngIf="requestDrtss.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                    class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestDrtss)" 
+                                    <button *ngIf="requestDrtss.status == 'APPROVED'" pButton pRipple icon="pi pi-download"
+                                    class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestDrtss)"
                                     pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
@@ -61,12 +61,12 @@
 
                 <!-- AJE -->
                 <p-tabPanel header="AJE ({{ countAje }})" leftIcon="pi pi-clock">
-                    <p-table #dt [value]="requestsAje" [columns]="cols" responsiveLayout="scroll" 
-                    [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                    [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                    [showCurrentPageReport]="true" 
-                    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                    [totalRecords]="totalRecordsAje" [(selection)]="selectedAjeRequests" 
+                    <p-table #dt [value]="requestsAje" [columns]="cols" responsiveLayout="scroll"
+                    [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                    [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                    [totalRecords]="totalRecordsAje" [(selection)]="selectedAjeRequests"
                     selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                         <ng-template pTemplate="caption">
@@ -105,8 +105,8 @@
                                 </td>
                                 <td>
                                     <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAje(requestAje)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
-                                    <button *ngIf="requestAje.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                    class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequestAje(requestAje)" 
+                                    <button *ngIf="requestAje.status == 'APPROVED'" pButton pRipple icon="pi pi-download"
+                                    class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequestAje(requestAje)"
                                     pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
@@ -116,12 +116,12 @@
 
                 <!-- ANPE -->
                 <p-tabPanel header="ANPE ({{ countAnpe }})" leftIcon="pi pi-clock">
-                    <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
-                    [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                    [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                    [showCurrentPageReport]="true" 
-                    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                    [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                    <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll"
+                    [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                    [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                    [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests"
                     selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                         <ng-template pTemplate="caption">
@@ -160,8 +160,8 @@
                                 </td>
                                 <td>
                                     <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
-                                    <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                    class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                    <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download"
+                                    class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)"
                                     pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
@@ -186,12 +186,12 @@
                     <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
                 </div>
 
-                <div class="col-12 mt-2 flex" *ngIf="requestDrtss.files">            
-                    <button 
+                <div class="col-12 mt-2 flex" *ngIf="requestDrtss.files">
+                    <button
                     *ngFor="let file of requestDrtss.files"
-                        pButton 
-                        pRipple 
-                        icon="pi pi-download" 
+                        pButton
+                        pRipple
+                        icon="pi pi-download"
                         [label]="'Télécharger ' + file.label"
                         class="p-button-secondary p-button-outlined mr-2"
                         (click)="download(file)" >
@@ -240,12 +240,12 @@
                     <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
                 </div>
 
-                <div class="col-12 mt-2 flex" *ngIf="requestAnpe.files">            
-                    <button 
+                <div class="col-12 mt-2 flex" *ngIf="requestAnpe.files">
+                    <button
                     *ngFor="let file of requestAnpe.files"
-                        pButton 
-                        pRipple 
-                        icon="pi pi-download" 
+                        pButton
+                        pRipple
+                        icon="pi pi-download"
                         [label]="'Télécharger ' + file.label"
                         class="p-button-secondary p-button-outlined mr-2"
                         (click)="download(file)" >
@@ -253,7 +253,7 @@
                 </div>
             </div>
         </p-dialog>
-        
+
         <p-dialog [(visible)]="deleteRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>

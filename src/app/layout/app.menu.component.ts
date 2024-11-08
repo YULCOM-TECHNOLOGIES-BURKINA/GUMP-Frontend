@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from './service/app.layout.service';
-import { AuthService } from '../../app/demo/services/auth.service'; 
+import { AuthService } from '../../app/demo/services/auth.service';
 
 @Component({
     selector: 'app-menu',
@@ -16,8 +16,8 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         // Récupérer le rôle de l'utilisateur
-        this.userRole = this.authService.getUserRole(); 
-        
+        this.userRole = this.authService.getUserRole();
+
         this.model = [
             {
                 label: 'Tableau de bord',
@@ -57,6 +57,17 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Délais de traitement', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'admin' },
                     { label: 'En-têtes et pieds de page des actes', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'admin' },
                     { label: 'Signatures electroniques', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'admin' }
+                ]
+            },
+            {
+                label: 'Paramètres',
+                visible: this.userRole === 'admin_drtss',
+                items: [
+                    { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
+                    { label: 'Gestions Utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'admin_drtss' },
+                    { label: 'Gestions Utilisateurs DRTSS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible: this.userRole === 'admin_drtss' },
+                    { label: 'Signatures electroniques', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole === 'admin_drtss' },
+                    { label: 'Signer Attestations', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/pages/signature-electronique/sign_attestation'], visible: this.userRole === 'admin_drtss' }
                 ]
             },
             {

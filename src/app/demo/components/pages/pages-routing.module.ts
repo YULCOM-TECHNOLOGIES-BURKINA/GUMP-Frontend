@@ -13,7 +13,10 @@ import { RouterModule } from '@angular/router';
         { path: 'actes/certificat-de-non-faillite', loadChildren: () => import('./actes/cnf/cnf.module').then(m => m.CnfModule) },
         { path: 'actes/attestation-situation-fiscale', loadChildren: () => import('./actes/asf/asf.module').then(m => m.AsfModule) },
         { path: 'utilisateurs', loadChildren: () => import('./utilisateurs/utilisateurs.module').then(m => m.UtilisateursModule) },
+        { path: 'utilisateurs-drtss', loadChildren: () => import('./utilisateurs-drtss/utilisateurs-drtss.module').then(m => m.UtilisateursDrtssModule) },
         { path: 'profil', loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },
+        { path: 'signature-electronique', loadChildren: () => import('./signatures-electroniques/signatures-electroniques.module').then(m => m.SignaturesElectroniquesModule) },
+
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]
