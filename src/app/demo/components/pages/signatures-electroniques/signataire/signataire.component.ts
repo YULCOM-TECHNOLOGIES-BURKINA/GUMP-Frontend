@@ -158,6 +158,26 @@ export class SignataireComponent implements OnInit {
         });
     }
 
+    download(file: any) {
+
+
+        const url = file.path;
+        window.open(url, '_blank');
+        this.messageService.add({
+            severity: 'info',
+            summary: 'Succès',
+            detail: 'Fichier téléchargé',
+            life: 3000,
+        });
+    }
+
+    downloadCertificat(path: string,certificatFile:string) {
+
+
+        this.signElectService
+        .telechargerCertificat(path,certificatFile)
+    }
+
     confirmDeleteSelected() {
         this.deleteDialog = true;
     }

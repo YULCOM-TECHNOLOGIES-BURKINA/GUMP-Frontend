@@ -76,7 +76,7 @@ export class HttpFastserviceService {
     }
 
 
-    
+
     /**
      * Recuperation d'une valeur par la clé de stockage
      * @param key
@@ -106,11 +106,11 @@ export class HttpFastserviceService {
         return localStorage.removeItem(key);
     }
 
-    public downloadFile(url: string, object: any): Observable<any> {
-        return this.http.patch(url, object, { responseType: 'blob' }).pipe(
-            map((result: any) => {
-                return result;
-            })
-        );
-    }
+    downloadFile(path: string): Observable<Blob> {
+        const url = 'http://localhost:8082/api/download_certificate'; // URL de votre backend
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post(url, { path }, { headers, responseType: 'blob' });
+      }
+
+      
 }

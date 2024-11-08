@@ -7,239 +7,148 @@
             <p-toolbar>
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button
-                            pButton
-                            pRipple
-                            label="Enregistrer"
-                            icon="pi pi-plus"
-                            class="p-button-success mr-2"
-                            (click)="openNew()"
-                        ></button>
+                        <button pButton pRipple label="Enregistrer" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
                     </div>
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <p-fileUpload
-                        mode="basic"
-                        accept="image/*"
-                        [maxFileSize]="1000000"
-                        label="Import"
-                        chooseLabel="Import"
-                        class="mr-2 inline-block"
-                    ></p-fileUpload>
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import"
+                        chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
 
                 </ng-template>
 
             </p-toolbar>
         </div>
 
-        <p-dialog
-            [(visible)]="modalDialog"
-            [style]="{ width: '850px' }"
-            header="Enregistrement Utilisateur"
-            [modal]="true"
-            class="p-fluid"
-        >
+        <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Enregistrement Utilisateur"
+            [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
 
-            <div class="card shadow-2  ">
-                    <form (ngSubmit)="submitForm()" [formGroup]="userForm" >
+                <div class="card shadow-2  ">
+                    <form (ngSubmit)="submitForm()" [formGroup]="userForm">
 
 
 
-                    <div class="p-fluid formgrid grid">
-                        <div class="field col-12 md:col-6">
-                            <label for="nom">Nom</label>
-                            <input  formControlName="nom" pInputText id="nom" placeholder="Nom" />
+                        <div class="p-fluid formgrid grid">
+                            <div class="field col-12 md:col-6">
+                                <label for="nom">Nom</label>
+                                <input formControlName="nom" pInputText id="nom" placeholder="Nom" />
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="prenom">Prenom</label>
+                                <input formControlName="prenom" pInputText id="prenom" placeholder="prenom" />
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="matricule">Matricule</label>
+                                <input formControlName="matricule" pInputText id="matricule" placeholder="matricule" />
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="telephone">Telephone</label>
+                                <input formControlName="tel" pInputText id="telephone" placeholder="telephone" />
+                            </div>
                         </div>
 
-                        <div class="field col-12 md:col-6">
-                            <label for="prenom">Prenom</label>
-                            <input   formControlName="prenom" pInputText id="prenom" placeholder="prenom" />
+
+
+                        <div class="field">
+                            <label for="email">Email</label>
+                            <input type="text" pInputText id="email" formControlName="email" />
+                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is
+                                required.</small>
                         </div>
-
-                        <div class="field col-12 md:col-6">
-                            <label for="matricule">Matricule</label>
-                            <input  formControlName="matricule" pInputText id="matricule" placeholder="matricule" />
-                        </div>
-
-                        <div class="field col-12 md:col-6">
-                            <label for="telephone">Telephone</label>
-                            <input  formControlName="tel" pInputText id="telephone" placeholder="telephone" />
-                        </div>
-                    </div>
-
-
-
-                <div class="field">
-                    <label for="email">Email</label>
-                    <input
-                        type="text"
-                        pInputText
-                        id="email"
-                        formControlName="email"
-                    />
-                    <small
-                        class="ng-dirty ng-invalid"
-                        *ngIf="submitted && !product.name"
-                        >Name is required.</small
-                    >
+                    </form>
                 </div>
-                </form>
-            </div>
 
 
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button
-                    pButton
-                    pRipple
-
-                    label="Annuler"
-                    icon="pi pi-times"
-                    (click)="modalDialog=false"
-
-                ></button>
-                <button
-                    (click)="submitForm()"
-                    pButton
-                    pRipple
-                    label="Valider"
-                    icon="pi pi-check"
-                    class="p-button-text p-button-success"
-
-                ></button>
+                <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
+                <button (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
+                    class="p-button-text p-button-success"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog header="Demande de Confirmation!" [(visible)]="deleteDialog" [modal]="true" showEffect="fade" [style]="{width: '20vw'}" [breakpoints]="{'560px': '50vw'}">
+        <p-dialog header="Demande de Confirmation!" [(visible)]="deleteDialog" [modal]="true" showEffect="fade"
+            [style]="{width: '20vw'}" [breakpoints]="{'560px': '50vw'}">
             <h4 class="line-height-5 m-0">
-              Confirmez-vous cette action ?
+                Confirmez-vous cette action ?
             </h4>
             <ng-template pTemplate="footer">
-                <button pButton icon="pi pi-refresh" (click)="display=false" label="ANNULER" (click)="deleteDialog=false" class=" p-button-danger p-button-outlined "></button>
-                <button pButton icon="pi pi-check" (click)="display=false" label="JE CONFIRME" class="p-button-success p-button-outlined"></button>
+                <button pButton icon="pi pi-refresh" (click)="display=false" label="ANNULER"
+                    (click)="deleteDialog=false" class=" p-button-danger p-button-outlined "></button>
+                <button pButton icon="pi pi-check" (click)="display=false" label="JE CONFIRME"
+                    class="p-button-success p-button-outlined"></button>
             </ng-template>
         </p-dialog>
     </div>
 
     <div class="card">
         <h5>Utilisateurs DRTSS</h5>
-        <p-table
-  #dt1
-  (onPage)="onPageChange($event)"
-  [value]="utilisateurs"
-
-  dataKey="id"
-  [rows]="pageSize"
-
-  [rowHover]="true"
-  styleClass="p-datatable-gridlines p-datatable-striped"
-  rowGroupMode="subheader"
-  groupRowsBy="nom"
-  sortField="nom"
-  [paginator]="true"
-  [totalRecords]="{totalRecords}"
-  [showCurrentPageReport]="true"
-  [rowsPerPageOptions]="[10,50,100]"
-  currentPageReportTemplate="{first} à {last} sur {totalRecords}"
-  responsiveLayout="scroll"
-  [scrollable]="true"
-
-  scrollHeight="500px"
->
+        <p-table #dt1 (onPage)="onPageChange($event)" [value]="utilisateurs" dataKey="id" [rows]="pageSize"
+            [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
+            groupRowsBy="nom" sortField="nom" [paginator]="true" [totalRecords]="{totalRecords}"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
+            currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
+            [scrollable]="true" scrollHeight="500px">
             <ng-template pTemplate="caption">
-                <div
-                    class="flex justify-content-between flex-column sm:flex-row"
-                >
-                    <button
-                        pButton
-                        label="Clear"
-                        class="p-button-outlined mb-2"
-                        icon="pi pi-filter-slash"
-                        (click)="clear(dt1)"
-                    ></button>
+                <div class="flex justify-content-between flex-column sm:flex-row">
+                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+                        (click)="clear(dt1)"></button>
                     <span class="p-input-icon-left mb-2">
                         <i class="pi pi-search"></i>
-                        <input
-                            pInputText
-                            type="text"
-                            #filter
-                            (input)="onGlobalFilter(dt1, $event)"
-                            placeholder="Search Keyword"
-                            class="w-full"
-                        />
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
+                            placeholder="Search Keyword" class="w-full" />
                     </span>
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th style="min-width: 12rem">
-                        <div
-                            class="flex justify-content-between align-items-center"
-                        >
+                        <div class="flex justify-content-between align-items-center">
                             Date
                             <p-sortIcon field="matricule" />
                         </div>
                     </th>
 
                     <th style="min-width: 12rem">
-                        <div
-                            class="flex justify-content-between align-items-center"
-                        >
+                        <div class="flex justify-content-between align-items-center">
                             Matricule
                             <p-sortIcon field="matricule" />
                         </div>
                     </th>
 
                     <th style="min-width: 12rem">
-                        <div
-                            class="flex justify-content-between align-items-center"
-                        >
+                        <div class="flex justify-content-between align-items-center">
                             Nom
-                            <p-columnFilter
-                                type="text"
-                                field="nom"
-                                display="menu"
-                                placeholder="rechercher ...  "
-                            ></p-columnFilter>
+                            <p-columnFilter type="text" field="nom" display="menu"
+                                placeholder="rechercher ...  "></p-columnFilter>
                         </div>
                     </th>
 
                     <th style="min-width: 12rem">
-                        <div
-                            class="flex justify-content-between align-items-center"
-                        >
+                        <div class="flex justify-content-between align-items-center">
                             Prenom
-                            <p-columnFilter
-                                type="text"
-                                field="prenom"
-                                display="menu"
-                                placeholder="rechercher ... name"
-                            ></p-columnFilter>
+                            <p-columnFilter type="text" field="prenom" display="menu"
+                                placeholder="rechercher ... name"></p-columnFilter>
                         </div>
                     </th>
 
                     <th style="min-width: 12rem">
-                        <div
-                            class="flex justify-content-between align-items-center"
-                        >
+                        <div class="flex justify-content-between align-items-center">
                             Email
-                            <p-columnFilter
-                                type="text"
-                                field="email"
-                                display="menu"
-                                placeholder="rechercher ...  "
-                            ></p-columnFilter>
+                            <p-columnFilter type="text" field="email" display="menu"
+                                placeholder="rechercher ...  "></p-columnFilter>
                         </div>
                     </th>
 
 
                     <th style="min-width: 12rem">
-                        <div
-                            class="flex justify-content-between align-items-center"
-                        >
+                        <div class="flex justify-content-between align-items-center">
                             Actions
 
                         </div>
@@ -267,11 +176,13 @@
                     </td>
 
                     <td>
-                        <p-splitButton label=""  icon="pi pi-plus" [model]="items"   (click)="onLineClick(res)" styleClass="p-button-info"></p-splitButton>
+                        <p-splitButton label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
+                            styleClass="p-button-info"></p-splitButton>
                     </td>
                 </tr>
-                <p-confirmDialog header="Confirmation" key="confirm1" icon="pi pi-exclamation-triangle" message="Are you sure you want to proceed?"
-                             [style]="{width: '350px'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                <p-confirmDialog appendTo="body" header="Confirmation" key="confirm1" icon="pi pi-exclamation-triangle"
+                    message="Are you sure you want to proceed?" [style]="{width: '350px'}"
+                    acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
             </ng-template>
             <ng-template pTemplate="emptymessage">

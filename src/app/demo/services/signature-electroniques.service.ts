@@ -3,13 +3,14 @@ import { HttpFastserviceService } from './http-fastservice.service';
 import { Utilisateur } from '../models/utilisateurs';
 import { API_ROOT } from 'src/environments/environment';
 import { catchError, of, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignatureElectroniquesService {
 
-  constructor(private fastService:HttpFastserviceService) {  }
+  constructor(private fastService:HttpFastserviceService, private http: HttpClient) {  }
 
 
 
@@ -63,6 +64,32 @@ export class SignatureElectroniquesService {
     );
   }
 
+  public telechargerCertificat(path: string,certificatFile:any): void {
+
+    const url = API_ROOT.API_DOWNLOAD_SIGNATAIRE_CERTIFICAT_DRTSS+`?path=${encodeURIComponent(path)}`;
+
+    this.http.get(url, { responseType: 'blob' }).subscribe(
+        (res: Blob) => {
+            if (res.size > 0) {
+                const blobUrl = window.URL.createObjectURL(res);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = certificatFile;
+                a.click();
+                window.URL.revokeObjectURL(blobUrl);
+             } else {
+             }
+        },
+        (error) => {
+         }
+    );
+}
+
+
+
+
+
+
 
   public createSignataire(selectedFile: File, selectedUser: { id: number }) {
     const formData: FormData = new FormData();
@@ -82,7 +109,7 @@ export class SignatureElectroniquesService {
 
 
 
-  public signDocument(selectedFile: File, signatoryId: { id: number },attestationPath:string,alias:string,keyStorePassword:string) {
+  public signDocument(selectedFile: File, signatoryId: number ,attestationPath:string,alias:string,keyStorePassword:string) {
     const formData: FormData = new FormData();
     formData.append('keyStore', selectedFile);
     formData.append('signatoryId', signatoryId.toString());

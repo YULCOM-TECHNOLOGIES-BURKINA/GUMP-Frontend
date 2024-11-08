@@ -36,6 +36,7 @@ export class SignatureAttestationComponent implements OnInit {
 
     dataResponse: any;
     deleteDialog = false;
+    viewpdfDialog = false;
 
     // Pagination
     pageSize: number = 10;
@@ -54,25 +55,6 @@ export class SignatureAttestationComponent implements OnInit {
     ) {}
     ngOnInit(): void {
         this.loadDemande(this.pageNumber, this.pageSize);
-        this.items = [
-            {
-                label: 'Modifier',
-                icon: 'pi pi-pencil',
-                command: () => {
-                    console.log('TEST');
-                    this.openNew('UPDATE');
-                },
-            },
-            { separator: true },
-            {
-                label: 'Suprimer',
-                icon: 'pi pi-times',
-                command: () => {
-                    console.log('TEST');
-                    //this.openDeleteDialog(this.selectLine);
-                },
-            },
-        ];
     }
 
     loadDemande(page: number, size: number) {
@@ -80,7 +62,7 @@ export class SignatureAttestationComponent implements OnInit {
         this.signElectService.listDemandes(page, size).subscribe(
             (response: any) => {
                 this.dataResponse = response;
-                this.demandes = response.content;
+                this.demandes = [...response.content];
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
@@ -108,29 +90,30 @@ export class SignatureAttestationComponent implements OnInit {
 
     submitted: boolean;
     modalDialog: boolean;
-    openNew(type: string) {
-        this.signElectService.listUtilisateurSignataieDrtss(0, 1000).subscribe(
-            (response: any) => {
-                this.listeFiltreUtilisateurs = response.content;
-                this.totalRecords = response.totalPages;
-                this.loading = false;
-                this.cdr.detectChanges();
-            },
-            (error) => {
-                console.log("Une erreur s'est produite :", error);
-                this.loading = false;
-                this.cdr.detectChanges();
-            }
-        );
-
-        this.modalDialog = true;
-        if (type == 'UPDATE') {
-            this.signDocForm.setValue({
-                id: this.selectLine.id,
-                userId: this.selectLine.id,
-                file: [],
-            });
+    openNew(attestationPath: string,pdfSrc:string) {
+        this.attestationPath = '';
+        if (!attestationPath) {
+            this.messageSucces('Le document est en traitement', 'error');
         } else {
+            this.attestationPath = attestationPath;
+            this.pdfSrc=pdfSrc
+            this.signElectService
+                .listUtilisateurSignataieDrtss(0, 1000)
+                .subscribe(
+                    (response: any) => {
+                        this.listeFiltreUtilisateurs = response.content;
+                        this.totalRecords = response.totalPages;
+                        this.loading = false;
+                        this.cdr.detectChanges();
+                    },
+                    (error) => {
+                        console.log("Une erreur s'est produite :", error);
+                        this.loading = false;
+                        this.cdr.detectChanges();
+                    }
+                );
+
+            this.modalDialog = true;
         }
     }
     download(file: any) {
@@ -186,6 +169,37 @@ export class SignatureAttestationComponent implements OnInit {
         });
     }
 
+    downloadFile(url: string) {
+        window.open(
+            url,
+            '_blank'
+        );
+    }
+
+
+
+    pdfSrc: string | null = null;
+    viewAttestation(url: string) {
+        console.log('url',url);
+
+         this.http.get(url, { responseType: 'blob' }).subscribe(
+          (response: Blob) => {
+            if (response.size > 0) {
+               this.pdfSrc = url;
+              this.viewpdfDialog = true;
+            } else {
+               alert('Le document PDF est vide et ne peut pas être ouvert.');
+            }
+          },
+          (error) => {
+              alert("Le document n'a pas pu être chargé.");
+          }
+        );
+      }
+
+      closeDialog() {
+        this.viewpdfDialog = false;
+      }
     onFileSelect(event: any): void {
         if (event.currentFiles && event.currentFiles.length > 0) {
             this.selectedFile = event.currentFiles[0];
@@ -197,11 +211,13 @@ export class SignatureAttestationComponent implements OnInit {
 
     selectedFile!: any;
     signDocumentselectedFile: any;
-    signatoryId!: any;
+    signatoryId!: number;
     attestationPath!: any;
     alias!: any;
     keyStorePassword!: any;
-    submitForm() {
+
+     submitForm() {
+
         if (!this.selectedFile) {
             this.messageSucces('Vous devez Ajouter votre certificat', 'error');
 
@@ -231,7 +247,7 @@ export class SignatureAttestationComponent implements OnInit {
             return;
         }
         this.signatoryId = this.selectedUser.id;
-        this.attestationPath = 'attestations/format-sign-test2.pdf';
+       // this.signatoryId =;
         this.signElectService
             .signDocument(
                 this.selectedFile,
@@ -243,8 +259,9 @@ export class SignatureAttestationComponent implements OnInit {
             .subscribe(
                 (event: any) => {
                     this.messageSucces('Document Signe avec succès', 'success');
-                    this.loadDemande(0, 50);
                     this.modalDialog = false;
+                    this.loadDemande(0, 50);
+                   // this.viewAttestation(this.pdfSrc);
                 },
                 (error) => {
                     this.messageSucces(

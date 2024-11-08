@@ -32,6 +32,7 @@ import { ChipsModule } from 'primeng/chips';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { SelectButtonModule } from 'primeng/selectbutton';
+ import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
     declarations: [],
@@ -101,6 +102,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         InputSwitchModule,
         SelectButtonModule,
         CheckboxModule,
+         PdfViewerModule
     ],
 })
 export class UtilsModuleModule {}
