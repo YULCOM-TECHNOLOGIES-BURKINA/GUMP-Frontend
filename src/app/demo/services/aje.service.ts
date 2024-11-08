@@ -8,7 +8,7 @@ import { DemandeAje, DemandeAjeResponse } from '../models/aje';
 })
 export class AjeService {
 
-  private apiUrl = 'http://54.37.13.176:8080/api/demandes'; 
+  private apiUrl = 'http://195.35.48.198:8080/api/demandes'; 
 
   constructor(private http: HttpClient) {}
 

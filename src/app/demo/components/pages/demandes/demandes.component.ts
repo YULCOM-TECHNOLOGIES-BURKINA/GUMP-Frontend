@@ -7,11 +7,26 @@ import { Table } from 'primeng/table';
 import { DrtssService } from '../../../services/drtss.service';
 import { AnpeService } from '../../../services/anpe.service';
 import { AjeService } from '../../../services/aje.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-demandes',
   templateUrl: './demandes.component.html',
-  providers: [MessageService]
+  providers: [MessageService],
+  styles: [`
+    .expired-row {
+      background-color: #ffebee !important;
+    }
+    .warning-text {
+      color: #FF9800 !important;
+    }
+    .expired-text {
+      color: #f44336 !important;
+    }
+    .valid-text {
+      color: #4CAF50 !important;
+    }
+  `]
 })
 export class DemandesComponent implements OnInit {
 
@@ -45,6 +60,8 @@ export class DemandesComponent implements OnInit {
   countAje= 0;
   countAnpe= 0;
 
+  readonly VALIDITY_DAYS = 90; // Durée de validité en jours
+  readonly WARNING_DAYS = 14; // Seuil d'alerte en jours
 
   constructor(
     private drtssService: DrtssService, 
@@ -56,12 +73,70 @@ export class DemandesComponent implements OnInit {
       this.getDemandesDrtss();
       this.getDemandesAje();
       this.getDemandesAnpe();
+      this.setupValidityCheck();
 
       this.cols = [
           { field: 'acte', header: 'Acte' },
           { field: 'createdAt', header: 'Date' },
           { field: 'status', header: 'Statut' }
       ];
+  }
+
+  setupValidityCheck() {
+    // Vérifier la validité toutes les heures
+    interval(3600000).subscribe(() => {
+      this.checkValidityAndNotify();
+    });
+  }
+
+  checkValidityAndNotify() {
+    this.requestsDrtss.forEach(request => {
+      const daysLeft = this.calculateDaysLeft(request.createdAt);
+      if (daysLeft <= this.WARNING_DAYS && daysLeft > 0) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Attention',
+          detail: `La demande ${request.id} expire dans ${daysLeft} jours`,
+          life: 5000
+        });
+      }
+    });
+  }
+
+  calculateDaysLeft(createdAt: string): number {
+    const created = new Date(createdAt);
+    const expirationDate = new Date(created.getTime() + this.VALIDITY_DAYS * 24 * 60 * 60 * 1000);
+    const today = new Date();
+    const diffTime = expirationDate.getTime() - today.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
+
+  isExpired(createdAt: string): boolean {
+    return this.calculateDaysLeft(createdAt) <= 0;
+  }
+
+  getValidityStatus(createdAt: string) {
+    const daysLeft = this.calculateDaysLeft(createdAt);
+    
+    if (daysLeft <= 0) {
+      return {
+        text: 'Expiré',
+        class: 'expired-text',
+        severity: 'danger'
+      };
+    } else if (daysLeft <= this.WARNING_DAYS) {
+      return {
+        text: `${daysLeft} jours restants`,
+        class: 'warning-text',
+        severity: 'warning'
+      };
+    } else {
+      return {
+        text: `${daysLeft} jours restants`,
+        class: 'valid-text',
+        severity: 'success'
+      };
+    }
   }
 
   getDemandesDrtss() {

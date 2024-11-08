@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { AjeService } from '../../../../services/aje.service';
 import { Router } from '@angular/router';
@@ -10,15 +10,14 @@ import { Router } from '@angular/router';
 })
 
 
-export class AjeComponent {
-
-  requestType: string = 'SOUMISSION';
+export class AjeComponent implements OnInit {
+  requestType: 'LIQUIDATION' | 'SOUMISSION' = 'LIQUIDATION';
   requesterId: string = 'YULCOM';
-  rccmReference: string;
-  ifuNumber: string;
-  address: string;
-  phoneNumber: string;
-  businessDomain: string;
+  rccmReference: string = 'YULCOM';
+  ifuNumber: string = 'YULCOM';
+  address: string = 'YULCOM';
+  phoneNumber: string = 'YULCOM';
+  businessDomain: string = 'YULCOM';
   bankAccountReference: string;
   contractReference: string;
   contractPurpose: string;
@@ -26,26 +25,67 @@ export class AjeComponent {
   organizationAddress: string;
   organizationPhone: string;
 
+  // Libellés dynamiques
+  formLabels = {
+    title: 'Fiche de demande et de retrait d\'attestation de non engagement - Liquidation',
+    reference: 'Référence du marché ',
+    purpose: 'Objet du marché '
+  };
+
   constructor(
     private messageService: MessageService, 
     private ajeService: AjeService,
     private router: Router) {}
 
+    ngOnInit() {
+      this.updateFormLabels();
+    }
+  
+    updateFormLabels() {
+      if (this.requestType === 'SOUMISSION') {
+        this.formLabels = {
+          title: 'Fiche de demande et de retrait d\'attestation de non engagement - Soumission',
+          reference: 'Référence de l\'acte de soumission',
+          purpose: 'Objet de l\'acte de soumission'
+        };
+      } else {
+        this.formLabels = {
+          title: 'Fiche de demande et de retrait d\'attestation de non engagement - Liquidation',
+          reference: 'Référence du marché ',
+          purpose: 'Objet du marché '
+        };
+      }
+    }
+  
+    onRequestTypeChange() {
+      this.updateFormLabels();
+    }
+
   isFormValid(): boolean {
-    return !!this.businessDomain 
-          && !!this.bankAccountReference 
+    return   !!this.bankAccountReference 
           && !!this.contractReference 
           && !!this.contractPurpose
           && !!this.contractingOrganizationName
           && !!this.organizationAddress
-          && !!this.rccmReference
-          && !!this.ifuNumber
-          && !!this.address
-          && !!this.phoneNumber
           && !!this.requestType
-          && !!this.requesterId
           && !!this.organizationPhone;
   }
+
+  // isFormValid(): boolean {
+  //   return !!this.businessDomain 
+  //         && !!this.bankAccountReference 
+  //         && !!this.contractReference 
+  //         && !!this.contractPurpose
+  //         && !!this.contractingOrganizationName
+  //         && !!this.organizationAddress
+  //         //&& !!this.rccmReference
+  //         //&& !!this.ifuNumber
+  //         //&& !!this.address
+  //         //&& !!this.phoneNumber
+  //         && !!this.requestType
+  //         //&& !!this.requesterId
+  //         && !!this.organizationPhone;
+  // }
 
   onSubmit() {
     if (!this.isFormValid()) {

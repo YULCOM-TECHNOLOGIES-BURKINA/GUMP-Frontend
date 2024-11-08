@@ -16,6 +16,7 @@ export interface DemandeAje {
     contractingOrganizationName?: string;
     organizationAddress?: string;
     organizationPhone?: string;
+    createdAt?: string;
 }
 
 export interface DemandeAjeResponse {

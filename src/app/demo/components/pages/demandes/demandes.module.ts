@@ -19,6 +19,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { BadgeModule } from 'primeng/badge';
 import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
@@ -41,6 +42,7 @@ import { TabViewModule } from 'primeng/tabview';
     InputNumberModule,
     DialogModule,
 		TooltipModule,
+    BadgeModule,
     TabViewModule
   ]
 })

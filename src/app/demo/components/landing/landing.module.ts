@@ -25,6 +25,8 @@ import { AccordionModule } from 'primeng/accordion';
 import { TimelineModule } from 'primeng/timeline';
 import { SharedModule } from './shared/shared.module';
 
+import ActService from '../../services/actes.service';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -47,6 +49,7 @@ import { SharedModule } from './shared/shared.module';
         TimelineModule,
         SharedModule
     ],
-    declarations: [LandingComponent, FAQComponent, VerificationComponent, GuideComponent, GuideDetailComponent]
+    declarations: [LandingComponent, FAQComponent, VerificationComponent, GuideComponent, GuideDetailComponent],
+    providers: [ActService]
 })
 export class LandingModule { }
