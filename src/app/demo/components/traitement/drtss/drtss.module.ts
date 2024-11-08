@@ -25,6 +25,9 @@ import { RatingModule } from 'primeng/rating';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { TabViewModule } from 'primeng/tabview';
+import { BadgeModule } from 'primeng/badge';
+import { PanelModule } from 'primeng/panel';
+
 
 @NgModule({
   declarations: [TraitementDrtssComponent],
@@ -52,7 +55,9 @@ import { TabViewModule } from 'primeng/tabview';
 		RatingModule,
 		RadioButtonModule,
 		TooltipModule,
-		TabViewModule
+		TabViewModule,
+		BadgeModule,
+		PanelModule
     
   ]
 })

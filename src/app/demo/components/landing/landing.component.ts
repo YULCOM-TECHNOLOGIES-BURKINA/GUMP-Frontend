@@ -23,9 +23,9 @@ export class LandingComponent implements OnInit {
 
   acts: ActGuide[] = [
     {
-      id: 'drtss',
-      title: 'Attestation DRTSS',
-      description: 'Attestation de régularité en matière de travail et de sécurité sociale',
+      id: 'drtps',
+      title: 'Attestation DRTPS',
+      description: 'Attestation de régularité en matière de travail et de protection sociale',
       icon: 'pi pi-file',
       organization: 'Direction Régionale du Travail et de la Protection Sociale',
       validityPeriod: '3 mois',

@@ -17,6 +17,7 @@ import { ToastModule } from 'primeng/toast';
 import { AjeComponent } from './aje.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { DividerModule } from 'primeng/divider';
 	CheckboxModule,
 	DividerModule,
 	ToastModule,
-	FileUploadModule
+	FileUploadModule,
+	RadioButtonModule
     
   ]
 })
