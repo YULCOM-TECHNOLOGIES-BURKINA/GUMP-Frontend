@@ -248,6 +248,7 @@ export class SignatureAttestationComponent implements OnInit {
         }
         this.signatoryId = this.selectedUser.id;
        // this.signatoryId =;
+       this.loading = false;
         this.signElectService
             .signDocument(
                 this.selectedFile,
@@ -261,7 +262,7 @@ export class SignatureAttestationComponent implements OnInit {
                     this.messageSucces('Document Signe avec succès', 'success');
                     this.modalDialog = false;
                     this.loadDemande(0, 50);
-                   // this.viewAttestation(this.pdfSrc);
+                    // this.viewAttestation(this.pdfSrc);
                 },
                 (error) => {
                     this.messageSucces(

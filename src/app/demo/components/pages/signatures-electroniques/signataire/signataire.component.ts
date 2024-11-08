@@ -100,7 +100,7 @@ export class SignataireComponent implements OnInit {
                 }
             );
 
-        this.signElectService.listUtilisateurDrtss(page, size).subscribe(
+        this.signElectService.listUtilisateurDrtss(0, 100000).subscribe(
             (response: any) => {
                 this.listeFiltreUtilisateurs = response.content;
                 this.loading = false;
@@ -135,6 +135,8 @@ export class SignataireComponent implements OnInit {
     submitted: boolean;
     modalDialog: boolean;
     openNew(type: string) {
+        this.selectedUser=''
+        this.selectedFile=''
         this.modalDialog = true;
         if (type == 'UPDATE') {
             this.initForm();
@@ -280,7 +282,7 @@ export class SignataireComponent implements OnInit {
                         'Signataire enregistré avec succès',
                         'success'
                     );
-                    this.loadUsers(0, 50);
+                    this.loadUsers(0, 1000);
                     this.modalDialog = false;
                 },
                 (error) => {
