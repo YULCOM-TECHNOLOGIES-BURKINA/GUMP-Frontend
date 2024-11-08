@@ -1,0 +1,503 @@
+<div class="surface-0">
+    <div class="guide-wrapper overflow-hidden">
+        <app-header></app-header>  
+        <!-- Hero Section -->
+        <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4">Historique de vos demandes</h1>
+            </div>
+        </div>       
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="col-12">
+                <div class="card px-6 py-6">
+                    <p-toast></p-toast>
+                    <!-- TabView PrimeNG -->
+                    <p-tabView>
+                        <!-- DRTSS -->
+                        <p-tabPanel header="DRTPS ({{ countDrtss }})">
+                            <p-table #dt [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                            [showCurrentPageReport]="true" 
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                            [totalRecords]="totalRecords" [(selection)]="selectedDrtssRequests" 
+                            selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                                <ng-template pTemplate="caption">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <h5 class="m-0">Historique de mes demandes d'attestation DRTPS</h5>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="demandeur">Ref. du marché <p-sortIcon field="demandeur"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-requestDrtss>
+                                    <tr>
+                                        <td>Ref. du marché</td>
+                                        <td>{{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>
+                                            <span class="p-badge" [ngClass]="{
+                                            'p-badge-success': requestDrtss.status === 'APPROVED',
+                                                'p-badge-primary': requestDrtss.status === 'PROCESSING',
+                                                'p-badge-danger': requestDrtss.status === 'REJECTED',
+                                                'p-badge-info': requestDrtss.status === 'PENDING'
+                                            }">
+                                            {{ getTranslatedStatus(requestDrtss.status) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                            <button *ngIf="requestDrtss.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestDrtss)" 
+                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+                        <!-- AJE -->
+                        <p-tabPanel header="AJE ({{ countAje }})" >
+                            <p-table #dt [value]="requestsAje" [columns]="cols" responsiveLayout="scroll" 
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                            [showCurrentPageReport]="true" 
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                            [totalRecords]="totalRecordsAje" [(selection)]="selectedAjeRequests" 
+                            selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                                <ng-template pTemplate="caption">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <h5 class="m-0">Historique de mes demandes d'attestation AJE</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                    </span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-requestAje>
+                                    <tr>
+                                        <td>
+                                            <span class="p-column-title">Acte</span>
+                                            Demande d'attestation de soumission au marchés publics
+                                        </td>
+                                        <td>{{ requestAje.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>
+                                            <span class="p-badge" [ngClass]="{
+                                            'p-badge-success': requestAje.status === 'APPROVED',
+                                                'p-badge-primary': requestAje.status === 'PROCESSING',
+                                                'p-badge-danger': requestAje.status === 'REJECTED',
+                                                'p-badge-info': requestAje.status === 'PENDING'
+                                            }">
+                                            {{ getTranslatedStatus(requestAje.status) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAje(requestAje)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                            <button *ngIf="requestAje.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequestAje(requestAje)" 
+                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+                        <!-- ANPE -->
+                        <p-tabPanel header="ANPE ({{ countAnpe }})">
+                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                            [showCurrentPageReport]="true" 
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                                <ng-template pTemplate="caption">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <h5 class="m-0">Historique de mes demandes d'attestation ANPE</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                    </span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-requestAnpe>
+                                    <tr>
+                                        <td>
+                                            <span class="p-column-title">Acte</span>
+                                            Demande d'attestation de soumission au marchés publics
+                                        </td>
+                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>
+                                            <span class="p-badge" [ngClass]="{
+                                            'p-badge-success': requestAnpe.status === 'APPROVED',
+                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
+                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
+                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            }">
+                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+                        <!-- RCCM -->
+                        <p-tabPanel header="RCCM ({{ countAnpe }})">
+                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                            [showCurrentPageReport]="true" 
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                                <ng-template pTemplate="caption">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <h5 class="m-0">Historique de mes demandes d'attestation RCCM</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                    </span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-requestAnpe>
+                                    <tr>
+                                        <td>
+                                            <span class="p-column-title">Acte</span>
+                                            Demande d'attestation de soumission au marchés publics
+                                        </td>
+                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>
+                                            <span class="p-badge" [ngClass]="{
+                                            'p-badge-success': requestAnpe.status === 'APPROVED',
+                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
+                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
+                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            }">
+                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+                        <!-- ASF -->
+                        <p-tabPanel header="Attestation de situation fiscale ({{ countAnpe }})">
+                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                            [showCurrentPageReport]="true" 
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                                <ng-template pTemplate="caption">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <h5 class="m-0">Historique de mes demandes d'attestation de situation fiscale</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                    </span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-requestAnpe>
+                                    <tr>
+                                        <td>
+                                            <span class="p-column-title">Acte</span>
+                                            Demande d'attestation de soumission au marchés publics
+                                        </td>
+                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>
+                                            <span class="p-badge" [ngClass]="{
+                                            'p-badge-success': requestAnpe.status === 'APPROVED',
+                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
+                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
+                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            }">
+                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+                        <!-- CNSS -->
+                        <p-tabPanel header="Situation cotisante CNSS ({{ countAnpe }})">
+                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                            [showCurrentPageReport]="true" 
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                                <ng-template pTemplate="caption">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <h5 class="m-0">Historique de mes demandes d'attestation de situation cotisante CNSS</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                    </span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-requestAnpe>
+                                    <tr>
+                                        <td>
+                                            <span class="p-column-title">Acte</span>
+                                            Demande d'attestation de soumission au marchés publics
+                                        </td>
+                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>
+                                            <span class="p-badge" [ngClass]="{
+                                            'p-badge-success': requestAnpe.status === 'APPROVED',
+                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
+                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
+                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            }">
+                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+                        <!-- CNF -->
+                        <p-tabPanel header="Certificat de non faillite ({{ countAnpe }})">
+                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                            [showCurrentPageReport]="true" 
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                                <ng-template pTemplate="caption">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <h5 class="m-0">Historique de mes demandes de certificat de non faillite</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                    </span>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-requestAnpe>
+                                    <tr>
+                                        <td>
+                                            <span class="p-column-title">Acte</span>
+                                            Demande d'attestation de soumission au marchés publics
+                                        </td>
+                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>
+                                            <span class="p-badge" [ngClass]="{
+                                            'p-badge-success': requestAnpe.status === 'APPROVED',
+                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
+                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
+                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            }">
+                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+
+                    </p-tabView>
+                </div>
+
+                <!-- Dialogs -->
+                <p-dialog header="Détails de la demande DRTSS" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '750px'}" *ngIf="requestDrtss">
+                    <div class="grid">
+                        <div class="col-12">
+                            <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Localisation: </strong> Ouagadougou</p>
+                            <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
+                            <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
+                        </div>
+
+                        <div class="col-12 mt-2 flex" *ngIf="requestDrtss.files">            
+                            <button 
+                            *ngFor="let file of requestDrtss.files"
+                                pButton 
+                                pRipple 
+                                icon="pi pi-download" 
+                                [label]="'Télécharger ' + file.label"
+                                class="p-button-secondary p-button-outlined mr-2"
+                                (click)="download(file)" >
+                            </button>
+                        </div>
+
+                        <div *ngIf="requestDrtss.status == 'APPROVED'">
+                            <p><strong>Validité de l'acte: </strong> 
+                                <p-badge [value]="getValidityStatus(requestDrtss.createdAt).text"
+                                        [severity]="getValidityStatus(requestDrtss.createdAt).severity">
+                                </p-badge>
+                            </p>
+                        </div>
+                    </div>
+                </p-dialog>
+
+                <p-dialog header="Détails de la demande AJE" [(visible)]="displayProcessModalAje" [modal]="true" [style]="{width: '500px'}" *ngIf="requestAje">
+                    <div class="grid">
+                        <div class="col-12">
+                            <span class="font-bold">Entreprise: {{requestAje.requesterId }}</span>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Localisation: </strong> {{requestAje.address }}</p>
+                            <p><strong>Téléphone: </strong>{{requestAje.phoneNumber }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>RCCM: </strong> {{requestAje.rccmNumber }}</p>
+                            <p><strong>IFU: </strong>{{requestAje.ifuNumber }}</p>
+                        </div>
+
+                        <div class="col-6">
+                            <p><strong>Refrence du contrat: </strong> {{requestAje.contractReference }}</p>
+                            <p><strong>Objet du contrat: </strong>{{requestAje.contractPurpose }}</p>
+                        </div>
+
+                        <div class="col-6">
+                            <p><strong>Organisme attribuant le marché: </strong> {{requestAje.contractingOrganizationName }}</p>
+                            <p><strong>Adresse: </strong>{{requestAje.organizationAddress }}</p>
+                        </div>
+                    </div>
+                </p-dialog>
+
+                <p-dialog header="Détails de la demande ANPE" [(visible)]="displayProcessModalAnpe" [modal]="true" [style]="{width: '500px'}" *ngIf="requestAnpe">
+                    <div class="grid">
+                        <div class="col-12">
+                            <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Localisation: </strong> Ouagadougou</p>
+                            <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
+                        </div>
+                        <div class="col-6">
+                            <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
+                            <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
+                        </div>
+
+                        <div class="col-12 mt-2 flex" *ngIf="requestAnpe.files">            
+                            <button 
+                            *ngFor="let file of requestAnpe.files"
+                                pButton 
+                                pRipple 
+                                icon="pi pi-download" 
+                                [label]="'Télécharger ' + file.label"
+                                class="p-button-secondary p-button-outlined mr-2"
+                                (click)="download(file)" >
+                            </button>
+                        </div>
+                    </div>
+                </p-dialog>
+                
+                <p-dialog [(visible)]="deleteRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
+                    <div class="flex align-items-center justify-content-center">
+                        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                        <span>Voulez-vous vraiment supprimer la demande <b>Demande d'attestation de soumission au marchés publics</b>?</span>
+                    </div>
+                    <ng-template pTemplate="footer">
+                        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteRequestDialog = false"></button>
+                        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteRequest()"></button>
+                    </ng-template>
+                </p-dialog>
+
+            </div>
+        </div>
+        <app-footer></app-footer>  
+    </div>
+</div>
