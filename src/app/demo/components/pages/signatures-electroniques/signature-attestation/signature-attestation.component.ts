@@ -247,7 +247,7 @@ export class SignatureAttestationComponent implements OnInit {
             return;
         }
         this.signatoryId = this.selectedUser.id;
-       // this.signatoryId =;
+    
        this.loading = false;
         this.signElectService
             .signDocument(
