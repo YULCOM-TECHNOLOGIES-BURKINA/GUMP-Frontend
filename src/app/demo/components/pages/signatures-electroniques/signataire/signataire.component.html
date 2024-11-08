@@ -12,7 +12,7 @@
                     </div>
                 </ng-template>
 
-                
+
 
             </p-toolbar>
         </div>
@@ -176,16 +176,13 @@
                     <td>
 
 
-                        <button class="p-button-secondary p-button-outlined mr-2" pButton pRipple icon="pi pi-download"
-                            [label]="'Télécharger Certificat'" class="p-button-secondary p-button-outlined mr-2"
+                        <button class="p-button-success p-button-outlined mr-2" pButton pRipple icon="pi pi-download"
+                            label="Télécharger Certificat" class="p-button-outlined p-button-info"
                             (click)="downloadCertificat(res?.signatureCertificat?.cheminCertificat,res?.signatureCertificat?.certificatFile)">
                         </button>
 
                     </td>
                 </tr>
-                <p-confirmDialog header="Confirmation" key="confirm1" icon="pi pi-exclamation-triangle"
-                    message="Are you sure you want to proceed?" [style]="{width: '350px'}"
-                    acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
             </ng-template>
             <ng-template pTemplate="emptymessage">

@@ -1,7 +1,7 @@
 <p-toast key="tst"></p-toast>
 
 <div class="sticky-bar">
-    
+
 
     <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Enregistrement Signataire Document"
         [modal]="true" class="p-fluid">
@@ -152,22 +152,23 @@
                         {{ res?.status }}
                     </td>
                     <td>
-                        <button pButton pRipple icon="pi pi-pencil" [label]="'Signer '"
-                            class="p-button-secondary p-button-outlined mr-2" [disabled]="!res?.attestation?.pathFile"
-                            (click)="openNew(res?.attestation?.pathFile,res?.attestation?.path)">
-                        </button>
 
-                        <button (click)="viewAttestation(res?.attestation?.path)"
-                            class="p-button-secondary p-button-outlined mr-2" [disabled]="!res?.attestation?.pathFile"
-                            pButton pRipple icon="pi pi-eye" [label]="'Visualiser '"
-                            class="p-button-secondary p-button-outlined mr-2">
-                        </button>
+                        <button [disabled]="!res?.attestation?.pathFile"  (click)="openNew(res?.attestation?.pathFile,res?.attestation?.path)" [disabled]="!res?.attestation?.pathFile"  class="p-button-success p-button-outlined mr-2" pButton pRipple icon="pi pi-pencil"
+                        label="Signer" class="p-button-outlined p-button-danger">
+                       </button>
 
-                        <button class="p-button-secondary p-button-outlined mr-2" [disabled]="!res?.attestation" pButton
-                            pRipple icon="pi pi-download" [label]="'Télécharger'"
-                            class="p-button-secondary p-button-outlined mr-2"
-                            (click)="downloadFile(res?.attestation?.path)">
-                        </button>
+
+
+                        <button  [disabled]="!res?.attestation" (click)="viewAttestation(res?.attestation?.path)" [disabled]="!res?.attestation?.pathFile"  style="margin-left: 10px;margin-right: 10px;"  pButton pRipple icon="pi pi-eye"
+                        label="Visualiser" class="p-button-outlined p-button-success">
+                       </button>
+
+
+                        <button  [disabled]="!res?.attestation" (click)="downloadFile(res?.attestation?.path)"  pButton pRipple icon="pi pi-download"
+                        label="'Télécharger'" class="p-button-outlined p-button-info">
+                       </button>
+
+
 
                     </td>
 
