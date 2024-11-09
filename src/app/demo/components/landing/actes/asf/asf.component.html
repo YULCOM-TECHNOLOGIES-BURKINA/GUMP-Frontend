@@ -1,0 +1,31 @@
+<div class="surface-0">
+    <div class="guide-wrapper overflow-hidden">
+        <app-header></app-header>  
+        <!-- Hero Section -->
+        <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4">Formulaire de demande de l'attestation de situation fiscale</h1>
+            </div>
+        </div>       
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="col-12">
+                <div class="card">
+                    <div class="p-fluid p-formgrid grid">
+                        <h3>Vous êtes sur le point d'effectuer une demande d'attestation de situation fiscale </h3>
+                    </div>            
+                    <div class="field col-12 text-right">
+                        <button 
+                            pButton 
+                            pRipple 
+                            icon="pi pi-check" 
+                            label="Confirmer la demande" 
+                            class="p-button-success" 
+                            (click)="onSubmit()">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>  
+    </div>
+</div>

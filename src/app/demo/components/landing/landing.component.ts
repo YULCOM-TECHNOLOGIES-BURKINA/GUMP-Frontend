@@ -23,6 +23,16 @@ export class LandingComponent implements OnInit {
 
   acts: ActGuide[] = [
     {
+      id: 'anpe',
+      title: 'Attestation ANPE',
+      description: 'Attestation desc',
+      icon: 'pi pi-building',
+      organization: 'Agence Judiciaire de l\'État',
+      validityPeriod: '3 mois',
+      processingTime: '72 heures',
+      price: '15 000 FCFA'
+    },
+    {
       id: 'drtps',
       title: 'Attestation DRTPS',
       description: 'Attestation de régularité en matière de travail et de protection sociale',
@@ -31,16 +41,6 @@ export class LandingComponent implements OnInit {
       validityPeriod: '3 mois',
       processingTime: '48 heures',
       price: '10 000 FCFA'
-    },
-    {
-      id: 'cnss',
-      title: 'Attestation CNSS',
-      description: 'Attestation de situation cotisante',
-      icon: 'pi pi-shield',
-      organization: 'Caisse Nationale de Sécurité Sociale',
-      validityPeriod: '3 mois',
-      processingTime: '24 heures',
-      price: '7 500 FCFA'
     },
     {
       id: 'aje',
@@ -53,9 +53,9 @@ export class LandingComponent implements OnInit {
       price: '15 000 FCFA'
     },
     {
-      id: 'anpe',
-      title: 'Attestation ANPE',
-      description: 'Attestation desc',
+      id: 'rccm',
+      title: 'Extrait du RCCM',
+      description: 'Registre du commerce et du crédit Mobilier',
       icon: 'pi pi-building',
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
@@ -66,16 +66,6 @@ export class LandingComponent implements OnInit {
       id: 'cnf',
       title: 'Certificat de non faillite',
       description: 'Attestation de situation juridique des entreprises',
-      icon: 'pi pi-building',
-      organization: 'Agence Judiciaire de l\'État',
-      validityPeriod: '3 mois',
-      processingTime: '72 heures',
-      price: '15 000 FCFA'
-    },
-    {
-      id: 'rccm',
-      title: 'RCCM',
-      description: 'Registre du commerce et du crédit Mobilier',
       icon: 'pi pi-building',
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',

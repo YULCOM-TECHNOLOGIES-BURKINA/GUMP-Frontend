@@ -1,0 +1,97 @@
+<div class="surface-0">
+    <div class="guide-wrapper overflow-hidden">
+        <app-header></app-header>   
+
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="col-12">
+                <div class="card px-6 py-6">
+                    <h2 class="text-center">Mon Profil</h2>
+                    <p-divider></p-divider>
+                    <p-toast />
+
+                    <div class="p-fluid formgrid grid">
+                        <div class="field col-12 md:col-6">
+                            <label for="nom">Nom</label>
+                            <input pInputText id="nom" [(ngModel)]="profil.nom" placeholder="Nom" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="prenom">Prénom</label>
+                            <input pInputText id="prenom" [(ngModel)]="profil.prenom" placeholder="Prénom" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="email">Email</label>
+                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Email" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="entreprise">Nom de l'entreprise</label>
+                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Nom de l'entreprise" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="adresse">Adresse de l'entreprise</label>
+                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Adresse de l'entreprise" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="phone">Téléphone</label>
+                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Téléphone" />
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="password">Nouveau mot de passe</label>
+                            <p-password id="password" [(ngModel)]="profil.password" toggleMask feedback="false" placeholder="••••••••"
+                            promptLabel="Choisissez un mot de passe" weakLabel="Très faible"  mediumLabel="bon"  strongLabel="Fort"></p-password>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="passwordConfirm">Confirmer mot de passe</label>
+                            <p-password id="passwordConfirm" [(ngModel)]="profil.passwordConfirm" toggleMask feedback="false" placeholder="••••••••"
+                            promptLabel="Confirmer votre mot de passe" weakLabel="Très faible"  mediumLabel="bon"  strongLabel="Fort"></p-password>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success" (onClick)="saveProfil()"></p-button>
+                    </div>
+
+                    <p-divider></p-divider>
+                    
+                    <h3>Sécurité</h3>
+                    <div class="flex align-items-center justify-content-between mt-3">
+                        <span class="text-lg">Double authentification</span>
+                        <p-toggleButton [(ngModel)]="profil.doubleAuth" severity="success" onLabel="Activé" offLabel="Désactivé" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+                    </div>
+
+
+                    <p-divider></p-divider>
+                    
+                    <div class="flex justify-content-between">
+                        <p-button label="Désactiver le compte" icon="pi pi-ban" severity="danger"  (onClick)="desactivateAccount()"></p-button>
+                        <p-button label="Supprimer le compte" icon="pi pi-trash" severity="danger"  (onClick)="deleteAccount()"></p-button>
+                    </div>
+                </div>
+
+                <!-- Dialogs -->
+                <p-dialog [(visible)]="deleteAccountDialog" header="Confirmation de suppression" [modal]="true" [style]="{width:'450px'}">
+                    <div class="flex align-items-center justify-content-center">
+                        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                        <span>Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.</span>
+                    </div>
+                    <ng-template pTemplate="footer">
+                        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteAccountDialog = false"></button>
+                        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteAccount()"></button>
+                    </ng-template>
+                </p-dialog>
+
+                <p-dialog [(visible)]="desactivateAccountDialog" header="Confirmation de désactivation" [modal]="true" [style]="{width:'450px'}">
+                    <div class="flex align-items-center justify-content-center">
+                        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                        <span>Voulez-vous vraiment désactiver votre compte ? Vous pouvez le réactiver ultérieurement.</span>
+                    </div>
+                    <ng-template pTemplate="footer">
+                        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="desactivateAccountDialog = false"></button>
+                        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDesactivateAccount()"></button>
+                    </ng-template>
+                </p-dialog>
+            </div>
+        </div>
+        <app-footer></app-footer>  
+    </div>
+</div>

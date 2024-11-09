@@ -1,0 +1,87 @@
+<div class="surface-0">
+    <div class="guide-wrapper overflow-hidden">
+        <app-header></app-header>  
+        <!-- Hero Section -->
+        <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4">Formulaire de demande d'une attestation DRTPS</h1>
+            </div>
+        </div>        
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="col-12">
+                <div class="card">
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="col-4 mt-2">
+                            <span>Reference du contrat</span>
+                            <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du contrat" required />
+                        </div>
+                        <div class="col-8 mt-2">
+                            <span>Objet du contrat</span>
+                            <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du contrat" required />
+                        </div>
+                        <div class="col-5 mt-2">
+                            <span>Identité de l'organisme attribuant le marché</span>
+                            <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
+                        </div>
+                        <div class="col-4 mt-2">
+                            <span>Adresse</span>
+                            <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
+                        </div>
+                        <div class="col-3 mt-2">
+                            <span>Numéro de téléphone</span>
+                            <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
+                        </div>
+                    
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="city">Reférence de l'attestion ANPE</label>
+                            <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Reférence de l'attestion ANPE" required />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="city">Reférence de l'attestation de situation cotisante</label>
+                            <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Reférence de l'attestation de situation cotisante" required />
+                        </div>
+                    </div> 
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="city">Joindre une copie de l'attestion ANPE</label>
+                            <p-toast />
+                            <p-fileUpload 
+                            mode="basic" 
+                            chooseLabel="Charger l'attestion ANPE" 
+                            chooseIcon="pi pi-upload"
+                            styleClass="p-button-secondary"
+                            name="anpeFile" 
+                            accept="image/*,.pdf" 
+                            maxFileSize="1000000000" 
+                            (onSelect)="onFileSelect($event, 'anpeFile')"/>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="city">Joindre une copie de l'attestion de situation cotisante</label>
+                            <p-toast />
+                            <p-fileUpload 
+                                mode="basic" 
+                                chooseLabel="Charger l'attestion CNSS" 
+                                styleClass="p-button-secondary"
+                                chooseIcon="pi pi-upload"
+                                name="cnssFile" 
+                                accept="image/*,.pdf" 
+                                maxFileSize="1000000000" 
+                                (onSelect)="onFileSelect($event, 'cnssFile')"/>
+                        </div>
+                    </div>            
+                    <div class="field col-12 text-right">
+                        <button 
+                            pButton 
+                            pRipple 
+                            icon="pi pi-check" 
+                            label="Valider et envoyer le formulaire" 
+                            class="p-button-success" 
+                            (click)="onSubmit()">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>  
+    </div>
+</div>

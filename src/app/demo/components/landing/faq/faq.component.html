@@ -1,4 +1,4 @@
-<div class="surface-0 flex justify-content-center">
+<div class="surface-ground  justify-content-center">
     <div id="home" class="landing-wrapper overflow-hidden">
         <app-header></app-header>
 
@@ -9,9 +9,11 @@
                 <div class="p-input-icon-left w-full max-w-30rem mx-auto">
                     <i class="pi pi-search"></i>
                     <input type="text" pInputText 
+                        [(ngModel)]="searchQuery"
+                        (input)="onSearch($event)"
                         class="w-full pl-5 p-3 surface-card text-900" 
-                        placeholder="Rechercher dans la FAQ..."
-                        [style]="{'border-radius': '2rem'}"/>
+                        [style]="{'border-radius': '2rem'}"
+                        placeholder="Rechercher dans la FAQ..."/>
                 </div>
             </div>
         </div>
@@ -24,20 +26,20 @@
                     <div class="surface-card p-4 shadow-2 border-round">
                         <h3 class="text-xl font-semibold mb-4">Catégories</h3>
                         <div class="flex flex-column gap-2">
-                            <button *ngFor="let category of categories" 
-                                    pButton 
+                            <p-button *ngFor="let category of categories" 
                                     [label]="category.title"
                                     [icon]="category.icon"
-                                    [class]="selectedCategory === category ? 'p-button-success' : 'p-button-text'"
+                                    [outlined]="selectedCategory !== category"
+                                    [severity]="selectedCategory === category ? 'success' : 'secondary'"
                                     (click)="selectCategory(category)"
-                                    class="p-button-lg justify-content-start">
-                            </button>
+                                    styleClass="p-button-lg justify-content-start w-full">
+                            </p-button>
                         </div>
                     </div>
                 </div>
 
                 <!-- FAQ Accordion -->
-                <div class="col-12 lg:col-9">
+                <!-- <div class="col-12 lg:col-9">
                     <div class="surface-card p-4 shadow-2 border-round">
                         <div *ngIf="selectedCategory" class="mb-4">
                             <h2 class="text-3xl font-bold mb-4 flex align-items-center gap-2">
@@ -56,6 +58,38 @@
                             </p-accordion>
                         </div>
                     </div>
+                </div> -->
+                <div class="col-12 lg:col-9">
+                    <p-card>
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center gap-3 p-4 border-bottom-1 surface-border">
+                                <i [class]="selectedCategory?.icon + ' text-4xl text-green-500'"></i>
+                                <div>
+                                    <h2 class="text-3xl font-bold m-0">{{selectedCategory?.title}}</h2>
+                                    <p class="text-700 m-0">{{selectedCategory?.description}}</p>
+                                </div>
+                            </div>
+                        </ng-template>
+    
+                        <p-skeleton *ngIf="loading" height="150px" styleClass="mb-4"></p-skeleton>
+                        
+                        <div *ngIf="!loading" [@fadeInOut]>
+                            <p-accordion [multiple]="true">
+                                <p-accordionTab *ngFor="let faq of filteredQuestions"
+                                              [header]="faq.question"
+                                              styleClass="mb-3 text-green-500">
+                                    <div class="line-height-3">
+                                        {{faq.answer}}
+                                    </div>
+                                    <div *ngIf="faq.tags" class="mt-3 flex gap-2 flex-wrap">
+                                        <p-badge *ngFor="let tag of faq.tags"
+                                        [value]="tag" 
+                                        styleClass="bg-green-100 text-primary-900"/>
+                                    </div>
+                                </p-accordionTab>
+                            </p-accordion>
+                        </div>
+                    </p-card>
                 </div>
             </div>
         </div>
@@ -85,6 +119,11 @@
 
 <style>
     :host ::ng-deep {
+    .p-card {
+        .p-card-body {
+            padding: 1.5rem;
+        }
+    }
 
     .p-accordion {
         .p-accordion-header {
@@ -110,6 +149,7 @@
             border: none;
             background: transparent;
             padding: 1rem 1.25rem;
+            line-height: 1.7;
         }
     }
 
@@ -130,6 +170,11 @@
         &:enabled:focus {
             box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(0, 128, 0, 0.4);
         }
+    }
+
+    .p-chip {
+        font-size: 0.875rem;
+        padding: 0.25rem 0.75rem;
     }
 }
 </style>
