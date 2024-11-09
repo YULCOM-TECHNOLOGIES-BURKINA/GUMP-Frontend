@@ -15,7 +15,7 @@
                     <p-tabView>
                         <!-- DRTSS -->
                         <p-tabPanel header="Attestation DRTPS ({{ countDrtss }})">
-                            <p-table #dt [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
+                            <p-table #dtdrtps [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
@@ -26,6 +26,10 @@
                                 <ng-template pTemplate="caption">
                                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                                     <h5 class="m-0">Historique de mes demandes d'attestation DRTPS</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="onGlobalFilter(dtdrtps, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                    </span>
                                     </div>
                                 </ng-template>
                                 <ng-template pTemplate="header">
@@ -41,7 +45,7 @@
                                 <ng-template pTemplate="body" let-requestDrtss>
                                     <tr>
                                         <td>Ref. marché </td>
-                                        <td>Objet du marché marché </td>
+                                        <td>Objet du marché </td>
                                         <td>{{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -87,7 +91,7 @@
 
                         <!-- AJE -->
                         <p-tabPanel header="Attestation de non engagement (AJE) ({{ countAje }})" >
-                            <p-table #dt [value]="requestsAje" [columns]="cols" responsiveLayout="scroll" 
+                            <p-table #dtaje [value]="requestsAje" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
@@ -100,7 +104,7 @@
                                     <h5 class="m-0">Historique de mes demandes d'attestation AJE</h5>
                                     <span class="block mt-2 md:mt-0 p-input-icon-left">
                                         <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                        <input pInputText type="text" (input)="onGlobalFilter(dtaje, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
                                     </span>
                                     </div>
                                 </ng-template>
@@ -116,7 +120,7 @@
                                 <ng-template pTemplate="body" let-requestAje>
                                     <tr>
                                         <td>Ref. marché </td>
-                                        <td>Objet du marché marché </td>
+                                        <td>Objet du marché </td>
                                         <td>{{ requestAje.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -129,7 +133,6 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAje(requestAje)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                             <button *ngIf="requestAje.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
                                             class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequestAje(requestAje)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
@@ -141,7 +144,7 @@
 
                         <!-- ANPE -->
                         <p-tabPanel header="Attestation ANPE ({{ countAnpe }})">
-                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            <p-table #dtanpe [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
@@ -154,7 +157,7 @@
                                     <h5 class="m-0">Historique de mes demandes d'attestation ANPE</h5>
                                     <span class="block mt-2 md:mt-0 p-input-icon-left">
                                         <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                        <input pInputText type="text" (input)="onGlobalFilter(dtanpe, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
                                     </span>
                                     </div>
                                 </ng-template>
@@ -170,7 +173,7 @@
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
                                         <td>Ref. marché </td>
-                                        <td>Objet du marché marché </td>
+                                        <td>Objet du marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -183,7 +186,6 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                             <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
                                             class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
@@ -195,7 +197,7 @@
 
                         <!-- RCCM -->
                         <p-tabPanel header="Extrait RCCM ({{ countAnpe }})">
-                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            <p-table #dtrccm [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
@@ -208,7 +210,7 @@
                                     <h5 class="m-0">Historique de mes demandes d'attestation RCCM</h5>
                                     <span class="block mt-2 md:mt-0 p-input-icon-left">
                                         <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                        <input pInputText type="text" (input)="onGlobalFilter(dtrccm, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
                                     </span>
                                     </div>
                                 </ng-template>
@@ -224,7 +226,7 @@
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
                                         <td>Ref. marché </td>
-                                        <td>Objet du marché marché </td>
+                                        <td>Objet du marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -237,7 +239,6 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                             <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
                                             class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
@@ -249,7 +250,7 @@
 
                         <!-- ASF -->
                         <p-tabPanel header="Attestation de situation fiscale ({{ countAnpe }})">
-                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            <p-table #dtasf [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
@@ -262,7 +263,7 @@
                                     <h5 class="m-0">Historique de mes demandes d'attestation de situation fiscale</h5>
                                     <span class="block mt-2 md:mt-0 p-input-icon-left">
                                         <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                        <input pInputText type="text" (input)="onGlobalFilter(dtasf, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
                                     </span>
                                     </div>
                                 </ng-template>
@@ -278,7 +279,7 @@
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
                                         <td>Ref. marché </td>
-                                        <td>Objet du marché marché </td>
+                                        <td>Objet du marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -291,7 +292,6 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                             <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
                                             class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
@@ -303,7 +303,7 @@
 
                         <!-- CNSS -->
                         <p-tabPanel header="Situation cotisante CNSS ({{ countAnpe }})">
-                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            <p-table #dtcnss [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
@@ -316,7 +316,7 @@
                                     <h5 class="m-0">Historique de mes demandes d'attestation de situation cotisante CNSS</h5>
                                     <span class="block mt-2 md:mt-0 p-input-icon-left">
                                         <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                        <input pInputText type="text" (input)="onGlobalFilter(dtcnss, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
                                     </span>
                                     </div>
                                 </ng-template>
@@ -332,7 +332,7 @@
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
                                         <td>Ref. marché </td>
-                                        <td>Objet du marché marché </td>
+                                        <td>Objet du marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -345,7 +345,6 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                             <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
                                             class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
@@ -357,7 +356,7 @@
 
                         <!-- CNF -->
                         <p-tabPanel header="Certificat de non faillite ({{ countAnpe }})">
-                            <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                            <p-table #dtcnf [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
@@ -370,7 +369,7 @@
                                     <h5 class="m-0">Historique de mes demandes de certificat de non faillite</h5>
                                     <span class="block mt-2 md:mt-0 p-input-icon-left">
                                         <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                        <input pInputText type="text" (input)="onGlobalFilter(dtcnf, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
                                     </span>
                                     </div>
                                 </ng-template>
@@ -386,7 +385,7 @@
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
                                         <td>Ref. marché </td>
-                                        <td>Objet du marché marché </td>
+                                        <td>Objet du marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -399,7 +398,6 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequestAnpe(requestAnpe)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                             <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
                                             class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
@@ -411,109 +409,6 @@
 
                     </p-tabView>
                 </div>
-
-                <!-- Dialogs -->
-                <p-dialog header="Détails de la demande DRTSS" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '750px'}" *ngIf="requestDrtss">
-                    <div class="grid">
-                        <div class="col-12">
-                            <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
-                        </div>
-                        <div class="col-6">
-                            <p><strong>Localisation: </strong> Ouagadougou</p>
-                            <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
-                        </div>
-                        <div class="col-6">
-                            <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
-                            <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
-                        </div>
-
-                        <div class="col-12 mt-2 flex" *ngIf="requestDrtss.files">            
-                            <button 
-                            *ngFor="let file of requestDrtss.files"
-                                pButton 
-                                pRipple 
-                                icon="pi pi-download" 
-                                [label]="'Télécharger ' + file.label"
-                                class="p-button-secondary p-button-outlined mr-2"
-                                (click)="download(file)" >
-                            </button>
-                        </div>
-
-                        <div *ngIf="requestDrtss.status == 'APPROVED'">
-                            <p><strong>Validité de l'acte: </strong> 
-                                <p-badge [value]="getValidityStatus(requestDrtss.createdAt).text"
-                                        [severity]="getValidityStatus(requestDrtss.createdAt).severity">
-                                </p-badge>
-                            </p>
-                        </div>
-                    </div>
-                </p-dialog>
-
-                <p-dialog header="Détails de la demande AJE" [(visible)]="displayProcessModalAje" [modal]="true" [style]="{width: '500px'}" *ngIf="requestAje">
-                    <div class="grid">
-                        <div class="col-12">
-                            <span class="font-bold">Entreprise: {{requestAje.requesterId }}</span>
-                        </div>
-                        <div class="col-6">
-                            <p><strong>Localisation: </strong> {{requestAje.address }}</p>
-                            <p><strong>Téléphone: </strong>{{requestAje.phoneNumber }}</p>
-                        </div>
-                        <div class="col-6">
-                            <p><strong>RCCM: </strong> {{requestAje.rccmNumber }}</p>
-                            <p><strong>IFU: </strong>{{requestAje.ifuNumber }}</p>
-                        </div>
-
-                        <div class="col-6">
-                            <p><strong>Refrence du contrat: </strong> {{requestAje.contractReference }}</p>
-                            <p><strong>Objet du contrat: </strong>{{requestAje.contractPurpose }}</p>
-                        </div>
-
-                        <div class="col-6">
-                            <p><strong>Organisme attribuant le marché: </strong> {{requestAje.contractingOrganizationName }}</p>
-                            <p><strong>Adresse: </strong>{{requestAje.organizationAddress }}</p>
-                        </div>
-                    </div>
-                </p-dialog>
-
-                <p-dialog header="Détails de la demande ANPE" [(visible)]="displayProcessModalAnpe" [modal]="true" [style]="{width: '500px'}" *ngIf="requestAnpe">
-                    <div class="grid">
-                        <div class="col-12">
-                            <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
-                        </div>
-                        <div class="col-6">
-                            <p><strong>Localisation: </strong> Ouagadougou</p>
-                            <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
-                        </div>
-                        <div class="col-6">
-                            <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
-                            <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
-                        </div>
-
-                        <div class="col-12 mt-2 flex" *ngIf="requestAnpe.files">            
-                            <button 
-                            *ngFor="let file of requestAnpe.files"
-                                pButton 
-                                pRipple 
-                                icon="pi pi-download" 
-                                [label]="'Télécharger ' + file.label"
-                                class="p-button-secondary p-button-outlined mr-2"
-                                (click)="download(file)" >
-                            </button>
-                        </div>
-                    </div>
-                </p-dialog>
-                
-                <p-dialog [(visible)]="deleteRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
-                    <div class="flex align-items-center justify-content-center">
-                        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                        <span>Voulez-vous vraiment supprimer la demande <b>Demande d'attestation de soumission au marchés publics</b>?</span>
-                    </div>
-                    <ng-template pTemplate="footer">
-                        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteRequestDialog = false"></button>
-                        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteRequest()"></button>
-                    </ng-template>
-                </p-dialog>
-
             </div>
         </div>
         <app-footer></app-footer>  

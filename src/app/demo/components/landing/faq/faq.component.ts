@@ -1,84 +1,131 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 interface FAQCategory {
   icon: string;
   title: string;
+  code: string;
+  description: string;
   questions: FAQ[];
 }
 
 interface FAQ {
   question: string;
   answer: string;
+  tags?: string[];
 }
 
 @Component({
   selector: 'app-faq',
-  templateUrl: './faq.component.html'
+  templateUrl: './faq.component.html',
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({ opacity: 0, transform: 'translateY(20px)' })),
+      transition('void <=> *', animate('300ms ease-in-out'))
+    ])
+  ]
 })
 export class FAQComponent implements OnInit {
   categories: FAQCategory[] = [];
   selectedCategory: FAQCategory | null = null;
   searchQuery: string = '';
+  filteredQuestions: FAQ[] = [];
+  loading: boolean = true;
 
   ngOnInit() {
     this.categories = [
       {
         icon: 'pi pi-file',
         title: 'Attestations DRTSS',
+        code: 'drtss',
+        description: 'Tout ce que vous devez savoir sur les attestations DRTSS et leur obtention.',
         questions: [
           {
             question: 'Comment obtenir une attestation DRTSS ?',
-            answer: 'Pour obtenir une attestation DRTSS, connectez-vous à votre compte, accédez à la section "Attestations DRTSS" et suivez les étapes du formulaire. Assurez-vous d\'avoir tous les documents requis numérisés avant de commencer la procédure.'
+            answer: 'Pour obtenir une attestation DRTSS, connectez-vous à votre compte, accédez à la section "Attestations DRTSS" et suivez les étapes du formulaire. Assurez-vous d\'avoir tous les documents requis numérisés avant de commencer la procédure.',
+            tags: ['attestation', 'documents', 'procédure']
           },
           {
             question: 'Quel est le délai de traitement d\'une attestation DRTSS ?',
-            answer: 'Le délai de traitement standard est de 48 heures ouvrables. Vous recevrez une notification par email dès que votre attestation sera disponible.'
+            answer: 'Le délai de traitement standard est de 48 heures ouvrables. Vous recevrez une notification par email dès que votre attestation sera disponible.',
+            tags: ['délais', 'traitement', 'notification']
           }
         ]
       },
       {
         icon: 'pi pi-briefcase',
         title: 'Services CNSS',
+        code: 'cnss',
+        description: 'Tout ce que vous devez savoir sur les attestations DRTSS et leur obtention.',
         questions: [
           {
-            question: 'Comment vérifier mon statut CNSS ?',
-            answer: 'Vous pouvez vérifier votre statut CNSS en vous connectant à votre espace personnel et en consultant la section "Situation CNSS". Les informations sont mises à jour en temps réel.'
+            question: 'Comment obtenir une attestation DRTSS ?',
+            answer: 'Pour obtenir une attestation DRTSS, connectez-vous à votre compte, accédez à la section "Attestations DRTSS" et suivez les étapes du formulaire. Assurez-vous d\'avoir tous les documents requis numérisés avant de commencer la procédure.',
+            tags: ['attestation', 'documents', 'procédure']
           },
           {
-            question: 'Que faire en cas de problème de paiement CNSS ?',
-            answer: 'En cas de problème de paiement, contactez d\'abord le service support via le formulaire dédié. Un agent vous contactera sous 24h pour résoudre votre problème.'
+            question: 'Quel est le délai de traitement d\'une attestation DRTSS ?',
+            answer: 'Le délai de traitement standard est de 48 heures ouvrables. Vous recevrez une notification par email dès que votre attestation sera disponible.',
+            tags: ['délais', 'traitement', 'notification']
           }
         ]
       },
       {
         icon: 'pi pi-user',
         title: 'Compte Utilisateur',
+        code: 'user',
+        description: 'Tout ce que vous devez savoir sur les attestations DRTSS et leur obtention.',
         questions: [
           {
-            question: 'Comment créer un compte sur la plateforme ?',
-            answer: 'Pour créer un compte, cliquez sur "Connexion" puis "Créer un compte". Vous devrez fournir une adresse email valide, vos informations personnelles et professionnelles, puis valider votre compte via le lien envoyé par email.'
+            question: 'Comment obtenir une attestation DRTSS ?',
+            answer: 'Pour obtenir une attestation DRTSS, connectez-vous à votre compte, accédez à la section "Attestations DRTSS" et suivez les étapes du formulaire. Assurez-vous d\'avoir tous les documents requis numérisés avant de commencer la procédure.',
+            tags: ['attestation', 'documents', 'procédure']
           },
           {
-            question: 'J\'ai oublié mon mot de passe, que faire ?',
-            answer: 'Cliquez sur "Mot de passe oublié" sur la page de connexion. Entrez votre adresse email et suivez les instructions envoyées pour réinitialiser votre mot de passe.'
+            question: 'Quel est le délai de traitement d\'une attestation DRTSS ?',
+            answer: 'Le délai de traitement standard est de 48 heures ouvrables. Vous recevrez une notification par email dès que votre attestation sera disponible.',
+            tags: ['délais', 'traitement', 'notification']
           }
         ]
       }
     ];
 
     this.selectedCategory = this.categories[0];
+    this.filterQuestions();
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
   }
 
   selectCategory(category: FAQCategory) {
     this.selectedCategory = category;
+    this.filterQuestions();
   }
 
-  filterQuestions(category: FAQCategory): FAQ[] {
-    if (!this.searchQuery) return category.questions;
+  filterQuestions() {
+    if (!this.selectedCategory) return;
     
-    return category.questions.filter(faq =>
-      faq.question.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      faq.answer.toLowerCase().includes(this.searchQuery.toLowerCase())
+    if (!this.searchQuery) {
+      this.filteredQuestions = this.selectedCategory.questions;
+      return;
+    }
+
+    const query = this.searchQuery.toLowerCase();
+    this.filteredQuestions = this.selectedCategory.questions.filter(faq =>
+      faq.question.toLowerCase().includes(query) ||
+      faq.answer.toLowerCase().includes(query) ||
+      faq.tags?.some(tag => tag.toLowerCase().includes(query))
     );
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
+  }
+
+  onSearch(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.searchQuery = target.value;
+    this.filterQuestions();
   }
 }

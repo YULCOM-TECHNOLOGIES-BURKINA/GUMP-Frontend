@@ -41,6 +41,7 @@ import { RatingModule } from 'primeng/rating';
 import { TooltipModule } from 'primeng/tooltip';
 import { BadgeModule } from 'primeng/badge';
 import { TabViewModule } from 'primeng/tabview';
+import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
     imports: [
@@ -77,7 +78,8 @@ import { TabViewModule } from 'primeng/tabview';
         RatingModule,
         TooltipModule,
         BadgeModule,
-        TabViewModule
+        TabViewModule,
+        ChipsModule
     ],
     declarations: [
         LandingComponent, 
