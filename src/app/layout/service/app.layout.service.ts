@@ -1,5 +1,6 @@
 import { Injectable, effect, signal } from '@angular/core';
 import { Subject } from 'rxjs';
+import { AuthService } from '../../demo/services/auth.service';
 
 export interface AppConfig {
     inputStyle: string;
@@ -50,8 +51,9 @@ export class LayoutService {
     configUpdate$ = this.configUpdate.asObservable();
 
     overlayOpen$ = this.overlayOpen.asObservable();
+    isAuthenticated: boolean = false;
 
-    constructor() {
+    constructor(private authService: AuthService) {
         effect(() => {
             const config = this.config();
             if (this.updateStyle(config)) {
@@ -60,6 +62,11 @@ export class LayoutService {
             this.changeScale(config.scale);
             this.onConfigUpdate();
         });
+    }
+
+    logout() {
+        this.authService.logout(); 
+        this.isAuthenticated = false; 
     }
 
     updateStyle(config: AppConfig) {
