@@ -53,9 +53,9 @@ export class LandingComponent implements OnInit {
       price: '15 000 FCFA'
     },
     {
-      id: 'cnf',
-      title: 'Certificat de non faillite',
-      description: 'Attestation de situation juridique des entreprises',
+      id: 'rccm',
+      title: 'Extrait du RCCM',
+      description: 'Registre du commerce et du crédit Mobilier',
       icon: 'pi pi-building',
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
@@ -63,9 +63,9 @@ export class LandingComponent implements OnInit {
       price: '15 000 FCFA'
     },
     {
-      id: 'rccm',
-      title: 'RCCM',
-      description: 'Registre du commerce et du crédit Mobilier',
+      id: 'cnf',
+      title: 'Certificat de non faillite',
+      description: 'Attestation de situation juridique des entreprises',
       icon: 'pi pi-building',
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
