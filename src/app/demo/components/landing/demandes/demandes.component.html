@@ -14,7 +14,7 @@
                     <!-- TabView PrimeNG -->
                     <p-tabView>
                         <!-- DRTSS -->
-                        <p-tabPanel header="DRTPS ({{ countDrtss }})">
+                        <p-tabPanel header="Attestation DRTPS ({{ countDrtss }})">
                             <p-table #dt [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -30,15 +30,18 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="demandeur">Ref. du marché <p-sortIcon field="demandeur"></p-sortIcon></th>
+                                        <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                        <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                         <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th pSortableColumn="validity">Validité <p-sortIcon field="validity"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestDrtss>
                                     <tr>
-                                        <td>Ref. du marché</td>
+                                        <td>Ref. marché </td>
+                                        <td>Objet du marché marché </td>
                                         <td>{{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -51,7 +54,28 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                            <div *ngIf="requestDrtss.status == 'APPROVED'">
+                                                <p><strong>Validité de l'acte: </strong> 
+                                                    <p-badge [value]="getValidityStatus(requestDrtss.createdAt).text"
+                                                            [severity]="getValidityStatus(requestDrtss.createdAt).severity">
+                                                    </p-badge>
+                                                </p>
+                                            </div>
+                                            <div *ngIf="requestDrtss.status != 'APPROVED'">--</div>
+                                        </td>
+                                        <td>
+                                            <!-- <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button> -->
+                                            <div class="col-12 mt-2 flex" *ngIf="requestDrtss.files">            
+                                                <button 
+                                                *ngFor="let file of requestDrtss.files"
+                                                    pButton 
+                                                    pRipple 
+                                                    icon="pi pi-download" 
+                                                    [label]="'Télécharger ' + file.label"
+                                                    class="p-button-secondary p-button-outlined mr-2"
+                                                    (click)="download(file)" >
+                                                </button>
+                                            </div>
                                             <button *ngIf="requestDrtss.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
                                             class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestDrtss)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
@@ -62,7 +86,7 @@
                         </p-tabPanel>
 
                         <!-- AJE -->
-                        <p-tabPanel header="AJE ({{ countAje }})" >
+                        <p-tabPanel header="Attestation de non engagement (AJE) ({{ countAje }})" >
                             <p-table #dt [value]="requestsAje" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -82,18 +106,17 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
-                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                        <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAje>
                                     <tr>
-                                        <td>
-                                            <span class="p-column-title">Acte</span>
-                                            Demande d'attestation de soumission au marchés publics
-                                        </td>
+                                        <td>Ref. marché </td>
+                                        <td>Objet du marché marché </td>
                                         <td>{{ requestAje.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -117,7 +140,7 @@
                         </p-tabPanel>
 
                         <!-- ANPE -->
-                        <p-tabPanel header="ANPE ({{ countAnpe }})">
+                        <p-tabPanel header="Attestation ANPE ({{ countAnpe }})">
                             <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -137,18 +160,17 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
-                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                        <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
-                                        <td>
-                                            <span class="p-column-title">Acte</span>
-                                            Demande d'attestation de soumission au marchés publics
-                                        </td>
+                                        <td>Ref. marché </td>
+                                        <td>Objet du marché marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -172,7 +194,7 @@
                         </p-tabPanel>
 
                         <!-- RCCM -->
-                        <p-tabPanel header="RCCM ({{ countAnpe }})">
+                        <p-tabPanel header="Extrait RCCM ({{ countAnpe }})">
                             <p-table #dt [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
@@ -192,18 +214,17 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
-                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                        <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
-                                        <td>
-                                            <span class="p-column-title">Acte</span>
-                                            Demande d'attestation de soumission au marchés publics
-                                        </td>
+                                        <td>Ref. marché </td>
+                                        <td>Objet du marché marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -247,18 +268,17 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
-                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                        <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
-                                        <td>
-                                            <span class="p-column-title">Acte</span>
-                                            Demande d'attestation de soumission au marchés publics
-                                        </td>
+                                        <td>Ref. marché </td>
+                                        <td>Objet du marché marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -302,18 +322,17 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
-                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                        <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
-                                        <td>
-                                            <span class="p-column-title">Acte</span>
-                                            Demande d'attestation de soumission au marchés publics
-                                        </td>
+                                        <td>Ref. marché </td>
+                                        <td>Objet du marché marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -357,18 +376,17 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
-                                        <th pSortableColumn="createdAt">Date <p-sortIcon field="createdAt"></p-sortIcon></th>
+                                        <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                        <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
+                                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
-                                        <td>
-                                            <span class="p-column-title">Acte</span>
-                                            Demande d'attestation de soumission au marchés publics
-                                        </td>
+                                        <td>Ref. marché </td>
+                                        <td>Objet du marché marché </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{

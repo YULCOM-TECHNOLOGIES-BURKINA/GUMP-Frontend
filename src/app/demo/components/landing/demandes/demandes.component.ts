@@ -76,7 +76,8 @@ export class DemandesComponent implements OnInit {
       this.setupValidityCheck();
 
       this.cols = [
-          { field: 'acte', header: 'Acte' },
+          { field: 'reference', header: 'Reference du marché' },
+          { field: 'objet', header: 'Objet du marché' },
           { field: 'createdAt', header: 'Date' },
           { field: 'status', header: 'Statut' }
       ];
