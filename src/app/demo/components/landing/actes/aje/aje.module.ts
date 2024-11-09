@@ -18,7 +18,7 @@ import { AjeComponent } from './aje.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
 import { RadioButtonModule } from 'primeng/radiobutton';
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [AjeComponent],
@@ -40,8 +40,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 	DividerModule,
 	ToastModule,
 	FileUploadModule,
-	RadioButtonModule
-    
+	RadioButtonModule,
+	SharedModule
   ]
 })
 export class AjeModule { }

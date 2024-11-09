@@ -15,13 +15,14 @@ import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
 import { AsfComponent } from './asf.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [AsfComponent],
   imports: [
-    CommonModule,
-    AsfRoutingModule,
-    FormsModule,
+		CommonModule,
+		AsfRoutingModule,
+		FormsModule,
 		AutoCompleteModule,
 		CalendarModule,
 		ChipsModule,
@@ -32,9 +33,9 @@ import { AsfComponent } from './asf.component';
 		MultiSelectModule,
 		InputTextareaModule,
 		InputTextModule,
-    ToastModule,
-    FileUploadModule
-    
+		ToastModule,
+		FileUploadModule,
+		SharedModule
   ]
 })
 export class AsfModule { }

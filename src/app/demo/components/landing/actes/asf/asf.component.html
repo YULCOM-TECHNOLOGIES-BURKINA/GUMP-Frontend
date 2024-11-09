@@ -1,73 +1,84 @@
-<div class="grid">
-	<div class="col-12">
-		<div class="card">
-			<h5>Formulaire de demande de l'attestation de situation fiscale</h5>
-			<div class="p-fluid p-formgrid grid">
-                <div class="col-4 mt-2">
-                    <span>Reference du contrat</span>
-                    <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du contrat" required />
-                </div>
-                <div class="col-8 mt-2">
-                    <span>Objet du contrat</span>
-                    <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du contrat" required />
-                </div>
-                <div class="col-5 mt-2">
-                    <span>Identité de l'organisme attribuant le marché</span>
-                    <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
-                </div>
-                <div class="col-4 mt-2">
-                    <span>Adresse</span>
-                    <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
-                </div>
-                <div class="col-3 mt-2">
-                    <span>Numéro de téléphone</span>
-                    <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
-                </div>
-				<div class="field col-12 md:col-4">
-					<label htmlFor="city">Type d'acte dérivé</label>
-                    <p-dropdown 
-                        [options]="actes" 
-                        [(ngModel)]="selectedActe" 
-                        optionLabel="acte" 
-                        placeholder="Selectioner un type d'acte" />
-				</div>
-                <div class="field col-12 md:col-4">
-					<label htmlFor="city">Joindre une copie de l'extrait du RCCM</label>
-                    <p-toast />
-                    <p-fileUpload 
-                    mode="basic" 
-                    chooseLabel="Charger le fichier" 
-                    chooseIcon="pi pi-upload"
-                    styleClass="p-button-secondary"
-                    name="rccmFile" 
-                    accept="image/*,.pdf" 
-                    maxFileSize="1000000000" 
-                    (onSelect)="onFileSelect($event, 'rccmFile')"/>
-				</div>
-                <div class="field col-12 md:col-4">
-					<label htmlFor="city">Jondre une copie de l'extrait des statuts</label>
-					<p-toast />
-                    <p-fileUpload 
-                        mode="basic" 
-                        chooseLabel="Charger le fichier" 
-                        styleClass="p-button-secondary"
-                        chooseIcon="pi pi-upload"
-                        name="statutFile" 
-                        accept="image/*,.pdf" 
-                        maxFileSize="1000000000" 
-                        (onSelect)="onFileSelect($event, 'statutFile')"/>
-				</div>
-			</div>            
-            <div class="field col-12 text-right">
-                <button 
-                    pButton 
-                    pRipple 
-                    icon="pi pi-check" 
-                    label="Valider et envoyer le formulaire" 
-                    class="p-button-success" 
-                    (click)="onSubmit()">
-                </button>
+<div class="surface-0">
+    <div class="guide-wrapper overflow-hidden">
+        <app-header></app-header>  
+        <!-- Hero Section -->
+        <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4">Formulaire de demande de l'attestation de situation fiscale</h1>
             </div>
-		</div>
-	</div>
+        </div>       
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="col-12">
+                <div class="card">
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="col-4 mt-2">
+                            <span>Reference du contrat</span>
+                            <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du contrat" required />
+                        </div>
+                        <div class="col-8 mt-2">
+                            <span>Objet du contrat</span>
+                            <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du contrat" required />
+                        </div>
+                        <div class="col-5 mt-2">
+                            <span>Identité de l'organisme attribuant le marché</span>
+                            <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
+                        </div>
+                        <div class="col-4 mt-2">
+                            <span>Adresse</span>
+                            <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
+                        </div>
+                        <div class="col-3 mt-2">
+                            <span>Numéro de téléphone</span>
+                            <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="city">Type d'acte dérivé</label>
+                            <p-dropdown 
+                                [options]="actes" 
+                                [(ngModel)]="selectedActe" 
+                                optionLabel="acte" 
+                                placeholder="Selectioner un type d'acte" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="city">Joindre une copie de l'extrait du RCCM</label>
+                            <p-toast />
+                            <p-fileUpload 
+                            mode="basic" 
+                            chooseLabel="Charger le fichier" 
+                            chooseIcon="pi pi-upload"
+                            styleClass="p-button-secondary"
+                            name="rccmFile" 
+                            accept="image/*,.pdf" 
+                            maxFileSize="1000000000" 
+                            (onSelect)="onFileSelect($event, 'rccmFile')"/>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="city">Jondre une copie de l'extrait des statuts</label>
+                            <p-toast />
+                            <p-fileUpload 
+                                mode="basic" 
+                                chooseLabel="Charger le fichier" 
+                                styleClass="p-button-secondary"
+                                chooseIcon="pi pi-upload"
+                                name="statutFile" 
+                                accept="image/*,.pdf" 
+                                maxFileSize="1000000000" 
+                                (onSelect)="onFileSelect($event, 'statutFile')"/>
+                        </div>
+                    </div>            
+                    <div class="field col-12 text-right">
+                        <button 
+                            pButton 
+                            pRipple 
+                            icon="pi pi-check" 
+                            label="Valider et envoyer le formulaire" 
+                            class="p-button-success" 
+                            (click)="onSubmit()">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>  
+    </div>
 </div>

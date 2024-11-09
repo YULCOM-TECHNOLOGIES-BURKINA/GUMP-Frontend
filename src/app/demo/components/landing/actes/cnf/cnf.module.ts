@@ -15,13 +15,14 @@ import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
 import { CnfComponent } from './cnf.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [CnfComponent],
   imports: [
-    CommonModule,
-    CnfRoutingModule,
-    FormsModule,
+		CommonModule,
+		CnfRoutingModule,
+    	FormsModule,
 		AutoCompleteModule,
 		CalendarModule,
 		ChipsModule,
@@ -32,9 +33,9 @@ import { CnfComponent } from './cnf.component';
 		MultiSelectModule,
 		InputTextareaModule,
 		InputTextModule,
-    ToastModule,
-    FileUploadModule
-    
+		ToastModule,
+		FileUploadModule,
+		SharedModule
   ]
 })
 export class CnfModule { }

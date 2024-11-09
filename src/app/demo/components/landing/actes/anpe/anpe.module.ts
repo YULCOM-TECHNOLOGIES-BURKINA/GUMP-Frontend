@@ -15,13 +15,14 @@ import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
 import { AnpeComponent } from './anpe.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [AnpeComponent],
   imports: [
-    CommonModule,
-    AnpeRoutingModule,
-    FormsModule,
+		CommonModule,
+		AnpeRoutingModule,
+		FormsModule,
 		AutoCompleteModule,
 		CalendarModule,
 		ChipsModule,
@@ -32,9 +33,9 @@ import { AnpeComponent } from './anpe.component';
 		MultiSelectModule,
 		InputTextareaModule,
 		InputTextModule,
-    ToastModule,
-    FileUploadModule
-    
+		ToastModule,
+		FileUploadModule,
+		SharedModule
   ]
 })
 export class AnpeModule { }

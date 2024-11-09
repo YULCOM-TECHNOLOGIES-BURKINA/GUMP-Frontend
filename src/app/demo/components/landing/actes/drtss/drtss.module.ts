@@ -15,14 +15,14 @@ import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
 import { DrtssComponent } from './drtss.component';
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [DrtssComponent],
   imports: [
-    CommonModule,
-    DrtssRoutingModule,
-    FormsModule,
+		CommonModule,
+		DrtssRoutingModule,
+		FormsModule,
 		AutoCompleteModule,
 		CalendarModule,
 		ChipsModule,
@@ -33,9 +33,9 @@ import { DrtssComponent } from './drtss.component';
 		MultiSelectModule,
 		InputTextareaModule,
 		InputTextModule,
-    ToastModule,
-    FileUploadModule
-    
+		ToastModule,
+		FileUploadModule,
+		SharedModule    
   ]
 })
 export class DrtssModule { }

@@ -15,13 +15,14 @@ import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
 import { RccmComponent } from './rccm.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [RccmComponent],
   imports: [
-    CommonModule,
-    RccmRoutingModule,
-    FormsModule,
+		CommonModule,
+		RccmRoutingModule,
+		FormsModule,
 		AutoCompleteModule,
 		CalendarModule,
 		ChipsModule,
@@ -32,9 +33,9 @@ import { RccmComponent } from './rccm.component';
 		MultiSelectModule,
 		InputTextareaModule,
 		InputTextModule,
-    ToastModule,
-    FileUploadModule
-    
+		ToastModule,
+		FileUploadModule,
+		SharedModule    
   ]
 })
 export class RccmModule { }

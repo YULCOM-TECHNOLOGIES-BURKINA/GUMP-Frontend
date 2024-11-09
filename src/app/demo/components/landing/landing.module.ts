@@ -34,7 +34,6 @@ import { PasswordModule } from 'primeng/password';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { DialogModule } from 'primeng/dialog';
 import { DemandesComponent } from './demandes/demandes.component';
-
 import { TableModule } from 'primeng/table';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToolbarModule } from 'primeng/toolbar';
