@@ -3,6 +3,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { UtilisateurService } from '../../../services/utilisateurs.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-register',
@@ -17,6 +18,7 @@ export class RegisterComponent implements OnInit {
       private fb: FormBuilder,
       private utilisateurService: UtilisateurService,
       private messageService: MessageService,
+      private router: Router, 
       public layoutService: LayoutService
     ) {}
   
@@ -25,8 +27,10 @@ export class RegisterComponent implements OnInit {
         nom: ['', Validators.required],
         prenom: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
+        ifuNumber: ['', [Validators.required]],
+        cnssNumber: ['', [Validators.required]],
         password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required]
+        passwordConfirmation: ['', Validators.required]
       }, {
         validator: this.checkPasswords
       });
@@ -34,8 +38,8 @@ export class RegisterComponent implements OnInit {
   
     checkPasswords(group: FormGroup) {
       const password = group.get('password')?.value;
-      const confirmPassword = group.get('confirmPassword')?.value;
-      return password === confirmPassword ? null : { notSame: true };
+      const passwordConfirmation = group.get('passwordConfirmation')?.value;
+      return password === passwordConfirmation ? null : { notSame: true };
     }
   
     onSubmit() {
@@ -60,6 +64,7 @@ export class RegisterComponent implements OnInit {
           });
           this.registerForm.reset();
           this.submitted = false;
+          this.router.navigate(['/auth/login']);
         },
         error: (err) => {
           this.messageService.add({

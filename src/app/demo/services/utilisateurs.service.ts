@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UtilisateurService {
 
-    private apiUrl = 'assets/users.json';
+    private apiUrl = 'http://195.35.48.198:8081/api';
 
     constructor(private http: HttpClient) { }
 
@@ -33,8 +33,7 @@ export class UtilisateurService {
   }
 
   register(user: any): Observable<any> {
-    // return this.http.post(`${environment.apiUrl}/register`, user);
-    return this.http.post(`${this.apiUrl}/register`, user);
+    return this.http.post(`${this.apiUrl}/auth/register`, user);
   }
 
 }

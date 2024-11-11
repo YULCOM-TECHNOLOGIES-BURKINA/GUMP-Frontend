@@ -113,7 +113,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAuthenticated = this.authService.isAuthenticatedOrg();
     if (this.isAuthenticated) {
       this.items.push(
         { label: 'Mes demandes', icon: 'pi pi-list', routerLink: ['/demandes'] },
