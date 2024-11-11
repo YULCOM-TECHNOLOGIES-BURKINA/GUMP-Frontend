@@ -69,20 +69,38 @@
                                         </td>
                                         <td>
                                             <!-- <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button> -->
-                                            <div class="col-12 mt-2 flex" *ngIf="requestDrtss.files">            
+                                            <div class="col-12 mt-2 flex" > 
+                                                <div *ngIf="requestDrtss.files">
+                                                    <button 
+                                                        *ngFor="let file of requestDrtss.files"
+                                                        pButton 
+                                                        pRipple 
+                                                        icon="pi pi-download" 
+                                                        [label]="' ' + file.label"
+                                                        class="p-button-secondary p-button-outlined mr-2"
+                                                        (click)="download(file)" >
+                                                    </button>
+                                                </div>           
                                                 <button 
-                                                *ngFor="let file of requestDrtss.files"
+                                                    *ngIf="requestDrtss.status == 'APPROVED'" 
                                                     pButton 
                                                     pRipple 
                                                     icon="pi pi-download" 
-                                                    [label]="'Télécharger ' + file.label"
-                                                    class="p-button-secondary p-button-outlined mr-2"
-                                                    (click)="download(file)" >
+                                                    class="p-button-outlined p-button-info mr-2" 
+                                                    (click)="openDownloadRequest(requestDrtss)" 
+                                                    label="Télécharger l'attestation DRTPS">
+                                                </button>
+                                                <button 
+                                                    *ngIf="requestDrtss.status == 'REJECTED'" 
+                                                    pButton 
+                                                    pRipple 
+                                                    icon="pi pi-eye" 
+                                                    class="p-button-outlined p-button-danger mr-2" 
+                                                    (click)="openMotif(requestDrtss)" 
+                                                    label="Voir le motif de rejet">
                                                 </button>
                                             </div>
-                                            <button *ngIf="requestDrtss.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestDrtss)" 
-                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                            
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -409,6 +427,18 @@
 
                     </p-tabView>
                 </div>
+
+                <p-dialog header="Motif de rejet de votre demande DRTPS" [(visible)]="displayMotifModal" [modal]="true" [style]="{width: '650px'}" *ngIf="requestDrtss">
+                    <div class="grid">
+                        <div class="col-6">
+                            <p><strong>Date de demande: </strong> {{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</p>
+                        </div>
+                        <div class="col-12">
+                            <p><strong>Motif de rejet</strong></p>
+                            <p>{{requestDrtss.status }}</p>
+                        </div>
+                    </div>
+                </p-dialog>
             </div>
         </div>
         <app-footer></app-footer>  

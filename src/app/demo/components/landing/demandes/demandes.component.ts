@@ -51,6 +51,7 @@ export class DemandesComponent implements OnInit {
   displayProcessModal: boolean = false;
   displayProcessModalAje: boolean = false;
   displayProcessModalAnpe: boolean = false;
+  displayMotifModal: boolean = false;
 
   totalRecords: number = 0; 
   totalRecordsAje: number = 0; 
@@ -211,6 +212,13 @@ export class DemandesComponent implements OnInit {
       this.requestDrtss = data;
     });
     this.displayProcessModal = true;
+  }
+
+  openMotif(requestDrtss: DemandeDrtss) {
+    this.drtssService.getOneDemande(requestDrtss.id).subscribe(data => {
+      this.requestDrtss = data;
+    });
+    this.displayMotifModal = true;
   }
 
 
