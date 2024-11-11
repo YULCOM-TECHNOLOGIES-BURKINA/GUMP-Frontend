@@ -10,6 +10,7 @@ export interface DemandeDrtss {
     reviewedBy?: string;
     approvedBy?: string;
     createdAt?: string;
+    rejectionReason?: string;
     files?: File[];
 }
 
