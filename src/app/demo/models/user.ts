@@ -1,4 +1,4 @@
-export interface Utilisateur {
+export interface User {
     [x: string]: any;
     id?: number;
     nom?: string;

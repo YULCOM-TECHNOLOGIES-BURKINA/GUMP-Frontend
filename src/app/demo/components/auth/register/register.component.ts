@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { UtilisateurService } from '../../../services/utilisateurs.service';
+import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
   
     constructor(
       private fb: FormBuilder,
-      private utilisateurService: UtilisateurService,
+      private utilisateurService: UserService,
       private messageService: MessageService,
       private router: Router, 
       public layoutService: LayoutService

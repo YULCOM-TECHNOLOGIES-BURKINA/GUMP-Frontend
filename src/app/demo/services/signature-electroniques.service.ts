@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpFastserviceService } from './http-fastservice.service';
-import { Utilisateur } from '../models/utilisateurs';
+import { User } from '../models/user';
 import { API_ROOT } from 'src/environments/environment';
 import { catchError, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +15,7 @@ export class SignatureElectroniquesService {
 
 
   public listUtilisateurDrtss(page: number, size: number) {
-    return this.fastService.get<Utilisateur[]>(`${API_ROOT.API_LISTE_USERS_DRTSS}?page=${page}&size=${size}`).pipe(
+    return this.fastService.get<User[]>(`${API_ROOT.API_LISTE_USERS_DRTSS}?page=${page}&size=${size}`).pipe(
        tap((utilisateurs) => {
           console.log("Liste des utilisateurs récupérée :", utilisateurs);
        }),
@@ -27,7 +27,7 @@ export class SignatureElectroniquesService {
  }
 
  public listUtilisateurSignataieDrtss(page: number, size: number) {
-    return this.fastService.get<Utilisateur[]>(`${API_ROOT.API_LISTE_USERS_SIGNATAIRE_DRTSS}?page=${page}&size=${size}`).pipe(
+    return this.fastService.get<User[]>(`${API_ROOT.API_LISTE_USERS_SIGNATAIRE_DRTSS}?page=${page}&size=${size}`).pipe(
        tap((utilisateurs) => {
 
     }),
@@ -39,7 +39,7 @@ export class SignatureElectroniquesService {
  }
 
  public listDemandes(page: number, size: number) {
-    return this.fastService.get<Utilisateur[]>(`${API_ROOT.API_LISTE_DEMANDES}?page=${page}&size=${size}`).pipe(
+    return this.fastService.get<User[]>(`${API_ROOT.API_LISTE_DEMANDES}?page=${page}&size=${size}`).pipe(
        tap((utilisateurs) => {
 
     }),
@@ -53,8 +53,8 @@ export class SignatureElectroniquesService {
 
 
   public creerUtilisateurDrtss(formData: FormData) {
-    return this.fastService.post<Utilisateur>(API_ROOT.API_CREATE_USERS_DRTSS, formData).pipe(
-      tap((res: Utilisateur) => {
+    return this.fastService.post<User>(API_ROOT.API_CREATE_USERS_DRTSS, formData).pipe(
+      tap((res: User) => {
         console.log("Utilisateur enregistré :", res);
       }),
       catchError(error => {

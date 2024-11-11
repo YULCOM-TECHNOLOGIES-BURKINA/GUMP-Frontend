@@ -9,7 +9,7 @@ import { LayoutService } from '../../../../../layout/service/app.layout.service'
 import { Router } from '@angular/router';
 import { UtilsModuleModule } from '../../../../shared/utils-module/utils-module.module';
 import { SignatureElectroniquesService } from '../../../../services/signature-electroniques.service';
-import { Utilisateur } from 'src/app/demo/models/utilisateurs';
+import { User } from 'src/app/demo/models/user';
 import { Table } from 'primeng/table';
 import {
     FormBuilder,
@@ -34,8 +34,8 @@ export class SignataireComponent implements OnInit {
 
     userForm: FormGroup;
     dataSource: any[];
-    utilisateurs: Utilisateur[];
-    listeFiltreUtilisateurs: any[] | Utilisateur[];
+    utilisateurs: User[];
+    listeFiltreUtilisateurs: any[] | User[];
 
     totalRecords = 0;
     loading: boolean = false;
@@ -126,7 +126,7 @@ export class SignataireComponent implements OnInit {
         this.pageSize = event.rows;
         this.loadUsers(this.pageNumber, this.pageSize);
     }
-    selectLine: Utilisateur;
+    selectLine: User;
     onLineClick(event: any) {
         this.selectLine = event;
         console.log(this.selectLine);
@@ -150,7 +150,7 @@ export class SignataireComponent implements OnInit {
         }
     }
 
-    openDeleteDialog(Utilisateur: Utilisateur) {
+    openDeleteDialog(Utilisateur: User) {
         this.confirmDeleteSelected();
     }
     public initForm() {

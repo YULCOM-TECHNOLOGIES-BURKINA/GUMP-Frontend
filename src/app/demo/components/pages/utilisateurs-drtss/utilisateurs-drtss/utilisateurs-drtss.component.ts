@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Utilisateur } from 'src/app/demo/models/utilisateurs';
+import { User } from 'src/app/demo/models/user';
 import { SignatureElectroniquesService } from 'src/app/demo/services/signature-electroniques.service';
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
@@ -21,7 +21,7 @@ export class UtilisateursDrtssComponent implements OnInit {
 
     userForm: FormGroup;
     dataSource: any[];
-    utilisateurs: Utilisateur[];
+    utilisateurs: User[];
 
     totalRecords = 0;
     loading: boolean = false;
@@ -87,7 +87,7 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.pageSize = event.rows;
         this.loadUsers(this.pageNumber, this.pageSize);
     }
-    selectLine:Utilisateur
+    selectLine:User
     onLineClick(event: any){
         this.selectLine=event
         console.log(this.selectLine);
@@ -114,7 +114,7 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
     }
 
-    openDeleteDialog(Utilisateur:Utilisateur){
+    openDeleteDialog(Utilisateur:User){
 
         this.confirmDeleteSelected()
 

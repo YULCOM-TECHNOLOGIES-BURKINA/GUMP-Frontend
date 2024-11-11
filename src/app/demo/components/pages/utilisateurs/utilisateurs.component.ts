@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UtilisateurService } from '../../../services/utilisateurs.service';
-import { Utilisateur } from '../../../models/utilisateurs';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../models/user';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
@@ -15,18 +15,18 @@ import { Table } from 'primeng/table';
 
 export class UtilisateursComponent implements OnInit {
 
-    utilisateurs: Utilisateur[] = [];
+    utilisateurs: User[] = [];
 
     deleteRequestDialog: boolean = false;
     deleteRequestsDialog: boolean = false;
 
-    requests: Utilisateur[] = [];
-    request: Utilisateur = {};
+    requests: User[] = [];
+    request: User = {};
 
-    selectedRequests: Utilisateur[] = [];
+    selectedRequests: User[] = [];
     cols: any[] = [];
 
-    constructor(private utilisateurService: UtilisateurService, private messageService: MessageService) { }
+    constructor(private utilisateurService: UserService, private messageService: MessageService) { }
 
     ngOnInit(): void {
       // this.utilisateurService.getUtilisateurs().then(data => this.requests = data);
@@ -40,14 +40,14 @@ export class UtilisateursComponent implements OnInit {
     }
 
     getUtilisateurs() {
-        this.utilisateurService.getUtilisateurs().subscribe((data: Utilisateur[]) => {
+        this.utilisateurService.getUsers().subscribe((data: User[]) => {
             this.utilisateurs = data;
             this.requests = data;
         });
     }
 
-    desactiverUtilisateur(utilisateur: Utilisateur) {
-        this.utilisateurService.desactiverUtilisateur(utilisateur.id).subscribe(() => {
+    desactiverUtilisateur(utilisateur: User) {
+        this.utilisateurService.desactivateUser(utilisateur.id).subscribe(() => {
             utilisateur.actif = false;
         });
     }
@@ -64,12 +64,12 @@ export class UtilisateursComponent implements OnInit {
       this.deleteRequestsDialog = true;
   }
 
-  editRequest(request: Utilisateur) {
+  editRequest(request: User) {
       this.request = { ...request };
       // Logique d'édition ici
   }
 
-  deleteRequest(request: Utilisateur) {
+  deleteRequest(request: User) {
       this.deleteRequestDialog = true;
       this.request = { ...request };
   }
