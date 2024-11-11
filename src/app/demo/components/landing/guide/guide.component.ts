@@ -11,6 +11,7 @@ interface ActGuide {
     processingTime: string;
     price: string;
     category: string;
+    img: string; // Chemin vers l'image de l'acte
 }
 
 @Component({
@@ -28,7 +29,8 @@ export class GuideComponent implements OnInit {
         validityPeriod: '3 mois',
         processingTime: '72 heures',
         price: '15 000 FCFA',
-        category: 'Travail'
+        category: 'Travail',
+        img:'assets/anpe.jpg'
       },
       {
           id: 'drtps',
@@ -39,7 +41,8 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '48 heures',
           price: '10 000 FCFA',
-          category: 'Travail'
+          category: 'Travail',
+          img:'assets/anpe.jpg'
         },
         {
           id: 'aje',
@@ -50,7 +53,8 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '72 heures',
           price: '15 000 FCFA',
-          category: 'Travail'
+          category: 'Juridique',
+          img:'assets/justice.jpg'
         },
         {
           id: 'rccm',
@@ -61,7 +65,8 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '72 heures',
           price: '15 000 FCFA',
-          category: 'Travail'
+          category: 'Juridique',
+          img:'assets/justice.jpg'
         },
         {
           id: 'cnf',
@@ -72,7 +77,8 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '72 heures',
           price: '15 000 FCFA',
-          category: 'Travail'
+          category: 'Juridique',
+          img:'assets/justice.jpg'
         },
         {
           id: 'asf',
@@ -83,7 +89,8 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '72 heures',
           price: '15 000 FCFA',
-          category: 'Travail'
+          category: 'Fiscale',
+          img:'assets/anpe.jpg'
         }
     ];
 

@@ -13,15 +13,14 @@
         <!-- Header avec breadcrumb et actions -->
         <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
             <div>
-                <!-- <nav class="text-600 mb-3">
+                <nav class="text-600 mb-3">
                     -- <a [routerLink]="['/guide']" class="text-green-600 hover:text-green-700 no-underline">Guide</a> --
-                    <a class="text-green-600 hover:text-green-700 no-underline">Guide</a>
                     <span class="px-2">/</span>
                     <span class="text-900">{{act?.title}}</span>
-                </nav> -->
+                </nav>
                 <h1 class="text-4xl font-bold text-900 m-0">{{act?.title}}</h1>
             </div>
-            <div class="mt-3 md:mt-0">
+            <div class="mt-3 md:mt-0" *ngIf="act.id != 'cnss'">
                 <button pButton 
                         label="Faire une demande" 
                         icon="pi pi-file-edit" 
