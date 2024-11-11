@@ -307,9 +307,11 @@ export class TraitementDrtssComponent implements OnInit {
     if (this.request) {
       const requestData = {
         attestationAnpeNumber: this.attestationAnpeNumber,
-        attestationAnpeDate: this.attestationAnpeDate ? this.attestationAnpeDate.toISOString().split('T')[0] : '',
+        // attestationAnpeDate: this.attestationAnpeDate ? this.attestationAnpeDate.toISOString().split('T')[0] : '',
+        attestationAnpeDate: this.attestationAnpeDate,
         attestationCnssNumber: this.attestationCnssNumber,
-        attestationCnssDate: this.attestationCnssDate ? this.attestationCnssDate.toISOString().split('T')[0] : ''
+        // attestationCnssDate: this.attestationCnssDate ? this.attestationCnssDate.toISOString().split('T')[0] : ''
+        attestationCnssDate: this.attestationCnssDate
       };
 
       this.drtssService.approveRequest(this.request.id, requestData).subscribe({

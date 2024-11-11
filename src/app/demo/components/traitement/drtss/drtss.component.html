@@ -241,6 +241,12 @@
                                     <span class="p-badge p-badge-primary">{{ getTranslatedStatus(request.status) }}</span>
                                 </td>
                                 <td>
+                                    <button pButton pRipple icon="pi pi-eye" 
+                                            class="p-button-outlined p-button-secondary mr-2" 
+                                            (click)="openViewRequest(request)" 
+                                            pTooltip="Voir la demande" 
+                                            tooltipPosition="bottom">
+                                    </button>
                                     <button pButton pRipple icon="pi pi-check" 
                                             class="p-button-outlined p-button-success mr-2"
                                             (click)="openProcessRequest(request)" 
@@ -305,6 +311,12 @@
                                     <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
                                 </td>
                                 <td>
+                                    <button pButton pRipple icon="pi pi-eye" 
+                                            class="p-button-outlined p-button-secondary mr-2" 
+                                            (click)="openViewRequest(request)" 
+                                            pTooltip="Voir la demande" 
+                                            tooltipPosition="bottom">
+                                    </button>
                                     <button pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
                                     (click)="openDownloadRequest(request)" pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                 </td>
@@ -317,7 +329,7 @@
     </div>
 
 
-    <p-dialog header="Détails de la demande" [(visible)]="displayProcessDetailModal" [modal]="true" [style]="{width: '500px'}" *ngIf="request">
+    <p-dialog header="Détails de la demande" [(visible)]="displayProcessDetailModal" [modal]="true" [style]="{width: '650px'}" *ngIf="request">
         <div class="grid">
             <div class="col-12">
                 <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
@@ -329,6 +341,16 @@
             <div class="col-6">
                 <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
                 <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
+            </div>
+            <div class="col-6">
+                <p><strong>IFU: </strong> 010203</p>
+            </div>
+            <div class="col-6">
+                <p><strong>RCCM: </strong> 010203</p>
+            </div>
+            <div class="col-12">
+                <p><strong>Réfrence du marché: </strong> xxxxxxxxx</p>
+                <p><strong>Objet du marché: </strong> xxxxxxxxxxx</p>
             </div>
             <div class="col-12 mt-2 flex" *ngIf="request.files">            
                 <button 
@@ -348,7 +370,7 @@
         header="Traitement de la demande" 
         [(visible)]="displayProcessModal" 
         [modal]="true" 
-        [style]="{width: '50vw', minWidth: '850px'}" 
+        [style]="{width: '650px'}" 
         [contentStyle]="{padding: '2rem'}"
         *ngIf="request">
         <div class="grid p-fluid">
@@ -363,14 +385,24 @@
                 <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
                 <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
             </div>
+            <div class="col-6">
+                <p><strong>IFU: </strong> 010203</p>
+            </div>
+            <div class="col-6">
+                <p><strong>RCCM: </strong> 010203</p>
+            </div>
+            <div class="col-12">
+                <p><strong>Réfrence du marché: </strong> xxxxxxxxx</p>
+                <p><strong>Objet du marché: </strong> xxxxxxxxxxx</p>
+            </div>
             <div class="col-6 mt-2">
                 <label>N° Attestation ANPE</label>
                 <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Numéro Attestation ANPE" required />
             </div>
             <div class="col-6 mt-2">
                 <label>Date Attestation ANPE</label>
-                <p-calendar [(ngModel)]="attestationAnpeDate" dateFormat="yy-mm-dd" required  />
-                <!-- <input type="'date" id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="Date Attestation ANPE" required /> -->
+                <!-- <p-calendar [(ngModel)]="attestationAnpeDate" dateFormat="yy-mm-dd" required  /> -->
+                <input pInputText type="date" id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="dd/mm/yyyy" required />
 
             </div>
             <div class="col-6 mt-2">
@@ -379,8 +411,8 @@
             </div>
             <div class="col-6 mt-2">
                 <label>Date Attestation CNSS</label>
-                <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" dateFormat="yy-mm-dd" required />
-                <!-- <input type="'date" id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="Date Attestation CNSS" required /> -->
+                <!-- <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" dateFormat="yy-mm-dd" required /> -->
+                <input pInputText type="date" id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="dd/mm/yyyy" required />
             </div>
         </div>
         <ng-template pTemplate="footer">
