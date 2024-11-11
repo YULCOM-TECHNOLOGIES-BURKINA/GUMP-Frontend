@@ -39,8 +39,10 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/submit`, formData);
   }
 
-  register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/register`, user);
+  register( userData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/register`, userData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 
 }

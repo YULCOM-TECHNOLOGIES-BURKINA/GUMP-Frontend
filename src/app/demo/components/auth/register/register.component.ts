@@ -128,12 +128,12 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        // const userData = this.registerForm.value;
-        const userData = new FormData();
-        userData.append('ifuNumber', this.registerForm.get('ifuNumber')?.value);
-        userData.append('cnssNumber', this.registerForm.get('cnssNumber')?.value);
-        userData.append('password', this.registerForm.get('password')?.value);
-        userData.append('email', this.registerForm.get('email')?.value);
+        const userData = {
+          ifuNumber: this.registerForm.get('ifuNumber')?.value,
+          cnssNumber: this.registerForm.get('cnssNumber')?.value,
+          password: this.registerForm.get('password')?.value,
+          email: this.registerForm.get('email')?.value,
+        };
         
         this.userService.register(userData).subscribe({
             next: () => {
@@ -141,9 +141,12 @@ export class RegisterComponent implements OnInit {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Succès',
-                    detail: 'Inscription réussie ! Vous pouvez maintenant vous connecter.'
+                    detail: 'Inscription réussie ! Vous allez être redigé vers la page de connexion.',
+                    life: 5000
                 });
-                this.router.navigate(['/auth/login']);
+                setTimeout(() => {
+                  this.router.navigate(['/auth/login']);
+              }, 5000);
             },
             error: (error) => {
                 this.loading = false;
