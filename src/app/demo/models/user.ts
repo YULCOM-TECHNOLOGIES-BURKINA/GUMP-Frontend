@@ -7,7 +7,4 @@ export interface User {
     tel?: number,
     matricule?:string
     actif?: boolean;
-
-
-
 }

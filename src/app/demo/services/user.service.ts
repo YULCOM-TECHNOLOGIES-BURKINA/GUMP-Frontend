@@ -15,8 +15,16 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  verifyIfu(ifuNumber: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get-ifu/${ifuNumber}`);
+}
+
+  // getUsers(): Observable<User[]> {
+  //     return this.http.get<User[]>(this.apiUrl);
+  // }
+
   getUsers(): Observable<User[]> {
-      return this.http.get<User[]>(this.apiUrl);
+    return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
 
   desactivateUser(id: number): Observable<any> {
