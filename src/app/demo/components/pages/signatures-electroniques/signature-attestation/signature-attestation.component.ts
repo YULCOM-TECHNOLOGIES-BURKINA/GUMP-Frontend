@@ -247,30 +247,36 @@ export class SignatureAttestationComponent implements OnInit {
             return;
         }
         this.signatoryId = this.selectedUser.id;
-    
+
        this.loading = false;
-        this.signElectService
-            .signDocument(
-                this.selectedFile,
-                this.signatoryId,
-                this.attestationPath,
-                this.alias,
-                this.keyStorePassword
-            )
-            .subscribe(
-                (event: any) => {
-                    this.messageSucces('Document Signe avec succès', 'success');
-                    this.modalDialog = false;
-                    this.loadDemande(0, 50);
-                    // this.viewAttestation(this.pdfSrc);
-                },
-                (error) => {
-                    this.messageSucces(
-                        'Échec  Signature Attestation ',
-                        'error'
-                    );
-                }
-            );
+       this.signElectService
+       .signDocument(
+           this.selectedFile,
+           this.signatoryId,
+           this.attestationPath,
+           this.alias,
+           this.keyStorePassword
+       )
+       .subscribe({
+           next: () => {
+
+               this.handleSuccess('Document signé avec succès');
+           },
+           error: (error) => {
+               const errorMessage = error?.error || 'Échec: Utilisateur inactif ou signature non autorisée';
+               this.handleError(errorMessage);
+           }
+       });
+    }
+
+    private handleSuccess(message: string): void {
+        this.messageSucces(message, 'success');
+        this.modalDialog = false;
+        this.loadDemande(0, 50);
+    }
+
+    private handleError(message: string): void {
+        this.messageSucces(message, 'error');
     }
 
     filteredUsersAutoComplete: any[] = [];

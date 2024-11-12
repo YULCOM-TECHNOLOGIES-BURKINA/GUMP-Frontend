@@ -42,21 +42,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     ) {}
     ngOnInit(): void {
         this.loadUsers(this.pageNumber, this.pageSize);
-        this.items = [
-            {
-                label: 'Modifier',
-                icon: 'pi pi-refresh',
-                command: () => {
-                    console.log('TEST');
-                    this.openNew("UPDATE");
-                },
-            },
-            { separator: true },
-            { label: 'Suprimer', icon: 'pi pi-times' ,command: () => {
-                console.log('TEST');
-                this.openDeleteDialog(this.selectLine);
-            },},
-         ];
+
     }
 
     dataResponse: any;
@@ -87,13 +73,57 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.pageSize = event.rows;
         this.loadUsers(this.pageNumber, this.pageSize);
     }
+    selectlabel=""
     selectLine:Utilisateur
     onLineClick(event: any){
         this.selectLine=event
         console.log(this.selectLine);
+        let modifier=true
+        if (this.selectLine.actif==true) {
+            this.selectlabel="Desactiver"
+        }else{
+            this.selectlabel="Activer"
+            modifier=false
+        }
+
+        this.items = [
+            {
+                label: 'Modifier',
+                icon: 'pi pi-refresh',
+                visible:modifier,
+                command: () => {
+                    console.log('TEST');
+                    this.openNew("UPDATE");
+                },
+            },
+            { separator: true },
+            { label: this.selectlabel, icon: 'pi pi-times' ,command: () => {
+                console.log('TEST');
+                this.openDeleteDialog(this.selectLine);
+            },},
+         ];
+
+
 
     }
 
+
+    onConfirm(){
+        this.signElectService.modifierStatusUtilisateurDrtss(this.selectLine.id).subscribe(
+            (response: any) => {
+
+                 this.loadUsers(this.pageNumber, this.pageSize);
+                this.messageSucces("Operation éffectueé avec succès.","success")
+
+                this.deleteDialog = false;
+             },
+            (error) => {
+                 this.messageSucces("Une erreur s'est produite","error")
+
+              }
+        );
+
+    }
     submitted: boolean;
     modalDialog: boolean;
     openNew(type:string) {
@@ -107,6 +137,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 prenom:this.selectLine.prenom,
                 tel: this.selectLine.tel,
                 matricule: this.selectLine.matricule,
+                titre_honorifique:this.selectLine.titre_honorifique,
                 email: this.selectLine.email
             })
         }else{
@@ -126,6 +157,7 @@ export class UtilisateursDrtssComponent implements OnInit {
             prenom: ['', Validators.required],
             tel: [],
             matricule: [],
+            titre_honorifique:[],
             email: ['', Validators.email],
           });
     }
@@ -135,7 +167,7 @@ export class UtilisateursDrtssComponent implements OnInit {
 
                  this.loadUsers(this.pageNumber, this.pageSize);
                 this.messageSucces("Utilisateur créé avec succès.","success")
-              
+
                 this.modalDialog = false;
              },
             (error) => {

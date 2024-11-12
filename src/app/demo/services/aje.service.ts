@@ -24,6 +24,7 @@ export class AjeService {
 
   getDemandes(): Observable<DemandeAjeResponse> {
     return this.http.get<DemandeAjeResponse>(this.apiUrl);
+    return this.http.get<DemandeAjeResponse>(this.apiUrl);
   }
 
   getRequestStatus(requestId: string): Observable<any> {
