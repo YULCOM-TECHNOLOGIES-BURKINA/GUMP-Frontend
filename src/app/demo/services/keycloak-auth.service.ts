@@ -26,8 +26,9 @@ export class KeycloakAuthService {
       this.keycloak.init({
         // onLoad: 'check-sso',
         // silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-        // checkLoginIframe: false,
-        onLoad: 'login-required'
+        checkLoginIframe: false,
+        onLoad: 'login-required',
+        responseMode: 'fragment'
       }).then((authenticated) => {
         if (authenticated) {
           this.updateUserDetails();

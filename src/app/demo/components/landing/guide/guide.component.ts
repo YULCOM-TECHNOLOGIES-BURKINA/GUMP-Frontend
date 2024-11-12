@@ -54,7 +54,7 @@ export class GuideComponent implements OnInit {
           processingTime: '48 heures',
           price: '10 000 FCFA',
           category: 'Travail',
-          img:'assets/image.jpg'
+          img:'assets/image.png'
         },
         {
           id: 'aje',
@@ -90,7 +90,7 @@ export class GuideComponent implements OnInit {
           processingTime: '72 heures',
           price: '15 000 FCFA',
           category: 'Fiscale',
-          img:'assets/image.jpg'
+          img:'assets/image.png'
         }
     ];
 

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { AuthService } from '../../../services/auth.service';
+// import { AuthService } from '../../../services/auth.service';
+import { KeycloakAuthService } from '../../../services/keycloak-auth.service';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-header',
@@ -15,12 +18,6 @@ import { AuthService } from '../../../services/auth.service';
         <!-- Desktop Menu -->
         <div class="hidden lg:flex">
           <p-menubar [model]="items" [style]="{'border': 'none', 'background': 'transparent'}" styleClass="custom-menubar">
-            <!-- <ng-template pTemplate="end">
-              <button routerLink="/auth/login" pButton pRipple label="Connexion" 
-                class="p-button border-none font-semibold bg-green-600 hover:bg-green-700 transition-colors transition-duration-150"
-                style="border-radius: 2rem;">
-              </button>
-            </ng-template> -->
           </p-menubar>
         </div>
 
@@ -85,9 +82,9 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   items: MenuItem[];
-  isAuthenticated: boolean = false;
+  isAuthenticated: Observable<boolean>;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: KeycloakAuthService) {
     this.items = [
         {
           label: 'Accueil',
@@ -113,7 +110,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticatedOrg();
+    this.isAuthenticated = this.authService.isAuthenticated();
     if (this.isAuthenticated) {
       this.items.push(
         { label: 'Mes demandes', icon: 'pi pi-list', routerLink: ['/demandes'] },
@@ -122,14 +119,14 @@ export class HeaderComponent implements OnInit {
       );
     } else {
       this.items.push(
-        { label: 'Connexion', icon: 'pi pi-user', routerLink: ['/auth/login'] }
+        { label: 'Connexion', icon: 'pi pi-user', command: () => this.authService.login() }
+        // { label: 'Connexion', icon: 'pi pi-user', routerLink: ['/auth/login'] }
       );
     }
   }
 
   logout(): void {
-    this.authService.logout(); // Fonctionnalité de déconnexion
-    this.isAuthenticated = false; // Met à jour l'état d'authentification
+    this.authService.logout(); 
     location.reload();
   }
 }
