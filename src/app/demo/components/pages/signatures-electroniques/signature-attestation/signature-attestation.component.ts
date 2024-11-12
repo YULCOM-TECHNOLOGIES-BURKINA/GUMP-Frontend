@@ -12,7 +12,7 @@ import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { SignatureElectroniquesService } from 'src/app/demo/services/signature-electroniques.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { U } from '@fullcalendar/core/internal-common';
+// import { U } from '@fullcalendar/core/internal-common';
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
 import { Demande } from 'src/app/demo/models/demande';
 
