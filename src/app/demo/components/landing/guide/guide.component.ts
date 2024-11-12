@@ -63,8 +63,8 @@ export class GuideComponent implements OnInit {
           icon: 'pi pi-building',
           organization: 'Agence Judiciaire de l\'État',
           validityPeriod: '3 mois',
-          processingTime: '72 heures',
-          price: '15 000 FCFA',
+          processingTime: '24 heures',
+          price: '1 000 FCFA',
           category: 'Juridique',
           img:'assets/justice.jpg'
         },
