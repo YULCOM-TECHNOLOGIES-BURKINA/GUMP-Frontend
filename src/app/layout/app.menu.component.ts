@@ -15,12 +15,9 @@ export class AppMenuComponent implements OnInit {
     constructor(public layoutService: LayoutService, private authService: KeycloakAuthService) { }
 
     ngOnInit() {
-        // Récupérer le rôle de l'utilisateur
         
-
         const userDetails = localStorage.getItem('currentUser');
         const user = JSON.parse(userDetails);
-        const roles = user.role;
 
         this.userRole = user.role;
     
@@ -43,15 +40,10 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Traitement des demandes',
-                visible: this.userRole === 'admin' || this.userRole?.startsWith('admin_'),
+                // visible: this.userRole === 'ADMIN' || this.userRole?.startsWith('DRTSS_USER'),
                 items: [
                     { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'], visible: this.userRole === 'ADMIN' || this.userRole === 'DRTSS_USER' },
-                    { label: 'Attestation ANPE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/anpe'], visible: this.userRole === 'ADMIN' },
-                    { label: 'Attestation CNSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/cnss'], visible: this.userRole === 'ADMIN' },
-                    { label: 'Attestation Situation Fiscale', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/situation-fiscale'], visible: this.userRole === 'ADMIN' },
-                    { label: 'Certificat de non faillite', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/cnf'], visible: this.userRole === 'admin' },
-                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole === 'ADMIN' || this.userRole === 'TRESOR_USER' },
-                    { label: 'RCCM', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/rccm'], visible: this.userRole === 'ADMIN' },
+                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole === 'ADMIN' || this.userRole === 'TRESOR_USER' }
                 ]
             },
             {

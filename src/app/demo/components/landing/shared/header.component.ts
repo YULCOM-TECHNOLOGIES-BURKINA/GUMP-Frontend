@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-// import { AuthService } from '../../../services/auth.service';
 import { KeycloakAuthService } from '../../../services/keycloak-auth.service';
 import { Observable } from 'rxjs';
 
@@ -115,7 +114,7 @@ export class HeaderComponent implements OnInit {
       this.items.push(
         { label: 'Mes demandes', icon: 'pi pi-list', routerLink: ['/demandes'] },
         { label: 'Mon profil', icon: 'pi pi-user', routerLink: ['/profile'] },
-        { label: 'Se déconnecter', icon: 'pi pi-power-off', command: () => this.logout() }
+        { label: 'Se déconnecter', icon: 'pi pi-power-off', command: () => this.authService.logout() }
       );
     } else {
       this.items.push(
@@ -123,10 +122,5 @@ export class HeaderComponent implements OnInit {
         // { label: 'Connexion', icon: 'pi pi-user', routerLink: ['/auth/login'] }
       );
     }
-  }
-
-  logout(): void {
-    this.authService.logout(); 
-    location.reload();
   }
 }

@@ -26,9 +26,9 @@ export class KeycloakAuthService {
       this.keycloak.init({
         // onLoad: 'check-sso',
         // silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-        checkLoginIframe: false,
-        onLoad: 'login-required',
-        responseMode: 'fragment'
+        // checkLoginIframe: false,
+        // onLoad: 'login-required',
+        // responseMode: 'fragment'
       }).then((authenticated) => {
         if (authenticated) {
           this.updateUserDetails();
@@ -45,9 +45,27 @@ export class KeycloakAuthService {
     return this.keycloak.login();
   }
 
-  public logout(): Promise<void> {
-    return this.keycloak.logout();
-  }
+//   public async logout(): Promise<void> {
+//     localStorage.removeItem('currentUser');
+//     await this.keycloak.logout({ redirectUri: window.location.origin });
+//   }
+
+    public async logout(): Promise<void> {
+        try {
+            // Redirect to landing or a login page after Keycloak logs out
+            const redirectUri = `${window.location.origin}/`; // Modify if you want to redirect elsewhere
+
+            // Perform the logout with Keycloak
+            await this.keycloak.logout({ redirectUri });
+
+            // Clear any stored session data and broadcast logout status
+            this.isAuthenticatedSubject.next(false);
+            this.userDetailsSubject.next(null);
+            localStorage.removeItem('currentUser'); // Clear current user data
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    }
 
   public isAuthenticated(): Observable<boolean> {
     return this.isAuthenticatedSubject.asObservable();
