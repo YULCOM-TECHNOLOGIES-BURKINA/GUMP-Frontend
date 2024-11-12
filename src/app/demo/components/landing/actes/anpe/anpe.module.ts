@@ -17,6 +17,12 @@ import { ToastModule } from 'primeng/toast';
 import { AnpeComponent } from './anpe.component';
 import { SharedModule } from '../../shared/shared.module';
 
+import { StepsModule } from 'primeng/steps';
+import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
+import { SelectButtonModule } from 'primeng/selectbutton';
+
+
 @NgModule({
   declarations: [AnpeComponent],
   imports: [
@@ -35,7 +41,11 @@ import { SharedModule } from '../../shared/shared.module';
 		InputTextModule,
 		ToastModule,
 		FileUploadModule,
-		SharedModule
+		SharedModule,
+		StepsModule,
+		CardModule,
+		FieldsetModule,
+		SelectButtonModule
   ]
 })
 export class AnpeModule { }
