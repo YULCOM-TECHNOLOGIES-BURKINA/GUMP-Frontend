@@ -1,14 +1,19 @@
 <div class="surface-0">
     <div class="guide-wrapper overflow-hidden">
         <app-header></app-header>  
-        <!-- Hero Section -->
+        <!-- Hero Section avec progression -->
         <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl font-bold mb-4">Formulaire de demande d'une attestation ANPE</h1>
+                <div class="text-lg mb-4">Étape {{currentStep + 1}} sur {{items.length}}</div>
+                <p-progressBar [value]="(currentStep + 1) / items.length * 100"></p-progressBar>
             </div>
-        </div>        
+        </div>         
         <div class="px-4 py-8 md:px-6 lg:px-8">
-            <p-steps [model]="items" [activeIndex]="currentStep"></p-steps>
+            <p-toast position="top-right"></p-toast>
+            <p-steps [model]="items" [activeIndex]="currentStep" 
+            [readonly]="false" (activeIndexChange)="onStepChange($event)"></p-steps>
+            
             
             <div class="mt-4">
                 <p-card>
@@ -219,88 +224,188 @@
                         <div [hidden]="currentStep !== 4">
                             <p-fieldset legend="Documents requis">
                                 <div class="p-fluid p-formgrid grid">
-                                    <div class="field col-12 md:col-6">
-                                        <label>Copie de l'extrait du RCCM</label>
-                                        <p-fileUpload 
-                                            mode="basic" 
-                                            chooseLabel="Charger le fichier" 
-                                            chooseIcon="pi pi-upload"
-                                            styleClass="p-button-secondary"
-                                            accept="image/*,.pdf" 
-                                            (onSelect)="onFileSelect($event, 'rccmFile')"/>
-                                    </div>
-                                    <div class="field col-12 md:col-6">
-                                        <label>Copie de l'extrait des statuts</label>
-                                        <p-fileUpload 
-                                            mode="basic" 
-                                            chooseLabel="Charger le fichier" 
-                                            styleClass="p-button-secondary"
-                                            chooseIcon="pi pi-upload"
-                                            accept="image/*,.pdf" 
-                                            (onSelect)="onFileSelect($event, 'statutFile')"/>
-                                    </div>
-                                    <div class="field col-12 md:col-6">
-                                        <label>Attestation CNSS</label>
-                                        <p-fileUpload 
-                                            mode="basic" 
-                                            chooseLabel="Charger le fichier" 
-                                            styleClass="p-button-secondary"
-                                            chooseIcon="pi pi-upload"
-                                            accept="image/*,.pdf" 
-                                            (onSelect)="onFileSelect($event, 'cnssFile')"/>
-                                    </div>
-                                    <div class="field col-12 md:col-6">
-                                        <label>Fiche de déclaration d'ouverture d'établissement</label>
-                                        <p-fileUpload 
-                                            mode="basic" 
-                                            chooseLabel="Charger le fichier" 
-                                            styleClass="p-button-secondary"
-                                            chooseIcon="pi pi-upload"
-                                            accept="image/*,.pdf" 
-                                            (onSelect)="onFileSelect($event, 'openingDeclarationFile')"/>
-                                    </div>
-                                    <div class="field col-12 md:col-6">
-                                        <label>Fiche de déclaration de l'inspection du travail</label>
-                                        <p-fileUpload 
-                                            mode="basic" 
-                                            chooseLabel="Charger le fichier" 
-                                            styleClass="p-button-secondary"
-                                            chooseIcon="pi pi-upload"
-                                            accept="image/*,.pdf" 
-                                            (onSelect)="onFileSelect($event, 'workInspectionFile')"/>
+                                    <div *ngFor="let doc of requiredDocuments" class="field col-12 md:col-6">
+                                        <div class="flex flex-column gap-2">
+                                            <label>{{doc.label}}</label>
+                                            <div class="upload-container">
+                                                <p-fileUpload 
+                                                    #fileUpload
+                                                    mode="advanced" 
+                                                    [showUploadButton]="false"
+                                                    [showCancelButton]="false"
+                                                    [maxFileSize]="5000000"
+                                                    [customUpload]="true"
+                                                    (onSelect)="onFileSelect($event, doc.key)"
+                                                    accept="image/*,.pdf"
+                                                    [auto]="true"
+                                                    styleClass="w-full"
+                                                    chooseLabel="Sélectionner {{doc.label}}"
+                                                    invalidFileSizeMessageSummary="{0}: Taille de fichier invalide, "
+                                                    invalidFileSizeMessageDetail="la taille maximale est {0}."
+                                                    invalidFileTypeMessageSummary="{0}: Type de fichier invalide, "
+                                                    invalidFileTypeMessageDetail="seuls les types {0} sont autorisés.">
+                                                    <ng-template pTemplate="content">
+                                                        <div *ngIf="uploadedFiles[doc.key]" class="flex align-items-center gap-2 mt-2">
+                                                            <i class="pi pi-file text-primary"></i>
+                                                            <span>{{uploadedFiles[doc.key].name}}</span>
+                                                            <button pButton type="button" icon="pi pi-times" 
+                                                                    class="p-button-rounded p-button-danger p-button-text"
+                                                                    (click)="removeFile(doc.key)"></button>
+                                                        </div>
+                                                    </ng-template>
+                                                </p-fileUpload>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </p-fieldset>
                         </div>
 
-                        <!-- Navigation buttons -->
+
+                         <!-- Nouvelle étape : Récapitulatif -->
+                         <div [hidden]="currentStep !== 5">
+                            <p-fieldset legend="Récapitulatif de votre demande">
+                                <div class="grid">
+                                    <!-- Informations du contrat -->
+                                    <div class="col-12 md:col-6">
+                                        <p-panel header="Informations du contrat" styleClass="mb-3">
+                                            <div class="flex flex-column gap-2">
+                                                <div class="flex justify-content-between">
+                                                    <span class="font-semibold">Référence:</span>
+                                                    <span>{{formData.contractReference}}</span>
+                                                </div>
+                                                <div class="flex justify-content-between">
+                                                    <span class="font-semibold">Objet:</span>
+                                                    <span>{{formData.contractPurpose}}</span>
+                                                </div>
+                                                <div class="flex justify-content-between">
+                                                    <span class="font-semibold">Organisme:</span>
+                                                    <span>{{formData.contractingOrganizationName}}</span>
+                                                </div>
+                                            </div>
+                                        </p-panel>
+                                    </div>
+
+                                    <!-- Situation de l'employeur -->
+                                    <div class="col-12 md:col-6">
+                                        <p-panel header="Situation de l'employeur" styleClass="mb-3">
+                                            <div class="flex flex-column gap-2">
+                                                <div class="flex justify-content-between">
+                                                    <span class="font-semibold">N° d'identification:</span>
+                                                    <span>{{formData.employerIdentification}}</span>
+                                                </div>
+                                                <div class="flex justify-content-between">
+                                                    <span class="font-semibold">Localisation:</span>
+                                                    <span>{{formData.province}}, {{formData.commune}}</span>
+                                                </div>
+                                                <div class="flex justify-content-between">
+                                                    <span class="font-semibold">Secteur:</span>
+                                                    <span>{{formData.activitySector}}</span>
+                                                </div>
+                                            </div>
+                                        </p-panel>
+                                    </div>
+
+                                    <!-- Données de l'établissement -->
+                                    <div class="col-12">
+                                        <p-panel header="Statistiques de l'établissement" styleClass="mb-3">
+                                            <div class="grid">
+                                                <div class="col-12 md:col-6">
+                                                    <h4>Effectifs</h4>
+                                                    <p-chart type="pie" [data]="getEffectifsChartData()" 
+                                                            [options]="chartOptions" width="300px"></p-chart>
+                                                </div>
+                                                <div class="col-12 md:col-6">
+                                                    <h4>Intentions de recrutement</h4>
+                                                    <div class="flex flex-column gap-3 mt-3">
+                                                        <div class="flex align-items-center gap-2">
+                                                            <i [class]="formData.currentYearRecruitment ? 'pi pi-check-circle text-green-500' : 'pi pi-times-circle text-red-500'"></i>
+                                                            <span>Recrutement année en cours</span>
+                                                        </div>
+                                                        <div class="flex align-items-center gap-2">
+                                                            <i [class]="formData.nextYearRecruitment ? 'pi pi-check-circle text-green-500' : 'pi pi-times-circle text-red-500'"></i>
+                                                            <span>Recrutement année prochaine</span>
+                                                        </div>
+                                                        <div class="flex align-items-center gap-2">
+                                                            <i [class]="formData.staffReduction ? 'pi pi-check-circle text-green-500' : 'pi pi-times-circle text-red-500'"></i>
+                                                            <span>Compression d'effectifs</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </p-panel>
+                                    </div>
+
+                                    <!-- Documents soumis -->
+                                    <div class="col-12">
+                                        <p-panel header="Documents soumis" styleClass="mb-3">
+                                            <div class="grid">
+                                                <div *ngFor="let doc of requiredDocuments" class="col-12 md:col-4">
+                                                    <div class="flex align-items-center gap-2">
+                                                        <i [class]="uploadedFiles[doc.key] ? 'pi pi-check-circle text-green-500' : 'pi pi-times-circle text-red-500'"></i>
+                                                        <span>{{doc.label}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </p-panel>
+                                    </div>
+                                </div>
+
+                                <!-- Message de confirmation -->
+                                <div class="mt-4 p-3 surface-100 border-round">
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-info-circle text-primary"></i>
+                                        <span>Veuillez vérifier toutes les informations avant la soumission finale. 
+                                              Une fois soumis, le formulaire ne pourra plus être modifié.</span>
+                                    </div>
+                                </div>
+                            </p-fieldset>
+                        </div>
+
+                        <!-- Navigation buttons avec sauvegarde -->
                         <div class="flex justify-content-between mt-4">
-                            <button 
-                                pButton 
-                                type="button"
-                                label="Précédent" 
-                                class="p-button-secondary" 
-                                [disabled]="currentStep === 0"
-                                (click)="prevStep()">
-                            </button>
-                            
-                            <button 
-                                pButton 
-                                type="button"
-                                label="Suivant" 
-                                [disabled]="currentStep === 4"
-                                (click)="nextStep()"
-                                *ngIf="currentStep !== 4">
-                            </button>
-                            
-                            <button 
-                                pButton 
-                                type="submit"
-                                label="Soumettre" 
-                                class="p-button-success" 
-                                *ngIf="currentStep === 4"
-                                [disabled]="!anpeForm.form.valid">
-                            </button>
+                            <div>
+                                <button 
+                                    pButton 
+                                    type="button"
+                                    label="Précédent" 
+                                    icon="pi pi-chevron-left"
+                                    class="p-button-secondary" 
+                                    [disabled]="currentStep === 0"
+                                    (click)="prevStep()">
+                                </button>
+                            </div>
+
+                            <div>
+                                <button 
+                                    *ngIf="currentStep < 5"
+                                    pButton 
+                                    type="button"
+                                    label="Sauvegarder"
+                                    icon="pi pi-save"
+                                    class="p-button-info mr-2"
+                                    (click)="saveProgress()">
+                                </button>
+
+                                <button 
+                                    pButton 
+                                    type="button"
+                                    [label]="currentStep === 4 ? 'Voir récapitulatif' : 'Suivant'"
+                                    [icon]="currentStep === 4 ? 'pi pi-list' : 'pi pi-chevron-right'"
+                                    [disabled]="!isStepValid(currentStep)"
+                                    (click)="nextStep()"
+                                    *ngIf="currentStep !== 5">
+                                </button>
+
+                                <p-button
+                                    *ngIf="currentStep === 5"
+                                    label="Soumettre la demande" 
+                                    icon="pi pi-send"
+                                    styleClass="p-button-success"
+                                    [loading]="submitting"
+                                    (onClick)="confirmSubmit()">
+                                </p-button>
+                            </div>
                         </div>
                     </form>
                 </p-card>

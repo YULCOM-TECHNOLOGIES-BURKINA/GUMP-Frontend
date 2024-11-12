@@ -21,7 +21,8 @@ import { StepsModule } from 'primeng/steps';
 import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { SelectButtonModule } from 'primeng/selectbutton';
-
+import { PanelModule } from 'primeng/panel';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [AnpeComponent],
@@ -45,7 +46,9 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 		StepsModule,
 		CardModule,
 		FieldsetModule,
-		SelectButtonModule
+		SelectButtonModule,
+		PanelModule,
+		ChartModule 
   ]
 })
 export class AnpeModule { }
