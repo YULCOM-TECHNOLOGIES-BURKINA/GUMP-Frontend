@@ -20,7 +20,7 @@ export class RoleGuard implements CanActivate {
     //   return false;
     // }
 
-    if (userRole == 'entreprise'){
+    if (userRole == 'USER'){
       this.router.navigate(['']);
       return false;
     } else{

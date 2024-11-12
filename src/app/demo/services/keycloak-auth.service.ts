@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
-// import Keycloak from '@keycloak/keycloak-js';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -25,9 +24,10 @@ export class KeycloakAuthService {
   public init(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.keycloak.init({
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-        checkLoginIframe: false,
+        // onLoad: 'check-sso',
+        // silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+        // checkLoginIframe: false,
+        onLoad: 'login-required'
       }).then((authenticated) => {
         if (authenticated) {
           this.updateUserDetails();
