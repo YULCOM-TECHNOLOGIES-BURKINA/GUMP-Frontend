@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class DemandeService {
 
-  private apiUrl = 'assets/demandes_drtss.json'; 
+  private apiUrl = 'assets/simulation.json'; 
   private apiUrl1 = 'assets/demande_one.json'; 
 
   constructor(private http: HttpClient) { }

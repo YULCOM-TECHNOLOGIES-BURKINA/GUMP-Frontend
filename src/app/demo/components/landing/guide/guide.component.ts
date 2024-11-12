@@ -21,6 +21,18 @@ interface ActGuide {
 export class GuideComponent implements OnInit {
     acts: ActGuide[] = [
       {
+        id: 'rccm',
+        title: 'Extrait du RCCM',
+        description: 'Registre du commerce et du crédit Mobilier',
+        icon: 'pi pi-building',
+        organization: 'Agence Judiciaire de l\'État',
+        validityPeriod: '3 mois',
+        processingTime: '72 heures',
+        price: '15 000 FCFA',
+        category: 'Juridique',
+        img:'assets/justice.jpg'
+      },
+      {
         id: 'anpe',
         title: 'Attestation ANPE',
         description: 'Attestation desc',
@@ -42,29 +54,17 @@ export class GuideComponent implements OnInit {
           processingTime: '48 heures',
           price: '10 000 FCFA',
           category: 'Travail',
-          img:'assets/anpe.jpg'
+          img:'assets/image.jpg'
         },
         {
           id: 'aje',
-          title: 'Attestation de non engagement',
+          title: 'Attestation de non engagement(AJE)',
           description: 'Attestation de non engagement de l\'Agent judiciaire de l\'ETAT (AJE)',
           icon: 'pi pi-building',
           organization: 'Agence Judiciaire de l\'État',
           validityPeriod: '3 mois',
-          processingTime: '72 heures',
-          price: '15 000 FCFA',
-          category: 'Juridique',
-          img:'assets/justice.jpg'
-        },
-        {
-          id: 'rccm',
-          title: 'Extrait du RCCM',
-          description: 'Registre du commerce et du crédit Mobilier',
-          icon: 'pi pi-building',
-          organization: 'Agence Judiciaire de l\'État',
-          validityPeriod: '3 mois',
-          processingTime: '72 heures',
-          price: '15 000 FCFA',
+          processingTime: '24 heures',
+          price: '1 000 FCFA',
           category: 'Juridique',
           img:'assets/justice.jpg'
         },
@@ -90,7 +90,7 @@ export class GuideComponent implements OnInit {
           processingTime: '72 heures',
           price: '15 000 FCFA',
           category: 'Fiscale',
-          img:'assets/anpe.jpg'
+          img:'assets/image.jpg'
         }
     ];
 
