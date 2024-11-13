@@ -83,6 +83,8 @@ export class HeaderComponent implements OnInit {
   items: MenuItem[];
   isAuthenticated: Observable<boolean>;
 
+  private currentUser: any = null;
+
   constructor(private authService: KeycloakAuthService) {
     this.items = [
         {
@@ -109,8 +111,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if (this.isAuthenticated) {
+    //this.isAuthenticated = this.authService.isAuthenticated();
+
+    // if (this.isAuthenticated) {
+    if (localStorage.getItem('currentUser') !== null) {
       this.items.push(
         { label: 'Mes demandes', icon: 'pi pi-list', routerLink: ['/demandes'] },
         { label: 'Mon profil', icon: 'pi pi-user', routerLink: ['/profile'] },
@@ -118,8 +122,8 @@ export class HeaderComponent implements OnInit {
       );
     } else {
       this.items.push(
-        { label: 'Connexion', icon: 'pi pi-user', command: () => this.authService.login() }
-        // { label: 'Connexion', icon: 'pi pi-user', routerLink: ['/auth/login'] }
+        { label: 'Connexion', icon: 'pi pi-user', command: () => this.authService.login() },
+        { label: 'Inscription', icon: 'pi pi-user', routerLink: ['/auth/register'] }
       );
     }
   }
