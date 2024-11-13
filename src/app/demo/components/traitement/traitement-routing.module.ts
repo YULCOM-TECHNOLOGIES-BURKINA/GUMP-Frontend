@@ -4,10 +4,8 @@ import { RoleGuard } from '../..//guards/role.guard';
 
 @NgModule({
     imports: [RouterModule.forChild([
-        { path: 'drtss', loadChildren: () => import('./drtss/drtss.module').then(m => m.DrtssModule), canActivate: [RoleGuard], data: { roles: ['admin', 'admin_drtss'] } },
-        { path: 'aje', loadChildren: () => import('./aje/aje.module').then(m => m.AjeModule), canActivate: [RoleGuard], data: { roles: ['admin', 'admin_aje'] } },
-        // { path: 'actes', loadChildren: () => import('./actes/actes.module').then(m => m.ActesModule) },
-        // { path: 'actes/attestation-drtss', loadChildren: () => import('./actes/drtss/drtss.module').then(m => m.DrtssModule) },
+        { path: 'drtss', loadChildren: () => import('./drtss/drtss.module').then(m => m.DrtssModule), canActivate: [RoleGuard], data: { roles: ['ADMIN', 'DRTSS_USER'] } },
+        { path: 'aje', loadChildren: () => import('./aje/aje.module').then(m => m.AjeModule), canActivate: [RoleGuard], data: { roles: ['ADMIN', 'TRESOR_USER'] } },
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]

@@ -11,19 +11,19 @@
             <div class="col-12">
                 <div class="card">
                     <div class="p-fluid p-formgrid grid">
-                        <div class="col-4 mt-2">
+                        <div class="col-3 mt-2">
                             <span>Reference du marché</span>
                             <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du marché" required />
                         </div>
-                        <div class="col-8 mt-2">
+                        <div class="col-3 mt-2">
                             <span>Objet du marché</span>
                             <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du marché" required />
                         </div>
-                        <div class="col-5 mt-2">
+                        <div class="col-3 mt-2">
                             <span>Identité de l'organisme attribuant le marché</span>
                             <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
                         </div>
-                        <div class="col-4 mt-2">
+                        <div class="col-3 mt-2">
                             <span>Adresse</span>
                             <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
                         </div>
@@ -31,7 +31,7 @@
                             <span>Numéro de téléphone</span>
                             <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
                         </div>
-                        <div class="field col-12 md:col-4">
+                        <div class="field col-12 md:col-3">
                             <label htmlFor="city">Type d'acte dérivé</label>
                             <p-dropdown 
                                 [options]="actes" 
@@ -39,7 +39,7 @@
                                 optionLabel="acte" 
                                 placeholder="Selectioner un type d'acte" />
                         </div>
-                        <div class="field col-12 md:col-4">
+                        <div class="field col-12 md:col-3">
                             <label htmlFor="city">Joindre l'extrait du RCCM</label>
                             <p-toast />
                             <p-fileUpload 
@@ -52,7 +52,7 @@
                             maxFileSize="1000000000" 
                             (onSelect)="onFileSelect($event, 'rccmFile')"/>
                         </div>
-                        <div class="field col-12 md:col-4">
+                        <div class="field col-12 md:col-3">
                             <label htmlFor="city">Jondre l'extrait des statuts</label>
                             <p-toast />
                             <p-fileUpload 

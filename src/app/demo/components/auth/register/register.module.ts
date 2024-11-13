@@ -21,7 +21,8 @@ import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ReactiveFormsModule } from '@angular/forms'; 
-
+import { FieldsetModule } from 'primeng/fieldset';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 @NgModule({
     imports: [
@@ -33,10 +34,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         FormsModule,
         PasswordModule,
         TableModule,
-
         FileUploadModule,
         FormsModule,
-       
         RippleModule,
         ToastModule,
         ToolbarModule,
@@ -48,7 +47,9 @@ import { ReactiveFormsModule } from '@angular/forms';
         DialogModule,
         DividerModule,
         ReactiveFormsModule,
-        ToggleButtonModule
+        ToggleButtonModule,
+        FieldsetModule,
+        InputGroupAddonModule
     ],
     declarations: [RegisterComponent]
 })

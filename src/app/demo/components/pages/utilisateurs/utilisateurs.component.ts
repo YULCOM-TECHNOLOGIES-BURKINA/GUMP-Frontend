@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UtilisateurService } from '../../../services/utilisateurs.service';
+import { UserService } from '../../../services/user.service';
 import { Utilisateur } from '../../../models/utilisateurs';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -26,7 +26,7 @@ export class UtilisateursComponent implements OnInit {
     selectedRequests: Utilisateur[] = [];
     cols: any[] = [];
 
-    constructor(private utilisateurService: UtilisateurService, private messageService: MessageService) { }
+    constructor(private utilisateurService: UserService, private messageService: MessageService) { }
 
     ngOnInit(): void {
       // this.utilisateurService.getUtilisateurs().then(data => this.requests = data);
@@ -40,14 +40,14 @@ export class UtilisateursComponent implements OnInit {
     }
 
     getUtilisateurs() {
-        this.utilisateurService.getUtilisateurs().subscribe((data: Utilisateur[]) => {
+        this.utilisateurService.getUsers().subscribe((data: Utilisateur[]) => {
             this.utilisateurs = data;
             this.requests = data;
         });
     }
 
     desactiverUtilisateur(utilisateur: Utilisateur) {
-        this.utilisateurService.desactiverUtilisateur(utilisateur.id).subscribe(() => {
+        this.utilisateurService.desactivateUser(utilisateur.id).subscribe(() => {
             utilisateur.actif = false;
         });
     }

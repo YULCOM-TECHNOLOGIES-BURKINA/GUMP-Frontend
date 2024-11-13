@@ -1,45 +1,216 @@
-<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-    <div class="flex flex-column  p-4 shadow-2 ">
-        <img src="assets/image.png" alt="GUMP logo" class="mb-5 w-6rem flex-shrink-0 ">
-        <h3 class="text-center">Inscription</h3>
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="field mt-3">
-                <label for="nom">Nom</label>
-                <input id="nom" pInputText formControlName="nom" class="w-full" placeholder="Entrez votre nom" />
-                <p-message *ngIf="submitted && registerForm.controls['nom'].errors" severity="error" text="Le nom est requis"></p-message>
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden" 
+     [ngStyle]="{'background-image': 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)'}">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <!-- Logo -->
+        <img src="assets/image.png" alt="GUMP logo" class="mb-5 w-6rem flex-shrink-0 animate__animated animate__fadeIn">
+        
+        <!-- Carte principale -->
+        <div class="surface-card p-4 shadow-2 border-round w-full lg:w-12" 
+             style="max-width: 800px"
+             [@cardAnimation]="showFullForm ? 'expanded' : 'initial'">
+            
+            <!-- En-tête -->
+            <div class="text-center mb-5">
+                <div class="text-900 text-3xl font-medium mb-3 animate__animated animate__fadeInDown">
+                    Guichet Unique des Marchés Publics
+                </div>
+                <span class="text-600 font-medium animate__animated animate__fadeIn">{{showFullForm ? 'Complétez votre inscription' : 'Vérification IFU'}}</span>
             </div>
 
-            <div class="field mt-3">
-                <label for="prenom">Prénom</label>
-                <input id="prenom" pInputText formControlName="prenom" class="w-full" placeholder="Entrez votre prénom" />
-                <p-message *ngIf="submitted && registerForm.controls['prenom'].errors" severity="error" text="Le prénom est requis"></p-message>
-            </div>
+            <!-- Notifications -->
+            <p-toast position="top-center"></p-toast>
 
-            <div class="field mt-3">
-                <label for="email">Email</label>
-                <input id="email" pInputText formControlName="email" type="email" class="w-full" placeholder="Entrez votre email" />
-                <p-message *ngIf="submitted && registerForm.controls['email'].errors" severity="error" text="Email valide requis"></p-message>
-            </div>
+            <!-- Étape 1: Vérification IFU -->
+            <form [formGroup]="ifuForm" (ngSubmit)="verifyIfu()" *ngIf="!showFullForm" [@fadeInOut]>
+                <div class="flex flex-column gap-3">
+                    <label for="ifuNumber" class="font-medium">Numéro IFU de votre entreprise</label>
+                    <p-inputGroup>
+                        <!-- <p-inputGroupAddon>
+                            <i class="pi pi-id-card"></i>
+                        </p-inputGroupAddon> -->
+                        <input id="ifuNumber" 
+                               pInputText 
+                               formControlName="ifuNumber" 
+                               placeholder="Entrez votre numéro IFU"
+                               [class.ng-invalid]="submitted && ifuForm.get('ifuNumber')?.invalid"
+                               class="w-full p-inputtext-lg"/>
+                    </p-inputGroup>
+                     <!-- Messages d'erreur détaillés -->
+                     <div *ngIf="submitted && ifuForm.get('ifuNumber')?.errors" class="p-error">
+                        <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['required']">
+                            Le numéro IFU est requis
+                        </small>
+                        <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['minlength'] || ifuForm.get('ifuNumber')?.errors?.['maxlength']">
+                            Le numéro IFU doit contenir exactement 09 caractères
+                        </small>
+                        <!-- <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['pattern']">
+                            Le numéro IFU doit contenir uniquement des chiffres
+                        </small> -->
+                    </div>
+                    <!-- <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['required'] && submitted" 
+                           class="p-error">Le numéro IFU est requis</small> -->
 
-            <div class="field mt-3">
-                <label for="password">Mot de passe</label>
-                <input id="password" pInputText formControlName="password" type="password" class="w-full" placeholder="Entrez votre mot de passe" />
-                <p-message *ngIf="submitted && registerForm.controls['password'].errors" severity="error" text="Mot de passe requis"></p-message>
-            </div>
+                    <button pButton 
+                            type="submit" 
+                            label="Vérifier" 
+                            icon="pi pi-check" 
+                            class="p-button-lg p-button-primary"
+                            [loading]="loading"></button>
+                </div>
+            </form>
 
-            <div class="field mt-3">
-                <label for="confirmPassword">Confirmer le mot de passe</label>
-                <input id="confirmPassword" pInputText formControlName="confirmPassword" type="password" class="w-full" placeholder="Confirmez votre mot de passe" />
-                <p-message *ngIf="submitted && registerForm.controls['confirmPassword'].errors" severity="error" text="Les mots de passe ne correspondent pas"></p-message>
-            </div>
+            <!-- Étape 2: Formulaire complet -->
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="showFullForm" [@fadeInOut]>
+                <div class="grid">
+                    <!-- Informations de l'entreprise -->
+                    <div class="col-12">
+                        <p-fieldset legend="Informations de l'entreprise" [toggleable]="true">
+                            <div class="grid">
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <input id="companyName" 
+                                               pInputText 
+                                               formControlName="companyName" 
+                                               class="w-full"/>
+                                        <label for="companyName">Raison sociale</label>
+                                    </span>
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <input id="companyName" 
+                                               pInputText 
+                                               formControlName="companyName" 
+                                               class="w-full"/>
+                                        <label for="companyName">Forme juridique</label>
+                                    </span>
+                                </div>
+                                <!-- <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <p-dropdown id="legalForm" 
+                                                  [options]="legalForms" 
+                                                  formControlName="legalForm"
+                                                  [autoDisplayFirst]="false"
+                                                  class="w-full"></p-dropdown>
+                                        <label for="legalForm">Forme juridique</label>
+                                    </span>
+                                </div> -->
+                                <div class="col-12 md:col-4">
+                                    <span class="p-float-label mt-4">
+                                        <input id="ifuNumber" 
+                                               pInputText 
+                                               formControlName="ifuNumber" 
+                                               class="w-full"/>
+                                        <label for="ifuNumber">IFU</label>
+                                    </span>
+                                </div>
+                                <div class="col-12 md:col-4">
+                                    <span class="p-float-label mt-4">
+                                        <input id="rccm" 
+                                               pInputText 
+                                               formControlName="rccm" 
+                                               class="w-full"/>
+                                        <label for="rccm">RCCM</label>
+                                    </span>
+                                </div>
+                                <div class="col-12 md:col-4">
+                                    <span class="p-float-label mt-4">
+                                        <input id="cnssNumber" 
+                                               pInputText 
+                                               formControlName="cnssNumber" 
+                                               class="w-full"/>
+                                        <label for="cnssNumber">Numéro d'adhérent CNSS</label>
+                                    </span>
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <input id="address" 
+                                               pInputText 
+                                               formControlName="address" 
+                                               class="w-full"/>
+                                        <label for="address">Adresse</label>
+                                    </span>
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <input id="phoneNumber" 
+                                               pInputText 
+                                               formControlName="phoneNumber" 
+                                               class="w-full"/>
+                                        <label for="phoneNumber">Téléphone</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </p-fieldset>
+                    </div>
 
-            <div class="mt-4">
-                <button pButton type="submit" label="S'inscrire" icon="pi pi-user-plus" class="w-full p-button-success"></button>
-            </div>
-        </form>
+                    <!-- Informations du représentant -->
+                    <div class="col-12">
+                        <p-fieldset legend="Informations du représentant" [toggleable]="true">
+                            <div class="grid">
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <input id="nom" 
+                                               pInputText 
+                                               formControlName="nom" 
+                                               class="w-full"/>
+                                        <label for="nom">Nom</label>
+                                    </span>
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <input id="prenom" 
+                                               pInputText 
+                                               formControlName="prenom" 
+                                               class="w-full"/>
+                                        <label for="prenom">Prénom</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </p-fieldset>
+                    </div>
+
+                    <!-- Informations de connexion -->
+                    <div class="col-12">
+                        <p-fieldset legend="Informations de connexion" [toggleable]="true">
+                            <div class="grid">
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <input id="email" 
+                                               pInputText 
+                                               formControlName="email" 
+                                               type="email"
+                                               class="w-full"/>
+                                        <label for="email">Email</label>
+                                    </span>
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <p-password id="password"
+                                                   formControlName="password"
+                                                   [toggleMask]="true"
+                                                   [feedback]="true"
+                                                   promptLabel="Votre mot de passe" 
+                                                   weakLabel="Très faible"  
+                                                   mediumLabel="Bon"  
+                                                   strongLabel="Fort"
+                                                   class="w-full"></p-password>
+                                        <label for="password">Mot de passe</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </p-fieldset>
+                    </div>
+
+                    <div class="col-12 flex justify-content-center">
+                        <button pButton 
+                                type="submit" 
+                                label="S'inscrire" 
+                                icon="pi pi-user-plus" 
+                                class="p-button-lg"
+                                [loading]="loading"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<!-- Toast Notification -->
-<p-toast></p-toast>
-

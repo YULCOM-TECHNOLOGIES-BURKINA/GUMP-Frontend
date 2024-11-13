@@ -69,20 +69,38 @@
                                         </td>
                                         <td>
                                             <!-- <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button> -->
-                                            <div class="col-12 mt-2 flex" *ngIf="requestDrtss.files">            
+                                            <div class="col-12 mt-2 flex" > 
+                                                <div *ngIf="requestDrtss.files">
+                                                    <button 
+                                                        *ngFor="let file of requestDrtss.files"
+                                                        pButton 
+                                                        pRipple 
+                                                        icon="pi pi-download" 
+                                                        [label]="' ' + file.label"
+                                                        class="p-button-secondary p-button-outlined mr-2"
+                                                        (click)="download(file)" >
+                                                    </button>
+                                                </div>           
                                                 <button 
-                                                *ngFor="let file of requestDrtss.files"
+                                                    *ngIf="requestDrtss.status == 'APPROVED'" 
                                                     pButton 
                                                     pRipple 
                                                     icon="pi pi-download" 
-                                                    [label]="'Télécharger ' + file.label"
-                                                    class="p-button-secondary p-button-outlined mr-2"
-                                                    (click)="download(file)" >
+                                                    class="p-button-outlined p-button-info mr-2" 
+                                                    (click)="openDownloadRequest(requestDrtss)" 
+                                                    label="Télécharger l'attestation DRTPS">
+                                                </button>
+                                                <button 
+                                                    *ngIf="requestDrtss.status == 'REJECTED'" 
+                                                    pButton 
+                                                    pRipple 
+                                                    icon="pi pi-eye" 
+                                                    class="p-button-outlined p-button-danger mr-2" 
+                                                    (click)="openMotif(requestDrtss)" 
+                                                    label="Voir le motif de rejet">
                                                 </button>
                                             </div>
-                                            <button *ngIf="requestDrtss.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestDrtss)" 
-                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                            
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -172,8 +190,8 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAnpe>
                                     <tr>
-                                        <td>Ref. marché </td>
-                                        <td>Objet du marché </td>
+                                        <td>{{ requestAnpe.ref }} </td>
+                                        <td>{{ requestAnpe.objet }} </td>
                                         <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -196,13 +214,13 @@
                         </p-tabPanel>
 
                         <!-- RCCM -->
-                        <p-tabPanel header="Extrait RCCM ({{ countAnpe }})">
-                            <p-table #dtrccm [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                        <p-tabPanel header="Extrait RCCM ({{ countRccm }})">
+                            <p-table #dtrccm [value]="requestRccm" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
                             currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            [totalRecords]="totalRecordsRccm" [(selection)]="selectedRccmRequests" 
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -223,24 +241,24 @@
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-requestAnpe>
+                                <ng-template pTemplate="body" let-requestRccm>
                                     <tr>
-                                        <td>Ref. marché </td>
-                                        <td>Objet du marché </td>
-                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>{{ requestRccm.ref }} </td>
+                                        <td>{{ requestRccm.objet }} </td>
+                                        <td>{{ requestRccm.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
-                                            'p-badge-success': requestAnpe.status === 'APPROVED',
-                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
-                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
-                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            'p-badge-success': requestRccm.status === 'APPROVED',
+                                                'p-badge-primary': requestRccm.status === 'PROCESSING',
+                                                'p-badge-danger': requestRccm.status === 'REJECTED',
+                                                'p-badge-info': requestRccm.status === 'PENDING'
                                             }">
-                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            {{ getTranslatedStatus(requestRccm.status) }}
                                             </span>
                                         </td>
                                         <td>
-                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            <button *ngIf="requestRccm.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestRccm)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -249,13 +267,13 @@
                         </p-tabPanel>
 
                         <!-- ASF -->
-                        <p-tabPanel header="Attestation de situation fiscale ({{ countAnpe }})">
-                            <p-table #dtasf [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                        <p-tabPanel header="Attestation de situation fiscale ({{ countAsf }})">
+                            <p-table #dtasf [value]="requestAsf" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
                             currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            [totalRecords]="totalRecordsCnss" [(selection)]="selectedCnssRequests" 
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -276,24 +294,24 @@
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-requestAnpe>
+                                <ng-template pTemplate="body" let-requestsAsf>
                                     <tr>
-                                        <td>Ref. marché </td>
-                                        <td>Objet du marché </td>
-                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>{{ requestsAsf.ref }} </td>
+                                        <td>{{ requestsAsf.objet }} </td>
+                                        <td>{{ requestsAsf.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
-                                            'p-badge-success': requestAnpe.status === 'APPROVED',
-                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
-                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
-                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            'p-badge-success': requestsAsf.status === 'APPROVED',
+                                                'p-badge-primary': requestsAsf.status === 'PROCESSING',
+                                                'p-badge-danger': requestsAsf.status === 'REJECTED',
+                                                'p-badge-info': requestsAsf.status === 'PENDING'
                                             }">
-                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            {{ getTranslatedStatus(requestsAsf.status) }}
                                             </span>
                                         </td>
                                         <td>
-                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            <button *ngIf="requestsAsf.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestsAsf)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -302,13 +320,13 @@
                         </p-tabPanel>
 
                         <!-- CNSS -->
-                        <p-tabPanel header="Situation cotisante CNSS ({{ countAnpe }})">
-                            <p-table #dtcnss [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                        <p-tabPanel header="Situation cotisante CNSS ({{ countCnss }})">
+                            <p-table #dtcnss [value]="requestCnss" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
                             currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            [totalRecords]="totalRecordsCnss" [(selection)]="selectedCnssRequests" 
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -329,24 +347,24 @@
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-requestAnpe>
+                                <ng-template pTemplate="body" let-requestCnss>
                                     <tr>
-                                        <td>Ref. marché </td>
-                                        <td>Objet du marché </td>
-                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>{{ requestCnss.ref }}</td>
+                                        <td>{{ requestCnss.objet }}</td>
+                                        <td>{{ requestCnss.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
-                                            'p-badge-success': requestAnpe.status === 'APPROVED',
-                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
-                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
-                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            'p-badge-success': requestCnss.status === 'APPROVED',
+                                                'p-badge-primary': requestCnss.status === 'PROCESSING',
+                                                'p-badge-danger': requestCnss.status === 'REJECTED',
+                                                'p-badge-info': requestCnss.status === 'PENDING'
                                             }">
-                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            {{ getTranslatedStatus(requestCnss.status) }}
                                             </span>
                                         </td>
                                         <td>
-                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            <button *ngIf="requestCnss.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestCnss)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -355,13 +373,13 @@
                         </p-tabPanel>
 
                         <!-- CNF -->
-                        <p-tabPanel header="Certificat de non faillite ({{ countAnpe }})">
-                            <p-table #dtcnf [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
+                        <p-tabPanel header="Certificat de non faillite ({{ countCnf }})">
+                            <p-table #dtcnf [value]="requestCnf" [columns]="cols" responsiveLayout="scroll" 
                             [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
                             [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
                             [showCurrentPageReport]="true" 
                             currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            [totalRecords]="totalRecordsCnf" [(selection)]="selectedCnfRequests" 
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -382,24 +400,24 @@
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-requestAnpe>
+                                <ng-template pTemplate="body" let-requestsCnf>
                                     <tr>
-                                        <td>Ref. marché </td>
-                                        <td>Objet du marché </td>
-                                        <td>{{ requestAnpe.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                        <td>{{ requestsCnf.ref }} </td>
+                                        <td>{{ requestsCnf.objet }} </td>
+                                        <td>{{ requestsCnf.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
-                                            'p-badge-success': requestAnpe.status === 'APPROVED',
-                                                'p-badge-primary': requestAnpe.status === 'PROCESSING',
-                                                'p-badge-danger': requestAnpe.status === 'REJECTED',
-                                                'p-badge-info': requestAnpe.status === 'PENDING'
+                                            'p-badge-success': requestsCnf.status === 'APPROVED',
+                                                'p-badge-primary': requestsCnf.status === 'PROCESSING',
+                                                'p-badge-danger': requestsCnf.status === 'REJECTED',
+                                                'p-badge-info': requestsCnf.status === 'PENDING'
                                             }">
-                                            {{ getTranslatedStatus(requestAnpe.status) }}
+                                            {{ getTranslatedStatus(requestsCnf.status) }}
                                             </span>
                                         </td>
                                         <td>
-                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            <button *ngIf="requestsCnf.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestsCnf)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -409,6 +427,18 @@
 
                     </p-tabView>
                 </div>
+
+                <p-dialog header="Motif de rejet de votre demande DRTPS" [(visible)]="displayMotifModal" [modal]="true" [style]="{width: '650px'}" *ngIf="requestDrtss">
+                    <div class="grid">
+                        <div class="col-6">
+                            <p><strong>Date de demande: </strong> {{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</p>
+                        </div>
+                        <div class="col-12">
+                            <p><strong>Motif de rejet</strong></p>
+                            <p>{{requestDrtss.rejectionReason }}</p>
+                        </div>
+                    </div>
+                </p-dialog>
             </div>
         </div>
         <app-footer></app-footer>  

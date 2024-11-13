@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "createdAt": "2024-10-01",
+      "status": "REJECTED ",
+      "ref": "N° 2025-003/MS/SG/CHR-Z/DG/PRM",
+      "objet": "Prestation du service d’entretien et de nettoyage au profit du CHR de Ziniaré"
+    },
+    {
+        "id": 2,
+        "createdAt": "2024-10-01",
+        "status": "PROCESSING",
+        "ref": "N°: 2024-051/CEGECI/DG/PRM du 05/11/2024",
+        "objet": "Acquisition, installation et mise en service d’un groupe électrogène au profit du siège du centre de gestion des cités (CEGECI) à"
+      },
+      {
+        "id": 3,
+        "createdAt": "2024-10-01",
+        "status": "PROCESSING",
+        "ref": "SN° :2024-12/MSJE/SG/BYM/PRM du 07/11/2024",
+        "objet": "Travaux de réalisation de parking au Palais des Sports de Ouaga 2000 au profit de BURKINA YIN-WISGR META"
+      },
+      {
+        "id": 4,
+        "createdAt": "2024-10-01",
+        "status": "PENDING",
+        "ref": "N°2024-1047/MI/SG/DMP/SMF-PC",
+        "objet": "Acquisition de TOM2PRO suivi évaluation (Tom Monitoring)"
+      },
+      {
+        "id": 5,
+        "createdAt": "2024-10-01",
+        "status": "APPROVED",
+        "ref": "N° :2024/044/CNSS/DSI/SM",
+        "objet": "Acquisition, installation et programmation d'un autocom au profit de la nouvelle DROa"
+      }
+]
+  

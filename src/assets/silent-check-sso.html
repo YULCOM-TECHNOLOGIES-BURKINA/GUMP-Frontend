@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Silent Check SSO</title>
+</head>
+<body>
+  <script>
+    // Permet à Keycloak de vérifier silencieusement la session.
+    parent.postMessage(location.href, location.origin);
+  </script>
+</body>
+</html>

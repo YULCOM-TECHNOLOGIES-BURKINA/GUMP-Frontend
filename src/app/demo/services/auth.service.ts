@@ -47,6 +47,19 @@ export class AuthService {
     //return this.currentUser !== null;
   }
 
+  isAuthenticatedOrg(): boolean {
+    if(localStorage.getItem('currentUser')){
+      const savedUser = localStorage.getItem('currentUser');
+      if (JSON.parse(savedUser).role == 'entreprise'){
+        return this.currentUser !== null || localStorage.getItem('currentUser') !== null;
+      } else {
+        return false;
+      }
+    } else{
+      return false;
+    }
+  }
+
   logout(): void {
     // Clear the user session and remove it from localStorage
     this.currentUser = null;
