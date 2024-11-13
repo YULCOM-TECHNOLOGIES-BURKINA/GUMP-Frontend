@@ -1,6 +1,6 @@
 import { Injectable, effect, signal } from '@angular/core';
 import { Subject } from 'rxjs';
-import { AuthService } from '../../demo/services/auth.service';
+import { KeycloakAuthService } from '../../demo/services/keycloak-auth.service';
 import { Router } from '@angular/router';
 
 export interface AppConfig {
@@ -54,7 +54,7 @@ export class LayoutService {
     overlayOpen$ = this.overlayOpen.asObservable();
     isAuthenticated: boolean = false;
 
-    constructor(private router: Router, private authService: AuthService) {
+    constructor(private router: Router, private authService: KeycloakAuthService) {
         effect(() => {
             const config = this.config();
             if (this.updateStyle(config)) {
