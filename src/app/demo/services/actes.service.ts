@@ -5,6 +5,7 @@ interface ActInfo {
   title: string;
   description: string;
   icon: string;
+  img: string;
   organization: string;
   validityPeriod: string;
   processingTime: string;
@@ -22,6 +23,7 @@ class ActService {
     {
       id: 'drtps',
       title: 'Attestation DRTPS',
+      img:'assets/image.png',
       description: 'L\'attestation DRTPS (Direction Régionale du Travail et de la Protection Sociale) est un document officiel qui certifie la régularité d\'une entreprise en matière de droit du travail et de sécurité sociale.',
       icon: 'pi pi-file',
       organization: 'Direction Régionale du Travail et de la Protection Sociale',
@@ -86,6 +88,7 @@ class ActService {
     {
       id: 'cnss',
       title: 'Attestation CNSS',
+      img:'assets/cnss.jpg',
       description: 'L\'attestation CNSS (Caisse Nationale de Sécurité Sociale) atteste de la conformité d\'une entreprise aux obligations de cotisation sociale.',
       icon: 'pi pi-file',
       organization: 'Caisse Nationale de Sécurité Sociale',
@@ -132,6 +135,7 @@ class ActService {
   },
   {
       id: 'aje',
+      img:'assets/justice.jpg',
       title: 'Attestation de Non-Engagement (AJE)',
       description: 'L\'attestation de non-engagement certifie qu\'une entreprise n\'est pas en situation d\'engagement auprès de l\'État pour des projets en cours.',
       icon: 'pi pi-file',
@@ -175,6 +179,7 @@ class ActService {
   },
   {
       id: 'rccm',
+      img:'assets/justice.jpg',
       title: 'Registre du Commerce et du Crédit Mobilier (RCCM)',
       description: 'L\'inscription au RCCM atteste de l\'existence juridique d\'une entreprise et de son enregistrement.',
       icon: 'pi pi-book',
@@ -218,6 +223,7 @@ class ActService {
   },
   {
       id: 'cnf',
+      img:'assets/justice.jpg',
       title: 'Certificat de Non Faillite (CNF)',
       description: 'Le certificat de non-faillite prouve qu\'une entreprise n\'est pas en situation de faillite.',
       icon: 'pi pi-shield',
@@ -261,6 +267,7 @@ class ActService {
   },
   {
       id: 'asf',
+      img:'assets/dgi.png',
       title: 'Attestation de Situation Fiscale (ASF)',
       description: 'Le certificat de non-faillite prouve qu\'une entreprise n\'est pas en situation de faillite.',
       icon: 'pi pi-shield',

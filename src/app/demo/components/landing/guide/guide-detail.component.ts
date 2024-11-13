@@ -35,6 +35,7 @@ interface ActDetail {
     prerequisites: Prerequisite[];
     legalTexts: LegalText[];
     steps: Step[];
+    img: string;
 }
 
 @Component({

@@ -90,7 +90,7 @@ export class GuideComponent implements OnInit {
           processingTime: '72 heures',
           price: '15 000 FCFA',
           category: 'Fiscale',
-          img:'assets/image.png'
+          img:'assets/dgi.png'
         }
     ];
 
