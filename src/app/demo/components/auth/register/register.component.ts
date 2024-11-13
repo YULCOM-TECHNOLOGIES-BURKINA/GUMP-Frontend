@@ -46,6 +46,9 @@ export class RegisterComponent implements OnInit {
         { label: 'Entreprise individuelle', value: 'EI' }
     ];
 
+    cnibFile: File | null = null;
+    statutFile: File | null = null;
+
     constructor(
         private fb: FormBuilder,
         private userService: UserService,
@@ -116,6 +119,16 @@ export class RegisterComponent implements OnInit {
         });
     }
 
+    onFileSelect(event: any, fileType: string) {
+        const file = event.files[0];
+        if (fileType === 'cnibFile') {
+          this.cnibFile = file;
+        } else if (fileType === 'statutFile') {
+          this.statutFile = file;
+        }
+        this.messageService.add({ severity: 'info', summary: 'Fichier chargé', detail: `${file.name} a été chargé.` });
+    }
+
     onSubmit() {
         this.submitted = true;
         if (this.registerForm.invalid) {
@@ -128,34 +141,40 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        const userData = {
-          ifuNumber: this.registerForm.get('ifuNumber')?.value,
-          cnssNumber: this.registerForm.get('cnssNumber')?.value,
-          password: this.registerForm.get('password')?.value,
-          email: this.registerForm.get('email')?.value,
-        };
-        
-        this.userService.register(userData).subscribe({
-            next: () => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Succès',
-                    detail: 'Inscription réussie ! Vous allez être redigé vers la page de connexion.',
-                    life: 5000
-                });
-                setTimeout(() => {
-                  this.router.navigate(['/auth/login']);
-              }, 5000);
-            },
-            error: (error) => {
-                this.loading = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: error.message || 'Erreur lors de l\'inscription.'
-                });
-            }
-        });
+        if (this.cnibFile && this.statutFile) {
+            const userData = {
+            ifuNumber: this.registerForm.get('ifuNumber')?.value,
+            cnssNumber: this.registerForm.get('cnssNumber')?.value,
+            password: this.registerForm.get('password')?.value,
+            email: this.registerForm.get('email')?.value,
+            cnibFile: this.cnibFile,
+            statutFile: this.statutFile,
+            };
+            
+            this.userService.register(userData).subscribe({
+                next: () => {
+                    this.loading = false;
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Succès',
+                        detail: 'Inscription réussie ! Vous allez être redigé vers la page de connexion.',
+                        life: 5000
+                    });
+                    setTimeout(() => {
+                    this.router.navigate(['/auth/login']);
+                }, 5000);
+                },
+                error: (error) => {
+                    this.loading = false;
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erreur',
+                        detail: error.message || 'Erreur lors de l\'inscription.'
+                    });
+                }
+            });
+        } else {
+            this.messageService.add({ severity: 'warn', summary: 'Attention', detail: 'Veuillez charger correctement les fichiers.' });
+        }
     }
 }
