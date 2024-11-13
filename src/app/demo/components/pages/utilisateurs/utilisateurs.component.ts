@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
-import { User } from '../../../models/user';
+import { Utilisateur } from '../../../models/utilisateurs';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
@@ -15,15 +15,15 @@ import { Table } from 'primeng/table';
 
 export class UtilisateursComponent implements OnInit {
 
-    utilisateurs: User[] = [];
+    utilisateurs: Utilisateur[] = [];
 
     deleteRequestDialog: boolean = false;
     deleteRequestsDialog: boolean = false;
 
-    requests: User[] = [];
-    request: User = {};
+    requests: Utilisateur[] = [];
+    request: Utilisateur = {};
 
-    selectedRequests: User[] = [];
+    selectedRequests: Utilisateur[] = [];
     cols: any[] = [];
 
     constructor(private utilisateurService: UserService, private messageService: MessageService) { }
@@ -40,13 +40,13 @@ export class UtilisateursComponent implements OnInit {
     }
 
     getUtilisateurs() {
-        this.utilisateurService.getUsers().subscribe((data: User[]) => {
+        this.utilisateurService.getUsers().subscribe((data: Utilisateur[]) => {
             this.utilisateurs = data;
             this.requests = data;
         });
     }
 
-    desactiverUtilisateur(utilisateur: User) {
+    desactiverUtilisateur(utilisateur: Utilisateur) {
         this.utilisateurService.desactivateUser(utilisateur.id).subscribe(() => {
             utilisateur.actif = false;
         });
@@ -64,12 +64,12 @@ export class UtilisateursComponent implements OnInit {
       this.deleteRequestsDialog = true;
   }
 
-  editRequest(request: User) {
+  editRequest(request: Utilisateur) {
       this.request = { ...request };
       // Logique d'édition ici
   }
 
-  deleteRequest(request: User) {
+  deleteRequest(request: Utilisateur) {
       this.deleteRequestDialog = true;
       this.request = { ...request };
   }

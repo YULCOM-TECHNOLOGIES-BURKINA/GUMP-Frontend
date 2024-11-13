@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../models/user';
+import { Utilisateur } from '../models/utilisateurs';
 
 import { environment } from 'src/environments/environment';
 
@@ -23,8 +23,8 @@ export class UserService {
       });
   }
 
-  getUsers(): Observable<User[]> {
-      return this.http.get<User[]>(`${this.apiUrl}/users`);
+  getUsers(): Observable<Utilisateur[]> {
+      return this.http.get<Utilisateur[]>(`${this.apiUrl}/users`);
   }
 
   desactivateUser(id: number): Observable<any> {
