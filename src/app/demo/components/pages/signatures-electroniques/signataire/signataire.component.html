@@ -143,6 +143,13 @@
                                 placeholder="rechercher ...  "></p-columnFilter>
                         </div>
                     </th>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Status
+                            <p-columnFilter type="text" field="email" display="menu"
+                                placeholder="rechercher ...  "></p-columnFilter>
+                        </div>
+                    </th>
 
 
                     <th style="min-width: 12rem">
@@ -172,6 +179,10 @@
                     <td>
                         {{ res?.signatureCertificat?.alias }}
                     </td>
+                    <td [ngClass]="{ '': res.signatureCertificat.actif, 'bg-custom': !res.signatureCertificat.actif }">
+                        {{ res.signatureCertificat.actif ? 'Actif' : 'Inactif' }}
+                    </td>
+
 
                     <td>
 

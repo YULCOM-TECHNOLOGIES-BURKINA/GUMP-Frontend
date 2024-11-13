@@ -24,6 +24,7 @@ export const API_ROOT = {
     API_LISTE_USERS_SIGNATAIRE_DRTSS: `${host_ms_drtss}/signature_electronique/liste_signataire`,
     API_LISTE_USERS_DRTSS: `${host_ms_drtss}/utilisateur_drtss/liste`,
     API_CREATE_USERS_DRTSS: `${host_ms_drtss}/utilisateur_drtss/save`,
+    API_UPDATE_STATUS_USERS_DRTSS: `${host_ms_drtss}/utilisateur_drtss/update_status`,
 
     /**
      * API DEMANDE

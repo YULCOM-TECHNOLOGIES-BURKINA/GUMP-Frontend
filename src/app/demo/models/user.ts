@@ -3,6 +3,7 @@ export interface User {
     id?: number;
     nom?: string;
     prenom?:string;
+    titre_honorifique?: string;
     email?: string;
     tel?: number,
     matricule?:string

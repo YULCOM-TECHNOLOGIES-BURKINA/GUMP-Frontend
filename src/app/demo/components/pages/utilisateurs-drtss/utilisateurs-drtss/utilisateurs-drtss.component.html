@@ -50,7 +50,13 @@
 
 
                         <div class="field">
-                            <label for="email">Email</label>
+                            <label for="titre_honorifique">Titre Honorifique</label>
+                            <input type="text" pInputText id="titre_honorifique" formControlName="titre_honorifique" />
+
+                        </div>
+
+                        <div class="field">
+                            <label for="email">Email *</label>
                             <input type="text" pInputText id="email" formControlName="email" />
                             <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is
                                 required.</small>
@@ -76,7 +82,7 @@
             <ng-template pTemplate="footer">
                 <button pButton icon="pi pi-refresh" (click)="display=false" label="ANNULER"
                     (click)="deleteDialog=false" class=" p-button-danger p-button-outlined "></button>
-                <button pButton icon="pi pi-check" (click)="display=false" label="JE CONFIRME"
+                <button pButton icon="pi pi-check" (click)="onConfirm()" label="JE CONFIRME"
                     class="p-button-success p-button-outlined"></button>
             </ng-template>
         </p-dialog>
@@ -141,6 +147,21 @@
                         </div>
                     </th>
 
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Titre Honorifique
+                            <p-columnFilter type="text" field="titre_honorifique" display="menu"
+                                placeholder="rechercher ...  "></p-columnFilter>
+                        </div>
+                    </th>
+
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Status
+
+                        </div>
+                    </th>
+
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
@@ -151,11 +172,10 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-res>
-                <tr>
+                <tr >
                     <td>
-                        {{ res.createdAt| date: 'dd/MM/yyyy' }}
+                        {{ res.createdAt | date: 'dd/MM/yyyy' }}
                     </td>
-
                     <td>
                         {{ res.matricule }}
                     </td>
@@ -165,17 +185,28 @@
                     <td>
                         {{ res.prenom }}
                     </td>
-
                     <td>
                         {{ res.email }}
                     </td>
+                    <td>
+                        {{ res.titre_honorifique }}
+                    </td>
 
-                    <td  appendTo="body">
-                        <p-splitButton  appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
+                    <td [ngClass]="{ '': res.actif, 'bg-yellow-custom': !res.actif }">
+                        {{ res.actif ? 'Compte Actif' : 'Compte Inactif' }}
+                    </td>
+
+                    <td>
+                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
                             styleClass="p-button-info"></p-splitButton>
                     </td>
                 </tr>
-                 
+
+
+                <p-confirmDialog header="Confirmation" key="confirm1" icon="pi pi-exclamation-triangle"
+                    message="Are you sure you want to proceed?" [style]="{width: '350px'}"
+                    acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>

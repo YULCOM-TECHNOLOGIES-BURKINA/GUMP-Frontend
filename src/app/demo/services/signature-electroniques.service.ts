@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpFastserviceService } from './http-fastservice.service';
 import { User } from '../models/user';
 import { API_ROOT } from 'src/environments/environment';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -64,6 +64,18 @@ export class SignatureElectroniquesService {
     );
   }
 
+  public modifierStatusUtilisateurDrtss(idUser:number) {
+    return this.fastService.post<Utilisateur>(API_ROOT.API_UPDATE_STATUS_USERS_DRTSS, {"id":idUser}).pipe(
+      tap((res: Utilisateur) => {
+        console.log("Utilisateur enregistré :", res);
+      }),
+      catchError(error => {
+        console.error("Erreur lors de l'enregistrement de l'utilisateur :", error);
+         return of(null);
+      })
+    );
+  }
+
   public telechargerCertificat(path: string,certificatFile:any): void {
 
     const url = API_ROOT.API_DOWNLOAD_SIGNATAIRE_CERTIFICAT_DRTSS+`?path=${encodeURIComponent(path)}`;
@@ -109,26 +121,32 @@ export class SignatureElectroniquesService {
 
 
 
-  public signDocument(selectedFile: File, signatoryId: number ,attestationPath:string,alias:string,keyStorePassword:string) {
-    const formData: FormData = new FormData();
+  public signDocument(
+    selectedFile: File,
+    signatoryId: number,
+    attestationPath: string,
+    alias: string,
+    keyStorePassword: string
+): Observable<any> {
+    const formData = new FormData();
     formData.append('keyStore', selectedFile);
     formData.append('signatoryId', signatoryId.toString());
     formData.append('attestationPath', attestationPath);
     formData.append('alias', alias);
     formData.append('keyStorePassword', keyStorePassword);
 
-    console.log('form data',formData);
-
+ 
     return this.fastService.post<any>(`${API_ROOT.API_SIGNE_ATTESTATION_DRTSS}`, formData).pipe(
-      tap((res) => {
-        console.log('Attestation signée  avec succès :', res);
-      }),
-      catchError((error) => {
-        console.error('Erreur lors de la sinature :', error);
-        return of(null);
-      })
+        tap((res) => {
+            console.log('Attestation signée avec succès :', res);
+        }),
+        catchError((error) => {
+            console.error('Erreur lors de la signature :', error);
+            return throwError(() => new Error('Échec de la signature de l’attestation.'));
+        })
     );
-  }
+}
+
 
 
 }
