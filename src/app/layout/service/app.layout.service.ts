@@ -1,5 +1,7 @@
 import { Injectable, effect, signal } from '@angular/core';
 import { Subject } from 'rxjs';
+import { KeycloakAuthService } from '../../demo/services/keycloak-auth.service';
+import { Router } from '@angular/router';
 
 export interface AppConfig {
     inputStyle: string;
@@ -50,8 +52,9 @@ export class LayoutService {
     configUpdate$ = this.configUpdate.asObservable();
 
     overlayOpen$ = this.overlayOpen.asObservable();
+    isAuthenticated: boolean = false;
 
-    constructor() {
+    constructor(private router: Router, private authService: KeycloakAuthService) {
         effect(() => {
             const config = this.config();
             if (this.updateStyle(config)) {
@@ -60,6 +63,12 @@ export class LayoutService {
             this.changeScale(config.scale);
             this.onConfigUpdate();
         });
+    }
+
+    logout() {
+        this.authService.logout(); 
+        this.isAuthenticated = false;
+        this.router.navigate(['']); 
     }
 
     updateStyle(config: AppConfig) {

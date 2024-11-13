@@ -8,7 +8,7 @@ import { DemandeCnf, DemandeCnfResponse } from '../models/cnf';
 })
 export class CnfService {
 
-  private apiUrl = 'http://54.37.13.176:8082/api/demandes'; 
+  private apiUrl = 'http://localhost:8082/api/demandes';
 
   constructor(private http: HttpClient) {}
 

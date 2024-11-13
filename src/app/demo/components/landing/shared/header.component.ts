@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { KeycloakAuthService } from '../../../services/keycloak-auth.service';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-header',
@@ -14,12 +17,6 @@ import { MenuItem } from 'primeng/api';
         <!-- Desktop Menu -->
         <div class="hidden lg:flex">
           <p-menubar [model]="items" [style]="{'border': 'none', 'background': 'transparent'}" styleClass="custom-menubar">
-            <ng-template pTemplate="end">
-              <button routerLink="/auth/login" pButton pRipple label="Connexion" 
-                class="p-button border-none font-semibold bg-green-600 hover:bg-green-700 transition-colors transition-duration-150"
-                style="border-radius: 2rem;">
-              </button>
-            </ng-template>
           </p-menubar>
         </div>
 
@@ -82,10 +79,13 @@ import { MenuItem } from 'primeng/api';
     }
 }`
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   items: MenuItem[];
+  isAuthenticated: Observable<boolean>;
 
-  constructor() {
+  private currentUser: any = null;
+
+  constructor(private authService: KeycloakAuthService) {
     this.items = [
         {
           label: 'Accueil',
@@ -108,5 +108,23 @@ export class HeaderComponent {
           routerLink: ['/faq']
         }
       ];
+  }
+
+  ngOnInit(): void {
+    //this.isAuthenticated = this.authService.isAuthenticated();
+
+    // if (this.isAuthenticated) {
+    if (localStorage.getItem('currentUser') !== null) {
+      this.items.push(
+        { label: 'Mes demandes', icon: 'pi pi-list', routerLink: ['/demandes'] },
+        { label: 'Mon profil', icon: 'pi pi-user', routerLink: ['/profile'] },
+        { label: 'Se déconnecter', icon: 'pi pi-power-off', command: () => this.authService.logout() }
+      );
+    } else {
+      this.items.push(
+        { label: 'Connexion', icon: 'pi pi-user', command: () => this.authService.login() },
+        { label: 'Inscription', icon: 'pi pi-user', routerLink: ['/auth/register'] }
+      );
+    }
   }
 }

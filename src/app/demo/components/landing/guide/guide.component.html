@@ -16,7 +16,7 @@
                                [(ngModel)]="searchQuery"
                                (ngModelChange)="filterActs()"
                                placeholder="Rechercher un acte..."
-                               class="w-full p-3 surface-card text-900"
+                               class="w-full pl-5 p-3 surface-card text-900"
                                [style]="{'border-radius': '2rem'}">
                     </div>
                     <p-selectButton [options]="categories" 
@@ -31,12 +31,69 @@
         <!-- Acts Grid -->
         <div class="px-4 py-8 md:px-6 lg:px-8">
             <div class="grid">
+                <div class="col-12 md:col-6 lg:col-4 p-3">
+                    <div class="surface-card shadow-2 border-round-xl h-full">
+                        <div class="p-4">
+                            <div class="flex align-items-center justify-content-between mb-4">
+                                <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
+                                    <img src="assets/cnss.jpg" class="small-icon"/>
+                                </span>
+                                <p-tag value="Sécurité Sociale" 
+                                      severity="info" 
+                                      [rounded]="true">
+                                </p-tag>
+                            </div>
+                            
+                            <h2 class="text-2xl font-bold text-900 mb-2">Attestation CNSS</h2>
+                            <p class="line-height-3 text-700 mb-4">Attestation de situation cotisante</p>
+                            
+                            <div class="border-top-1 surface-border pt-4">
+                                <div class="flex flex-column gap-3">
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-clock text-500"></i>
+                                        <span class="text-600">Validité: 3 mois</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-calendar text-500"></i>
+                                        <span class="text-600">Délai: 24 heures</span>
+                                    </div>
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-wallet text-500"></i>
+                                        <span class="text-600">Prix: 7 500 FCFA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex align-items-center gap-2 p-4 surface-ground border-round-bottom-xl">
+                            <button pButton 
+                                    pRipple 
+                                    type="button" 
+                                    label="Voir les détails" 
+                                    icon="pi pi-arrow-right" 
+                                    (click)="navigateToDetail('cnss')"
+                                    class="p-button-success p-button-outlined flex-auto">
+                            </button>
+                            <a pButton 
+                                    pRipple 
+                                    type="button" 
+                                    icon="pi pi-file-edit"
+                                    pTooltip="Faire une demande"
+                                    tooltipPosition="top"
+                                    href="https://eservices.cnss.bf/" 
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="p-button-success text-white">
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div *ngFor="let act of filteredActs" class="col-12 md:col-6 lg:col-4 p-3">
                     <div class="surface-card shadow-2 border-round-xl h-full">
                         <div class="p-4">
                             <div class="flex align-items-center justify-content-between mb-4">
                                 <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
-                                    <i [class]="act.icon + ' text-2xl text-green-600'"></i>
+                                    <!-- <i [class]="act.icon + ' text-2xl text-green-600'"></i> -->
+                                    <img [src]="act.img" class="small-icon"/>
                                 </span>
                                 <p-tag [value]="act.category" 
                                       severity="info" 
@@ -80,7 +137,7 @@
                                     icon="pi pi-file-edit"
                                     pTooltip="Faire une demande"
                                     tooltipPosition="top"
-                                    [routerLink]="['/demande', act.id]"
+                                    [routerLink]="['/actes/'+act.id]"
                                     class="p-button-success">
                             </button>
                         </div>
@@ -158,5 +215,11 @@
         transform: translateY(-5px);
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
     }
+}
+
+.small-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
 }
 </style>

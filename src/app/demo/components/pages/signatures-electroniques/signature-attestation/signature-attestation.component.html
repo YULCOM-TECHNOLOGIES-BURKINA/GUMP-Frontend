@@ -1,0 +1,192 @@
+<p-toast key="tst"></p-toast>
+
+<div class="sticky-bar">
+
+
+    <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Enregistrement Signataire Document"
+        [modal]="true" class="p-fluid">
+        <ng-template pTemplate="content">
+
+            <div class="card shadow-2  ">
+
+
+                <div class="field" appendTo="body">
+                    <label for="email">Sectionner l'utilisateur</label>
+
+                    <p-autoComplete appendTo="body" [(ngModel)]="selectedUser" [suggestions]="filteredUsersAutoComplete"
+                        (completeMethod)="filterUsers($event)" field="nomComplet" [dropdown]="true">
+                    </p-autoComplete>
+
+                </div>
+                <div class="p-fluid formgrid grid">
+
+                    <div class="field col-12 md:col-6">
+                        <label for="alias">Certificat Alias </label>
+                        <input [(ngModel)]="alias" pInputText id="alias" placeholder="alias" />
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="keyStorePassword">key Password</label>
+                        <input [(ngModel)]="keyStorePassword" pInputText id="keyStorePassword"
+                            placeholder="certificat password" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="card">
+                        <h5>Veuillez ajouter l'empreinte numérique de la signature.</h5>
+                        <p-fileUpload name="file" [multiple]="false" accept=".p12" [maxFileSize]="2000000"
+                            chooseLabel="Choisir" uploadLabel="Télécharger" cancelLabel="Annuler"
+                            chooseIcon="pi pi-plus" uploadIcon="pi pi-cloud-upload" cancelIcon="pi pi-times"
+                            [showUploadButton]="false" [showCancelButton]="false" [auto]="false"
+                            invalidFileSizeMessageSummary="Taille de fichier invalide"
+                            invalidFileSizeMessageDetail="La taille maximale est de 2 Mo"
+                            (onSelect)="onFileSelect($event)">
+
+                            <ng-template pTemplate="content">
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles">
+                                        {{file.name}} - {{file.size}} octets
+                                    </li>
+                                </ul>
+                            </ng-template>
+                        </p-fileUpload>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
+            <button (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
+                class="p-button-text p-button-success"></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog header="Voir document!" [(visible)]="viewpdfDialog" [modal]="true" [style]="{ width: '850px' }"
+        [breakpoints]="{'760px': '100vw'}">
+        <h3 class="line-height-5 m-0">Voir Document</h3>
+
+        <pdf-viewer [src]="pdfSrc" [render-text]="true"
+            style="width: 100%; height: 500px; display: block;"></pdf-viewer>
+
+        <ng-template pTemplate="footer">
+            <button pButton icon="pi pi-refresh" label="FERMER" (click)="viewpdfDialog=false"
+                class="p-button-danger p-button-outlined"></button>
+        </ng-template>
+    </p-dialog>
+
+</div>
+
+
+<div class="col-12">
+
+    <div class="card">
+        <h5>Listes des attestations DRTPS</h5>
+        <p-table #dt1 (onPage)="onPageChange($event)" [value]="demandes" dataKey="id" [rows]="pageSize"
+            [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
+            groupRowsBy="nom" sortField="nom" [paginator]="true" [totalRecords]="{totalRecords}"
+            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
+            currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
+            [scrollable]="true" scrollHeight="500px">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+                    <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+                        (click)="clear(dt1)"></button>
+                    <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)"
+                            placeholder="Search Keyword" class="w-full" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Date Demande
+                            <p-sortIcon field="matricule" />
+                        </div>
+                    </th>
+
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Demandeur
+                            <p-sortIcon field="matricule" />
+                        </div>
+                    </th>
+
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Statut
+                            <p-columnFilter type="text" field="nom" display="menu"
+                                placeholder="rechercher ...  "></p-columnFilter>
+                        </div>
+                    </th>
+
+
+
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Actions
+
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-res>
+                <tr>
+                    <td>
+                        {{ res?.createdAt| date: 'dd/MM/yyyy' }}
+                    </td>
+
+                    <td>
+                        Demandeur
+                    </td>
+                    <td>
+                        {{ res?.status }}
+                    </td>
+                    <td>
+
+                        <button [disabled]="!res?.attestation?.pathFile"  (click)="openNew(res?.attestation?.pathFile,res?.attestation?.path)" [disabled]="!res?.attestation?.pathFile"  class="p-button-success p-button-outlined mr-2" pButton pRipple icon="pi pi-pencil"
+                        label="Signer" class="p-button-outlined p-button-danger">
+                       </button>
+
+
+
+                        <button  [disabled]="!res?.attestation" (click)="viewAttestation(res?.attestation?.path)" [disabled]="!res?.attestation?.pathFile"  style="margin-left: 10px;margin-right: 10px;"  pButton pRipple icon="pi pi-eye"
+                        label="Visualiser" class="p-button-outlined p-button-success">
+                       </button>
+
+
+                        <button  [disabled]="!res?.attestation" (click)="downloadFile(res?.attestation?.path)"  pButton pRipple icon="pi pi-download"
+                        label="'Télécharger'" class="p-button-outlined p-button-info">
+                       </button>
+
+
+
+                    </td>
+
+
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No customers found.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="8">Loading customers data. Please wait.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>

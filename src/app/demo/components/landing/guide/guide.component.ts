@@ -11,6 +11,7 @@ interface ActGuide {
     processingTime: string;
     price: string;
     category: string;
+    img: string; // Chemin vers l'image de l'acte
 }
 
 @Component({
@@ -19,40 +20,78 @@ interface ActGuide {
 })
 export class GuideComponent implements OnInit {
     acts: ActGuide[] = [
-        {
-            id: 'drtss',
-            title: 'Attestation DRTSS',
-            description: 'Attestation de régularité en matière de travail et de sécurité sociale',
-            icon: 'pi pi-file',
-            organization: 'Direction Régionale du Travail et de la Sécurité Sociale',
-            validityPeriod: '3 mois',
-            processingTime: '48 heures',
-            price: '10 000 FCFA',
-            category: 'Travail'
+      {
+        id: 'rccm',
+        title: 'Extrait du RCCM',
+        description: 'Registre du commerce et du crédit Mobilier',
+        icon: 'pi pi-building',
+        organization: 'Agence Judiciaire de l\'État',
+        validityPeriod: '3 mois',
+        processingTime: '72 heures',
+        price: '15 000 FCFA',
+        category: 'Juridique',
+        img:'assets/justice.jpg'
+      },
+      {
+        id: 'anpe',
+        title: 'Attestation ANPE',
+        description: 'Attestation desc',
+        icon: 'pi pi-building',
+        organization: 'Agence Judiciaire de l\'État',
+        validityPeriod: '3 mois',
+        processingTime: '72 heures',
+        price: '15 000 FCFA',
+        category: 'Travail',
+        img:'assets/anpe.jpg'
+      },
+      {
+          id: 'drtps',
+          title: 'Attestation DRTPS',
+          description: 'Attestation de régularité en matière de travail et de protection sociale',
+          icon: 'pi pi-file',
+          organization: 'Direction Régionale du Travail et de la Protection Sociale',
+          validityPeriod: '3 mois',
+          processingTime: '48 heures',
+          price: '10 000 FCFA',
+          category: 'Travail',
+          img:'assets/image.png'
         },
         {
-            id: 'cnss',
-            title: 'Attestation CNSS',
-            description: 'Attestation de situation cotisante',
-            icon: 'pi pi-shield',
-            organization: 'Caisse Nationale de Sécurité Sociale',
-            validityPeriod: '3 mois',
-            processingTime: '24 heures',
-            price: '7 500 FCFA',
-            category: 'Sécurité Sociale'
+          id: 'aje',
+          title: 'Attestation de non engagement(AJE)',
+          description: 'Attestation de non engagement de l\'Agent judiciaire de l\'ETAT (AJE)',
+          icon: 'pi pi-building',
+          organization: 'Agence Judiciaire de l\'État',
+          validityPeriod: '3 mois',
+          processingTime: '24 heures',
+          price: '1 000 FCFA',
+          category: 'Juridique',
+          img:'assets/justice.jpg'
         },
         {
-            id: 'aje',
-            title: 'Attestation AJE',
-            description: 'Attestation de situation juridique des entreprises',
-            icon: 'pi pi-building',
-            organization: 'Agence Judiciaire de l\'État',
-            validityPeriod: '3 mois',
-            processingTime: '72 heures',
-            price: '15 000 FCFA',
-            category: 'Juridique'
+          id: 'cnf',
+          title: 'Certificat de non faillite',
+          description: 'Attestation de situation juridique des entreprises',
+          icon: 'pi pi-building',
+          organization: 'Agence Judiciaire de l\'État',
+          validityPeriod: '3 mois',
+          processingTime: '72 heures',
+          price: '15 000 FCFA',
+          category: 'Juridique',
+          img:'assets/justice.jpg'
+        },
+        {
+          id: 'asf',
+          title: 'Attestation de Situation Fiscale',
+          description: 'Attestation de Situation Fiscale',
+          icon: 'pi pi-building',
+          organization: 'Agence Judiciaire de l\'État',
+          validityPeriod: '3 mois',
+          processingTime: '72 heures',
+          price: '15 000 FCFA',
+          category: 'Fiscale',
+          img:'assets/dgi.png'
         }
-        // Ajoutez les autres actes de la même manière
     ];
 
     filteredActs: ActGuide[] = [];
