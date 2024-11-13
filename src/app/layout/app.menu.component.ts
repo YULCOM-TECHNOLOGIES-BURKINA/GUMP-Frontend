@@ -30,25 +30,22 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Modules',
-                visible: this.userRole === 'ADMIN' || this.userRole === 'USER',
+                visible: this.userRole.includes('ADMIN') ,
                 items: [
-                    { label: 'Actes', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'], visible: this.userRole === 'USER'  },
-                    { label: 'Mes demandes', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole === 'USER'  },
-                    { label: 'Statistiques', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'], visible: this.userRole === 'ADMIN' || this.userRole?.startsWith('admin_')  },
-                    { label: 'Rapport', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole === 'ADMIN'  }
+                    { label: 'Statistiques', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'], visible: this.userRole.includes('ADMIN')  },
+                    { label: 'Rapport', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole.includes('ADMIN')   }
                 ]
             },
             {
                 label: 'Traitement des demandes',
-                // visible: this.userRole === 'ADMIN' || this.userRole?.startsWith('DRTSS_USER'),
                 items: [
-                    { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'], visible: this.userRole === 'ADMIN' || this.userRole === 'DRTSS_USER' },
-                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole === 'ADMIN' || this.userRole === 'TRESOR_USER' }
+                    { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'], visible: this.userRole.includes('ADMIN')  || this.userRole.includes('DRTSS_USER') },
+                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole.includes('ADMIN')  || this.userRole.includes('TRESOR_USER') }
                 ]
             },
             {
                 label: 'Paramètres',
-                visible: this.userRole === 'ADMIN',
+                visible: this.userRole.includes('ADMIN') ,
                 items: [
                     { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
                     { label: 'Frais de traitement', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs']},
@@ -59,20 +56,20 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Paramètres',
-                visible: this.userRole === 'DRTSS_USER',
+                visible: this.userRole.includes('DRTSS_USER'),
                 items: [
                     { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
-                    { label: 'Gestions Utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'DRTSS_USER' },
-                    { label: 'Gestions Utilisateurs DRTSS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible: this.userRole === 'DRTSS_USER' },
-                    { label: 'Signatures electroniques', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole === 'DRTSS_USER' },
-                    { label: 'Signer Attestations', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/pages/signature-electronique/sign_attestation'], visible: this.userRole === 'DRTSS_USER' }
+                    { label: 'Gestions Utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole.includes('DRTSS_USER') },
+                    { label: 'Gestions Utilisateurs DRTSS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible: this.userRole.includes('DRTSS_USER') },
+                    { label: 'Signatures electroniques', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('DRTSS_USER') },
+                    { label: 'Signer Attestations', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/pages/signature-electronique/sign_attestation'], visible: this.userRole.includes('DRTSS_USER') }
                 ]
             },
             {
                 label: 'Sécurité',
                 items: [
                     { label: 'Profil', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
-                    { label: 'Utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole === 'ADMIN' }
+                    { label: 'Utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole.includes('ADMIN')  }
                 ]
             }
         ];
