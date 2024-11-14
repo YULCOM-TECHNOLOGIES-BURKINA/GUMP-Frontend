@@ -2,7 +2,7 @@
     <div class="guide-wrapper overflow-hidden">
         <app-header></app-header>
         <!-- Hero Section -->
-        <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
+        <div class="other-hero  text-white px-4 py-8 md:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl font-bold mb-4">Guide des actes administratifs dématérialisés</h1>
                 <p class="text-xl line-height-3 mb-6">
@@ -31,11 +31,13 @@
         <!-- Acts Grid -->
         <div class="px-4 py-8 md:px-6 lg:px-8">
             <div class="grid">
+
                 <div class="col-12 md:col-6 lg:col-4 p-3">
-                    <div class="surface-card shadow-2 border-round-xl h-full">
+                    <div class="surface-card act-card shadow-2 border-round-xl h-full">
                         <div class="p-4">
                             <div class="flex align-items-center justify-content-between mb-4">
                                 <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
+                                    <!-- <i class="pi pi-building text-2xl text-green-600"></i> -->
                                     <img src="assets/cnss.jpg" class="small-icon"/>
                                 </span>
                                 <p-tag value="Sécurité Sociale" 
@@ -88,7 +90,7 @@
                     </div>
                 </div>
                 <div *ngFor="let act of filteredActs" class="col-12 md:col-6 lg:col-4 p-3">
-                    <div class="surface-card shadow-2 border-round-xl h-full">
+                    <div class="surface-card act-card shadow-2 border-round-xl h-full">
                         <div class="p-4">
                             <div class="flex align-items-center justify-content-between mb-4">
                                 <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
@@ -216,7 +218,6 @@
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
     }
 }
-
 .small-icon {
   width: 30px;
   height: 30px;

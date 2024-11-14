@@ -1,0 +1,212 @@
+
+body{
+    margin: 0;
+  }
+  .nos-valeurs
+  {
+    background: linear-gradient(0deg, rgb(255, 255, 255), rgba(42, 180, 7, 0.021)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #258b06 10%, #ec290f 100%);
+  }
+  .savoir-btn
+  {
+    width: 50%;
+    background: #019944;
+    padding: 10px;
+    border: none;
+    color: white;
+    margin-top: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    font-size: 1.2rem;
+    border-radius: 5px;
+  }
+  body .page-header{
+      background: #019944;
+    margin: 0 !important;
+  }
+  #home{
+    width: 100%;
+  }
+  .landing-service-card
+  {
+    height: 400px;
+  }
+
+  .bg-logo
+  {
+  
+  position: absolute;
+  width: 40%;
+  height: 400px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: 0.1;
+  }
+  .page-header a{
+     text-decoration: none;
+     
+  }
+  .page-header a .logo-text{
+      text-decoration: none;
+      color: white!important;
+   }
+  
+   .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-content {
+      color: black;
+      transition: box-shadow 0.2s;
+      border-radius: 6px;
+      color: #4b5563;
+      background: #f3f4f6;
+    }
+  
+  .landing-page-banner
+  {
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 10px !important;
+    padding: 40px;
+    width: 100%;
+  
+  }
+
+  body .landing-acte-img
+  {
+    width: 100%!important;
+    height: 100px!important;
+  }
+  
+  
+  .landing-page-banner .inscription
+  {
+      background: #ee2322;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  
+  }
+  .nos-missions
+  {
+      background: #019944!important;
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  }
+  .nos-missions .n-title, .nos-missions .n-text,.nos-missions i
+  {
+      color: white!important;
+  }
+.other-hero
+{
+    background: linear-gradient(0deg, rgb(255, 255, 255), rgba(42, 180, 7, 0.021)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #258b06 10%, #ec290f 100%);
+}
+
+.other-hero .text-center
+{
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+    padding: 50px;
+}
+
+.other-hero .text-center h1
+{
+    color: #efc800 !important;
+}
+.act-card button
+{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+.act-card .p-tag-info
+{
+    background: #efc800 !important;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+body .details-card
+{
+    background: #019944 !important;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset!important;
+}
+
+.details-card h3,.details-card .text-900
+{
+    color: white !important;
+    font-weight: bold !important;
+
+}
+.details-card .text-600
+{
+    color: #efc800 !important;
+    font-weight: bold !important;
+    
+}
+body a {
+    text-decoration: none;
+    color: #efc800;
+  }
+  body .p-timeline .p-timeline-event-marker {
+    border: 2px solid #efc800;
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    background-color: #ffffff;
+  }
+ body .p-button.p-button-success, .p-buttonset.p-button-success > .p-button, .p-splitbutton.p-button-success > .p-button {
+    color: #ffffff;
+    background: #019944!important;
+    border: 1px solid #019944!important;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset!important;
+  }
+
+.details-card i
+{
+    color: white !important;
+    
+    
+}
+
+
+
+  .footer-container
+  {
+    background: #019944!important;
+  }
+  
+  
+  .landing-page-banner h1
+  {
+      color: #efc800!important;
+      font-size: 2rem!important;;
+      
+  }
+  .landing-page-banner p
+  {
+      color: white!important;
+      font-size: 1.2rem!important;
+  }
+  .landing-page-connexion
+  {
+      background: white;
+      width: 50%;
+      height: auto;
+      border-radius: 0px 10px 10px 0px !important;
+      box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+  }
+  
+  .landing-page-connexion form
+  {
+      padding: 30px;
+  }
+  .landing-page-connexion form a
+  {
+      color: #efc800;
+  }
+  
+  
+  .landing-page-connexion form  button
+  { 
+      background: #019944;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  }
+  
+  #hero
+  {
+      padding-bottom: 100px!important;
+  }
