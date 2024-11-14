@@ -2,18 +2,25 @@
     <div id="home" class="landing-wrapper overflow-hidden">
         <!-- Header -->
         <app-header></app-header>
-    
-        <div id="hero" class="flex flex-column pt-4 px-4 lg:px-8 overflow-hidden" 
+
+
+        <div id="hero" class="flex flex-column pt-4 px-4 lg:px-8 overflow-hidden"
             style="background: linear-gradient(0deg, rgb(255, 255, 255), rgba(42, 180, 7, 0.021)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #258b06 10%, #ec290f 100%); clip-path: ellipse(150% 87% at 93% 13%);">
-            <div class="mx-4 md:mx-8 mt-0 md:mt-4">
-                <h1 class="text-6xl font-bold text-gray-900 line-height-2">Guichet Unique des Marchés Publics</h1>
-                <p class="font-normal text-2xl line-height-3 md:mt-3 pb-4 text-gray-700">
-                    Simplifiez vos démarches administratives avec une plateforme centralisée et efficace. Gagnez du temps et optimisez vos formalités en toute sécurité.
-                </p>
+            <div class="mx-4 md:mx-8 mt-0 md:mt-4" style="display: flex;">
+                <div class="landing-page-banner">
+                    <h1 class="text-6xl font-bold text-gray-900 line-height-2">Guichet Unique des Marchés Publics</h1>
+                    <p class="font-normal text-2xl line-height-3 md:mt-3 pb-4 text-gray-700">
+                        Simplifiez vos démarches administratives avec une plateforme centralisée et efficace. Gagnez du
+                        temps et optimisez vos formalités en toute sécurité.
+                    </p>
+
+
+                </div>
+
             </div>
             <div class="mx-4 md:mx-8 mt-0 md:mt-4"></div>
         </div>
-        
+
         <!-- Statistics -->
         <div class="px-4 py-8 md:px-6 lg:px-8">
             <div class="grid">
@@ -21,7 +28,8 @@
                     <div class="col-12 md:col-6 lg:col-3 p-3">
                         <div class="surface-card shadow-2 p-4 border-round">
                             <div class="flex align-items-center justify-content-center mb-3">
-                                <div [class]="'flex align-items-center justify-content-center border-round-xl w-4rem h-4rem ' + stat.color">
+                                <div
+                                    [class]="'flex align-items-center justify-content-center border-round-xl w-4rem h-4rem ' + stat.color">
                                     <i [class]="stat.icon + ' text-2xl'"></i>
                                 </div>
                             </div>
@@ -35,42 +43,45 @@
             </div>
         </div>
 
-        <!-- Mission & Vision -->
-        <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
-            <div class="grid">
-                <div class="col-12 lg:col-6 p-4">
-                    <p-card styleClass="h-full">
-                        <ng-template pTemplate="header">
-                            <div class="flex align-items-center gap-3 px-4 pt-4">
-                                <i class="pi pi-compass text-4xl text-green-600"></i>
-                                <h2 class="text-3xl font-semibold m-0">Notre Mission</h2>
-                            </div>
-                        </ng-template>
-                        <p class="line-height-3 text-lg">
-                            Faciliter l'accès aux services administratifs liés aux marchés publics à travers une plateforme 
-                            numérique innovante, sécurisée et performante. Notre objectif est de réduire les délais de 
-                            traitement et d'améliorer la transparence des procédures.
-                        </p>
-                    </p-card>
-                </div>
-                <div class="col-12 lg:col-6 p-4">
-                    <p-card styleClass="h-full">
-                        <ng-template pTemplate="header">
-                            <div class="flex align-items-center gap-3 px-4 pt-4">
-                                <i class="pi pi-eye text-4xl text-green-600"></i>
-                                <h2 class="text-3xl font-semibold m-0">Notre Vision</h2>
-                            </div>
-                        </ng-template>
-                        <p class="line-height-3 text-lg">
-                            Devenir la référence en matière de dématérialisation des services administratifs au Burkina Faso,
-                            en offrant une expérience utilisateur exceptionnelle et en contribuant à la modernisation de 
-                            l'administration publique.
-                        </p>
-                    </p-card>
-                </div>
+     <!-- Mission & Vision -->
+     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+        <div class="grid">
+            <div class="col-12 lg:col-6 p-4">
+                <p-card styleClass="h-full nos-missions">
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center gap-3 px-4 pt-4">
+                            <i class="pi pi-compass text-4xl text-green-600"></i>
+                            <h2 class="text-3xl font-semibold m-0 n-title">Notre Mission</h2>
+                        </div>
+                    </ng-template>
+                    <p class="line-height-3 text-lg n-text">
+                        Faciliter l'accès aux services administratifs liés aux marchés publics à travers une
+                        plateforme
+                        numérique innovante, sécurisée et performante. Notre objectif est de réduire les délais de
+                        traitement et d'améliorer la transparence des procédures.
+                    </p>
+                </p-card>
+            </div>
+            <div class="col-12 lg:col-6 p-4">
+                <p-card styleClass="h-full nos-missions">
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center gap-3 px-4 pt-4">
+                            <i class="pi pi-eye text-4xl text-green-600"></i>
+                            <h2 class="text-3xl font-semibold m-0 n-title">Notre Vision</h2>
+                        </div>
+                    </ng-template>
+                    <p class="line-height-3 text-lg n-text">
+                        Devenir la référence en matière de dématérialisation des services administratifs au Burkina
+                        Faso,
+                        en offrant une expérience utilisateur exceptionnelle et en contribuant à la modernisation de
+                        l'administration publique.
+                    </p>
+                </p-card>
             </div>
         </div>
-        
+    </div>
+
+
         <div id="features" class="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
             <div class="grid justify-content-between">
                 <div class="col-12 text-center mt-8 mb-4">
@@ -80,15 +91,16 @@
                 <div class="col-12 md:col-6 lg:col-4 p-3">
                     <div class="surface-card shadow-2 border-round-xl h-full">
                         <div class="p-4">
-                            <div class="flex align-items-center justify-content-between mb-4">
-                                <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
-                                    <img src="assets/cnss.jpg" class="small-icon"/>
+                            <div class="flex align-items-center justify-content-center mb-4">
+                                <span
+                                    class="inline-flex align-items-center justify-content-center  border-round-xl p-3">
+                                    <img src="assets/cnss.jpg" class="small-icon landing-acte-img" />
                                 </span>
                             </div>
-                            
-                            <h2 class="text-2xl font-bold text-900 mb-2">Attestation CNSS</h2>
-                            <p class="line-height-3 text-700 mb-4">Attestation de situation cotisante</p>
-                            
+
+                            <h2 class="text-2xl font-bold text-900 mb-2"  style="text-align: center;">Attestation CNSS</h2>
+                            <p class="line-height-3 text-700 mb-4" style="text-align: center;">Attestation de situation cotisante</p>
+
                             <div class="border-top-1 surface-border pt-4">
                                 <div class="flex flex-column gap-3">
                                     <div class="flex align-items-center gap-2">
@@ -106,25 +118,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="flex align-items-center gap-2 p-4 surface-ground border-round-bottom-xl">
-                            <button pButton 
-                                    pRipple 
-                                    type="button" 
-                                    label="Voir les détails" 
-                                    icon="pi pi-arrow-right" 
-                                    (click)="navigateToDetail('cnss')"
-                                    class="p-button-success p-button-outlined flex-auto">
+                            <button pButton pRipple type="button" label="Voir les détails" icon="pi pi-arrow-right"
+                                (click)="navigateToDetail('cnss')" class="p-button-success p-button-outlined flex-auto">
                             </button>
-                            <a pButton 
-                                    pRipple 
-                                    type="button" 
-                                    icon="pi pi-file-edit"
-                                    pTooltip="Faire une demande"
-                                    tooltipPosition="top"
-                                    href="https://eservices.cnss.bf/" 
-                                    target="_blank" rel="noopener noreferrer"
-                                    class="p-button-success text-white">
+                            <a pButton pRipple type="button" icon="pi pi-file-edit" pTooltip="Faire une demande"
+                                tooltipPosition="top" href="https://eservices.cnss.bf/" target="_blank"
+                                rel="noopener noreferrer" class="p-button-success text-white">
                             </a>
                         </div>
                     </div>
@@ -132,16 +133,17 @@
                 <div *ngFor="let act of acts" class="col-12 md:col-6 lg:col-4 p-3">
                     <div class="surface-card shadow-2 border-round-xl h-full">
                         <div class="p-4">
-                            <div class="flex align-items-center justify-content-between mb-4">
-                                <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
+                            <div class="flex align-items-center justify-content-center mb-4">
+                                <span
+                                    class="inline-flex align-items-center justify-content-center  border-round-xl p-3">
                                     <!-- <i [class]="act.icon + ' text-2xl text-green-600'"></i> -->
-                                    <img [src]="act.img" class="small-icon"/>
+                                    <img [src]="act.img" class="small-icon landing-acte-img" />
                                 </span>
                             </div>
-                            
-                            <h2 class="text-2xl font-bold text-900 mb-2">{{act.title}}</h2>
-                            <p class="line-height-3 text-700 mb-4">{{act.description}}</p>
-                            
+
+                            <h2 class="text-2xl font-bold text-900 mb-2" style="text-align: center;">{{act.title}}</h2>
+                            <p class="line-height-3 text-700 mb-4" style="text-align: center;">{{act.description}}</p>
+
                             <div class="border-top-1 surface-border pt-4">
                                 <div class="flex flex-column gap-3">
                                     <div class="flex align-items-center gap-2">
@@ -159,35 +161,27 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="flex align-items-center gap-2 p-4 surface-ground border-round-bottom-xl">
-                            <button pButton 
-                                    pRipple 
-                                    type="button" 
-                                    label="Voir les détails" 
-                                    icon="pi pi-arrow-right" 
-                                    (click)="navigateToDetail(act.id)"
-                                    class="p-button-success p-button-outlined flex-auto">
+                            <button pButton pRipple type="button" label="Voir les détails" icon="pi pi-arrow-right"
+                                (click)="navigateToDetail(act.id)" class="p-button-success p-button-outlined flex-auto">
                             </button>
-                            <button pButton 
-                                    pRipple 
-                                    type="button" 
-                                    icon="pi pi-file-edit"
-                                    pTooltip="Faire une demande"
-                                    tooltipPosition="top"
-                                    [routerLink]="['/actes/'+act.id]"
-                                    class="p-button-success">
+                            <button pButton pRipple type="button" icon="pi pi-file-edit" pTooltip="Faire une demande"
+                                tooltipPosition="top" [routerLink]="['/actes/'+act.id]" class="p-button-success">
                             </button>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
-        <!-- Values Section -->
-        <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-            <h2 class="text-4xl font-bold text-center mb-6">Nos Valeurs</h2>
+         <!-- Values Section -->
+         <div class="surface-ground px-4 py-8 md:px-6 lg:px-8 nos-valeurs">
+            <div class="nos-valeurs-title">
+                <h2 class="text-4xl font-bold text-center mb-6" style="color: white;">Nos Valeurs</h2>
+            </div>
+
             <div class="grid">
                 <div class="col-12 md:col-6 lg:col-3 p-3">
                     <p-card styleClass="h-full">
@@ -236,50 +230,81 @@
             </div>
         </div>
 
+
         <!-- footer -->
-        <app-footer></app-footer>    
-        
+        <app-footer></app-footer>
+
     </div>
 </div>
 
 
 <style>
     :host ::ng-deep {
-    .guide-category-toggle {
-        .p-selectbutton {
-            background: transparent;
-            border: none;
-            padding: 0;
+        .guide-category-toggle {
+            .p-selectbutton {
+                background: transparent;
+                border: none;
+                padding: 0;
+            }
+
+            .p-button {
+                background: transparent;
+                border: 2px solid #ffffff;
+                color: #ffffff;
+                padding: 0.75rem 1.5rem;
+                font-weight: 600;
+                border-radius: 2rem;
+                transition: all 0.2s;
+
+                &:not(.p-disabled):not(.p-highlight):hover {
+                    background: rgba(255, 255, 255, 0.1);
+                }
+
+                &.p-highlight {
+                    background: #ffffff;
+                    color: #059669;
+                }
+            }
         }
 
-        .p-button {
-            background: transparent;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            border-radius: 2rem;
-            transition: all 0.2s;
-
-            &:not(.p-disabled):not(.p-highlight):hover {
-                background: rgba(255, 255, 255, 0.1);
+        .p-inputtext {
+            &:enabled:focus {
+                box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(5, 150, 105, 0.4);
             }
+        }
 
-            &.p-highlight {
-                background: #ffffff;
-                color: #059669;
+        .p-card {
+            border-radius: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
             }
+        }
+
+        .p-tag {
+            padding: 0.5rem 1rem;
         }
     }
 
-    .p-inputtext {
-        &:enabled:focus {
-            box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(5, 150, 105, 0.4);
+    .guide-wrapper {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
     }
 
-    .p-card {
-        border-radius: 1rem;
+    .surface-card {
         transition: transform 0.2s, box-shadow 0.2s;
 
         &:hover {
@@ -288,28 +313,6 @@
         }
     }
 
-    .p-tag {
-        padding: 0.5rem 1rem;
-    }
-}
-
-.guide-wrapper {
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.surface-card {
-    transition: transform 0.2s, box-shadow 0.2s;
-
-    &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
-    }
-}
     .service-card-link:hover .service-card {
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         transform: translateY(-8px);
@@ -327,9 +330,10 @@
         background: linear-gradient(145deg, #c9cdd1, #e4e8ec);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
-.small-icon {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-}
+
+    .small-icon {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+    }
 </style>
