@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { DemandeAnpe, DemandeAnpeResponse } from '../../../models/anpe';
 import { DemandeAje, DemandeAjeResponse } from '../../../models/aje';
+import { Demande } from '../../../models/demande';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { DrtssService } from '../../../services/drtss.service';
 import { AnpeService } from '../../../services/anpe.service';
+import { DemandeService } from '../../../services/demande.service';
 import { AjeService } from '../../../services/aje.service';
 import { interval } from 'rxjs';
 
@@ -42,23 +44,44 @@ export class DemandesComponent implements OnInit {
   requestsAnpe: DemandeAnpe[] = [];
   requestAnpe: DemandeAnpe = {};
 
+  requestRccm: Demande[] = [];
+  requestCnss: Demande[] = [];
+  requestAsf: Demande[] = [];
+  requestCnf: Demande[] = [];
+
   selectedDrtssRequests: DemandeDrtss[] = [];
   selectedAjeRequests: DemandeAje[] = [];
   selectedAnpeRequests: DemandeAnpe[] = [];
+
+  selectedRccmRequests: Demande[] = [];
+  selectedAsfRequests: Demande[] = [];
+  selectedCnssRequests: Demande[] = [];
+  selectedCnfRequests: Demande[] = [];
 
   cols: any[] = [];
 
   displayProcessModal: boolean = false;
   displayProcessModalAje: boolean = false;
   displayProcessModalAnpe: boolean = false;
+  displayMotifModal: boolean = false;
 
   totalRecords: number = 0; 
   totalRecordsAje: number = 0; 
   totalRecordsAnpe: number = 0; 
 
+  totalRecordsAsf: number = 5; 
+  totalRecordsRccm: number = 5; 
+  totalRecordsCnf: number = 5; 
+  totalRecordsCnss: number = 5; 
+
   countDrtss = 0;
   countAje= 0;
-  countAnpe= 0;
+  countAnpe = 0;
+
+  countAsf= 5;
+  countRccm= 5;
+  countCnss= 5;
+  countCnf= 5;
 
   readonly VALIDITY_DAYS = 90; // Durée de validité en jours
   readonly WARNING_DAYS = 14; // Seuil d'alerte en jours
@@ -67,12 +90,14 @@ export class DemandesComponent implements OnInit {
     private drtssService: DrtssService, 
     private ajeService: AjeService, 
     private anpeService: AnpeService, 
+    private demandeService: DemandeService, 
     private messageService: MessageService) { }
 
   ngOnInit() {
       this.getDemandesDrtss();
       this.getDemandesAje();
       this.getDemandesAnpe();
+      this.getDemandesSimulation();
       this.setupValidityCheck();
 
       this.cols = [
@@ -164,6 +189,15 @@ export class DemandesComponent implements OnInit {
     });
   }
 
+  getDemandesSimulation() {
+    this.demandeService.getDemandes().subscribe((data: Demande[]) => {
+      this.requestRccm = data;
+      this.requestAsf = data;
+      this.requestCnf = data;
+      this.requestCnss = data;
+    });
+  }
+
   getTranslatedStatus(status: string): string {
     switch (status) {
       case 'APPROVED':
@@ -211,6 +245,13 @@ export class DemandesComponent implements OnInit {
       this.requestDrtss = data;
     });
     this.displayProcessModal = true;
+  }
+
+  openMotif(requestDrtss: DemandeDrtss) {
+    this.drtssService.getOneDemande(requestDrtss.id).subscribe(data => {
+      this.requestDrtss = data;
+    });
+    this.displayMotifModal = true;
   }
 
 

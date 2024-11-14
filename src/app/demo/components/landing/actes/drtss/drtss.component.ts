@@ -17,8 +17,8 @@ interface UploadEvent {
 
 export class DrtssComponent {
 
-  anpeFile: File | null = null; // Fichier ANPE
-  cnssFile: File | null = null; // Fichier CNSS
+  anpeFile: File | null = null; 
+  cnssFile: File | null = null; 
   attestationAnpeNumber: string = '';
   attestationCnssNumber: string = '';
 
@@ -44,7 +44,6 @@ export class DrtssComponent {
     this.messageService.add({ severity: 'info', summary: 'Fichier chargé', detail: `${file.name} a été chargé.` });
   }
 
-  // Méthode pour soumettre le formulaire
   onSubmit() {
     if (this.anpeFile && this.cnssFile) {
       const formData = new FormData();
@@ -52,15 +51,13 @@ export class DrtssComponent {
       formData.append('attestationCnss', this.cnssFile);
       formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
       formData.append('attestationCnssNumber', this.attestationCnssNumber);
-      // formData.append('requesterId', '02152');
 
-      // Appel au service pour envoyer les fichiers
       this.drtssService.submitAttestationRequest(formData).subscribe({
         next: (response) => {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !' });
           setTimeout(() => {
-            this.router.navigate(['/app/pages/demandes']); 
-          }, 2000); // délai de 2 secondes avant la redirection
+            this.router.navigate(['/demandes']); 
+          }, 2000);
         },
         error: (err) => {
           this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de l\'envoi.' });

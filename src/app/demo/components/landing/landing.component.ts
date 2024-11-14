@@ -12,6 +12,7 @@ interface ActGuide {
   validityPeriod: string;
   processingTime: string;
   price: string;
+  img: string;
 }
 @Component({
     selector: 'app-landing',
@@ -23,6 +24,17 @@ export class LandingComponent implements OnInit {
 
   acts: ActGuide[] = [
     {
+      id: 'rccm',
+      title: 'Extrait du RCCM',
+      description: 'Registre du commerce et du crédit Mobilier',
+      icon: 'pi pi-building',
+      organization: 'Agence Judiciaire de l\'État',
+      validityPeriod: '3 mois',
+      processingTime: '72 heures',
+      price: '15 000 FCFA',
+      img:'assets/justice.jpg'
+    },
+    {
       id: 'anpe',
       title: 'Attestation ANPE',
       description: 'Attestation desc',
@@ -30,7 +42,8 @@ export class LandingComponent implements OnInit {
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '15 000 FCFA'
+      price: '15 000 FCFA',
+      img:'assets/anpe.jpg'
     },
     {
       id: 'drtps',
@@ -40,28 +53,21 @@ export class LandingComponent implements OnInit {
       organization: 'Direction Régionale du Travail et de la Protection Sociale',
       validityPeriod: '3 mois',
       processingTime: '48 heures',
-      price: '10 000 FCFA'
+      price: '10 000 FCFA',
+      img:'assets/image.png'
     },
     {
       id: 'aje',
-      title: 'Attestation de non engagement',
+      title: 'Attestation de non engagement (AJE)',
       description: 'Attestation de non engagement de l\'Agent judiciaire de l\'ETAT (AJE)',
       icon: 'pi pi-building',
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '15 000 FCFA'
+      price: '15 000 FCFA',
+      img:'assets/justice.jpg'
     },
-    {
-      id: 'rccm',
-      title: 'Extrait du RCCM',
-      description: 'Registre du commerce et du crédit Mobilier',
-      icon: 'pi pi-building',
-      organization: 'Agence Judiciaire de l\'État',
-      validityPeriod: '3 mois',
-      processingTime: '72 heures',
-      price: '15 000 FCFA'
-    },
+   
     {
       id: 'cnf',
       title: 'Certificat de non faillite',
@@ -70,7 +76,8 @@ export class LandingComponent implements OnInit {
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '15 000 FCFA'
+      price: '15 000 FCFA',
+      img:'assets/justice.jpg'
     },
     {
       id: 'asf',
@@ -80,7 +87,8 @@ export class LandingComponent implements OnInit {
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '15 000 FCFA'
+      price: '15 000 FCFA',
+      img:'assets/dgi.png'
     }
   ];
       

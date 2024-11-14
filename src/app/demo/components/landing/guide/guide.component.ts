@@ -11,6 +11,7 @@ interface ActGuide {
     processingTime: string;
     price: string;
     category: string;
+    img: string; // Chemin vers l'image de l'acte
 }
 
 @Component({
@@ -20,6 +21,18 @@ interface ActGuide {
 export class GuideComponent implements OnInit {
     acts: ActGuide[] = [
       {
+        id: 'rccm',
+        title: 'Extrait du RCCM',
+        description: 'Registre du commerce et du crédit Mobilier',
+        icon: 'pi pi-building',
+        organization: 'Agence Judiciaire de l\'État',
+        validityPeriod: '3 mois',
+        processingTime: '72 heures',
+        price: '15 000 FCFA',
+        category: 'Juridique',
+        img:'assets/justice.jpg'
+      },
+      {
         id: 'anpe',
         title: 'Attestation ANPE',
         description: 'Attestation desc',
@@ -28,7 +41,8 @@ export class GuideComponent implements OnInit {
         validityPeriod: '3 mois',
         processingTime: '72 heures',
         price: '15 000 FCFA',
-        category: 'Travail'
+        category: 'Travail',
+        img:'assets/anpe.jpg'
       },
       {
           id: 'drtps',
@@ -39,29 +53,20 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '48 heures',
           price: '10 000 FCFA',
-          category: 'Travail'
+          category: 'Travail',
+          img:'assets/image.png'
         },
         {
           id: 'aje',
-          title: 'Attestation de non engagement',
+          title: 'Attestation de non engagement(AJE)',
           description: 'Attestation de non engagement de l\'Agent judiciaire de l\'ETAT (AJE)',
           icon: 'pi pi-building',
           organization: 'Agence Judiciaire de l\'État',
           validityPeriod: '3 mois',
-          processingTime: '72 heures',
-          price: '15 000 FCFA',
-          category: 'Travail'
-        },
-        {
-          id: 'rccm',
-          title: 'Extrait du RCCM',
-          description: 'Registre du commerce et du crédit Mobilier',
-          icon: 'pi pi-building',
-          organization: 'Agence Judiciaire de l\'État',
-          validityPeriod: '3 mois',
-          processingTime: '72 heures',
-          price: '15 000 FCFA',
-          category: 'Travail'
+          processingTime: '24 heures',
+          price: '1 000 FCFA',
+          category: 'Juridique',
+          img:'assets/justice.jpg'
         },
         {
           id: 'cnf',
@@ -72,7 +77,8 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '72 heures',
           price: '15 000 FCFA',
-          category: 'Travail'
+          category: 'Juridique',
+          img:'assets/justice.jpg'
         },
         {
           id: 'asf',
@@ -83,7 +89,8 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '72 heures',
           price: '15 000 FCFA',
-          category: 'Travail'
+          category: 'Fiscale',
+          img:'assets/dgi.png'
         }
     ];
 
