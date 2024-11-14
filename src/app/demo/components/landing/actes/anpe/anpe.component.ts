@@ -35,6 +35,8 @@ export class AnpeComponent implements OnInit {
     { label: 'Non', value: false }
   ];
 
+  progressValue: number = 0;
+
 
   // Documents requis
   requiredDocuments: RequiredDocument[] = [
@@ -87,7 +89,9 @@ export class AnpeComponent implements OnInit {
     permanentWorkers: 0,
     temporaryWorkers: 0,
     apprentices: 0,
+    accepted_apprentices: 0,
     interns: 0,
+    accepted_interns: 0,
 
     // Périodes d'emploi
     fullEmploymentStart: null,
@@ -129,6 +133,11 @@ export class AnpeComponent implements OnInit {
 
     // Restaurer la progression si elle existe
     this.loadSavedProgress();
+    this.updateProgressValue();
+  }
+
+  updateProgressValue() {
+    this.progressValue = Math.floor((this.currentStep + 1) / this.items.length * 100);
   }
 
   getEffectifsChartData(): ChartData<'pie'> {
@@ -151,12 +160,14 @@ export class AnpeComponent implements OnInit {
   prevStep() {
     if (this.currentStep > 0) {
       this.currentStep--;
+      this.updateProgressValue();
     }
   }
 
   nextStep() {
-    if (this.currentStep < 4) {
+    if (this.currentStep < 5) {
       this.currentStep++;
+      this.updateProgressValue();
     }
   }
 
