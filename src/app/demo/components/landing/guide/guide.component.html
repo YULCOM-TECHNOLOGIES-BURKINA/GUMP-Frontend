@@ -16,7 +16,7 @@
                                [(ngModel)]="searchQuery"
                                (ngModelChange)="filterActs()"
                                placeholder="Rechercher un acte..."
-                               class="w-full p-3 surface-card text-900"
+                               class="w-full pl-5 p-3 surface-card text-900"
                                [style]="{'border-radius': '2rem'}">
                     </div>
                     <p-selectButton [options]="categories" 
@@ -37,9 +37,8 @@
                         <div class="p-4">
                             <div class="flex align-items-center justify-content-between mb-4">
                                 <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
-                                    
-                                    <i class="pi pi-building text-2xl text-green-600"></i>
-                                    
+                                    <!-- <i class="pi pi-building text-2xl text-green-600"></i> -->
+                                    <img src="assets/cnss.jpg" class="small-icon"/>
                                 </span>
                                 <p-tag value="Sécurité Sociale" 
                                       severity="info" 
@@ -95,7 +94,8 @@
                         <div class="p-4">
                             <div class="flex align-items-center justify-content-between mb-4">
                                 <span class="inline-flex align-items-center justify-content-center bg-green-100 border-round-xl p-3">
-                                    <i [class]="act.icon + ' text-2xl text-green-600'"></i>
+                                    <!-- <i [class]="act.icon + ' text-2xl text-green-600'"></i> -->
+                                    <img [src]="act.img" class="small-icon"/>
                                 </span>
                                 <p-tag [value]="act.category" 
                                       severity="info" 
@@ -139,7 +139,7 @@
                                     icon="pi pi-file-edit"
                                     pTooltip="Faire une demande"
                                     tooltipPosition="top"
-                                    [routerLink]="['/demande', act.id]"
+                                    [routerLink]="['/actes/'+act.id]"
                                     class="p-button-success">
                             </button>
                         </div>
@@ -217,5 +217,10 @@
         transform: translateY(-5px);
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15);
     }
+}
+.small-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
 }
 </style>

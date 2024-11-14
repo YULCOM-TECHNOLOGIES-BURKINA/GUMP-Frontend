@@ -86,6 +86,71 @@ class ActService {
       ]
     },
     {
+        id: 'anpe',
+        title: 'Attestation ANPE',
+        img:'assets/anpe.jpg',
+        description: '...',
+        icon: 'pi pi-file',
+        organization: 'L\'Agence Nationale Pour l\'Emploi ',
+        validityPeriod: '3 mois',
+        processingTime: '48 heures',
+        price: '10 000 FCFA',
+        category: 'Travail',
+        usages: [
+          'Participation aux marchés publics',
+          'Renouvellement des agréments',
+          'Demandes de financement',
+          'Certification qualité'
+        ],
+        requiredDocuments: [
+          'Registre d\'employeur à jour',
+          'Déclarations sociales des 3 derniers mois',
+          'Attestation CNSS valide',
+          'Contrats de travail des employés'
+        ],
+        prerequisites: [
+          {
+            id: 'cnss',
+            title: 'Attestation CNSS',
+            description: 'Vous devez disposer d\'une attestation CNSS valide pour faire cette demande'
+          }
+        ],
+        legalTexts: [
+          {
+            title: 'Code du Travail - Article L.118',
+            content: 'L\'attestation de régularité est délivrée par l\'inspection du travail aux entreprises qui respectent les dispositions du présent code.',
+            link: 'https://exemple.com/code-travail'
+          },
+          {
+            title: 'Décret n°2023-456',
+            content: 'Fixe les modalités de délivrance et de renouvellement des attestations de régularité en matière de travail.',
+            link: 'https://exemple.com/decret'
+          }
+        ],
+        steps: [
+          {
+            title: 'Création du compte',
+            description: 'Créez votre compte entreprise sur la plateforme en fournissant les informations requises.'
+          },
+          {
+            title: 'Vérification des prérequis',
+            description: 'Assurez-vous d\'avoir tous les documents nécessaires et une attestation CNSS valide.'
+          },
+          {
+            title: 'Soumission de la demande',
+            description: 'Remplissez le formulaire en ligne et téléchargez les documents requis.'
+          },
+          {
+            title: 'Paiement',
+            description: 'Procédez au paiement des frais de traitement via les moyens de paiement disponibles.'
+          },
+          {
+            title: 'Suivi de la demande',
+            description: 'Suivez l\'état d\'avancement de votre demande depuis votre espace personnel.'
+          }
+        ]
+      },
+    {
       id: 'cnss',
       title: 'Attestation CNSS',
       img:'assets/cnss.jpg',
