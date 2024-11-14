@@ -63,8 +63,8 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Gestions Utilisateurs DRTSS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible: this.userRole.includes('DRTSS_USER') },
                     { label: 'Signatures electroniques', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('DRTSS_USER') },
                     { label: 'Signer Attestations', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/pages/signature-electronique/sign_attestation'], visible: this.userRole.includes('DRTSS_USER') },
-                    { label: 'Paramétrage délais', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/application-config'], visible: this.userRole === 'admin_drtss' },
-                    { label: 'Paramétrage délais', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/application-config'], visible: this.userRole === 'admin_aje' }
+                    { label: 'Paramétrage délais', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/application-config'], visible:  this.userRole.includes('DRTSS_USER')},
+                    { label: 'Paramétrage délais', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/application-config'], visible:  this.userRole.includes('AJE_USER')}
                 ]
             },
             {

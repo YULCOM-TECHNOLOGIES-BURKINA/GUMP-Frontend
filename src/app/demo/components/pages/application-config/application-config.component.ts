@@ -14,11 +14,14 @@ import { CommonModule } from '@angular/common';
 export class ApplicationConfigComponent {
 
 
-    userRole: string = '';
+    userRole: any;
    constructor(private authService: AuthService ){
     this.userRole = this.authService.getUserRole();
 
+    const userDetails = localStorage.getItem('currentUser');
+    const user = JSON.parse(userDetails);
 
+    this.userRole = user.role;
    }
 
 }
