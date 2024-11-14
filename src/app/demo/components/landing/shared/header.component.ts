@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-header',
   template: `
-    <div class="py-3 px-4 mx-0 md:mx-6 lg:mx-10 lg:px-10 flex align-items-center justify-content-between relative lg:static">
-      <a class="flex align-items-center" href="#">
+    <div class="page-header py-3 px-4 mx-0 md:mx-6 lg:mx-10 lg:px-10 flex align-items-center justify-content-between relative lg:static">
+      <a class="  flex align-items-center" href="#">
         <img src="assets/image.png" alt="GUMP Logo" height="50" class="mr-0 lg:mr-2">
-        <span class="text-900 font-bold text-2xl line-height-3 mr-2">Guichet Unique des Marchés Publics</span>
+        <span class="logo-text text-900 font-bold text-2xl line-height-3 mr-2">Guichet Unique des Marchés Publics</span>
       </a>
 
       <div class="flex align-items-center">

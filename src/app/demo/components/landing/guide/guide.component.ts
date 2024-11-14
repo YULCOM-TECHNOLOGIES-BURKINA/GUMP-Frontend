@@ -103,7 +103,8 @@ export class GuideComponent implements OnInit {
         { label: 'Tous', value: 'all' },
         { label: 'Travail', value: 'Travail' },
         { label: 'Sécurité Sociale', value: 'Sécurité Sociale' },
-        { label: 'Juridique', value: 'Juridique' }
+        { label: 'Juridique', value: 'Juridique' },
+        { label: 'Fiscale', value: 'Fiscale' }
     ];
 
     constructor(private router: Router) {}
