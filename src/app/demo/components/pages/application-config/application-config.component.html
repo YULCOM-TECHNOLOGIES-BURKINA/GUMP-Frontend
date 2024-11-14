@@ -1,0 +1,5 @@
+
+<div [ngSwitch]="userRole">
+    <app-application-config-drtps *ngSwitchCase="'admin_drtss'"></app-application-config-drtps>
+    <app-application-config-aje *ngSwitchCase="'admin_aje'"></app-application-config-aje>
+  </div>
