@@ -1,0 +1,43 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18.20.4
+
+    - name: Install dependencies
+      run: |
+        npm install
+        ls
+    - name: Install angular cli
+      run: npm i -g @angular/cli
+
+    - name: Build
+      run: |
+        #ng build --base-href="/dist/gump/" --deploy-url="/dist/gump/"
+        ng build
+        ls
+    - name: Copy build to remote server
+      uses: appleboy/scp-action@master
+      with:
+          host: ${{ vars.REMOTE_HOST }}
+          username: ${{ vars.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/gump"
+          target: "/var/www/html"
+    - name: Deploy to dev
+      run: |
+        ls
