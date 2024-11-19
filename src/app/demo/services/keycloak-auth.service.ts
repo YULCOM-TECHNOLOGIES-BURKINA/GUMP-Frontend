@@ -62,6 +62,7 @@ export class KeycloakAuthService {
             this.isAuthenticatedSubject.next(false);
             this.userDetailsSubject.next(null);
             localStorage.removeItem('currentUser'); // Clear current user data
+            localStorage.removeItem('currentToken');
         } catch (error) {
             console.error('Error during logout:', error);
         }
@@ -87,6 +88,7 @@ export class KeycloakAuthService {
       };
       this.userDetailsSubject.next(userDetails);
       localStorage.setItem('currentUser', JSON.stringify(userDetails));
+      localStorage.setItem('currentToken', this.keycloak.token);
     }
   }
 
