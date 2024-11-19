@@ -68,4 +68,23 @@ export class DrtssService {
       headers: this.getHeaders()
     });
   }
+
+   // méthode pour effectuer le paiement
+   makePayment(demandeId: number, callbackUrl: string): Observable<any> {
+    const paymentData = {
+      requestType: "DRTPS",
+      callbackUrl: callbackUrl
+    };
+
+    return this.http.post(`${this.apiUrl}/${demandeId}/pay`, paymentData, {
+      headers: this.getHeaders()
+    });
+  }
+
+  //  méthode pour vérifier le statut du paiement
+  // checkPaymentStatus(paymentId: string): Observable<any> {
+  //   return this.http.get(`${this.apiUrl}/payments/${paymentId}/status`, {
+  //     headers: this.getHeaders()
+  //   });
+  // }
 }

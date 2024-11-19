@@ -16,9 +16,10 @@ import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
 import { DrtssComponent } from './drtss.component';
 import { SharedModule } from '../../shared/shared.module';
+import { PaymentCallbackComponent } from './paymentCallback.component';
 
 @NgModule({
-  declarations: [DrtssComponent],
+  declarations: [DrtssComponent, PaymentCallbackComponent],
   imports: [
 		CommonModule,
 		DrtssRoutingModule,
