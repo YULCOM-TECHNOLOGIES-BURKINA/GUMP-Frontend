@@ -83,7 +83,8 @@ export class KeycloakAuthService {
         nom: decodedToken.family_name,
         prenom: decodedToken.given_name,
         email: decodedToken.email,
-        role: decodedToken.realm_access?.roles || [],
+        role_realm_access: decodedToken.realm_access?.roles || [],
+        role: decodedToken.resource_access?.gump?.roles || [],
         username: decodedToken.preferred_username
       };
       this.userDetailsSubject.next(userDetails);
