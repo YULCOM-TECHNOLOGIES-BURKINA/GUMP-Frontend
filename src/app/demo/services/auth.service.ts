@@ -4,13 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  private users = [
-    { username: 'admin', password: 'admin123', role: 'admin' },
-    { username: 'drtss', password: 'drtss123', role: 'admin_drtss' },
-    { username: 'drtss_agent', password: 'drtss_agent123', role: 'agent_drtss' },
-    { username: 'aje', password: 'aje123', role: 'admin_aje' },
-    { username: 'entreprise', password: 'entreprise123', role: 'entreprise' }
-  ];
+
 
   private currentUser: any = null;
 
@@ -22,15 +16,6 @@ export class AuthService {
     }
   }
 
-  login(username: string, password: string): boolean {
-    const user = this.users.find(u => u.username === username && u.password === password);
-    if (user) {
-      // this.currentUser = user;
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      return true;
-    }
-    return false;
-  }
 
   getUserRole(): string | null {
     //const currentUser = localStorage.getItem('currentUser');
