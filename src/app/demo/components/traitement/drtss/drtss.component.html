@@ -159,8 +159,8 @@
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <!-- <td>{{ request.id }}</td> -->
-                                <td>Demandeur</td>
-                                <td>Ref. du marché</td>
+                                <td>{{request.company.name}}</td>
+                                <td>{{ request.publicContractNumber }}</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <p-badge [value]="getValidityStatus(request.createdAt).text"
@@ -229,8 +229,8 @@
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <!-- <td>{{ request.id }}</td> -->
-                                <td>Demandeur</td>
-                                <td>Ref. du marché</td>
+                                <td>{{request.company.name}}</td>
+                                <td>{{ request.publicContractNumber }}</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <p-badge [value]="getValidityStatus(request.createdAt).text"
@@ -304,8 +304,8 @@
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
                                 <!-- <td>{{ request.id }}</td> -->
-                                <td>Demandeur</td>
-                                <td>Ref. du marché</td>
+                                <td>{{request.company.name}}</td>
+                                <td>{{ request.publicContractNumber }}</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
@@ -332,24 +332,24 @@
     <p-dialog header="Détails de la demande" [(visible)]="displayProcessDetailModal" [modal]="true" [style]="{width: '650px'}" *ngIf="request">
         <div class="grid">
             <div class="col-12">
-                <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
+                <span class="font-bold">Entreprise: {{ request?.company?.name }}</span>
             </div>
             <div class="col-6">
                 <p><strong>Localisation: </strong> Ouagadougou</p>
                 <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
             </div>
             <div class="col-6">
-                <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
+                <p><strong>Adresse: </strong>{{ request?.company?.adress }}</p>
                 <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
             </div>
             <div class="col-6">
-                <p><strong>IFU: </strong> 010203</p>
+                <p><strong>IFU: </strong> {{request?.company?.ifu}}</p>
             </div>
             <div class="col-6">
                 <p><strong>RCCM: </strong> 010203</p>
             </div>
             <div class="col-12">
-                <p><strong>Réfrence du marché: </strong> xxxxxxxxx</p>
+                <p><strong>Réfrence du marché: </strong> {{ request?.publicContractNumber }}</p>
                 <p><strong>Objet du marché: </strong> xxxxxxxxxxx</p>
             </div>
             <div class="col-12 mt-2 flex" *ngIf="request.files">            
