@@ -252,6 +252,7 @@ export class TraitementDrtssComponent implements OnInit {
       this.categorizeRequests();
       this.loading = false;
     });
+    this.loading = false;
   }
 
   openViewRequest(request: DemandeDrtss) {

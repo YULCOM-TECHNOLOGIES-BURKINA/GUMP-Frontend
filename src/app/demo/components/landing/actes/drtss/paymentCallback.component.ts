@@ -17,6 +17,10 @@ import { MessageService } from 'primeng/api';
 export class PaymentCallbackComponent implements OnInit {
   loading = true;
 
+  demandeId!: number; // Paramètre de route
+//   paymentRequestID!: string; // Paramètre de requête
+//   status!: string; // Paramètre de requête
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -26,43 +30,37 @@ export class PaymentCallbackComponent implements OnInit {
 
   ngOnInit() {
     // Récupérer les paramètres de l'URL
-    // this.route.queryParams.subscribe(params => {
-    //   const paymentId = params['paymentId'];
-    //   const status = params['status'];
-
-    //   if (status === 'success') {
-    //     // Vérifier le statut du paiement auprès de votre API
-    //     this.drtssService.checkPaymentStatus(paymentId).subscribe({
-    //       next: (response) => {
-    //         if (response.status === 'PAID') {
-    //           this.messageService.add({
-    //             severity: 'success',
-    //             summary: 'Succès',
-    //             detail: 'Paiement effectué avec succès!'
-    //           });
-    //           setTimeout(() => {
-    //             this.router.navigate(['/demandes']);
-    //           }, 2000);
-    //         } else {
-    //           this.handlePaymentError();
-    //         }
-    //       },
-    //       error: () => this.handlePaymentError()
-    //     });
-    //   } else {
-    //     this.handlePaymentError();
-    //   }
-    // });
-
+    // Récupérer le paramètre de route et le convertir en nombre
+    const demandeIdParam = this.route.snapshot.paramMap.get('demandeId');
+    this.demandeId = demandeIdParam ? Number(demandeIdParam) : 0;
+    
     this.route.queryParams.subscribe(params => {
-        const demandeId = params['demandeId'];
-        // this.drtssService.getOneDemande(requestDrtss.id).subscribe(data => {
-        //     this.requestDrtss = data;
-        //   });
-  
+    //   const demandeId = params['demandeId'];
+      const paymentId = params['paymentRequestID'];
+      const status = params['status'];
 
-          // Vérifier le statut du paiement 
-          this.drtssService.getOneDemande(demandeId).subscribe({
+      if (status === 'SUCCESS') {
+        // Vérifier le statut du paiement 
+        this.drtssService.updatePaymentStatus(this.demandeId, paymentId).subscribe({
+          next: (response) => {
+            // if (response.status === 'PAID') {
+            //   this.messageService.add({
+            //     severity: 'success',
+            //     summary: 'Succès',
+            //     detail: 'Paiement effectué avec succès!'
+            //   });
+            //   setTimeout(() => {
+            //     this.router.navigate(['/demandes']);
+            //   }, 2000);
+            // } else {
+            //   this.handlePaymentError();
+            // }
+          },
+          error: () => this.handlePaymentError()
+        });
+
+        // Vérifier le statut du paiement 
+        this.drtssService.getOneDemande(this.demandeId).subscribe({
             next: (response) => {
               if (response.isPaid) {
                 this.messageService.add({
@@ -78,9 +76,39 @@ export class PaymentCallbackComponent implements OnInit {
               }
             },
             error: () => this.handlePaymentError()
-          });
+        });
+      } else {
+        this.handlePaymentError();
+      }
+    });
 
-      });
+    // this.route.queryParams.subscribe(params => {
+    //     const demandeId = params['demandeId'];
+    //     // this.drtssService.getOneDemande(requestDrtss.id).subscribe(data => {
+    //     //     this.requestDrtss = data;
+    //     //   });
+  
+
+    //       // Vérifier le statut du paiement 
+    //       this.drtssService.getOneDemande(demandeId).subscribe({
+    //         next: (response) => {
+    //           if (response.isPaid) {
+    //             this.messageService.add({
+    //               severity: 'success',
+    //               summary: 'Succès',
+    //               detail: 'Paiement effectué avec succès!'
+    //             });
+    //             setTimeout(() => {
+    //               this.router.navigate(['/demandes']);
+    //             }, 3000);
+    //           } else {
+    //             this.handlePaymentError();
+    //           }
+    //         },
+    //         error: () => this.handlePaymentError()
+    //       });
+
+    //   });
   }
 
   private handlePaymentError() {
