@@ -70,6 +70,7 @@ export class RegisterComponent implements OnInit {
             legalForm: [''],
             address: [''],
             phoneNumber: [''],
+            phoneNumberR: [''],
             nom: ['', Validators.required],
             prenom: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
