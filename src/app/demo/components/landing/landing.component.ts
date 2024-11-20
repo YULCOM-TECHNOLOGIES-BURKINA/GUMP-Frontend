@@ -96,6 +96,15 @@ export class LandingComponent implements OnInit {
 
   ngOnInit() {
 
+    if (localStorage.getItem('currentUser') !== null) {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (user.role.includes('USER')){
+        this.router.navigate(['']);
+      } else{
+        this.router.navigate(['app/']);
+      }
+    }
+
     this.statistics = [
       {
         value: '50K+',

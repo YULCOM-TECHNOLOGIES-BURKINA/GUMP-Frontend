@@ -44,6 +44,31 @@ export class DrtssComponent {
     this.messageService.add({ severity: 'info', summary: 'Fichier chargé', detail: `${file.name} a été chargé.` });
   }
 
+  // onSubmit() {
+  //   if (this.anpeFile && this.cnssFile) {
+  //     const formData = new FormData();
+  //     formData.append('attestationAnpe', this.anpeFile);
+  //     formData.append('attestationCnss', this.cnssFile);
+  //     formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
+  //     formData.append('attestationCnssNumber', this.attestationCnssNumber);
+  //     formData.append('publicContractNumber', this.contractReference);
+
+  //     this.drtssService.submitAttestationRequest(formData).subscribe({
+  //       next: (response) => {
+  //         this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !' });
+  //         setTimeout(() => {
+  //           this.router.navigate(['/demandes']); 
+  //         }, 2000);
+  //       },
+  //       error: (err) => {
+  //         this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de l\'envoi.' });
+  //       }
+  //     });
+  //   } else {
+  //     this.messageService.add({ severity: 'warn', summary: 'Attention', detail: 'Veuillez charger les deux fichiers.' });
+  //   }
+  // }
+
   onSubmit() {
     if (this.anpeFile && this.cnssFile) {
       const formData = new FormData();
@@ -51,21 +76,61 @@ export class DrtssComponent {
       formData.append('attestationCnss', this.cnssFile);
       formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
       formData.append('attestationCnssNumber', this.attestationCnssNumber);
+      formData.append('publicContractNumber', this.contractReference);
 
       this.drtssService.submitAttestationRequest(formData).subscribe({
         next: (response) => {
-          this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !' });
+          this.messageService.add({ 
+            severity: 'success', 
+            summary: 'Succès', 
+            detail: 'Demande créée avec succès !',
+            life: 2000 
+          });
+          
+          // Récupérer l'ID de la demande depuis la réponse
+          const demandeId = response.id;
+          
+          // Construction du callback URL 
+          const callbackUrl = `${window.location.origin}/actes/drtps/payment-callback/${demandeId}`;
+          
+          // Initier le paiement
           setTimeout(() => {
-            this.router.navigate(['/demandes']); 
+            this.initatePayment(demandeId, callbackUrl);
           }, 2000);
+          
         },
         error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de l\'envoi.' });
+          this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Erreur', 
+            detail: 'Une erreur est survenue lors de l\'envoi.' 
+          });
         }
       });
     } else {
-      this.messageService.add({ severity: 'warn', summary: 'Attention', detail: 'Veuillez charger les deux fichiers.' });
+      this.messageService.add({ 
+        severity: 'warn', 
+        summary: 'Attention', 
+        detail: 'Veuillez charger les deux fichiers.' 
+      });
     }
   }
 
+  private initatePayment(demandeId: number, callbackUrl: string) {
+    this.drtssService.makePayment(demandeId, callbackUrl).subscribe({
+      next: (paymentResponse) => {
+        // Si l'API retourne une URL de paiement, rediriger l'utilisateur
+        if (paymentResponse.url) {
+          window.location.href = paymentResponse.url;
+        }
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Erreur lors de l\'initialisation du paiement.'
+        });
+      }
+    });
+  }
 }

@@ -3,6 +3,12 @@ export interface File {
     path: string;
 }
 
+export interface Company {
+    name: string;
+    ifu: string;
+    adress: string;
+}
+
 export interface DemandeDrtss {
     id?: number;
     requesterId?: string;
@@ -11,6 +17,7 @@ export interface DemandeDrtss {
     approvedBy?: string;
     createdAt?: string;
     rejectionReason?: string;
+    company?: Company;
     files?: File[];
 }
 

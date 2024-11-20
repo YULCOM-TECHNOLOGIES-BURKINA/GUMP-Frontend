@@ -303,4 +303,26 @@ export class DemandesComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
       table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
+
+   initatePaymentDRTPS(demandeId: number) {
+    const callbackUrl = `${window.location.origin}/actes/drtps/payment-callback/${demandeId}`;
+    console.log('callback', callbackUrl);
+    localStorage.setItem('callbackurl', callbackUrl);
+
+    this.drtssService.makePayment(demandeId, callbackUrl).subscribe({
+      next: (paymentResponse) => {
+        // Si l'API retourne une URL de paiement, rediriger l'utilisateur
+        if (paymentResponse.url) {
+          window.location.href = paymentResponse.url;
+        }
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Erreur lors de l\'initialisation du paiement.'
+        });
+      }
+    });
+  }
 }

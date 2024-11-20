@@ -10,7 +10,8 @@ export const environment = {
     version: '0.1.1',
 };
 
-const host_ms_drtss = 'http://localhost:8082/api';
+const host_ms_drtss = 'http://195.35.48.198:8082/api';
+const host_ms_aje = 'http://195.35.48.198:8080/api';
 const host_gateway = '';
 /** @type {*} */
 export const API_ROOT = {
@@ -31,6 +32,13 @@ export const API_ROOT = {
      */
 
     API_LISTE_DEMANDES: `${host_ms_drtss}/demandes`,
+
+    /**
+     * API CONFIGURATION APPLICATION
+     */
+    API_CONFIG_DRTPS: `${host_ms_drtss}/application-config`,
+    API_CONFIG_AJE: `${host_ms_aje}/application-config`,
+
 
 
 

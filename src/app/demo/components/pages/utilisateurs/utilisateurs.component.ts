@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { Utilisateur } from '../../../models/utilisateurs';
+import { User, UserResponse } from '../../../models/utilisateurs';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
@@ -15,15 +16,15 @@ import { Table } from 'primeng/table';
 
 export class UtilisateursComponent implements OnInit {
 
-    utilisateurs: Utilisateur[] = [];
+    utilisateurs: User[] = [];
 
     deleteRequestDialog: boolean = false;
     deleteRequestsDialog: boolean = false;
 
-    requests: Utilisateur[] = [];
-    request: Utilisateur = {};
+    requests: User[] = [];
+    request: User = {};
 
-    selectedRequests: Utilisateur[] = [];
+    selectedRequests: User[] = [];
     cols: any[] = [];
 
     constructor(private utilisateurService: UserService, private messageService: MessageService) { }
@@ -32,33 +33,28 @@ export class UtilisateursComponent implements OnInit {
       // this.utilisateurService.getUtilisateurs().then(data => this.requests = data);
       this.getUtilisateurs();
       this.cols = [
-        { field: 'nom', header: 'Nom et Prénom' },
+        { field: 'company', header: 'Entité' },
+        { field: 'username', header: 'IFU' },
         { field: 'email', header: 'Email' },
-        { field: 'status', header: 'Statut' },
-        { field: 'role', header: 'Rôle' }
+        { field: 'cnssNumber', header: 'Numéro CNSS' },
+        { field: 'region', header: 'Région' },
+        { field: 'status', header: 'Statut' }
     ];
     }
 
     getUtilisateurs() {
-        this.utilisateurService.getUsers().subscribe((data: Utilisateur[]) => {
-            this.utilisateurs = data;
-            this.requests = data;
+        this.utilisateurService.getUsersCompany().subscribe((data: UserResponse) => {
+            this.utilisateurs = data.content;
+            this.requests = data.content.filter(user => user.role === 'USER');;
         });
     }
 
-    desactiverUtilisateur(utilisateur: Utilisateur) {
+    desactiverUtilisateur(utilisateur: User) {
         this.utilisateurService.desactivateUser(utilisateur.id).subscribe(() => {
             utilisateur.actif = false;
         });
     }
 
-    // supprimerUtilisateur(utilisateur: Utilisateur) {
-    //     if (confirm(`Voulez-vous vraiment supprimer l'utilisateur ${utilisateur.nom} ?`)) {
-    //         this.utilisateurService.supprimerUtilisateur(utilisateur.id).subscribe(() => {
-    //             this.utilisateurs = this.utilisateurs.filter(u => u.id !== utilisateur.id);
-    //         });
-    //     }
-    // }
 
     deleteSelectedRequests() {
       this.deleteRequestsDialog = true;
@@ -69,7 +65,7 @@ export class UtilisateursComponent implements OnInit {
       // Logique d'édition ici
   }
 
-  deleteRequest(request: Utilisateur) {
+  deleteRequest(request: User) {
       this.deleteRequestDialog = true;
       this.request = { ...request };
   }

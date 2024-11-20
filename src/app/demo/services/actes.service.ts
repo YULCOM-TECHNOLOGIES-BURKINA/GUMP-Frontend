@@ -228,18 +228,26 @@ class ActService {
           }
       ],
       steps: [
-          {
-              title: 'Demande de l\'attestation',
-              description: 'Soumettre une demande via le site du Ministère des Finances.'
-          },
-          {
-              title: 'Validation des informations',
-              description: 'Les informations fournies sont vérifiées par le ministère.'
-          },
-          {
-              title: 'Délivrance de l\'attestation',
-              description: 'L\'attestation est délivrée si les conditions sont remplies.'
-          }
+        {
+          title: 'Création du compte',
+          description: 'Créez votre compte entreprise sur la plateforme en fournissant les informations requises.'
+        },
+        {
+          title: 'Vérification des prérequis',
+          description: 'Assurez-vous d\'avoir tous les documents nécessaires et une attestation CNSS valide.'
+        },
+        {
+          title: 'Soumission de la demande',
+          description: 'Remplissez le formulaire en ligne et téléchargez les documents requis.'
+        },
+        {
+          title: 'Paiement',
+          description: 'Procédez au paiement des frais de traitement via les moyens de paiement disponibles.'
+        },
+        {
+          title: 'Suivi de la demande',
+          description: 'Suivez l\'état d\'avancement de votre demande depuis votre espace personnel.'
+        }
       ]
   },
   {
@@ -272,18 +280,26 @@ class ActService {
           }
       ],
       steps: [
-          {
-              title: 'Remplir le formulaire',
-              description: 'Remplir le formulaire de demande au RCCM.'
-          },
-          {
-              title: 'Déposer au greffe',
-              description: 'Déposer le dossier complet au greffe du tribunal.'
-          },
-          {
-              title: 'Obtention de l\'extrait',
-              description: 'L\'extrait est délivré après validation.'
-          }
+        {
+          title: 'Création du compte',
+          description: 'Créez votre compte entreprise sur la plateforme en fournissant les informations requises.'
+        },
+        {
+          title: 'Vérification des prérequis',
+          description: 'Assurez-vous d\'avoir tous les documents nécessaires.'
+        },
+        {
+          title: 'Soumission de la demande',
+          description: 'Remplissez le formulaire en ligne et téléchargez les documents requis.'
+        },
+        {
+          title: 'Paiement',
+          description: 'Procédez au paiement des frais de traitement via les moyens de paiement disponibles.'
+        },
+        {
+          title: 'Suivi de la demande',
+          description: 'Suivez l\'état d\'avancement de votre demande depuis votre espace personnel.'
+        }
       ]
   },
   {
@@ -316,18 +332,26 @@ class ActService {
           }
       ],
       steps: [
-          {
-              title: 'Soumettre la demande',
-              description: 'Envoyer les documents requis pour l\'obtention du certificat.'
-          },
-          {
-              title: 'Traitement de la demande',
-              description: 'Vérification des antécédents de faillite par le tribunal.'
-          },
-          {
-              title: 'Obtention du certificat',
-              description: 'Le certificat est délivré après vérification.'
-          }
+        {
+          title: 'Création du compte',
+          description: 'Créez votre compte entreprise sur la plateforme en fournissant les informations requises.'
+        },
+        {
+          title: 'Vérification des prérequis',
+          description: 'Assurez-vous d\'avoir tous les documents nécessaires.'
+        },
+        {
+          title: 'Soumission de la demande',
+          description: 'Remplissez le formulaire en ligne et téléchargez les documents requis.'
+        },
+        {
+          title: 'Paiement',
+          description: 'Procédez au paiement des frais de traitement via les moyens de paiement disponibles.'
+        },
+        {
+          title: 'Suivi de la demande',
+          description: 'Suivez l\'état d\'avancement de votre demande depuis votre espace personnel.'
+        }
       ]
   },
   {
@@ -360,18 +384,26 @@ class ActService {
           }
       ],
       steps: [
-          {
-              title: 'Soumettre la demande',
-              description: 'Envoyer les documents requis pour l\'obtention du certificat.'
-          },
-          {
-              title: 'Traitement de la demande',
-              description: 'Vérification des antécédents de faillite par le tribunal.'
-          },
-          {
-              title: 'Obtention du certificat',
-              description: 'Le certificat est délivré après vérification.'
-          }
+        {
+          title: 'Création du compte',
+          description: 'Créez votre compte entreprise sur la plateforme en fournissant les informations requises.'
+        },
+        {
+          title: 'Vérification des prérequis',
+          description: 'Assurez-vous d\'avoir tous les documents nécessaires.'
+        },
+        {
+          title: 'Soumission de la demande',
+          description: 'Remplissez le formulaire en ligne et téléchargez les documents requis.'
+        },
+        {
+          title: 'Paiement',
+          description: 'Procédez au paiement des frais de traitement via les moyens de paiement disponibles.'
+        },
+        {
+          title: 'Suivi de la demande',
+          description: 'Suivez l\'état d\'avancement de votre demande depuis votre espace personnel.'
+        }
       ]
   }
   ];

@@ -38,9 +38,9 @@
                                     pButton 
                                     [label]="category.title"
                                     [icon]="category.icon"
-                                    [class]="selectedCategory === category ? 'p-button-success' : 'p-button-text text-green-500'"
+                                    [class]="selectedCategory === category ? 'p-button-success' : 'p-button-text text-900'"
                                     (click)="selectCategory(category)"
-                                    class="p-button-lg justify-content-start">
+                                    class="p-button-lg justify-content-between">
                             </button>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                             <p-accordion [multiple]="true">
                                 <p-accordionTab *ngFor="let faq of filteredQuestions"
                                               [header]="faq.question"
-                                              styleClass="mb-3 text-green-500">
+                                              styleClass="mb-3 text-900">
                                     <div class="line-height-3">
                                         {{faq.answer}}
                                     </div>

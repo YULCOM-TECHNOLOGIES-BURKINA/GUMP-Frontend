@@ -106,14 +106,10 @@ export class SignataireComponent implements OnInit {
                 this.loading = false;
                 this.cdr.detectChanges();
 
-                console.log(
-                    'listeFiltreUtilisateurs',
-                    this.listeFiltreUtilisateurs
-                );
+
             },
             (error) => {
-                console.log("Une erreur s'est produite :", error);
-                this.loading = false;
+                 this.loading = false;
                 this.cdr.detectChanges();
             }
         );

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DrtssRoutingModule } from './drtss-routing.module';
+import { StatsRoutingModule } from './stats-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
@@ -14,15 +14,26 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
-import { DrtssComponent } from './drtss.component';
-import { SharedModule } from '../../shared/shared.module';
-import { PaymentCallbackComponent } from './paymentCallback.component';
+import { StatsComponent } from './stats.component';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
+
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { ToolbarModule } from 'primeng/toolbar';
+import { RatingModule } from 'primeng/rating';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { TooltipModule } from 'primeng/tooltip';
+import { TabViewModule } from 'primeng/tabview';
+import { BadgeModule } from 'primeng/badge';
+import { PanelModule } from 'primeng/panel';
+
 
 @NgModule({
-  declarations: [DrtssComponent, PaymentCallbackComponent],
+  declarations: [StatsComponent],
   imports: [
 		CommonModule,
-		DrtssRoutingModule,
+		StatsRoutingModule,
 		FormsModule,
 		AutoCompleteModule,
 		CalendarModule,
@@ -36,7 +47,18 @@ import { PaymentCallbackComponent } from './paymentCallback.component';
 		InputTextModule,
 		ToastModule,
 		FileUploadModule,
-		SharedModule    
+		DialogModule,
+		TableModule,
+		ButtonModule,
+		RippleModule,
+		ToolbarModule,
+		RatingModule,
+		RadioButtonModule,
+		TooltipModule,
+		TabViewModule,
+		BadgeModule,
+		PanelModule
+    
   ]
 })
-export class DrtssModule { }
+export class StatsModule { }
