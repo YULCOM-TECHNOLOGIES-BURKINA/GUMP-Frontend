@@ -39,6 +39,7 @@
                                         <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                         <th pSortableColumn="validity">Validité <p-sortIcon field="validity"></p-sortIcon></th>
+                                        <th pSortableColumn="payment">Paiement <p-sortIcon field="payment"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
@@ -68,8 +69,21 @@
                                             <div *ngIf="requestDrtss.status != 'APPROVED'">--</div>
                                         </td>
                                         <td>
+                                            <span *ngIf="requestDrtss.isPaid" class="p-badge p-badge-success"> Payé  </span>
+                                            <span *ngIf="!requestDrtss.isPaid" class="p-badge p-badge-danger"> Non Payé  </span>
+                                        </td>
+                                        <td>
                                             <!-- <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button> -->
                                             <div class="col-12 mt-2 flex" > 
+                                                <button 
+                                                    *ngIf="!requestDrtss.isPaid" 
+                                                    pButton 
+                                                    pRipple 
+                                                    icon="pi pi-wallet" 
+                                                    class="p-button-outlined p-button-warning mr-2" 
+                                                    (click)="initatePaymentDRTPS(requestDrtss.id)" 
+                                                    label="Payer">
+                                                </button>
                                                 <div *ngIf="requestDrtss.files">
                                                     <button 
                                                         *ngFor="let file of requestDrtss.files"

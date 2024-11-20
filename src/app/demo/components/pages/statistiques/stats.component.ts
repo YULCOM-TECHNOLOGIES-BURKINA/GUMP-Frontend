@@ -6,11 +6,14 @@ import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { Table } from 'primeng/table';
 
-
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
-  selector: 'app-drtss',
-  templateUrl: './drtss.component.html',
+  selector: 'app-stats',
+  templateUrl: './stats.component.html',
   providers: [MessageService],
   styles: [`
     .expired-row {
@@ -79,7 +82,7 @@ import { Table } from 'primeng/table';
     }
   `]
 })
-export class TraitementDrtssComponent implements OnInit {
+export class StatsComponent implements OnInit {
   @ViewChild('dt') table: Table;
   displayFilters: boolean = false;
   statuses: any[];
@@ -140,6 +143,8 @@ export class TraitementDrtssComponent implements OnInit {
   readonly VALIDITY_HOURS = 24;
   readonly WARNING_HOURS = 12; 
 
+  exportColumns!: ExportColumn[];
+
   constructor(
     private drtssService: DrtssService, 
     private messageService: MessageService, 
@@ -154,6 +159,7 @@ export class TraitementDrtssComponent implements OnInit {
     this.getDemandes();
     this.setupValidityCheck();
     this.initializeColumns();
+    this.exportColumns = this.cols.map((col) => ({ title: col.header, dataKey: col.field }));
   }
 
   private initializeStatuses() {
@@ -168,6 +174,7 @@ export class TraitementDrtssComponent implements OnInit {
 
   private initializeColumns() {
     this.cols = [
+      { field: 'acte', header: 'Acte' },
       { field: 'demandeur', header: 'Demandeur' },
       { field: 'reference', header: 'Ref. du marché' },
       { field: 'createdAt', header: 'Date de demande' },
@@ -266,19 +273,6 @@ export class TraitementDrtssComponent implements OnInit {
     this.displayProcessDetailModal = true;
   }
 
-  openProcessRequest(request: DemandeDrtss) {
-    this.drtssService.getOneDemande(request.id).subscribe(data => {
-      this.request = data;
-    });
-    this.displayProcessModal = true;
-  }
-
-  openRejectRequest(request: DemandeDrtss) {
-    this.drtssService.getOneDemande(request.id).subscribe(data => {
-      this.request = data;
-    });
-    this.displayRejectModal = true;
-  }
 
   openDownloadRequest(file: any) {
     const url = file.attestation.path; 
@@ -292,106 +286,11 @@ export class TraitementDrtssComponent implements OnInit {
     this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
-  isFormValid(): boolean {
-    return !!this.attestationAnpeNumber 
-         && !!this.attestationAnpeDate 
-         && !!this.attestationCnssNumber 
-         && !!this.attestationCnssDate;
-  }
-
-  processRequest() {
-    if (!this.isFormValid()) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Erreur',
-        detail: 'Tous les champs sont obligatoires. Veuillez les remplir.',
-        life: 3000
-      });
-      return;
-    }
-    if (this.request) {
-      const requestData = {
-        attestationAnpeNumber: this.attestationAnpeNumber,
-        // attestationAnpeDate: this.attestationAnpeDate ? this.attestationAnpeDate.toISOString().split('T')[0] : '',
-        attestationAnpeDate: this.attestationAnpeDate,
-        attestationCnssNumber: this.attestationCnssNumber,
-        // attestationCnssDate: this.attestationCnssDate ? this.attestationCnssDate.toISOString().split('T')[0] : ''
-        attestationCnssDate: this.attestationCnssDate
-      };
-
-      this.drtssService.approveRequest(this.request.id, requestData).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Succès',
-            detail: 'Demande approuvée et attestation générée!',
-            life: 3000
-          });
-          this.displayProcessModal = false;
-          this.request = null;
-          setTimeout(() => {
-            this.router.navigate(['/app/traitement/drtss']); 
-          }, 500); 
-        },
-        error: (err) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erreur',
-            detail: 'Une erreur est survenue lors de l\'approbation de la demande.',
-            life: 3000
-          });
-        }
-      });
-    }
-  }
-
-
-  processReviewRequest(identifiant) {
-      this.drtssService.reviewRequest(identifiant).subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Succès',
-            detail: 'Demande traitée et en attente de validation',
-            life: 3000
-          });
-          this.displayProcessModal = false;
-          setTimeout(() => {
-            this.router.navigate(['/app/traitement/drtss']); 
-          }, 500); 
-        },
-        error: (err) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erreur',
-            detail: 'Une erreur est survenue lors de la validation de la demande.',
-            life: 3000
-          });
-        }
-      });
-  }
-
-  // rejectRequest() {
-  //   if (this.selectedRequest) {
-  //     this.selectedRequest.status = 'Rejeté';
-  //     this.selectedRequest.rejectionReason = this.rejectionReason;
-  //     this.drtssService.updateDemande(this.selectedRequest).subscribe(() => {
-  //       this.messageService.add({ severity: 'error', summary: 'Rejetée', detail: 'Demande rejetée', life: 3000 });
-  //       this.displayRejectModal = false;
-  //       this.selectedRequest = null;
-  //       this.rejectionReason = '';
-  //     });
-  //   }
-  // }
 
   closeProcessModal() {
     this.displayProcessModal = false;
   }
 
-  closeRejectModal() {
-    this.displayRejectModal = false;
-    this.rejectionReason = '';
-  }
 
   onGlobalFilter(table: any, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
@@ -418,20 +317,6 @@ export class TraitementDrtssComponent implements OnInit {
     this.loading = true;
 
     let filtered = [...this.requests];
-    
-    // Filtre par demandeur
-    // if (this.searchFilters.demandeur) {
-    //   filtered = filtered.filter(request => 
-    //     request.demandeur?.toLowerCase().includes(this.searchFilters.demandeur.toLowerCase())
-    //   );
-    // }
-
-    // Filtre par référence
-    // if (this.searchFilters.reference) {
-    //   filtered = filtered.filter(request => 
-    //     request.reference?.toLowerCase().includes(this.searchFilters.reference.toLowerCase())
-    //   );
-    // }
 
     // Filtre par statut
     if (this.searchFilters.status) {
@@ -440,41 +325,6 @@ export class TraitementDrtssComponent implements OnInit {
       );
     }
 
-    // Filtre par région
-    // if (this.searchFilters.region) {
-    //   filtered = filtered.filter(request => 
-    //     request.region === this.searchFilters.region
-    //   );
-    // }
-
-    // Filtre par date - Ajout de vérifications de sécurité
-    // if (this.dateRange && (this.dateRange[0] || this.dateRange[1])) {
-    //   filtered = filtered.filter(request => {
-    //     if (!request.createdAt) return false;
-        
-    //     const requestDate = new Date(request.createdAt);
-        
-    //     // Vérification que requestDate est valide
-    //     if (isNaN(requestDate.getTime())) return false;
-        
-    //     if (this.dateRange[0] && this.dateRange[1]) {
-    //       const startDate = new Date(this.dateRange[0]);
-    //       const endDate = new Date(this.dateRange[1]);
-    //       // Ajout d'un jour à la date de fin pour inclure tout le dernier jour
-    //       endDate.setDate(endDate.getDate() + 1);
-    //       return requestDate >= startDate && requestDate < endDate;
-    //     } else if (this.dateRange[0]) {
-    //       const startDate = new Date(this.dateRange[0]);
-    //       return requestDate >= startDate;
-    //     } else if (this.dateRange[1]) {
-    //       const endDate = new Date(this.dateRange[1]);
-    //       // Ajout d'un jour à la date de fin pour inclure tout le dernier jour
-    //       endDate.setDate(endDate.getDate() + 1);
-    //       return requestDate < endDate;
-    //     }
-    //     return true;
-    //   });
-    // }    
 
     // Filtre par date - Avec vérifications de sécurité renforcées
     if (this.dateRange && Array.isArray(this.dateRange) && this.dateRange.length === 2) {
