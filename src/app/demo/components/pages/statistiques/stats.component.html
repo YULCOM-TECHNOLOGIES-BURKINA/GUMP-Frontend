@@ -1,5 +1,6 @@
 <div class="grid">
     <div class="col-12">
+        <h1>Statistiques</h1>
         <div class="card px-6 py-6">
             <p-toast></p-toast>
 
@@ -110,10 +111,16 @@
                         pRipple 
                         type="button" 
                         (click)="toggleFilters()" 
-                        class="p-button-outlined custom-filter-button"
+                        class="p-button-outlined custom-filter-button mr-2"
                         [label]="displayFilters ? 'Masquer les filtres' : 'Afficher les filtres'"
                         [icon]="displayFilters ? 'pi pi-filter-slash' : 'pi pi-filter'">
                 </button>
+                <div style="text-align: left">
+                    <p-button 
+                        icon="pi pi-external-link" 
+                        label="Exporter" 
+                        (onClick)="dt.exportCSV()" />
+                </div>
             </div>
             
             <!-- TabView PrimeNG -->
@@ -133,7 +140,16 @@
                             dataKey="id"
                             [globalFilterFields]="['demandeur', 'reference', 'status', 'region', 'createdAt']"
                             [loading]="loading"
-                            [customSort]="true">
+                            [customSort]="true"
+                            [exportHeader]="'customExportHeader'">
+                            <!-- <ng-template pTemplate="caption"> -->
+                                <div style="text-align: left">
+                                    <p-button 
+                                        icon="pi pi-external-link" 
+                                        label="Export" 
+                                        (onClick)="dt.exportCSV()" />
+                                </div>
+                            <!-- </ng-template> -->
                         
                         <ng-template pTemplate="caption">
                             <div class="flex justify-content-between">
@@ -144,6 +160,7 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -158,6 +175,7 @@
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
+                                <td>DRTPS</td>
                                 <!-- <td>{{ request.id }}</td> -->
                                 <td>{{request.company.name}}</td>
                                 <td>{{ request.publicContractNumber }}</td>
@@ -216,6 +234,7 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -229,6 +248,7 @@
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
+                                <td>DRTPS</td>
                                 <!-- <td>{{ request.id }}</td> -->
                                 <td>{{request.company.name}}</td>
                                 <td>{{ request.publicContractNumber }}</td>
@@ -294,6 +314,7 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="acte">Acte <p-sortIcon field="acte"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -306,6 +327,7 @@
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
+                                <td>DRTPS</td>
                                 <!-- <td>{{ request.id }}</td> -->
                                 <td>{{request.company.name}}</td>
                                 <td>{{ request.publicContractNumber }}</td>
@@ -369,75 +391,4 @@
         </div>
     </p-dialog>
 
-    <p-dialog 
-        header="Traitement de la demande" 
-        [(visible)]="displayProcessModal" 
-        [modal]="true" 
-        [style]="{width: '650px'}" 
-        [contentStyle]="{padding: '2rem'}"
-        *ngIf="request">
-        <div class="grid p-fluid">
-            <div class="col-12">
-                <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
-            </div>
-            <div class="col-6">
-                <p><strong>Localisation: </strong> Ouagadougou</p>
-                <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
-            </div>
-            <div class="col-6">
-                <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
-                <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
-            </div>
-            <div class="col-6">
-                <p><strong>IFU: </strong> 010203</p>
-            </div>
-            <div class="col-6">
-                <p><strong>RCCM: </strong> 010203</p>
-            </div>
-            <div class="col-12">
-                <p><strong>Réfrence du marché: </strong> xxxxxxxxx</p>
-                <p><strong>Objet du marché: </strong> xxxxxxxxxxx</p>
-            </div>
-            <div class="col-6 mt-2">
-                <label>N° Attestation ANPE</label>
-                <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Numéro Attestation ANPE" required />
-            </div>
-            <div class="col-6 mt-2">
-                <label>Date Attestation ANPE</label>
-                <!-- <p-calendar [(ngModel)]="attestationAnpeDate" dateFormat="yy-mm-dd" required  /> -->
-                <input pInputText type="date" id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="dd/mm/yyyy" required />
-
-            </div>
-            <div class="col-6 mt-2">
-                <label>N° Attestation CNSS</label>
-                <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Numéro Attestation CNSS" required  />
-            </div>
-            <div class="col-6 mt-2">
-                <label>Date Attestation CNSS</label>
-                <!-- <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" dateFormat="yy-mm-dd" required /> -->
-                <input pInputText type="date" id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="dd/mm/yyyy" required />
-            </div>
-        </div>
-        <ng-template pTemplate="footer">
-            <button pButton label="Valider la demande" icon="pi pi-check" (click)="processRequest()" class="p-button-success" [disabled]="!isFormValid()"></button>
-            <button pButton label="Annuler" icon="pi pi-times" (click)="closeProcessModal()" class="p-button-secondary"></button>
-        </ng-template>
-    </p-dialog>
-
-    <!-- Modal de rejet -->
-    <p-dialog header="Rejet de la demande" [(visible)]="displayRejectModal" [modal]="true" [style]="{width: '400px'}">
-        <div class="col-12">
-            <textarea 
-                rows="5"
-                cols="40" 
-                placeholder="Motif du rejet"
-                pInputTextarea 
-                [(ngModel)]="rejectionReason">
-            </textarea>
-        </div>
-        <ng-template pTemplate="footer">
-            <button pButton label="Rejeter la demande" icon="pi pi-times" (click)="rejectRequest()" class="p-button-danger"></button>
-            <button pButton label="Annuler" icon="pi pi-times" (click)="closeRejectModal()" class="p-button-secondary"></button>
-        </ng-template>
-    </p-dialog>
 </div>

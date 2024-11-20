@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [RouterModule.forChild([
+        { path: 'statistiques', loadChildren: () => import('./statistiques/stats.module').then(m => m.StatsModule) },
         { path: 'utilisateurs', loadChildren: () => import('./utilisateurs/utilisateurs.module').then(m => m.UtilisateursModule) },
         { path: 'utilisateurs-drtss', loadChildren: () => import('./utilisateurs-drtss/utilisateurs-drtss.module').then(m => m.UtilisateursDrtssModule) },
         { path: 'profil', loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },

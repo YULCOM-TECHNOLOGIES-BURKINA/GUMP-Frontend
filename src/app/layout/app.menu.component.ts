@@ -32,7 +32,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Modules',
                 visible: this.userRole.includes('ADMIN') ,
                 items: [
-                    { label: 'Statistiques', icon: 'pi pi-fw pi-clone', routerLink: ['/app/pages/actes'], visible: this.userRole.includes('ADMIN')  },
+                    { label: 'Statistiques', icon: 'pi pi-fw pi-chart', routerLink: ['/app/pages/statistiques'], visible: this.userRole.includes('ADMIN')  },
                     { label: 'Rapport', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole.includes('ADMIN')   }
                 ]
             },

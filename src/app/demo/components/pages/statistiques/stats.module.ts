@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TraitementDrtssRoutingModule } from './drtss-routing.module';
+import { StatsRoutingModule } from './stats-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
@@ -14,7 +14,7 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
-import { TraitementDrtssComponent } from './drtss.component';
+import { StatsComponent } from './stats.component';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 
@@ -30,11 +30,11 @@ import { PanelModule } from 'primeng/panel';
 
 
 @NgModule({
-  declarations: [TraitementDrtssComponent],
+  declarations: [StatsComponent],
   imports: [
-    CommonModule,
-    TraitementDrtssRoutingModule,
-    FormsModule,
+		CommonModule,
+		StatsRoutingModule,
+		FormsModule,
 		AutoCompleteModule,
 		CalendarModule,
 		ChipsModule,
@@ -61,4 +61,4 @@ import { PanelModule } from 'primeng/panel';
     
   ]
 })
-export class DrtssModule { }
+export class StatsModule { }
