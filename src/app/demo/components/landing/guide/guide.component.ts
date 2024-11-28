@@ -29,7 +29,7 @@ export class GuideComponent implements OnInit {
         validityPeriod: '3 mois',
         processingTime: '72 heures',
         price: '15 000 FCFA',
-        category: 'Juridique',
+        category: 'Justice',
         img:'assets/justice.jpg'
       },
       {
@@ -41,7 +41,7 @@ export class GuideComponent implements OnInit {
         validityPeriod: '3 mois',
         processingTime: '72 heures',
         price: '15 000 FCFA',
-        category: 'Travail',
+        category: 'Fonction Publique',
         img:'assets/anpe.jpg'
       },
       {
@@ -53,7 +53,7 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '48 heures',
           price: '10 000 FCFA',
-          category: 'Travail',
+          category: 'Fonction Publique',
           img:'assets/image.png'
         },
         {
@@ -65,7 +65,7 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '24 heures',
           price: '1 000 FCFA',
-          category: 'Juridique',
+          category: 'Justice',
           img:'assets/justice.jpg'
         },
         {
@@ -77,7 +77,7 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '72 heures',
           price: '15 000 FCFA',
-          category: 'Juridique',
+          category: 'Justice',
           img:'assets/justice.jpg'
         },
         {
@@ -89,7 +89,7 @@ export class GuideComponent implements OnInit {
           validityPeriod: '3 mois',
           processingTime: '72 heures',
           price: '15 000 FCFA',
-          category: 'Fiscale',
+          category: 'Finances',
           img:'assets/dgi.png'
         }
     ];
@@ -101,10 +101,9 @@ export class GuideComponent implements OnInit {
     sortOrder: number = 1;
     categories: any[] = [
         { label: 'Tous', value: 'all' },
-        { label: 'Travail', value: 'Travail' },
-        { label: 'Sécurité Sociale', value: 'Sécurité Sociale' },
-        { label: 'Juridique', value: 'Juridique' },
-        { label: 'Fiscale', value: 'Fiscale' }
+        { label: 'Fonction Publique', value: 'Fonction Publique' },
+        { label: 'Finances', value: 'Finances' },
+        { label: 'Justice', value: 'Justice' }
     ];
 
     constructor(private router: Router) {}
