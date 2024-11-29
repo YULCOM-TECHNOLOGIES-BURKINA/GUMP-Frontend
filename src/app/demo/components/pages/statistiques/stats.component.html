@@ -1,6 +1,70 @@
 <div class="grid">
+
+    <!-- Card 1: Nombre de demandes -->
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-red-100">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium text-lg mb-2">Nombre de demandes</span>
+                    <div class="text-900 font-bold text-3xl">250</div>
+                    <span class="text-green-500 font-medium text-sm">+5% depuis le mois dernier</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-red-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-file text-red-800 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2: Actes délivrés -->
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-green-100">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium text-lg mb-2">Actes délivrés</span>
+                    <div class="text-900 font-bold text-3xl">180</div>
+                    <span class="text-green-500 font-medium text-sm">+10% cette semaine </span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-green-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-check-circle text-green-800 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: Entreprises inscrites -->
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-yellow-100">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium text-lg mb-2">Entreprises inscrites</span>
+                    <div class="text-900 font-bold text-3xl">75</div>
+                    <span class="text-red-500 font-medium text-sm">-2% ce mois-ci</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-yellow-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-building text-yellow-800 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4: PME actives -->
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-orange-100">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <span class="block text-500 font-medium text-lg mb-2">PME actives</span>
+                    <div class="text-900 font-bold text-3xl">55</div>
+                    <span class="text-green-500 font-medium text-sm">+8% ce trimestre</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                    <i class="pi pi-users text-orange-800 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="col-12">
-        <h1>Statistiques</h1>
         <div class="card px-6 py-6">
             <p-toast></p-toast>
 
