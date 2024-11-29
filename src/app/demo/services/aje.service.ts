@@ -8,7 +8,7 @@ import { DemandeAje, DemandeAjeResponse } from '../models/aje';
 })
 export class AjeService {
 
-  private apiUrl = 'http://195.35.48.198:8080/api/demandes';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=tresor-ms';
 
   constructor(private http: HttpClient) {}
 

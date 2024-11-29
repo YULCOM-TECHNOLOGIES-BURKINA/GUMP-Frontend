@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://195.35.48.198:8081/api';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/users?service=users-ms';
 
   constructor(private http: HttpClient) {}
 
