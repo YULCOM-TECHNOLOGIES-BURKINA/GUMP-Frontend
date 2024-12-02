@@ -60,7 +60,8 @@
                                         </td>
                                         <td>
                                             <div *ngIf="requestDrtss.status == 'APPROVED'">
-                                                <p><strong>Validité de l'acte: </strong> 
+                                                <p>
+                                                    <!-- <strong>Validité de l'acte: </strong>  -->
                                                     <p-badge [value]="getValidityStatus(requestDrtss.createdAt).text"
                                                             [severity]="getValidityStatus(requestDrtss.createdAt).severity">
                                                     </p-badge>
@@ -84,7 +85,7 @@
                                                     (click)="initatePaymentDRTPS(requestDrtss.id)" 
                                                     label="Payer">
                                                 </button>
-                                                <div *ngIf="requestDrtss.files">
+                                                <!-- <div *ngIf="requestDrtss.files"> -->
                                                     <button 
                                                         *ngFor="let file of requestDrtss.files"
                                                         pButton 
@@ -94,7 +95,7 @@
                                                         class="p-button-secondary p-button-outlined mr-2"
                                                         (click)="download(file)" >
                                                     </button>
-                                                </div>           
+                                                <!-- </div>            -->
                                                 <button 
                                                     *ngIf="requestDrtss.status == 'APPROVED'" 
                                                     pButton 

@@ -21,7 +21,11 @@ export class UserService {
 
   getUserByIfu(ifuNumber: string): Observable<any> {
     return this.http.get(`${this.apiUrlFind}/${ifuNumber}/find?service=users-ms`);
-}
+ }
+
+ approveUser(userId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/users/${userId}/approve?service=users-ms`);
+ }
 
   register(userData: any): Observable<any> {
       return this.http.post(`${this.apiUrl}/auth/register?service=users-ms`, userData, {
