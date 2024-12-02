@@ -212,7 +212,7 @@
                     <div class="col-12">
                         <p-fieldset legend="Informations de connexion" [toggleable]="true">
                             <div class="grid">
-                                <div class="col-12 md:col-6">
+                                <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
                                         <input id="email" 
                                                pInputText 
@@ -222,7 +222,7 @@
                                         <label for="email">Email</label>
                                     </span>
                                 </div>
-                                <div class="col-12 md:col-6">
+                                <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
                                         <p-password id="password"
                                                    formControlName="password"
@@ -236,17 +236,41 @@
                                         <label for="password">Mot de passe</label>
                                     </span>
                                 </div>
+                                <div class="col-12 md:col-4">
+                                    <span class="p-float-label mt-4">
+                                        <p-password id="passwordConfirmation"
+                                                   formControlName="passwordConfirmation"
+                                                   [toggleMask]="true"
+                                                   [feedback]="false"
+                                                   class="w-full"></p-password>
+                                        <label for="passwordConfirmation">Confirmer le mot de passe</label>
+                                    </span>
+                                    <small class="p-error" *ngIf="registerForm.errors?.['passwordMismatch'] && 
+                                           registerForm.get('passwordConfirmation')?.touched">
+                                        Les mots de passe ne correspondent pas
+                                    </small>
+                                </div>
                             </div>
                         </p-fieldset>
                     </div>
 
                     <div class="col-12 flex justify-content-center">
-                        <button pButton 
+                        <!-- <button pButton 
                                 type="submit" 
                                 label="S'inscrire" 
                                 icon="pi pi-user-plus" 
                                 class="p-button-lg"
-                                [loading]="loading"></button>
+                                [loading]="loading"></button> -->
+                        <button pButton 
+                                type="submit" 
+                                label="Soumettre le formulaire d'inscription" 
+                                icon="pi pi-user-plus" 
+                                class="p-button-lg"
+                                [ngClass]="{'p-button-secondary': registerForm.invalid || !cnibFile || !statutFile}"
+                                [loading]="loading"
+                                [disabled]="registerForm.invalid || !cnibFile || !statutFile"
+                                pTooltip="Veuillez remplir tous les champs requis et télécharger les documents demandés"
+                                [tooltipDisabled]="!(registerForm.invalid || !cnibFile || !statutFile)"></button>
                     </div>
                 </div>
             </form>

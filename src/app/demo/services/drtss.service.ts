@@ -11,8 +11,8 @@ export class DrtssService {
 
   constructor(private http: HttpClient, private keycloak: KeycloakAuthService) {}
 
-  // private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
-  private apiUrl = 'http://195.35.48.198:8082/api/demandes';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
+  // private apiUrl = 'http://195.35.48.198:8082/api/demandes';
   // private token = this.keycloak.getToken();
   private token = localStorage.getItem('currentToken');
 
