@@ -255,12 +255,22 @@
                     </div>
 
                     <div class="col-12 flex justify-content-center">
-                        <button pButton 
+                        <!-- <button pButton 
                                 type="submit" 
                                 label="S'inscrire" 
                                 icon="pi pi-user-plus" 
                                 class="p-button-lg"
-                                [loading]="loading"></button>
+                                [loading]="loading"></button> -->
+                        <button pButton 
+                                type="submit" 
+                                label="Soumettre le formulaire d'inscription" 
+                                icon="pi pi-user-plus" 
+                                class="p-button-lg"
+                                [ngClass]="{'p-button-secondary': registerForm.invalid || !cnibFile || !statutFile}"
+                                [loading]="loading"
+                                [disabled]="registerForm.invalid || !cnibFile || !statutFile"
+                                pTooltip="Veuillez remplir tous les champs requis et télécharger les documents demandés"
+                                [tooltipDisabled]="!(registerForm.invalid || !cnibFile || !statutFile)"></button>
                     </div>
                 </div>
             </form>
