@@ -92,22 +92,34 @@ export class RegisterComponent implements OnInit {
         this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
             next: (response) => {
                 this.loading = false;
-                this.showFullForm = true;
-                
-                // Pré-remplir le formulaire avec les données de l'entreprise
-                this.registerForm.patchValue({
-                    companyName: response.name,
-                    legalForm: response.legalForm,
-                    address: response.address,
-                    phoneNumber: response.phoneNumber,
-                    ifuNumber: this.ifuForm.get('ifuNumber')?.value
-                });
 
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Succès',
-                    detail: 'IFU vérifié avec succès'
-                });
+                this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+                    next: (response) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erreur',
+                            detail: 'Un compte avec ce numéro IFU existe déjà.'
+                        }); 
+                    },
+                    error: (error) => {
+                        this.showFullForm = true;
+            
+                        // Pré-remplir le formulaire avec les données de l'entreprise
+                        this.registerForm.patchValue({
+                            companyName: response.name,
+                            legalForm: response.legalForm,
+                            address: response.address,
+                            phoneNumber: response.phoneNumber,
+                            ifuNumber: this.ifuForm.get('ifuNumber')?.value
+                        });
+
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Succès',
+                            detail: 'IFU vérifié avec succès'
+                        }); 
+                    }
+                });  
             },
             error: (error) => {
                 this.loading = false;
