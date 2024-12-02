@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
@@ -75,10 +75,12 @@ export class RegisterComponent implements OnInit {
             prenom: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]],
-            // passwordConfirmation: ['', [Validators.required, Validators.minLength(8)]],
+            passwordConfirmation: ['', [Validators.required]],
             ifuNumber: [''],
             rccm: [''],
             cnssNumber: ['']
+        },{
+            validators: this.passwordMatchValidator
         });
     }
 
@@ -140,6 +142,27 @@ export class RegisterComponent implements OnInit {
           this.statutFile = file;
         }
         this.messageService.add({ severity: 'info', summary: 'Fichier chargé', detail: `${file.name} a été chargé.` });
+    }
+
+    passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+        const password = control.get('password');
+        const confirmPassword = control.get('passwordConfirmation');
+
+        // Si les contrôles n'existent pas encore, retournez null
+        if (!password || !confirmPassword) return null;
+
+        if (password.value !== confirmPassword.value) {
+            confirmPassword.setErrors({ passwordMismatch: true });
+            return { passwordMismatch: true };
+        } else {
+            // Effacez l'erreur de non-correspondance si elle existait
+            const errors = confirmPassword.errors;
+            if (errors) {
+                delete errors['passwordMismatch'];
+                confirmPassword.setErrors(Object.keys(errors).length === 0 ? null : errors);
+            }
+            return null;
+        }
     }
 
     onSubmit() {

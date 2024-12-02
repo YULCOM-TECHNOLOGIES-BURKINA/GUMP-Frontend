@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   private apiUrl = 'https://gump-gateway.yulpay.com/api';
-  private apiUrlFind = 'https://gump-gateway.yulpay.com/api/users/1/find';
+  private apiUrlFind = 'https://gump-gateway.yulpay.com/api/users';
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,7 @@ export class UserService {
   }
 
   getUserByIfu(ifuNumber: string): Observable<any> {
-    return this.http.get(`${this.apiUrlFind}/${ifuNumber}?service=users-ms`);
+    return this.http.get(`${this.apiUrlFind}/${ifuNumber}/find?service=users-ms`);
 }
 
   register(userData: any): Observable<any> {
