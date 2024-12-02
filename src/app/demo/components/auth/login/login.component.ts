@@ -52,19 +52,19 @@ export class LoginComponent implements OnInit {
       if (user) {
         const role = user.role[0]; // On prend le premier rôle
         switch (role) {
-          case 'admin':
+          case 'ADMIN':
             this.router.navigate(['/app']);
             break;
-          case 'admin_drtss':
+          case 'DRTSS_AGENT':
             this.router.navigate(['/app']);
             break;
-          case 'agent_drtss':
+          case 'DRTSS_ADMIN':
             this.router.navigate(['/app']);
             break;
-          case 'admin_aje':
+          case 'TRESOR_AGENT':
             this.router.navigate(['/app']);
             break;
-          case 'entreprise':
+          case 'USER':
             this.router.navigate(['']);
             break;
           default:

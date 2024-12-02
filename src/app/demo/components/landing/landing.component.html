@@ -3,7 +3,6 @@
         <!-- Header -->
         <app-header></app-header>
 
-
         <div id="hero" class="flex flex-column pt-4 px-4 lg:px-8 overflow-hidden"
             style="background: linear-gradient(0deg, rgb(255, 255, 255), rgba(42, 180, 7, 0.021)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #258b06 10%, #ec290f 100%); clip-path: ellipse(150% 87% at 93% 13%);">
             <div class="mx-4 md:mx-8 mt-0 md:mt-4" style="display: flex;">
@@ -19,67 +18,45 @@
 
             </div>
             <div class="mx-4 md:mx-8 mt-0 md:mt-4"></div>
-        </div>
+        </div> 
 
-        <!-- Statistics -->
-        <div class="px-4 py-8 md:px-6 lg:px-8">
+        <!-- Mission & Vision -->
+        <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
             <div class="grid">
-                <ng-container *ngFor="let stat of statistics">
-                    <div class="col-12 md:col-6 lg:col-3 p-3">
-                        <div class="surface-card shadow-2 p-4 border-round">
-                            <div class="flex align-items-center justify-content-center mb-3">
-                                <div
-                                    [class]="'flex align-items-center justify-content-center border-round-xl w-4rem h-4rem ' + stat.color">
-                                    <i [class]="stat.icon + ' text-2xl'"></i>
-                                </div>
+                <div class="col-12 lg:col-6 p-4">
+                    <p-card styleClass="h-full nos-missions">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center gap-3 px-4 pt-4">
+                                <i class="pi pi-compass text-4xl text-green-600"></i>
+                                <h2 class="text-3xl font-semibold m-0 n-title">Notre Mission</h2>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold mb-2">{{ stat.value }}</div>
-                                <div class="text-900">{{ stat.label }}</div>
+                        </ng-template>
+                        <p class="line-height-3 text-lg n-text">
+                            Faciliter l'accès aux services administratifs liés aux marchés publics à travers une
+                            plateforme
+                            numérique innovante, sécurisée et performante. Notre objectif est de réduire les délais de
+                            traitement et d'améliorer la transparence des procédures.
+                        </p>
+                    </p-card>
+                </div>
+                <div class="col-12 lg:col-6 p-4">
+                    <p-card styleClass="h-full nos-missions">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center gap-3 px-4 pt-4">
+                                <i class="pi pi-eye text-4xl text-green-600"></i>
+                                <h2 class="text-3xl font-semibold m-0 n-title">Notre Vision</h2>
                             </div>
-                        </div>
-                    </div>
-                </ng-container>
+                        </ng-template>
+                        <p class="line-height-3 text-lg n-text">
+                            Devenir la référence en matière de dématérialisation des services administratifs au Burkina
+                            Faso,
+                            en offrant une expérience utilisateur exceptionnelle et en contribuant à la modernisation de
+                            l'administration publique.
+                        </p>
+                    </p-card>
+                </div>
             </div>
         </div>
-
-     <!-- Mission & Vision -->
-     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
-        <div class="grid">
-            <div class="col-12 lg:col-6 p-4">
-                <p-card styleClass="h-full nos-missions">
-                    <ng-template pTemplate="header">
-                        <div class="flex align-items-center gap-3 px-4 pt-4">
-                            <i class="pi pi-compass text-4xl text-green-600"></i>
-                            <h2 class="text-3xl font-semibold m-0 n-title">Notre Mission</h2>
-                        </div>
-                    </ng-template>
-                    <p class="line-height-3 text-lg n-text">
-                        Faciliter l'accès aux services administratifs liés aux marchés publics à travers une
-                        plateforme
-                        numérique innovante, sécurisée et performante. Notre objectif est de réduire les délais de
-                        traitement et d'améliorer la transparence des procédures.
-                    </p>
-                </p-card>
-            </div>
-            <div class="col-12 lg:col-6 p-4">
-                <p-card styleClass="h-full nos-missions">
-                    <ng-template pTemplate="header">
-                        <div class="flex align-items-center gap-3 px-4 pt-4">
-                            <i class="pi pi-eye text-4xl text-green-600"></i>
-                            <h2 class="text-3xl font-semibold m-0 n-title">Notre Vision</h2>
-                        </div>
-                    </ng-template>
-                    <p class="line-height-3 text-lg n-text">
-                        Devenir la référence en matière de dématérialisation des services administratifs au Burkina
-                        Faso,
-                        en offrant une expérience utilisateur exceptionnelle et en contribuant à la modernisation de
-                        l'administration publique.
-                    </p>
-                </p-card>
-            </div>
-        </div>
-    </div>
 
 
         <div id="features" class="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
@@ -177,7 +154,7 @@
         </div>
 
          <!-- Values Section -->
-         <div class="surface-ground px-4 py-8 md:px-6 lg:px-8 nos-valeurs">
+        <div class="surface-ground px-4 py-8 md:px-6 lg:px-8 nos-valeurs">
             <div class="nos-valeurs-title">
                 <h2 class="text-4xl font-bold text-center mb-6" style="color: white;">Nos Valeurs</h2>
             </div>
@@ -230,13 +207,32 @@
             </div>
         </div>
 
+        <!-- Statistics -->
+        <div class="px-4 py-8 md:px-6 lg:px-8">
+            <div class="grid">
+                <ng-container *ngFor="let stat of statistics">
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <div class="surface-card shadow-2 p-4 border-round">
+                            <div class="flex align-items-center justify-content-center mb-3">
+                                <div
+                                    [class]="'flex align-items-center justify-content-center border-round-xl w-4rem h-4rem ' + stat.color">
+                                    <i [class]="stat.icon + ' text-2xl'"></i>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold mb-2">{{ stat.value }}</div>
+                                <div class="text-900">{{ stat.label }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
 
         <!-- footer -->
         <app-footer></app-footer>
-
     </div>
 </div>
-
 
 <style>
     :host ::ng-deep {

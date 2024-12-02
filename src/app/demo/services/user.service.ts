@@ -10,26 +10,31 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://195.35.48.198:8081/api';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api';
+  private apiUrlFind = 'https://gump-gateway.yulpay.com/api/users';
 
   constructor(private http: HttpClient) {}
 
   verifyIfu(ifuNumber: string): Observable<any> {
-      return this.http.get(`${this.apiUrl}/get-ifu/${ifuNumber}`);
+      return this.http.get(`${this.apiUrl}/get-ifu/${ifuNumber}?service=users-ms`);
   }
 
+  getUserByIfu(ifuNumber: string): Observable<any> {
+    return this.http.get(`${this.apiUrlFind}/${ifuNumber}/find?service=users-ms`);
+}
+
   register(userData: any): Observable<any> {
-      return this.http.post(`${this.apiUrl}/auth/register`, userData, {
+      return this.http.post(`${this.apiUrl}/auth/register?service=users-ms`, userData, {
           headers: { 'Content-Type': 'application/json' },
       });
   }
 
   getUsers(): Observable<Utilisateur[]> {
-      return this.http.get<Utilisateur[]>(`${this.apiUrl}/users`);
+      return this.http.get<Utilisateur[]>(`${this.apiUrl}/users?service=users-ms`);
   }
 
   getUsersCompany(): Observable<UserResponse> {
-    return this.http.get<UserResponse>(`${this.apiUrl}/users`);
+    return this.http.get<UserResponse>(`${this.apiUrl}/users?service=users-ms`);
 }
 
   desactivateUser(id: number): Observable<any> {

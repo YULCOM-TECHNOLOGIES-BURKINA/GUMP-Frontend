@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
@@ -75,10 +75,12 @@ export class RegisterComponent implements OnInit {
             prenom: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]],
-            // passwordConfirmation: ['', [Validators.required, Validators.minLength(8)]],
+            passwordConfirmation: ['', [Validators.required]],
             ifuNumber: [''],
             rccm: [''],
             cnssNumber: ['']
+        },{
+            validators: this.passwordMatchValidator
         });
     }
 
@@ -92,22 +94,34 @@ export class RegisterComponent implements OnInit {
         this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
             next: (response) => {
                 this.loading = false;
-                this.showFullForm = true;
-                
-                // Pré-remplir le formulaire avec les données de l'entreprise
-                this.registerForm.patchValue({
-                    companyName: response.name,
-                    legalForm: response.legalForm,
-                    address: response.address,
-                    phoneNumber: response.phoneNumber,
-                    ifuNumber: this.ifuForm.get('ifuNumber')?.value
-                });
 
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Succès',
-                    detail: 'IFU vérifié avec succès'
-                });
+                this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+                    next: (response) => {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erreur',
+                            detail: 'Un compte avec ce numéro IFU existe déjà.'
+                        }); 
+                    },
+                    error: (error) => {
+                        this.showFullForm = true;
+            
+                        // Pré-remplir le formulaire avec les données de l'entreprise
+                        this.registerForm.patchValue({
+                            companyName: response.name,
+                            legalForm: response.legalForm,
+                            address: response.address,
+                            phoneNumber: response.phoneNumber,
+                            ifuNumber: this.ifuForm.get('ifuNumber')?.value
+                        });
+
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Succès',
+                            detail: 'IFU vérifié avec succès'
+                        }); 
+                    }
+                });  
             },
             error: (error) => {
                 this.loading = false;
@@ -128,6 +142,27 @@ export class RegisterComponent implements OnInit {
           this.statutFile = file;
         }
         this.messageService.add({ severity: 'info', summary: 'Fichier chargé', detail: `${file.name} a été chargé.` });
+    }
+
+    passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+        const password = control.get('password');
+        const confirmPassword = control.get('passwordConfirmation');
+
+        // Si les contrôles n'existent pas encore, retournez null
+        if (!password || !confirmPassword) return null;
+
+        if (password.value !== confirmPassword.value) {
+            confirmPassword.setErrors({ passwordMismatch: true });
+            return { passwordMismatch: true };
+        } else {
+            // Effacez l'erreur de non-correspondance si elle existait
+            const errors = confirmPassword.errors;
+            if (errors) {
+                delete errors['passwordMismatch'];
+                confirmPassword.setErrors(Object.keys(errors).length === 0 ? null : errors);
+            }
+            return null;
+        }
     }
 
     onSubmit() {
