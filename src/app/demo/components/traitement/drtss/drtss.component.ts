@@ -83,7 +83,6 @@ export class TraitementDrtssComponent implements OnInit {
   @ViewChild('dt') table: Table;
   displayFilters: boolean = false;
   statuses: any[];
-  // dateRange: Date[] = [null, null];
   dateRange: Date[] = [new Date(), new Date()]; // Initialisé avec des dates par défaut
   showRangeCalendar: boolean = true; // Pour forcer le réaffichage si nécessaire
   maxDate: Date = new Date(); // Pour empêcher la sélection de dates futures
@@ -110,6 +109,7 @@ export class TraitementDrtssComponent implements OnInit {
   pendingRequests: DemandeDrtss[] = [];
   processingRequests: DemandeDrtss[] = [];
   approvedRequests: DemandeDrtss[] = [];
+  rejectedRequests: DemandeDrtss[] = [];
   selectedRequest: DemandeDrtss | null = null;
   selectedRequests: DemandeDrtss[] = [];
   request: DemandeDrtss = {};
@@ -128,6 +128,7 @@ export class TraitementDrtssComponent implements OnInit {
   countPending = 0;
   countProcessing = 0;
   countApproved = 0;
+  countRejected = 0;
 
   requesterId: string = ''; 
   attestationAnpeNumber: string = '';
@@ -312,10 +313,8 @@ export class TraitementDrtssComponent implements OnInit {
     if (this.request) {
       const requestData = {
         attestationAnpeNumber: this.attestationAnpeNumber,
-        // attestationAnpeDate: this.attestationAnpeDate ? this.attestationAnpeDate.toISOString().split('T')[0] : '',
         attestationAnpeDate: this.attestationAnpeDate,
         attestationCnssNumber: this.attestationCnssNumber,
-        // attestationCnssDate: this.attestationCnssDate ? this.attestationCnssDate.toISOString().split('T')[0] : ''
         attestationCnssDate: this.attestationCnssDate
       };
 
@@ -569,10 +568,12 @@ export class TraitementDrtssComponent implements OnInit {
     this.pendingRequests = requestsToUse.filter(request => request.status === 'PENDING');
     this.processingRequests = requestsToUse.filter(request => request.status === 'PROCESSING');
     this.approvedRequests = requestsToUse.filter(request => request.status === 'APPROVED');
+    this.rejectedRequests = requestsToUse.filter(request => request.status === 'REJECTED');
 
     this.countPending = this.pendingRequests.length;
     this.countProcessing = this.processingRequests.length;
     this.countApproved = this.approvedRequests.length;
+    this.countRejected = this.rejectedRequests.length;
   }
 
 }
