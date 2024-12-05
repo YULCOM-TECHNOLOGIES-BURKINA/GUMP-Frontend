@@ -380,8 +380,6 @@
                                             pTooltip="Voir la demande" 
                                             tooltipPosition="bottom">
                                     </button>
-                                    <button pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
-                                    (click)="openDownloadRequest(request)" pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -425,6 +423,10 @@
                     class="p-button-secondary p-button-outlined mr-2"
                     (click)="download(file)" >
                 </button>
+            </div>
+            <div class="col-12 mt-2 flex" *ngIf="request.rejectionReason">
+                <p><strong>Motif de rejet</strong></p>
+                <p>{{request.rejectionReason }}</p>
             </div>
         </div>
     </p-dialog>

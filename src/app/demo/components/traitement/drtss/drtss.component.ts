@@ -300,6 +300,10 @@ export class TraitementDrtssComponent implements OnInit {
          && !!this.attestationCnssDate;
   }
 
+  isRejectFormValid(): boolean {
+    return !!this.rejectionReason ;
+  }
+
   processRequest() {
     if (!this.isFormValid()) {
       this.messageService.add({
@@ -370,18 +374,43 @@ export class TraitementDrtssComponent implements OnInit {
       });
   }
 
-  // rejectRequest() {
-  //   if (this.selectedRequest) {
-  //     this.selectedRequest.status = 'Rejeté';
-  //     this.selectedRequest.rejectionReason = this.rejectionReason;
-  //     this.drtssService.updateDemande(this.selectedRequest).subscribe(() => {
-  //       this.messageService.add({ severity: 'error', summary: 'Rejetée', detail: 'Demande rejetée', life: 3000 });
-  //       this.displayRejectModal = false;
-  //       this.selectedRequest = null;
-  //       this.rejectionReason = '';
-  //     });
-  //   }
-  // }
+  rejectRequest() {
+    if (!this.isRejectFormValid()) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Veuillez notifier la raison du rejet.',
+        life: 3000
+      });
+      return;
+    }
+    if (this.request) {
+      
+      this.drtssService.rejectRequest(this.request.id, this.rejectionReason).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Succès',
+            detail: 'Demande rejettée!',
+            life: 3000
+          });
+          this.displayProcessModal = false;
+          this.request = null;
+          setTimeout(() => {
+            this.router.navigate(['/app/traitement/drtss']); 
+          }, 500); 
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erreur',
+            detail: 'Une erreur est survenue lors du rejet de la demande.',
+            life: 3000
+          });
+        }
+      });
+    }
+  }
 
   closeProcessModal() {
     this.displayProcessModal = false;
