@@ -109,7 +109,16 @@ export class GuideComponent implements OnInit {
     constructor(private router: Router) {}
 
     ngOnInit() {
-        this.filteredActs = [...this.acts];
+      if (localStorage.getItem('currentUser') !== null) {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (user.role.includes('USER')){
+          this.router.navigate(['']);
+        } else{
+          this.router.navigate(['app/']);
+        }
+      }
+
+      this.filteredActs = [...this.acts];
     }
 
     filterActs() {
