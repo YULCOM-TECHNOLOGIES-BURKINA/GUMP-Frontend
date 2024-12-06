@@ -5,7 +5,7 @@ import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { Table } from 'primeng/table';
-
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -141,10 +141,14 @@ export class TraitementDrtssComponent implements OnInit {
   readonly VALIDITY_HOURS = 24;
   readonly WARNING_HOURS = 12; 
 
+  pdfSrc: string | null = null;
+  viewpdfDialog = false;
+
   constructor(
     private drtssService: DrtssService, 
     private messageService: MessageService, 
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.initializeStatuses();
   }
@@ -603,6 +607,24 @@ export class TraitementDrtssComponent implements OnInit {
     this.countProcessing = this.processingRequests.length;
     this.countApproved = this.approvedRequests.length;
     this.countRejected = this.rejectedRequests.length;
+  }
+
+  viewAttestation(url: string) {
+    this.http.get(url, { responseType: 'blob' }).subscribe(
+    (response: Blob) => {
+      if (response.size > 0) {
+          this.pdfSrc = url;
+        this.viewpdfDialog = true;
+      } else {
+        this.messageService.add({ severity: 'warning', summary: 'Attention', detail: 'Le document PDF est vide et ne peut pas être ouvert.', life: 3000 });
+      }
+    },
+    (error) => {
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Le document n\'a pas pu être chargé.', life: 3000 });
+
+        alert("");
+    }
+  );
   }
 
 }
