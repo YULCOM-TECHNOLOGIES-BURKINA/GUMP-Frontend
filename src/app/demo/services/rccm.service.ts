@@ -27,10 +27,11 @@ export class RccmService {
     });
   }
 
-  submitAttestationRequest(file: File, immatriculationDate: string, typeDemande: string): Observable<any> {
+  submitAttestationRequest(fileRccm: File, fileStatut: File, immatriculationDate: string, typeDemande: string): Observable<any> {
     const formData = new FormData();
     
-    formData.append('extraitRccm', file);
+    formData.append('extraitRccm', fileRccm);
+    formData.append('statutEntreprise', fileStatut);
 
     const params = new HttpParams()
     .set('immatriculationDate', immatriculationDate)

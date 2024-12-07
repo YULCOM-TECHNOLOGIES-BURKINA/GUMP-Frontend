@@ -21,7 +21,7 @@ export class RccmComponent implements OnInit {
     private rccmService: RccmService,
     private router: Router) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   onFileSelect(event: any, fileType: string) {
     const file = event.files[0];
@@ -34,7 +34,7 @@ export class RccmComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.rccmFile || !this.immatriculationDate) {
+    if (!this.rccmFile || !this.statutFile || !this.immatriculationDate) {
       this.messageService.add({ 
         severity: 'warn', 
         summary: 'Attention', 
@@ -45,6 +45,7 @@ export class RccmComponent implements OnInit {
 
     this.rccmService.submitAttestationRequest(
       this.rccmFile,
+      this.statutFile,
       this.immatriculationDate,
       this.typeDemande
     ).subscribe({
@@ -58,6 +59,7 @@ export class RccmComponent implements OnInit {
         
         // Réinitialisation du formulaire
         this.rccmFile = null;
+        this.statutFile = null;
         this.immatriculationDate = null;
         this.typeDemande = '';
 

@@ -12,32 +12,8 @@
                 <div class="card">
                     <div class="p-fluid p-formgrid grid">
                         <div class="col-3 mt-2">
-                            <span>Reference du marché</span>
-                            <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du marché" required />
-                        </div>
-                        <div class="col-3 mt-2">
-                            <span>Objet du marché</span>
-                            <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du marché" required />
-                        </div>
-                        <div class="col-3 mt-2">
-                            <span>Identité de l'organisme attribuant le marché</span>
-                            <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
-                        </div>
-                        <div class="col-3 mt-2">
-                            <span>Adresse</span>
-                            <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
-                        </div>
-                        <div class="col-3 mt-2">
-                            <span>Numéro de téléphone</span>
-                            <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
-                        </div>
-                        <div class="field col-12 md:col-3">
-                            <label htmlFor="city">Type d'acte dérivé</label>
-                            <p-dropdown 
-                                [options]="actes" 
-                                [(ngModel)]="selectedActe" 
-                                optionLabel="acte" 
-                                placeholder="Selectioner un type d'acte" />
+                            <span>Date d'immatriculation de votre entreprise</span>
+                            <input pInputText type="date" id="immatriculationDate" [(ngModel)]="immatriculationDate" placeholder="yyyy/mm/dd" required />
                         </div>
                         <div class="field col-12 md:col-3">
                             <label htmlFor="city">Joindre l'extrait du RCCM</label>

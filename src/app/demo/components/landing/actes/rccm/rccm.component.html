@@ -28,6 +28,19 @@
                                 maxFileSize="1000000000" 
                                 (onSelect)="onFileSelect($event, 'rccmFile')"/>
                         </div>
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="city">Jondre l'extrait des statuts</label>
+                            <p-toast />
+                            <p-fileUpload 
+                                mode="basic" 
+                                chooseLabel="Charger le fichier" 
+                                styleClass="p-button-secondary"
+                                chooseIcon="pi pi-upload"
+                                name="statutFile" 
+                                accept="image/*,.pdf" 
+                                maxFileSize="1000000000" 
+                                (onSelect)="onFileSelect($event, 'statutFile')"/>
+                        </div>
                     </div>            
                     <div class="field col-12 text-right">
                         <button 
