@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DemandeRccm, DemandeRccmResponse } from '../models/rccm';
 
@@ -7,36 +7,50 @@ import { DemandeRccm, DemandeRccmResponse } from '../models/rccm';
   providedIn: 'root'
 })
 export class RccmService {
-
-  private apiUrl = 'http://localhost:8082/api/demandes';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes';
 
   constructor(private http: HttpClient) {}
 
-  submitAttestationRequest(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, formData);
+  private token = localStorage.getItem('currentToken');
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  private getFormDataHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      // 'Content-Type': 'multipart/form-data'
+    });
+  }
+
+  submitAttestationRequest(file: File, immatriculationDate: string, typeDemande: string): Observable<any> {
+    const formData = new FormData();
+    
+    formData.append('extraitRccm', file);
+
+    const params = new HttpParams()
+    .set('immatriculationDate', immatriculationDate)
+    .set('typeDemande', typeDemande);
+
+    return this.http.post(`${this.apiUrl}?service=justice-ms`, formData, {
+      headers: this.getFormDataHeaders(),
+      params: params
+    });
   }
 
   getDemandes(): Observable<DemandeRccmResponse> {
-    return this.http.get<DemandeRccmResponse>(this.apiUrl);
-  }
-
-  getRequestStatus(requestId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/status/${requestId}`);
+    return this.http.get<DemandeRccmResponse>(`${this.apiUrl}?service=justice-ms`, {
+      headers: this.getHeaders(),
+    });
   }
 
   getOneDemande(requestId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${requestId}`);
-  }
-
-  approveRequest(requestId: number, requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, requestData, {
-      headers: { 'Content-Type': 'application/json' }
+    return this.http.get(`${this.apiUrl}/${requestId}?service=justice-ms`, {
+      headers: this.getHeaders(),
     });
-  }
-
-  reviewRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING`, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
+  }  
 }
