@@ -12,23 +12,23 @@
                     <div class="p-fluid formgrid grid">
                         <div class="field col-12 md:col-6">
                             <label for="nom">Nom</label>
-                            <input pInputText id="nom" [(ngModel)]="profil.nom" placeholder="Nom" />
+                            <input pInputText id="nom" [(ngModel)]="request.name" placeholder="Nom" />
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="prenom">Prénom</label>
-                            <input pInputText id="prenom" [(ngModel)]="profil.prenom" placeholder="Prénom" />
+                            <input pInputText id="prenom" [(ngModel)]="request.lastname" placeholder="Prénom" />
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="email">Email</label>
-                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Email" />
+                            <input pInputText id="email" [(ngModel)]="request.email" placeholder="Email" />
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="entreprise">Nom de l'entreprise</label>
-                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Nom de l'entreprise" />
+                            <input pInputText id="email" [(ngModel)]="request.company.name" placeholder="Nom de l'entreprise" />
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="adresse">Adresse de l'entreprise</label>
-                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Adresse de l'entreprise" />
+                            <input pInputText id="email" [(ngModel)]="request.company.name" placeholder="Adresse de l'entreprise" />
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="phone">Téléphone</label>
@@ -36,12 +36,12 @@
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="phone">Numéro IFU</label>
-                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Numéro IFU" />
+                            <input pInputText id="email" [(ngModel)]="request.company.ifu" placeholder="Numéro IFU" />
                         </div>
-                        <div class="field col-12 md:col-6">
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="phone">Numéro RCCM</label>
                             <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Numéro RCCM" />
-                        </div>
+                        </div> -->
 
                         <div class="field col-12 md:col-6">
                             <label for="password">Nouveau mot de passe</label>
@@ -59,19 +59,19 @@
                         <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success" (onClick)="saveProfil()"></p-button>
                     </div>
 
-                    <p-divider></p-divider>
+                    <!-- <p-divider></p-divider>
                     
                     <h3>Sécurité</h3>
                     <div class="flex align-items-center justify-content-between mt-3">
                         <span class="text-lg">Double authentification</span>
                         <p-toggleButton [(ngModel)]="profil.doubleAuth" severity="success" onLabel="Activé" offLabel="Désactivé" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
-                    </div>
+                    </div> -->
 
 
                     <p-divider></p-divider>
                     
                     <div class="flex justify-content-between">
-                        <p-button label="Désactiver le compte" icon="pi pi-ban" severity="danger"  (onClick)="desactivateAccount()"></p-button>
+                        <p-button label="Désactiver le compte" icon="pi pi-ban" severity="warning"  (onClick)="desactivateAccount()"></p-button>
                         <p-button label="Supprimer le compte" icon="pi pi-trash" severity="danger"  (onClick)="deleteAccount()"></p-button>
                     </div>
                 </div>

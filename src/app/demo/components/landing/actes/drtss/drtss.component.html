@@ -33,17 +33,17 @@
                         </div>
                     
                         <div class="field col-12 md:col-6">
-                            <label htmlFor="city">Reférence de l'attestion ANPE</label>
+                            <label htmlFor="city">Reférence de l'attestion ANPE (*)</label>
                             <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Reférence de l'attestion ANPE" required />
                         </div>
                         <div class="field col-12 md:col-6">
-                            <label htmlFor="city">Reférence de l'attestation de situation cotisante</label>
+                            <label htmlFor="city">Reférence de l'attestation de situation cotisante (*)</label>
                             <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Reférence de l'attestation de situation cotisante" required />
                         </div>
                     </div> 
                     <div class="p-fluid p-formgrid grid">
                         <div class="field col-12 md:col-6">
-                            <label htmlFor="city">Joindre une copie de l'attestion ANPE</label>
+                            <label htmlFor="city">Joindre une copie de l'attestion ANPE (*)</label>
                             <p-toast />
                             <p-fileUpload 
                             mode="basic" 
@@ -56,7 +56,7 @@
                             (onSelect)="onFileSelect($event, 'anpeFile')"/>
                         </div>
                         <div class="field col-12 md:col-6">
-                            <label htmlFor="city">Joindre une copie de l'attestion de situation cotisante</label>
+                            <label htmlFor="city">Joindre une copie de l'attestion de situation cotisante (*)</label>
                             <p-toast />
                             <p-fileUpload 
                                 mode="basic" 

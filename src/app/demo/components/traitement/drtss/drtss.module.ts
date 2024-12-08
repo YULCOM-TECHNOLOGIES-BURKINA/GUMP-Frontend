@@ -17,7 +17,6 @@ import { ToastModule } from 'primeng/toast';
 import { TraitementDrtssComponent } from './drtss.component';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
-
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -27,7 +26,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { TabViewModule } from 'primeng/tabview';
 import { BadgeModule } from 'primeng/badge';
 import { PanelModule } from 'primeng/panel';
-
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [TraitementDrtssComponent],
@@ -35,30 +34,30 @@ import { PanelModule } from 'primeng/panel';
     CommonModule,
     TraitementDrtssRoutingModule,
     FormsModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		InputTextareaModule,
-		InputTextModule,
-		ToastModule,
-		FileUploadModule,
-		DialogModule,
-		TableModule,
-		ButtonModule,
-		RippleModule,
-		ToolbarModule,
-		RatingModule,
-		RadioButtonModule,
-		TooltipModule,
-		TabViewModule,
-		BadgeModule,
-		PanelModule
-    
+	AutoCompleteModule,
+	CalendarModule,
+	ChipsModule,
+	DropdownModule,
+	InputMaskModule,
+	InputNumberModule,
+	CascadeSelectModule,
+	MultiSelectModule,
+	InputTextareaModule,
+	InputTextModule,
+	ToastModule,
+	FileUploadModule,
+	DialogModule,
+	TableModule,
+	ButtonModule,
+	RippleModule,
+	ToolbarModule,
+	RatingModule,
+	RadioButtonModule,
+	TooltipModule,
+	TabViewModule,
+	BadgeModule,
+	PanelModule,
+	PdfViewerModule
   ]
 })
 export class DrtssModule { }

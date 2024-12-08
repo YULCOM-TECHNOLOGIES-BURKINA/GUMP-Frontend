@@ -5,7 +5,7 @@ import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs';
 import { Table } from 'primeng/table';
-
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -83,7 +83,6 @@ export class TraitementDrtssComponent implements OnInit {
   @ViewChild('dt') table: Table;
   displayFilters: boolean = false;
   statuses: any[];
-  // dateRange: Date[] = [null, null];
   dateRange: Date[] = [new Date(), new Date()]; // Initialisé avec des dates par défaut
   showRangeCalendar: boolean = true; // Pour forcer le réaffichage si nécessaire
   maxDate: Date = new Date(); // Pour empêcher la sélection de dates futures
@@ -110,6 +109,7 @@ export class TraitementDrtssComponent implements OnInit {
   pendingRequests: DemandeDrtss[] = [];
   processingRequests: DemandeDrtss[] = [];
   approvedRequests: DemandeDrtss[] = [];
+  rejectedRequests: DemandeDrtss[] = [];
   selectedRequest: DemandeDrtss | null = null;
   selectedRequests: DemandeDrtss[] = [];
   request: DemandeDrtss = {};
@@ -128,6 +128,7 @@ export class TraitementDrtssComponent implements OnInit {
   countPending = 0;
   countProcessing = 0;
   countApproved = 0;
+  countRejected = 0;
 
   requesterId: string = ''; 
   attestationAnpeNumber: string = '';
@@ -140,10 +141,14 @@ export class TraitementDrtssComponent implements OnInit {
   readonly VALIDITY_HOURS = 24;
   readonly WARNING_HOURS = 12; 
 
+  pdfSrc: string | null = null;
+  viewpdfDialog = false;
+
   constructor(
     private drtssService: DrtssService, 
     private messageService: MessageService, 
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.initializeStatuses();
   }
@@ -299,6 +304,10 @@ export class TraitementDrtssComponent implements OnInit {
          && !!this.attestationCnssDate;
   }
 
+  isRejectFormValid(): boolean {
+    return !!this.rejectionReason ;
+  }
+
   processRequest() {
     if (!this.isFormValid()) {
       this.messageService.add({
@@ -312,10 +321,8 @@ export class TraitementDrtssComponent implements OnInit {
     if (this.request) {
       const requestData = {
         attestationAnpeNumber: this.attestationAnpeNumber,
-        // attestationAnpeDate: this.attestationAnpeDate ? this.attestationAnpeDate.toISOString().split('T')[0] : '',
         attestationAnpeDate: this.attestationAnpeDate,
         attestationCnssNumber: this.attestationCnssNumber,
-        // attestationCnssDate: this.attestationCnssDate ? this.attestationCnssDate.toISOString().split('T')[0] : ''
         attestationCnssDate: this.attestationCnssDate
       };
 
@@ -371,18 +378,43 @@ export class TraitementDrtssComponent implements OnInit {
       });
   }
 
-  // rejectRequest() {
-  //   if (this.selectedRequest) {
-  //     this.selectedRequest.status = 'Rejeté';
-  //     this.selectedRequest.rejectionReason = this.rejectionReason;
-  //     this.drtssService.updateDemande(this.selectedRequest).subscribe(() => {
-  //       this.messageService.add({ severity: 'error', summary: 'Rejetée', detail: 'Demande rejetée', life: 3000 });
-  //       this.displayRejectModal = false;
-  //       this.selectedRequest = null;
-  //       this.rejectionReason = '';
-  //     });
-  //   }
-  // }
+  rejectRequest() {
+    if (!this.isRejectFormValid()) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Veuillez notifier la raison du rejet.',
+        life: 3000
+      });
+      return;
+    }
+    if (this.request) {
+      
+      this.drtssService.rejectRequest(this.request.id, this.rejectionReason).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Succès',
+            detail: 'Demande rejettée!',
+            life: 3000
+          });
+          this.displayProcessModal = false;
+          this.request = null;
+          setTimeout(() => {
+            this.router.navigate(['/app/traitement/drtss']); 
+          }, 500); 
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erreur',
+            detail: 'Une erreur est survenue lors du rejet de la demande.',
+            life: 3000
+          });
+        }
+      });
+    }
+  }
 
   closeProcessModal() {
     this.displayProcessModal = false;
@@ -569,10 +601,30 @@ export class TraitementDrtssComponent implements OnInit {
     this.pendingRequests = requestsToUse.filter(request => request.status === 'PENDING');
     this.processingRequests = requestsToUse.filter(request => request.status === 'PROCESSING');
     this.approvedRequests = requestsToUse.filter(request => request.status === 'APPROVED');
+    this.rejectedRequests = requestsToUse.filter(request => request.status === 'REJECTED');
 
     this.countPending = this.pendingRequests.length;
     this.countProcessing = this.processingRequests.length;
     this.countApproved = this.approvedRequests.length;
+    this.countRejected = this.rejectedRequests.length;
+  }
+
+  viewAttestation(url: string) {
+    this.http.get(url, { responseType: 'blob' }).subscribe(
+    (response: Blob) => {
+      if (response.size > 0) {
+          this.pdfSrc = url;
+        this.viewpdfDialog = true;
+      } else {
+        this.messageService.add({ severity: 'warning', summary: 'Attention', detail: 'Le document PDF est vide et ne peut pas être ouvert.', life: 3000 });
+      }
+    },
+    (error) => {
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Le document n\'a pas pu être chargé.', life: 3000 });
+
+        alert("");
+    }
+  );
   }
 
 }

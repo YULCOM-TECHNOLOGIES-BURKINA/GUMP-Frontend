@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import {  Router } from '@angular/router';
 
 interface FAQCategory {
   icon: string;
@@ -32,7 +33,16 @@ export class FAQComponent implements OnInit {
   filteredQuestions: FAQ[] = [];
   loading: boolean = true;
 
+  constructor(private router: Router) {}
+
   ngOnInit() {
+    if (localStorage.getItem('currentUser') !== null) {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (!user.role.includes('USER')){
+        this.router.navigate(['app/']);
+      }
+    }
+    
     this.categories = [
       {
         "icon": "pi pi-file",

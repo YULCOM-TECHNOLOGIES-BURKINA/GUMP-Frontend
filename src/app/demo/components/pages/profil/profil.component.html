@@ -1,5 +1,5 @@
 <div class="grid">
-    <div class="col-12">
+    <div class="col-12">kt
         <div class="card px-6 py-6">
             <h2 class="text-center">Mon Profil</h2>
             <p-divider></p-divider>
@@ -18,18 +18,6 @@
                     <label for="email">Email</label>
                     <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Email" />
                 </div>
-                <div class="field col-12 md:col-6">
-                    <label for="entreprise">Nom de l'entreprise</label>
-                    <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Nom de l'entreprise" />
-                </div>
-                <div class="field col-12 md:col-6">
-                    <label for="adresse">Adresse de l'entreprise</label>
-                    <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Adresse de l'entreprise" />
-                </div>
-                <div class="field col-12 md:col-6">
-                    <label for="phone">Téléphone</label>
-                    <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Téléphone" />
-                </div>
 
                 <div class="field col-12 md:col-6">
                     <label for="password">Nouveau mot de passe</label>
@@ -47,15 +35,7 @@
                 <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success" (onClick)="saveProfil()"></p-button>
             </div>
 
-            <p-divider></p-divider>
             
-            <h3>Sécurité</h3>
-            <div class="flex align-items-center justify-content-between mt-3">
-                <span class="text-lg">Double authentification</span>
-                <p-toggleButton [(ngModel)]="profil.doubleAuth" severity="success" onLabel="Activé" offLabel="Désactivé" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
-            </div>
-
-
             <p-divider></p-divider>
             
             <div class="flex justify-content-between">
