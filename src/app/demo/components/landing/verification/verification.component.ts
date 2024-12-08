@@ -41,6 +41,7 @@ export class VerificationComponent implements OnInit {
         this.router.navigate(['app/']);
       }
     }
+    
   }
 
   verify() {
@@ -71,6 +72,8 @@ export class VerificationComponent implements OnInit {
       this.showResult = true;
     }, 1500);
   }
+  
+
 
   reset() {
     this.reference = '';

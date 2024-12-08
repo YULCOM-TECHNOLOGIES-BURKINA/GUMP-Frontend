@@ -28,7 +28,7 @@ export class AjeComponent implements OnInit {
   // Libellés dynamiques
   formLabels = {
     title: 'Fiche de demande et de retrait d\'attestation de non engagement - Liquidation',
-    reference: 'Référence du marché ',
+    reference: 'référence d\'appel d\'offre',
     purpose: 'Objet du marché '
   };
 
@@ -51,7 +51,7 @@ export class AjeComponent implements OnInit {
       } else {
         this.formLabels = {
           title: 'Fiche de demande et de retrait d\'attestation de non engagement - Liquidation',
-          reference: 'Référence du marché ',
+          reference: 'Référence d\'appel d\'offre ',
           purpose: 'Objet du marché '
         };
       }

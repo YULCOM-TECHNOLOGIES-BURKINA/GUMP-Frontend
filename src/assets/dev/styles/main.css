@@ -131,6 +131,9 @@ body .details-card
     font-weight: bold !important;
 
 }
+.form-card{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px!important;
+}
 .details-card .text-600
 {
     color: #efc800 !important;

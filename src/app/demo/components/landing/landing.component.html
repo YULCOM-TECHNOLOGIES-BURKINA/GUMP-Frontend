@@ -59,6 +59,7 @@
         </div>
 
 
+       
         <div id="features" class="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
             <div class="grid justify-content-between">
                 <div class="col-12 text-center mt-8 mb-4">
@@ -97,12 +98,13 @@
                         </div>
 
                         <div class="flex align-items-center gap-2 p-4 surface-ground border-round-bottom-xl">
-                            <button pButton pRipple type="button" label="Voir les détails" icon="pi pi-arrow-right"
-                                (click)="navigateToDetail('cnss')" class="p-button-success p-button-outlined flex-auto">
-                            </button>
-                            <a pButton pRipple type="button" icon="pi pi-file-edit" pTooltip="Faire une demande"
-                                tooltipPosition="top" href="https://eservices.cnss.bf/" target="_blank"
-                                rel="noopener noreferrer" class="p-button-success text-white">
+                            <a  href="https://eservices.cnss.bf/" target="_blank"
+                            rel="noopener noreferrer" pButton pRipple type="button" label="Faire une demande" icon=" pi pi-file-edit "
+                                 class="p-button-success p-button-outlined flex-auto" pTooltip="Faire une demande" tooltipPosition="top">
+                                
+                        </a>
+                            <a pButton pRipple type="button" (click)="navigateToDetail('cnss')" icon="pi pi-info" pTooltip="Voir les détails"
+                                tooltipPosition="top"  class="p-button-success text-white">
                             </a>
                         </div>
                     </div>
@@ -140,11 +142,12 @@
                         </div>
 
                         <div class="flex align-items-center gap-2 p-4 surface-ground border-round-bottom-xl">
-                            <button pButton pRipple type="button" label="Voir les détails" icon="pi pi-arrow-right"
-                                (click)="navigateToDetail(act.id)" class="p-button-success p-button-outlined flex-auto">
+                            <button pButton pRipple type="button" label="Faire une demande" icon=" pi pi-file-edit "
+                            class="p-button-success p-button-outlined flex-auto" pTooltip="Faire une demande"
+                                class="p-button-success p-button-outlined flex-auto" [routerLink]="['/actes/'+act.id]" tooltipPosition="top">
                             </button>
-                            <button pButton pRipple type="button" icon="pi pi-file-edit" pTooltip="Faire une demande"
-                                tooltipPosition="top" [routerLink]="['/actes/'+act.id]" class="p-button-success">
+                            <button pButton  (click)="navigateToDetail(act.id)" pRipple type="button" icon="pi pi-info" pTooltip="Voir les détails"
+                                tooltipPosition="top"  class="p-button-success">
                             </button>
                         </div>
                     </div>
