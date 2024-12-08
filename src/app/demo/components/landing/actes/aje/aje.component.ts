@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   templateUrl: './aje.component.html',
 })
 
-
 export class AjeComponent implements OnInit {
   requestType: 'LIQUIDATION' | 'SOUMISSION' = 'LIQUIDATION';
   bankAccountReference: string;
@@ -64,8 +63,6 @@ export class AjeComponent implements OnInit {
           && !!this.organizationPhone;
   }
 
-
-
   onSubmit() {
     if (!this.isFormValid()) {
       this.messageService.add({
@@ -99,5 +96,4 @@ export class AjeComponent implements OnInit {
       });
     }
   }
-
 }

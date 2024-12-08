@@ -14,7 +14,6 @@ interface UploadEvent {
   templateUrl: './drtss.component.html',
 })
 
-
 export class DrtssComponent {
 
   anpeFile: File | null = null; 
