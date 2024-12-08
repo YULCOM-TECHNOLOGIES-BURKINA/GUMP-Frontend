@@ -12,12 +12,6 @@ import { Router } from '@angular/router';
 
 export class AjeComponent implements OnInit {
   requestType: 'LIQUIDATION' | 'SOUMISSION' = 'LIQUIDATION';
-  requesterId: string = 'YULCOM';
-  rccmReference: string = 'YULCOM';
-  ifuNumber: string = 'YULCOM';
-  address: string = 'YULCOM';
-  phoneNumber: string = 'YULCOM';
-  businessDomain: string = 'YULCOM';
   bankAccountReference: string;
   contractReference: string;
   contractPurpose: string;
@@ -25,11 +19,10 @@ export class AjeComponent implements OnInit {
   organizationAddress: string;
   organizationPhone: string;
 
-  // Libellés dynamiques
   formLabels = {
     title: 'Fiche de demande et de retrait d\'attestation de non engagement - Liquidation',
-    reference: 'Référence du marché ',
-    purpose: 'Objet du marché '
+    reference: 'Référence de l\'appel d\'offre',
+    purpose: 'Objet de l\'appel d\'offre '
   };
 
   constructor(
@@ -71,21 +64,7 @@ export class AjeComponent implements OnInit {
           && !!this.organizationPhone;
   }
 
-  // isFormValid(): boolean {
-  //   return !!this.businessDomain 
-  //         && !!this.bankAccountReference 
-  //         && !!this.contractReference 
-  //         && !!this.contractPurpose
-  //         && !!this.contractingOrganizationName
-  //         && !!this.organizationAddress
-  //         //&& !!this.rccmReference
-  //         //&& !!this.ifuNumber
-  //         //&& !!this.address
-  //         //&& !!this.phoneNumber
-  //         && !!this.requestType
-  //         //&& !!this.requesterId
-  //         && !!this.organizationPhone;
-  // }
+
 
   onSubmit() {
     if (!this.isFormValid()) {
@@ -99,12 +78,6 @@ export class AjeComponent implements OnInit {
     } else {
       const requestData = {
         requestType: this.requestType,
-        requesterId: this.requesterId,
-        rccmReference: this.rccmReference,
-        ifuNumber: this.ifuNumber,
-        address: this.address,
-        phoneNumber: this.phoneNumber,
-        businessDomain: this.businessDomain,
         bankAccountReference: this.bankAccountReference,
         contractReference: this.contractReference,
         contractPurpose: this.contractPurpose,
