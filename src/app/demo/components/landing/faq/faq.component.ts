@@ -38,9 +38,7 @@ export class FAQComponent implements OnInit {
   ngOnInit() {
     if (localStorage.getItem('currentUser') !== null) {
       const user = JSON.parse(localStorage.getItem('currentUser'));
-      if (user.role.includes('USER')){
-        this.router.navigate(['']);
-      } else{
+      if (!user.role.includes('USER')){
         this.router.navigate(['app/']);
       }
     }

@@ -41,7 +41,7 @@ export class GuideComponent implements OnInit {
         validityPeriod: '3 mois',
         processingTime: '72 heures',
         price: '15 000 FCFA',
-        category: 'Fonction Publique',
+        category: 'Emploi',
         img:'assets/anpe.jpg'
       },
       {
@@ -111,9 +111,7 @@ export class GuideComponent implements OnInit {
     ngOnInit() {
       if (localStorage.getItem('currentUser') !== null) {
         const user = JSON.parse(localStorage.getItem('currentUser'));
-        if (user.role.includes('USER')){
-          this.router.navigate(['']);
-        } else{
+        if (!user.role.includes('USER')){
           this.router.navigate(['app/']);
         }
       }
