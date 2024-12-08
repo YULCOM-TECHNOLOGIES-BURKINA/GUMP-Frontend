@@ -10,28 +10,39 @@
         <div class="px-4 py-8 md:px-6 lg:px-8">
             <div class="col-12">
                 <div class="card">
-                    <div class="p-fluid p-formgrid grid">
+                    <div class="field col-12 mb-4">
+                        <p-checkbox 
+                            [(ngModel)]="isForPublicContract" 
+                            [binary]="true" 
+                            inputId="publicMarket"
+                            label="Soumission au marché public">
+                        </p-checkbox>
+                    </div>
+        
+                    <div class="p-fluid p-formgrid grid" *ngIf="isForPublicContract">
                         <div class="col-4 mt-2">
                             <span>Reference du contrat</span>
-                            <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du contrat" required />
+                            <input [(ngModel)]="contractReference" pInputText id="contractReference" placeholder="Reference du contrat" required />
                         </div>
                         <div class="col-8 mt-2">
                             <span>Objet du contrat</span>
-                            <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du contrat" required />
+                            <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose" placeholder="Objet du contrat" required />
                         </div>
                         <div class="col-5 mt-2">
                             <span>Identité de l'organisme attribuant le marché</span>
-                            <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
+                            <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName" placeholder="Identité de l'organisme attribuant le marché" required />
                         </div>
                         <div class="col-4 mt-2">
                             <span>Adresse</span>
-                            <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
+                            <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress" placeholder="Adresse" required />
                         </div>
                         <div class="col-3 mt-2">
                             <span>Numéro de téléphone</span>
-                            <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
+                            <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone" placeholder="Numéro de téléphone" required />
                         </div>
-                    
+                    </div>
+        
+                    <div class="p-fluid p-formgrid grid">
                         <div class="field col-12 md:col-6">
                             <label htmlFor="city">Reférence de l'attestion ANPE (*)</label>
                             <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Reférence de l'attestion ANPE" required />
@@ -40,20 +51,21 @@
                             <label htmlFor="city">Reférence de l'attestation de situation cotisante (*)</label>
                             <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Reférence de l'attestation de situation cotisante" required />
                         </div>
-                    </div> 
+                    </div>
+        
                     <div class="p-fluid p-formgrid grid">
                         <div class="field col-12 md:col-6">
                             <label htmlFor="city">Joindre une copie de l'attestion ANPE (*)</label>
                             <p-toast />
                             <p-fileUpload 
-                            mode="basic" 
-                            chooseLabel="Charger l'attestion ANPE" 
-                            chooseIcon="pi pi-upload"
-                            styleClass="p-button-secondary"
-                            name="anpeFile" 
-                            accept="image/*,.pdf" 
-                            maxFileSize="1000000000" 
-                            (onSelect)="onFileSelect($event, 'anpeFile')"/>
+                                mode="basic" 
+                                chooseLabel="Charger l'attestion ANPE" 
+                                chooseIcon="pi pi-upload"
+                                styleClass="p-button-secondary"
+                                name="anpeFile" 
+                                accept="image/*,.pdf" 
+                                maxFileSize="1000000000" 
+                                (onSelect)="onFileSelect($event, 'anpeFile')"/>
                         </div>
                         <div class="field col-12 md:col-6">
                             <label htmlFor="city">Joindre une copie de l'attestion de situation cotisante (*)</label>
@@ -68,7 +80,8 @@
                                 maxFileSize="1000000000" 
                                 (onSelect)="onFileSelect($event, 'cnssFile')"/>
                         </div>
-                    </div>            
+                    </div>
+        
                     <div class="field col-12 text-right">
                         <button 
                             pButton 
