@@ -12,11 +12,11 @@
                 <div class="card">
                     <div class="p-fluid p-formgrid grid">
                         <div class="col-3 mt-2">
-                            <span>Date d'immatriculation de votre entreprise</span>
+                            <span>Date d'immatriculation de votre entreprise (*)</span>
                             <input pInputText type="date" id="immatriculationDate" [(ngModel)]="immatriculationDate" placeholder="yyyy/mm/dd" required />
                         </div>
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="city">Joindre l'extrait du RCCM</label>
+                            <label htmlFor="city">Joindre l'extrait du RCCM (*)</label>
                             <p-toast />
                             <p-fileUpload 
                             mode="basic" 
@@ -29,7 +29,7 @@
                             (onSelect)="onFileSelect($event, 'rccmFile')"/>
                         </div>
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="city">Jondre l'extrait des statuts</label>
+                            <label htmlFor="city">Jondre l'extrait des statuts (*)</label>
                             <p-toast />
                             <p-fileUpload 
                                 mode="basic" 
