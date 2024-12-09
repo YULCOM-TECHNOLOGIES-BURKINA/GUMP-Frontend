@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Utilisateur } from '../models/utilisateurs';
+import { Utilisateur, CreateUserRequest } from '../models/utilisateurs';
 import { User, UserResponse } from '../models/utilisateurs';
 
 import { environment } from 'src/environments/environment';
@@ -59,6 +59,7 @@ export class UserService {
           headers: this.getHeaders()
     });
   }
+
 
   getUsers(): Observable<Utilisateur[]> {
       return this.http.get<Utilisateur[]>(`${this.apiUrl}/users?service=users-ms`, {

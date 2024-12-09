@@ -15,12 +15,30 @@ export class HttpFastserviceService {
     /*   httpOptions = {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         headers: new HttpHeaders({
-            //  'Content-Type': 'multipart/form-data',
+             'Content-Type': 'multipart/form-data',
             enctype: 'multipart/form-data',
             Accept: 'multipart/form-data',
             Authorization: 'Bearer ' + '',
         }),
     };*/
+    private token = localStorage.getItem('currentToken');
+
+    // Méthode pour obtenir les headers avec le token Bearer
+  /*  private getHeaders(): HttpHeaders {
+      return new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      });
+    }*/
+
+  // Méthode pour obtenir les headers spécifiques pour FormData
+  private getFormDataHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  }
+
+
 
     status!: string;
     errorMessage: any;
@@ -37,10 +55,13 @@ export class HttpFastserviceService {
 
     // POST Method
     public post<T>(url: string, body: Object): Observable<T> {
-        return this.http
-            .post<T>(url, body, { observe: 'body' })
-            .pipe(catchError(this.handleError));
-    }
+       return this.http
+         .post<T>(url, body)
+         .pipe(
+           catchError((error) => this.handleError(error))
+         );
+     }
+
 
     // PUT Method
     public put<T>(url: string, body: Object): Observable<T> {
@@ -112,5 +133,5 @@ export class HttpFastserviceService {
         return this.http.post(url, { path }, { headers, responseType: 'blob' });
       }
 
-      
+
 }

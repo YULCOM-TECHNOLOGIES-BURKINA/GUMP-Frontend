@@ -1,3 +1,14 @@
+export interface CreateUserRequest {
+    region: string;
+    username: string;
+    forename: string;
+    password: string;
+    lastname: string;
+    email: string;
+    role: string;
+    userType: string;
+  }
+
 export interface Utilisateur {
     [x: string]: any;
     id?: number;
@@ -7,7 +18,16 @@ export interface Utilisateur {
     email?: string;
     tel?: number,
     matricule?:string
+    region?:string
     actif?: boolean;
+
+    username?: string;
+    forename?: string;
+    lastname?: string;
+    role?: string;
+    userType?: string;
+    password?: string;
+
 }
 export interface Company{
     name?: string;

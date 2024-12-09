@@ -61,24 +61,42 @@ export class SignataireComponent implements OnInit {
     ngOnInit(): void {
         this.loadUsers(this.pageNumber, this.pageSize);
         this.items = [
-            {
-                label: 'Modifier',
-                icon: 'pi pi-pencil',
-                command: () => {
-                    console.log('TEST');
-                    this.openNew('UPDATE');
-                },
-            },
+
             { separator: true },
             {
-                label: 'Suprimer',
+                label: 'Activer',
                 icon: 'pi pi-times',
                 command: () => {
-                    console.log('TEST');
-                    this.openDeleteDialog(this.selectLine);
+                    this.confirmToggleStatus(this.selectLine);
                 },
             },
         ];
+    }
+
+    selectlabel=""
+    selectLine:any
+    onLineClick(event: any){
+        this.selectLine=event
+        console.log("this.selectLine",this.selectLine);
+        let modifier=true
+        if (this.selectLine.actif==true) {
+            this.selectlabel="Desactiver"
+        }else{
+            this.selectlabel="Activer"
+            modifier=false
+        }
+
+        this.items = [
+
+            { separator: true },
+            { label: this.selectlabel, icon: 'pi pi-times' ,command: () => {
+                console.log('TEST');
+                this.confirmToggleStatus(this.selectLine.id);
+            },},
+         ];
+
+
+
     }
 
     loadUsers(page: number, size: number) {
@@ -87,8 +105,19 @@ export class SignataireComponent implements OnInit {
             .listUtilisateurSignataieDrtss(page, size)
             .subscribe(
                 (response: any) => {
+                        console.log("response",response);
+
+               const filterdrtpsUser = response.content.filter(user => user.utilisateur.userType === "DRTSS_USER" );
+                this.utilisateurs =filterdrtpsUser;
+
+               /* this.totalRecords = response.totalPages;
+                this.loading = false;
+                this.cdr.detectChanges();
+                console.log('dataResponse', this.dataResponse);*/
+
                     this.dataResponse = response;
-                    this.utilisateurs = response.content;
+                  //  this.utilisateurs = response.content;
+
                     this.totalRecords = response.totalPages;
                     this.loading = false;
                     this.cdr.detectChanges();
@@ -102,7 +131,16 @@ export class SignataireComponent implements OnInit {
 
         this.signElectService.listUtilisateurDrtss(0, 100000).subscribe(
             (response: any) => {
-                this.listeFiltreUtilisateurs = response.content;
+
+
+               const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
+               this.listeFiltreUtilisateurs=filterdrtpsUser;
+               /*this.utilisateurs =filterdrtpsUser;
+                this.totalRecords = response.totalPages;
+                this.loading = false;
+                this.cdr.detectChanges();
+                console.log('dataResponse', this.dataResponse);*/
+
                 this.loading = false;
                 this.cdr.detectChanges();
 
@@ -122,11 +160,7 @@ export class SignataireComponent implements OnInit {
         this.pageSize = event.rows;
         this.loadUsers(this.pageNumber, this.pageSize);
     }
-    selectLine: Utilisateur;
-    onLineClick(event: any) {
-        this.selectLine = event;
-        console.log(this.selectLine);
-    }
+
 
     submitted: boolean;
     modalDialog: boolean;
@@ -146,9 +180,7 @@ export class SignataireComponent implements OnInit {
         }
     }
 
-    openDeleteDialog(Utilisateur: Utilisateur) {
-        this.confirmDeleteSelected();
-    }
+
     public initForm() {
         this.userForm = this.fb.group({
             userId: ['', Validators.required],
@@ -176,9 +208,27 @@ export class SignataireComponent implements OnInit {
         .telechargerCertificat(path,certificatFile)
     }
 
-    confirmDeleteSelected() {
-        this.deleteDialog = true;
+    confirmToggleStatus(id:number) {
+
+        this.signElectService.toggleSignatoryStatus(id).subscribe({
+            next: (response: any) => {
+                 this.loadUsers(this.pageNumber, this.pageSize);
+
+                 this.messageSucces('Operation effecuee avec succès.', 'success');
+
+                 this.userForm.reset();
+                this.modalDialog = false;
+             },
+            error: (err) => {
+
+                 this.messageSucces("Une erreur s'est produite", 'error');
+
+             },
+        });
     }
+
+
+
 
     hideDialog() {
         this.modalDialog = false;

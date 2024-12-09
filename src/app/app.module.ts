@@ -21,7 +21,7 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
 
 @NgModule({
     declarations: [
-        AppComponent, 
+        AppComponent,
         NotfoundComponent
     ],
     imports: [
@@ -37,8 +37,9 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
     ],
     providers: [
         {
+
             provide: LocationStrategy,
-            useClass: PathLocationStrategy
+            useClass: PathLocationStrategy,
         },
         {
             provide: APP_INITIALIZER,
@@ -46,6 +47,7 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
             multi: true,
             deps: [KeycloakAuthService]
         },
+        
         DrtssService,
         MessageService,
         KeycloakAuthService

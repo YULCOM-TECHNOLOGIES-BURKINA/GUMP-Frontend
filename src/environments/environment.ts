@@ -11,23 +11,35 @@ export const environment = {
 };
 
 const host_ms_drtss = 'http://195.35.48.198:8082/api';
+const host_ms_users = 'http://195.35.48.198:8081/api';
+
+
+//const host_ms_drtss = 'http://195.35.48.198:8082/api';
 const host_ms_aje = 'http://195.35.48.198:8080/api';
 const host_gateway = '';
+const apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
+const apiGateway = 'https://gump-gateway.yulpay.com/api';
+// private apiUrl = 'http://195.35.48.198:8082/api/demandes';
 /** @type {*} */
 export const API_ROOT = {
     /**
      * API SIGNATURE ELECTRONIQUE
      */
 
+    API_GET_SIGNATAIRE_BY_MAIL: `${host_ms_drtss}/signature_electronique/signataire/`,
     API_CREATE_SIGNATAIRE_DRTSS: `${host_ms_drtss}/signature_electronique/create_signataire`,
     API_DOWNLOAD_SIGNATAIRE_CERTIFICAT_DRTSS: `${host_ms_drtss}/signature_electronique/download_certificate`,
     API_SIGNE_ATTESTATION_DRTSS: `${host_ms_drtss}/signature_electronique/sign_attestation`,
+    API_TOGGLE_SIGNATORY_STATUS: `${host_ms_drtss}/signature_electronique/toggle_status/`,
     API_LISTE_USERS_SIGNATAIRE_DRTSS: `${host_ms_drtss}/signature_electronique/liste_signataire`,
     API_LISTE_USERS_DRTSS: `${host_ms_drtss}/utilisateur_drtss/liste`,
+
     API_CREATE_USERS_DRTSS: `${host_ms_drtss}/utilisateur_drtss/save`,
     API_UPDATE_STATUS_USERS_DRTSS: `${host_ms_drtss}/utilisateur_drtss/update_status`,
 
-    /**
+    API_USERS_COMPTE_REQUEST: `${host_ms_users}/users`,
+
+    /**x
      * API DEMANDE
      */
 
@@ -38,6 +50,10 @@ export const API_ROOT = {
      */
     API_CONFIG_DRTPS: `${host_ms_drtss}/application-config`,
     API_CONFIG_AJE: `${host_ms_aje}/application-config`,
+
+    API_LISTE_REGIONS: `${apiGateway}/regions?service=users-ms`,
+
+
 
 
 
