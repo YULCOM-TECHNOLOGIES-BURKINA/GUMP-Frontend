@@ -17,7 +17,6 @@ export class UserService {
 
   private token = localStorage.getItem('currentToken');
 
-  // Méthode pour obtenir les headers avec le token Bearer
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
@@ -25,7 +24,6 @@ export class UserService {
     });
   }
 
-  // Méthode pour obtenir les headers spécifiques pour FormData
   private getFormDataHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': `Bearer ${this.token}`

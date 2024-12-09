@@ -77,6 +77,7 @@ export class AjeComponent implements OnInit {
         requestType: this.requestType,
         bankAccountReference: this.bankAccountReference,
         contractReference: this.contractReference,
+        publicContractNumber: this.contractReference,
         contractPurpose: this.contractPurpose,
         contractingOrganizationName: this.contractingOrganizationName,
         organizationAddress: this.organizationAddress,

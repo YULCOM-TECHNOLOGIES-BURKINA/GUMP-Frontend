@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DemandeAje, DemandeAjeResponse } from '../models/aje';
 
@@ -8,42 +8,45 @@ import { DemandeAje, DemandeAjeResponse } from '../models/aje';
 })
 export class AjeService {
 
-  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=tresor-ms';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes';
 
   constructor(private http: HttpClient) {}
 
-  // submitAttestationRequest(formData: FormData): Observable<any> {
-  //   return this.http.post(`${this.apiUrl}`, formData);
-  // }
+  private token = localStorage.getItem('currentToken');
 
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  private getFormDataHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  }
   submitAttestationRequest(requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, requestData, {
-      headers: { 'Content-Type': 'application/json' }
+    return this.http.post(`${this.apiUrl}?service=tresor-ms`, requestData, {
+      headers: this.getHeaders()
     });
   }
 
   getDemandes(): Observable<DemandeAjeResponse> {
-    return this.http.get<DemandeAjeResponse>(this.apiUrl);
-    return this.http.get<DemandeAjeResponse>(this.apiUrl);
-  }
-
-  getRequestStatus(requestId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/status/${requestId}`);
+    return this.http.get<DemandeAjeResponse>(`${this.apiUrl}?service=tresor-ms`, {
+      headers: this.getFormDataHeaders()
+  });
   }
 
   getOneDemande(requestId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${requestId}`);
+    return this.http.get(`${this.apiUrl}/${requestId}?service=tresor-ms`, {
+      headers: this.getFormDataHeaders()
+  });
   }
 
   approveRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
-  reviewRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING`, {
-      headers: { 'Content-Type': 'application/json' }
+    return this.http.post(`${this.apiUrl}/${requestId}/approve?service=tresor-ms`, {
+      headers: this.getHeaders()
     });
   }
 
