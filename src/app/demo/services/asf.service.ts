@@ -8,7 +8,7 @@ import { DemandeAsf, DemandeAsfResponse } from '../models/asf';
 })
 export class AsfService {
 
-  private apiUrl = 'http://195.35.48.198:8083/api/demandes'; 
+  private apiUrl = 'http://195.35.48.198:8083/api'; 
 
   constructor(private http: HttpClient) {}
 
@@ -28,8 +28,22 @@ export class AsfService {
   }
 
   submitAttestationRequest(requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, requestData, {
+    return this.http.post(`${this.apiUrl}/demandes`, requestData, {
       headers: this.getHeaders()
+    });
+  }
+
+   downloadAsf(data: { ifu: string, nes: string, reference: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/telecharger`, data, {
+      headers: this.getHeaders(),
+      responseType: 'blob' 
+    });
+  }
+
+  getDemandesHistory(data: { ifu: string, nes: string }): Observable<any> {
+    return this.http.get(`${this.apiUrl}/demandes`, {
+      headers: this.getHeaders(),
+      params: data // Pour les requêtes GET, on utilise params plutôt qu'un body
     });
   }
 
@@ -39,9 +53,32 @@ export class AsfService {
     }); 
   }
 
-  getOneDemande(requestId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${requestId}`, {
-      headers: this.getFormDataHeaders()
-    });
-  }
+  // getOneDemande(requestId: number): Observable<any> {
+  //   return this.http.get(`${this.apiUrl}/${requestId}`, {
+  //     headers: this.getFormDataHeaders()
+  //   });
+  // }
+
+
+    // 3. Consulter le statut d'une demande
+    // checkStatus(data: { ifu: string, nes: string, reference: string }): Observable<any> {
+    //   return this.http.post(`${this.baseUrl}/statut`, data, {
+    //     headers: this.getHeaders()
+    //   });
+    // }
+  
+  
+    // // 5. Vérifier une demande ASF
+    // verifyAsf(data: { ifu: string, nes: string, attestation: string }): Observable<any> {
+    //   return this.http.post(`${this.baseUrl}/verifier`, data, {
+    //     headers: this.getHeaders()
+    //   });
+    // }
+  
+    // // 6. Détails d'une demande ASF
+    // getDemandeDetails(data: { ifu: string, nes: string, reference: string }): Observable<any> {
+    //   return this.http.post(`${this.baseUrl}/details`, data, {
+    //     headers: this.getHeaders()
+    //   });
+    // }
 }
