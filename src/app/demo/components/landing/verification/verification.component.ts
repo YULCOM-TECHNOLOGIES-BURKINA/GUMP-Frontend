@@ -79,6 +79,10 @@ export class VerificationComponent implements OnInit {
     this.verificationResult = null;
   }
 
+  isFormValid(): boolean {
+    return this.reference?.trim().length > 0 && this.selectedDocType?.trim().length > 0;
+  }
+
   getStatusSeverity(status: string): string {
     switch (status) {
       case 'valid':

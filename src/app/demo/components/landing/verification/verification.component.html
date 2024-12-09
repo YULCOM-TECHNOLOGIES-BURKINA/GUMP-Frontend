@@ -38,6 +38,7 @@
                                         icon="pi pi-search"
                                         (click)="verify()"
                                         [loading]="loading"
+                                        [disabled]="!isFormValid()"
                                         class="p-button-success">
                                 </button>
                             </div>
