@@ -17,13 +17,16 @@ export interface Company{
 export interface User {
     id?: number;
     username?: string;
+    forename?: string;
     lastname?:string;
     role?: string;
     email?: string;
     company?: Company;
     cnssNumber?:string;
     region?:string;
-    actif?: boolean;
+    isActif?: boolean;
+    statutDocumentPath?: string;
+    cnibDocumentPath?: string;
 }
 
 

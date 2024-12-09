@@ -179,6 +179,8 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         if (this.cnibFile && this.statutFile) {
             const userData = {
+            forename: this.registerForm.get('forename')?.value,
+            lastname: this.registerForm.get('lastname')?.value,
             ifuNumber: this.registerForm.get('ifuNumber')?.value,
             cnssNumber: this.registerForm.get('cnssNumber')?.value,
             password: this.registerForm.get('password')?.value,
