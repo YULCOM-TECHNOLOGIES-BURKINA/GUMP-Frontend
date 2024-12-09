@@ -3,6 +3,7 @@ import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { DemandeAnpe, DemandeAnpeResponse } from '../../../models/anpe';
 import { DemandeAje, DemandeAjeResponse } from '../../../models/aje';
 import { DemandeRccm, DemandeRccmResponse } from '../../../models/rccm';
+import { DemandeAsf, DemandeAsfResponse } from '../../../models/asf';
 import { Demande } from '../../../models/demande';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -11,6 +12,7 @@ import { RccmService } from '../../../services/rccm.service';
 import { AnpeService } from '../../../services/anpe.service';
 import { DemandeService } from '../../../services/demande.service';
 import { AjeService } from '../../../services/aje.service';
+import { AsfService } from '../../../services/asf.service';
 import { interval } from 'rxjs';
 
 @Component({
@@ -52,17 +54,17 @@ export class DemandesComponent implements OnInit {
   requestsCnf: DemandeRccm[] = [];
   requestCnf: DemandeRccm = {};
 
-
   requestCnss: Demande[] = [];
-  requestAsf: Demande[] = [];
+
+  requestsAsf: DemandeAsf[] = [];
+  requestAsf: DemandeAsf = {};
   
 
   selectedDrtssRequests: DemandeDrtss[] = [];
   selectedAjeRequests: DemandeAje[] = [];
   selectedAnpeRequests: DemandeAnpe[] = [];
-
   selectedRccmRequests: DemandeRccm[] = [];
-  selectedAsfRequests: Demande[] = [];
+  selectedAsfRequests: DemandeAsf[] = [];
   selectedCnssRequests: Demande[] = [];
   selectedCnfRequests: DemandeRccm[] = [];
 
@@ -76,8 +78,7 @@ export class DemandesComponent implements OnInit {
   totalRecords: number = 0; 
   totalRecordsAje: number = 0; 
   totalRecordsAnpe: number = 0; 
-
-  totalRecordsAsf: number = 5; 
+  totalRecordsAsf: number = 0; 
   totalRecordsRccm: number = 0; 
   totalRecordsCnf: number = 0; 
   totalRecordsCnss: number = 5; 
@@ -85,8 +86,7 @@ export class DemandesComponent implements OnInit {
   countDrtss = 0;
   countAje= 0;
   countAnpe = 0;
-
-  countAsf= 5;
+  countAsf= 0;
   countRccm= 0;
   countCnss= 5;
   countCnf= 0;
@@ -97,6 +97,7 @@ export class DemandesComponent implements OnInit {
   constructor(
     private drtssService: DrtssService, 
     private ajeService: AjeService, 
+    private asfService: AsfService, 
     private anpeService: AnpeService, 
     private rccmService: RccmService, 
     private demandeService: DemandeService, 
@@ -107,6 +108,7 @@ export class DemandesComponent implements OnInit {
       this.getDemandesAje();
       this.getDemandesAnpe();
       this.getDemandesRccm();
+      this.getDemandesAsf();
       this.getDemandesSimulation();
       this.setupValidityCheck();
 
@@ -187,7 +189,7 @@ export class DemandesComponent implements OnInit {
     this.ajeService.getDemandes().subscribe((data: DemandeAjeResponse) => {
       this.requestsAje = data.content;
       this.totalRecordsAje = data.totalElements;
-      this.countAje= this.requestsAje.length;
+      this.countAje = this.requestsAje.length;
     });
   }
 
@@ -203,13 +205,20 @@ export class DemandesComponent implements OnInit {
     this.rccmService.getDemandes().subscribe((data: DemandeRccmResponse) => {
       this.requestsRccm = data.content;
       this.totalRecordsRccm = data.totalElements;
-      this.countRccm= this.requestsRccm.length;
+      this.countRccm = this.requestsRccm.length;
+    });
+  }
+
+  getDemandesAsf() {
+    this.asfService.getDemandes().subscribe((data: DemandeAsfResponse) => {
+      this.requestsAsf = data.content;
+      this.totalRecordsAsf = data.totalElements;
+      this.countAsf = this.requestsAsf.length;
     });
   }
 
   getDemandesSimulation() {
     this.demandeService.getDemandes().subscribe((data: Demande[]) => {
-      this.requestAsf = data;
       this.requestCnss = data;
     });
   }

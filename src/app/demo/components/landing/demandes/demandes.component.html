@@ -45,8 +45,8 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestDrtss>
                                     <tr>
-                                        <td>Ref. marché </td>
-                                        <td>Objet du marché </td>
+                                        <td>{{ requestDrtss.contractReference }}</td>
+                                        <td>{{ requestDrtss.contractPurpose }} </td>
                                         <td>{{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -152,8 +152,8 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAje>
                                     <tr>
-                                        <td>Ref. marché </td>
-                                        <td>Objet du marché </td>
+                                        <td>{{ requestAje.contractReference }}</td>
+                                        <td>{{ requestAje.contractPurpose }} </td>
                                         <td>{{ requestAje.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -304,8 +304,6 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
-                                        <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                         <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                         <th>Actions</th>
@@ -313,8 +311,6 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestsAsf>
                                     <tr>
-                                        <td>{{ requestsAsf.ref }} </td>
-                                        <td>{{ requestsAsf.objet }} </td>
                                         <td>{{ requestsAsf.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{

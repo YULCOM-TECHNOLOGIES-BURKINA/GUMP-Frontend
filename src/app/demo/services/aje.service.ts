@@ -26,6 +26,7 @@ export class AjeService {
       'Authorization': `Bearer ${this.token}`
     });
   }
+  
   submitAttestationRequest(requestData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}?service=tresor-ms`, requestData, {
       headers: this.getHeaders()

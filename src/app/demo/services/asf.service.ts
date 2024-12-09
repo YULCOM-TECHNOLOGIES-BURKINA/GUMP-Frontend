@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DemandeAsf, DemandeAsfResponse } from '../models/asf';
 
@@ -8,38 +8,40 @@ import { DemandeAsf, DemandeAsfResponse } from '../models/asf';
 })
 export class AsfService {
 
-  private apiUrl = 'http://54.37.13.176:8080/api/demandes'; 
+  private apiUrl = 'http://195.35.48.198:8083/api/demandes'; 
 
   constructor(private http: HttpClient) {}
 
+  private token = localStorage.getItem('currentToken');
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  private getFormDataHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  }
+
   submitAttestationRequest(requestData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}`, requestData, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: this.getHeaders()
     });
   }
 
   getDemandes(): Observable<DemandeAsfResponse> {
-    return this.http.get<DemandeAsfResponse>(this.apiUrl); 
-  }
-
-  getRequestStatus(requestId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/status/${requestId}`);
+    return this.http.get<DemandeAsfResponse>(`${this.apiUrl}`, {
+      headers: this.getFormDataHeaders()
+    }); 
   }
 
   getOneDemande(requestId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${requestId}`);
-  }
-
-  approveRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, {
-      headers: { 'Content-Type': 'application/json' }
+    return this.http.get(`${this.apiUrl}/${requestId}`, {
+      headers: this.getFormDataHeaders()
     });
   }
-
-  reviewRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING`, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
 }

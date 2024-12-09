@@ -11,14 +11,21 @@
             <div class="col-12">
                 <div class="card">
                     <div class="p-fluid p-formgrid grid">
-                        <h3>Vous êtes sur le point d'effectuer une demande d'attestation de situation fiscale </h3>
+                        <div class="field col-3 mt-2">
+                            <span>Numéro IFU (*)</span>
+                            <input pInputText type="text" id="ifu" [(ngModel)]="ifu" placeholder="Numéro IFU" required />
+                        </div>
+                        <div class="field col-3 mt-2">
+                            <span>Numéro NES (*)</span>
+                            <input pInputText type="text" id="nes" [(ngModel)]="nes" placeholder="Numéro NES" required />
+                        </div>
                     </div>            
                     <div class="field col-12 text-right">
                         <button 
                             pButton 
                             pRipple 
                             icon="pi pi-check" 
-                            label="Confirmer la demande" 
+                            label="Valider et envoyer la demande" 
                             class="p-button-success" 
                             (click)="onSubmit()">
                         </button>
