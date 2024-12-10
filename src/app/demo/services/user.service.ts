@@ -59,7 +59,7 @@ export class UserService {
           headers: this.getHeaders()
     });
   }
-
+                        
 
   getUsers(): Observable<Utilisateur[]> {
       return this.http.get<Utilisateur[]>(`${this.apiUrl}/users?service=users-ms`, {

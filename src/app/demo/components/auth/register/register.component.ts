@@ -101,11 +101,11 @@ export class RegisterComponent implements OnInit {
                             severity: 'error',
                             summary: 'Erreur',
                             detail: 'Un compte avec ce numéro IFU existe déjà.'
-                        }); 
+                        });
                     },
                     error: (error) => {
                         this.showFullForm = true;
-            
+
                         // Pré-remplir le formulaire avec les données de l'entreprise
                         this.registerForm.patchValue({
                             companyName: response.name,
@@ -119,9 +119,10 @@ export class RegisterComponent implements OnInit {
                             severity: 'success',
                             summary: 'Succès',
                             detail: 'IFU vérifié avec succès'
-                        }); 
+                        });
+                    
                     }
-                });  
+                });
             },
             error: (error) => {
                 this.loading = false;
@@ -186,7 +187,7 @@ export class RegisterComponent implements OnInit {
             cnibFile: this.cnibFile,
             statutFile: this.statutFile,
             };
-            
+
             this.userService.register(userData).subscribe({
                 next: () => {
                     this.loading = false;
