@@ -78,7 +78,8 @@ export class RegisterComponent implements OnInit {
             passwordConfirmation: ['', [Validators.required]],
             ifuNumber: [''],
             rccm: [''],
-            cnssNumber: ['']
+            cnssNumber: [''],
+            nes: ['']
         },{
             validators: this.passwordMatchValidator
         });
@@ -180,10 +181,13 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         if (this.cnibFile && this.statutFile) {
             const userData = {
+            forename: this.registerForm.get('forename')?.value,
+            lastname: this.registerForm.get('lastname')?.value,
             ifuNumber: this.registerForm.get('ifuNumber')?.value,
             cnssNumber: this.registerForm.get('cnssNumber')?.value,
             password: this.registerForm.get('password')?.value,
             email: this.registerForm.get('email')?.value,
+            nes: this.registerForm.get('nes')?.value,
             cnibFile: this.cnibFile,
             statutFile: this.statutFile,
             };

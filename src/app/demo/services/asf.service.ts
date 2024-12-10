@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DemandeAsf, DemandeAsfResponse } from '../models/asf';
 
@@ -8,38 +8,77 @@ import { DemandeAsf, DemandeAsfResponse } from '../models/asf';
 })
 export class AsfService {
 
-  private apiUrl = 'http://54.37.13.176:8080/api/demandes'; 
+  private apiUrl = 'http://195.35.48.198:8083/api'; 
 
   constructor(private http: HttpClient) {}
 
+  private token = localStorage.getItem('currentToken');
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  private getFormDataHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  }
+
   submitAttestationRequest(requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, requestData, {
-      headers: { 'Content-Type': 'application/json' }
+    return this.http.post(`${this.apiUrl}/demandes`, requestData, {
+      headers: this.getHeaders()
+    });
+  }
+
+   downloadAsf(data: { ifu: string, nes: string, reference: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/telecharger`, data, {
+      headers: this.getHeaders(),
+      responseType: 'blob' 
+    });
+  }
+
+  getDemandesHistory(data: { ifu: string, nes: string }): Observable<any> {
+    return this.http.get(`${this.apiUrl}/demandes`, {
+      headers: this.getHeaders(),
+      params: data // Pour les requêtes GET, on utilise params plutôt qu'un body
     });
   }
 
   getDemandes(): Observable<DemandeAsfResponse> {
-    return this.http.get<DemandeAsfResponse>(this.apiUrl); 
+    return this.http.get<DemandeAsfResponse>(`${this.apiUrl}`, {
+      headers: this.getFormDataHeaders()
+    }); 
   }
 
-  getRequestStatus(requestId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/status/${requestId}`);
-  }
+  // getOneDemande(requestId: number): Observable<any> {
+  //   return this.http.get(`${this.apiUrl}/${requestId}`, {
+  //     headers: this.getFormDataHeaders()
+  //   });
+  // }
 
-  getOneDemande(requestId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${requestId}`);
-  }
 
-  approveRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
-  reviewRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING`, {
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
+    // 3. Consulter le statut d'une demande
+    // checkStatus(data: { ifu: string, nes: string, reference: string }): Observable<any> {
+    //   return this.http.post(`${this.baseUrl}/statut`, data, {
+    //     headers: this.getHeaders()
+    //   });
+    // }
+  
+  
+    // // 5. Vérifier une demande ASF
+    // verifyAsf(data: { ifu: string, nes: string, attestation: string }): Observable<any> {
+    //   return this.http.post(`${this.baseUrl}/verifier`, data, {
+    //     headers: this.getHeaders()
+    //   });
+    // }
+  
+    // // 6. Détails d'une demande ASF
+    // getDemandeDetails(data: { ifu: string, nes: string, reference: string }): Observable<any> {
+    //   return this.http.post(`${this.baseUrl}/details`, data, {
+    //     headers: this.getHeaders()
+    //   });
+    // }
 }

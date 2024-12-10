@@ -25,7 +25,7 @@ export class LandingComponent implements OnInit {
   acts: ActGuide[] = [
     {
       id: 'rccm',
-      title: 'Extrait du RCCM',
+      title: 'Attestation d\'inscription au RCCM',
       description: 'Registre du commerce et du crédit Mobilier',
       icon: 'pi pi-building',
       organization: 'Agence Judiciaire de l\'État',
