@@ -17,7 +17,7 @@ import { ToastModule } from 'primeng/toast';
 import { DebiteursComponent } from './debiteurs.component';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
-
+import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -32,27 +32,28 @@ import { TabViewModule } from 'primeng/tabview';
     CommonModule,
     DebiteursRoutingModule,
     FormsModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		InputTextareaModule,
-		InputTextModule,
-		ToastModule,
-		FileUploadModule,
-		DialogModule,
-		TableModule,
-		ButtonModule,
-		RippleModule,
-		ToolbarModule,
-		RatingModule,
-		RadioButtonModule,
-		TooltipModule,
-		TabViewModule
+	AutoCompleteModule,
+	CalendarModule,
+	ChipsModule,
+	DropdownModule,
+	InputMaskModule,
+	InputNumberModule,
+	CascadeSelectModule,
+	MultiSelectModule,
+	InputTextareaModule,
+	InputTextModule,
+	ToastModule,
+	FileUploadModule,
+	DialogModule,
+	TableModule,
+	ButtonModule,
+	RippleModule,
+	ToolbarModule,
+	RatingModule,
+	RadioButtonModule,
+	TooltipModule,
+	TabViewModule,
+	BadgeModule
     
   ]
 })

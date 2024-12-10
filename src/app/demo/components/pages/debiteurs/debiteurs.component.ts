@@ -17,6 +17,19 @@ interface Debiteur {
   montantDu?: number;
 }
 
+interface DebiteurResponse {
+  content: Debiteur[];
+  pageable: {
+      pageNumber: number;
+      pageSize: number;
+  };
+  totalElements: number;
+  totalPages: number;
+  numberOfElements: number;
+  last: boolean;
+  first: boolean;
+}
+
 @Component({
   selector: 'app-debiteur',
   templateUrl: './debiteurs.component.html',
@@ -30,9 +43,13 @@ export class DebiteursComponent implements OnInit {
   displayViewDialog: boolean = false;
   displayEditDialog: boolean = false;
   displayNewDialog: boolean = false;
+
+  displayDialog = false;
+  selectedFile: File | null = null;
   
   // Variables pour les données
   debiteurs: Debiteur[] = [];
+  debiteurs2: DebiteurResponse[] = [];
   filteredRequests: Debiteur[] = [];
   requests: Debiteur[] = [];
   request: Debiteur = {};
@@ -54,7 +71,7 @@ export class DebiteursComponent implements OnInit {
 
   loading: boolean = false;
 
-  private apiUrl = 'http://votre-api-url/api/debiteurs'; // À remplacer par votre URL
+  private apiUrl = 'http://195.35.48.198:8080/api/debiteurs';
 
   constructor(
     private http: HttpClient,
@@ -68,27 +85,44 @@ export class DebiteursComponent implements OnInit {
   // Récupération des débiteurs
   getDebiteurs() {
     this.loading = true;
-    this.http.get<Debiteur[]>(this.apiUrl).subscribe({
+    this.http.get<DebiteurResponse>(this.apiUrl).subscribe({
       next: (data) => {
-        this.debiteurs = data;
+        this.debiteurs = data.content;
         this.loading = false;
       },
       error: (error) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Erreur',
-          detail: 'Impossible de charger les débiteurs'
+          detail: 'Impossible de charger les débiteurs',
+          life: 5000
         });
         this.loading = false;
       }
     });
   }
 
-  // Import du fichier CSV
-  onImportCSV(event: any) {
-    const file = event.files[0];
+  showDialog() {
+    this.displayDialog = true;
+    this.selectedFile = null;
+  }
+
+  onFileSelect(event: any) {
+    if (event.files && event.files.length > 0) {
+      this.selectedFile = event.files[0];
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Fichier sélectionné',
+        detail: 'Le fichier est prêt à être importé'
+      });
+    }
+  }
+
+  onImportCSV() {
+    if (!this.selectedFile) return;
+
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', this.selectedFile);
 
     this.http.post(`${this.apiUrl}/import`, formData).subscribe({
       next: (response) => {
@@ -97,6 +131,7 @@ export class DebiteursComponent implements OnInit {
           summary: 'Import réussi',
           detail: 'Les données ont été importées avec succès'
         });
+        this.displayDialog = false;
         this.getDebiteurs(); // Recharger la liste
       },
       error: (error) => {
@@ -181,9 +216,9 @@ export class DebiteursComponent implements OnInit {
 
   // Gestion des montants
   getMontantClass(montant: number): string {
-    if (montant === 0) return 'amount-success';
-    if (montant < 500000) return 'amount-warning';
-    return 'amount-danger';
+    if (montant === 0) return 'success';
+    if (montant < 500000) return 'warning';
+    return 'danger';
   }
 
   // Gestion des filtres

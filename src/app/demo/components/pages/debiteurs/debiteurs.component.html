@@ -100,21 +100,18 @@
                         [icon]="displayFilters ? 'pi pi-filter-slash' : 'pi pi-filter'">
                 </button>
 
-                <p-fileUpload mode="basic" 
-                             accept=".csv" 
-                             [maxFileSize]="1000000"
-                             chooseLabel="Importer CSV"
-                             [auto]="true"
-                             (uploadHandler)="onImportCSV($event)"
-                             styleClass="p-button-success">
-                </p-fileUpload>
+                <button pButton label="Importer CSV" 
+                        (click)="showDialog()" 
+                        class="p-button-success">
+                </button>
             </div>
             
             <p-table #dt 
                      [value]="debiteurs" 
                      responsiveLayout="scroll" 
                      [rows]="10"
-                     [paginator]="true" 
+                     [paginator]="true"
+                     [totalRecords]="totalRecords"
                      [rowsPerPageOptions]="[10,20,30]" 
                      [showCurrentPageReport]="true"
                      currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} débiteurs"
@@ -146,8 +143,13 @@
                         <td>{{debiteur.contacts}}</td>
                         <td>{{debiteur.numeroCNIB}}</td>
                         <td>{{debiteur.numeroCheque}}</td>
-                        <td [ngClass]="getMontantClass(debiteur.montantDu)">
-                            {{debiteur.montantDu | currency:'XOF':'symbol-narrow':'1.0-0'}}
+                        <td>
+                            <!-- <p-badge [value]="debiteur.montantDu | currency:'XOF':'symbol-narrow':'1.0-0'"
+                                            [severity]="getMontantClass(debiteur.montantDu)">
+                            </p-badge> -->
+                            <p-badge [value]="debiteur.montantDu"
+                                            [severity]="getMontantClass(debiteur.montantDu)">
+                            </p-badge>
                         </td>
                         <td>
                             <button pButton 
@@ -251,6 +253,42 @@
                     </button>
                 </ng-template>
             </p-dialog>
+
+            
+            <p-dialog header="Import de fichier CSV" 
+            [(visible)]="displayDialog" 
+            [modal]="true" 
+            [style]="{width: '450px'}">
+        <div class="m-3">
+        <p>Veuillez sélectionner un fichier CSV à importer</p>
+
+        <p-fileUpload #fileUpload
+                    mode="basic"
+                    accept=".csv"
+                    [maxFileSize]="1000000"
+                    chooseLabel="Sélectionner un fichier"
+                    [auto]="false"
+                    (onSelect)="onFileSelect($event)"
+                    styleClass="mb-3">
+        </p-fileUpload>
+
+        <div *ngIf="selectedFile" class="text-success mb-3">
+        Fichier sélectionné : {{selectedFile.name}}
+        </div>
+        </div>
+
+        <ng-template pTemplate="footer">
+        <button pButton label="Annuler" 
+            (click)="displayDialog = false" 
+            class="p-button-text">
+        </button>
+        <button pButton label="Valider" 
+            (click)="onImportCSV()" 
+            [disabled]="!selectedFile"
+            class="p-button-success">
+        </button>
+        </ng-template>
+        </p-dialog>
         </div>
     </div>
 </div>
