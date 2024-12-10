@@ -16,6 +16,13 @@ export interface DemandeRccm {
         ifu: string;
         address: string;
     };
+    generatedDocument?: {
+        label: string;
+        path: string;
+    };
+    isPaid?: boolean;
+    type?: string;
+    rccm?: string;
 }
 
 export interface DemandeRccmResponse {

@@ -1,8 +1,9 @@
 <div class="surface-0">
     <div class="guide-wrapper overflow-hidden">
-        <app-header></app-header>  
+        <app-header></app-header> 
+        <p-toast position="top-right"></p-toast> 
         <!-- Hero Section -->
-        <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
+        <div class="other-hero bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl font-bold mb-4">Formulaire de demande d'une attestation de non engagement</h1>
             </div>
@@ -36,7 +37,7 @@
                         </div>
 
                         <div class="col-3 mt-2">
-                            <span>{{ formLabels.reference }}</span>
+                            <span>{{ formLabels.reference }} (*)</span>
                             <input [(ngModel)]="contractReference" 
                                 pInputText 
                                 id="contractReference"  
@@ -45,7 +46,7 @@
                         </div>
 
                         <div class="col-6 mt-2">
-                            <span>{{ formLabels.purpose }}</span>
+                            <span>{{ formLabels.purpose }} (*)</span>
                             <input [(ngModel)]="contractPurpose" 
                                 pInputText 
                                 id="contractPurpose"  
@@ -54,7 +55,7 @@
                         </div>
 
                         <div class="col-3 mt-2">
-                            <span>Compte bancaire</span>
+                            <span>Compte bancaire (*)</span>
                             <input [(ngModel)]="bankAccountReference" 
                                 pInputText 
                                 id="bankAccountReference"  
@@ -63,7 +64,7 @@
                         </div>
 
                         <div class="col-5 mt-2">
-                            <span>Identité de l'organisme attribuant le marché</span>
+                            <span>Identité de l'organisme attribuant le marché (*)</span>
                             <input [(ngModel)]="contractingOrganizationName" 
                                 pInputText 
                                 id="contractingOrganizationName"  
@@ -72,7 +73,7 @@
                         </div>
 
                         <div class="col-4 mt-2">
-                            <span>Adresse</span>
+                            <span>Adresse (*)</span>
                             <input [(ngModel)]="organizationAddress" 
                                 pInputText 
                                 id="organizationAddress"  
@@ -81,7 +82,7 @@
                         </div>
 
                         <div class="col-3 mt-2">
-                            <span>Numéro de téléphone</span>
+                            <span>Numéro de téléphone (*)</span>
                             <input [(ngModel)]="organizationPhone" 
                                 pInputText 
                                 id="organizationPhone"  

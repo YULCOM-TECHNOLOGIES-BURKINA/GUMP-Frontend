@@ -17,6 +17,7 @@ import { ToastModule } from 'primeng/toast';
 import { DrtssComponent } from './drtss.component';
 import { SharedModule } from '../../shared/shared.module';
 import { PaymentCallbackComponent } from './paymentCallback.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [DrtssComponent, PaymentCallbackComponent],
@@ -36,7 +37,8 @@ import { PaymentCallbackComponent } from './paymentCallback.component';
 		InputTextModule,
 		ToastModule,
 		FileUploadModule,
-		SharedModule    
+		SharedModule,
+		CheckboxModule    
   ]
 })
 export class DrtssModule { }

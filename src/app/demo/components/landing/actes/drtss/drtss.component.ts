@@ -14,7 +14,6 @@ interface UploadEvent {
   templateUrl: './drtss.component.html',
 })
 
-
 export class DrtssComponent {
 
   anpeFile: File | null = null; 
@@ -27,6 +26,8 @@ export class DrtssComponent {
   contractingOrganizationName: string;
   organizationAddress: string;
   organizationPhone: string;
+
+  isForPublicContract: boolean = true;
 
   constructor(
     private messageService: MessageService, 
@@ -44,31 +45,6 @@ export class DrtssComponent {
     this.messageService.add({ severity: 'info', summary: 'Fichier chargé', detail: `${file.name} a été chargé.` });
   }
 
-  // onSubmit() {
-  //   if (this.anpeFile && this.cnssFile) {
-  //     const formData = new FormData();
-  //     formData.append('attestationAnpe', this.anpeFile);
-  //     formData.append('attestationCnss', this.cnssFile);
-  //     formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
-  //     formData.append('attestationCnssNumber', this.attestationCnssNumber);
-  //     formData.append('publicContractNumber', this.contractReference);
-
-  //     this.drtssService.submitAttestationRequest(formData).subscribe({
-  //       next: (response) => {
-  //         this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !' });
-  //         setTimeout(() => {
-  //           this.router.navigate(['/demandes']); 
-  //         }, 2000);
-  //       },
-  //       error: (err) => {
-  //         this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de l\'envoi.' });
-  //       }
-  //     });
-  //   } else {
-  //     this.messageService.add({ severity: 'warn', summary: 'Attention', detail: 'Veuillez charger les deux fichiers.' });
-  //   }
-  // }
-
   onSubmit() {
     if (this.anpeFile && this.cnssFile) {
       const formData = new FormData();
@@ -77,6 +53,7 @@ export class DrtssComponent {
       formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
       formData.append('attestationCnssNumber', this.attestationCnssNumber);
       formData.append('publicContractNumber', this.contractReference);
+      formData.append('isForPublicContract', this.isForPublicContract.toString());
 
       this.drtssService.submitAttestationRequest(formData).subscribe({
         next: (response) => {

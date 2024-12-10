@@ -150,7 +150,7 @@
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
-                                <td>Demandeur</td>
+                                <td>{{request.company?.name}}</td>
                                 <td>{{ request.contractReference }}</td>
                                 <td>{{ request.contractPurpose }}</td>
                                 <td>
@@ -166,7 +166,6 @@
                                     <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                     <button pButton pRipple icon="pi pi-clock" class="p-button-outlined p-button-success mr-2" 
                                     (click)="processReviewRequest(request.id)" pTooltip="Traiter la demande" tooltipPosition="bottom"></button> 
-                                    <!-- TODO: à implementer coté back -->
                                     <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-success mr-2"
                                     (click)="processRequest(request.id)" pTooltip="Valider la demande" tooltipPosition="bottom"></button>
                                 </td>
@@ -216,7 +215,7 @@
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
-                                <td>Demandeur</td>
+                                <td>{{request.company?.name}}</td>
                                 <td>{{ request.contractReference }}</td>
                                 <td>{{ request.contractPurpose }}</td>
                                 <td>
@@ -278,7 +277,7 @@
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
-                                <td>Demandeur</td>
+                                <td>{{request.company?.name}}</td>
                                 <td>{{ request.contractReference }}</td>
                                 <td>{{ request.contractPurpose }}</td>
                                 <td>

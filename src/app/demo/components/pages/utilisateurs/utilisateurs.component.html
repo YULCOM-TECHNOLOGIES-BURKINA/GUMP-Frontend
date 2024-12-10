@@ -3,15 +3,7 @@
     <div class="col-12">
         <div class="card px-6 py-6">
             <p-toast></p-toast>
-            <!-- <p-toolbar styleClass="mb-4">
-                <ng-template pTemplate="left">
-                    <div class="my-2">
-                        <button pButton pRipple label="Nouvelle demande" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewRequest()"></button>
-                        <button pButton pRipple label="Supprimer" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedRequests()" [disabled]="!selectedRequests || !selectedRequests.length"></button>
-                    </div>
-                </ng-template>
-            </p-toolbar> -->
-
+           
             <p-table #dt [value]="requests" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['company','username','email', 'cnssNumber', 'region']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" [(selection)]="selectedRequests" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -24,9 +16,6 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
                         <th pSortableColumn="company">Entité<p-sortIcon field="company"></p-sortIcon></th>
                         <th pSortableColumn="username">IFU<p-sortIcon field="username"></p-sortIcon></th>
                         <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
@@ -38,39 +27,64 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-request>
                     <tr>
-                        <td>
-                            <p-tableCheckbox [value]="request"></p-tableCheckbox>
-                        </td>
                         <td>{{ request.company.name }}</td>
                         <td>{{ request.company.ifu }}</td>
                         <td>{{ request.email }}</td>
                         <td>{{ request.cnssNumber }}</td>
                         <td>{{ request.region }}</td>
-                        <td><span class="p-badge p-badge-success">Validé</span> </td>
+                        <td>
+                            <span *ngIf="request.isActive" class="p-badge p-badge-success"> Validé  </span>
+                            <span *ngIf="!request.isActive" class="p-badge p-badge-danger"> Non Validé  </span>
+                        </td>
                         
                         <td>
                             <div class="flex">
                                 <button 
-                                        pButton pRipple icon="pi pi-check" 
-                                        class="p-button-outlined p-button-info mr-2"
-                                        
-                                        label="Valider l'inscription" 
-                                        tooltipPosition="bottom">
+                                    pButton 
+                                    pRipple 
+                                    icon="pi pi-download" 
+                                    label="Statuts"
+                                    class="p-button-secondary p-button-outlined mr-2"
+                                    (click)="download(statutDocumentPath)" >
                                 </button>
                                 <button 
+                                    pButton 
+                                    pRipple 
+                                    icon="pi pi-download" 
+                                    label="CNIB"
+                                    class="p-button-secondary p-button-outlined mr-2"
+                                    (click)="download(cnibDocumentPath)" >
+                                </button>
+                                <button 
+                                        pButton pRipple icon="pi pi-check" 
+                                        class="p-button-outlined p-button-info mr-2"
+                                        *ngIf="!request.isActive"
+                                        label="Valider l'inscription" 
+                                        tooltipPosition="bottom"
+                                        (click)="approveRequest(request)">
+                                </button>
+                                <button 
+                                        pButton pRipple icon="pi pi-lock" 
+                                        class="p-button-outlined p-button-warning mr-2"
+                                        *ngIf="!request.isActive"
+                                        label="Rejeter l'inscription" 
+                                        tooltipPosition="bottom"
+                                        (click)="rejectRequest(request)">
+                                </button>
+                                <!-- <button 
                                         pButton pRipple icon="pi pi-eye" 
                                         class="p-button-outlined p-button-secondary mr-2"
                                         
                                         label="Détails" 
                                         tooltipPosition="bottom">
-                                </button>
-                                <button 
+                                </button> -->
+                                <!-- <button 
                                         pButton pRipple icon="pi pi-lock" 
                                         class="p-button-outlined p-button-warning mr-2"
                                         
                                         label="Désactiver" 
                                         tooltipPosition="bottom">
-                                </button>
+                                </button> -->
                             </div>
                         </td>
                     </tr>
@@ -79,25 +93,25 @@
         </div>
 
         <!-- Dialogs -->
-        <p-dialog [(visible)]="deleteRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="approveRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Voulez-vous vraiment supprimer la demande <b>{{request.email}}</b>?</span>
+                <span>Voulez-vous vraiment valider l'inscription de l'entreprise <b>{{request?.company?.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteRequestDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteRequest()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="approveRequestDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmApproveRequest()"></button>
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteRequestsDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="rejectRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Voulez-vous vraiment supprimer les demandes sélectionnées ?</span>
+                <span>Voulez-vous vraiment rejeter l'inscription de l'entreprise <b>{{request?.company?.name}}</b>?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteRequestsDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteSelected()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="rejectRequestDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmRejectRequest()"></button>
             </ng-template>
         </p-dialog>
     </div>

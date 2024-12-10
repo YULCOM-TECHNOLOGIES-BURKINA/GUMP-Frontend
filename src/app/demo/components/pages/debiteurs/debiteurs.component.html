@@ -1,0 +1,294 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+
+            <p-panel *ngIf="displayFilters" 
+                     [toggleable]="true" 
+                     class="search-panel">
+                <ng-template pTemplate="header">
+                    <div class="filter-header">
+                        <h6>Recherche avancée</h6>
+                    </div>
+                </ng-template>
+
+                <div class="search-form">
+                    <div class="field">
+                        <label for="debiteur">Débiteur</label>
+                        <span class="p-input-icon-left w-full">
+                            <i class="pi pi-user"></i>
+                            <input type="text" 
+                                   pInputText 
+                                   [(ngModel)]="searchFilters.debiteur" 
+                                   placeholder="Rechercher par débiteur"
+                                   class="w-full">
+                        </span>
+                    </div>
+
+                    <div class="field">
+                        <label for="promoteur">Promoteur</label>
+                        <span class="p-input-icon-left w-full">
+                            <i class="pi pi-building"></i>
+                            <input type="text" 
+                                   pInputText 
+                                   [(ngModel)]="searchFilters.promoteur" 
+                                   placeholder="Rechercher par promoteur"
+                                   class="w-full">
+                        </span>
+                    </div>
+
+                    <div class="field">
+                        <label for="numeroIFU">Numéro IFU</label>
+                        <span class="p-input-icon-left w-full">
+                            <i class="pi pi-id-card"></i>
+                            <input type="text" 
+                                   pInputText 
+                                   [(ngModel)]="searchFilters.numeroIFU" 
+                                   placeholder="Rechercher par IFU"
+                                   class="w-full">
+                        </span>
+                    </div>
+
+                    <div class="field">
+                        <label for="montant">Montant (min-max)</label>
+                        <div class="flex gap-2">
+                            <p-inputNumber [(ngModel)]="searchFilters.montantMin" 
+                                         placeholder="Min" 
+                                         mode="currency" 
+                                         currency="XOF"
+                                         [showButtons]="false"
+                                         class="w-full">
+                            </p-inputNumber>
+                            <p-inputNumber [(ngModel)]="searchFilters.montantMax" 
+                                         placeholder="Max" 
+                                         mode="currency" 
+                                         currency="XOF"
+                                         [showButtons]="false"
+                                         class="w-full">
+                            </p-inputNumber>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-buttons">
+                    <button pButton 
+                            pRipple 
+                            type="button" 
+                            label="Réinitialiser" 
+                            icon="pi pi-refresh" 
+                            (click)="clearFilters()"
+                            class="p-button-outlined">
+                    </button>
+                    <button pButton 
+                            pRipple 
+                            type="button" 
+                            label="Appliquer les filtres" 
+                            icon="pi pi-search" 
+                            (click)="applyFilters()"
+                            class="p-button-primary">
+                    </button>
+                </div>
+            </p-panel>
+
+            <div class="flex justify-content-between mb-3">
+                <button pButton 
+                        pRipple 
+                        type="button" 
+                        (click)="toggleFilters()" 
+                        class="p-button-outlined custom-filter-button"
+                        [label]="displayFilters ? 'Masquer les filtres' : 'Afficher les filtres'"
+                        [icon]="displayFilters ? 'pi pi-filter-slash' : 'pi pi-filter'">
+                </button>
+
+                <button pButton label="Importer CSV" 
+                        (click)="showDialog()" 
+                        class="p-button-success">
+                </button>
+            </div>
+            
+            <p-table #dt 
+                     [value]="debiteurs" 
+                     responsiveLayout="scroll" 
+                     [rows]="10"
+                     [paginator]="true"
+                     [totalRecords]="totalRecords"
+                     [rowsPerPageOptions]="[10,20,30]" 
+                     [showCurrentPageReport]="true"
+                     currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} débiteurs"
+                     [globalFilterFields]="['debiteur', 'promoteur', 'numeroIFU']"
+                     [loading]="loading">
+                
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Débiteur</th>
+                        <th>Promoteur</th>
+                        <th>Numéro IFU</th>
+                        <th>Numéro d'immatriculation</th>
+                        <th>Registre de commerce</th>
+                        <th>Contacts</th>
+                        <th>Numéro CNIB</th>
+                        <th>Numéro de chèque</th>
+                        <th>Montant dû</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-debiteur>
+                    <tr>
+                        <td>{{debiteur.debiteur}}</td>
+                        <td>{{debiteur.promoteur}}</td>
+                        <td>{{debiteur.numeroIFU}}</td>
+                        <td>{{debiteur.numeroImmatriculation}}</td>
+                        <td>{{debiteur.registreCommerce}}</td>
+                        <td>{{debiteur.contacts}}</td>
+                        <td>{{debiteur.numeroCNIB}}</td>
+                        <td>{{debiteur.numeroCheque}}</td>
+                        <td>
+                            <!-- <p-badge [value]="debiteur.montantDu | currency:'XOF':'symbol-narrow':'1.0-0'"
+                                            [severity]="getMontantClass(debiteur.montantDu)">
+                            </p-badge> -->
+                            <p-badge [value]="debiteur.montantDu"
+                                            [severity]="getMontantClass(debiteur.montantDu)">
+                            </p-badge>
+                        </td>
+                        <td>
+                            <button pButton 
+                                    pRipple 
+                                    icon="pi pi-eye" 
+                                    class="p-button-outlined p-button-secondary mr-2"
+                                    (click)="viewDetails(debiteur)" 
+                                    pTooltip="Voir les détails">
+                            </button>
+                            <button pButton 
+                                    pRipple 
+                                    icon="pi pi-pencil" 
+                                    class="p-button-outlined p-button-warning"
+                                    (click)="editDebiteur(debiteur)" 
+                                    pTooltip="Modifier">
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <!-- Dialog pour voir les détails -->
+            <p-dialog [(visible)]="displayViewDialog" 
+                     [style]="{width: '450px'}" 
+                     header="Détails du débiteur" 
+                     [modal]="true">
+                <div class="grid p-fluid" *ngIf="selectedDebiteur">
+                    <div class="col-12">
+                        <div class="p-2"><strong>Débiteur:</strong> {{selectedDebiteur.debiteur}}</div>
+                        <div class="p-2"><strong>Promoteur:</strong> {{selectedDebiteur.promoteur}}</div>
+                        <div class="p-2"><strong>Numéro IFU:</strong> {{selectedDebiteur.numeroIFU}}</div>
+                        <div class="p-2"><strong>Numéro d'immatriculation:</strong> {{selectedDebiteur.numeroImmatriculation}}</div>
+                        <div class="p-2"><strong>Registre de commerce:</strong> {{selectedDebiteur.registreCommerce}}</div>
+                        <div class="p-2"><strong>Contacts:</strong> {{selectedDebiteur.contacts}}</div>
+                        <div class="p-2"><strong>Numéro CNIB:</strong> {{selectedDebiteur.numeroCNIB}}</div>
+                        <div class="p-2"><strong>Numéro de chèque:</strong> {{selectedDebiteur.numeroCheque}}</div>
+                        <div class="p-2"><strong>Montant dû:</strong> {{selectedDebiteur.montantDu | currency:'XOF':'symbol-narrow':'1.0-0'}}</div>
+                    </div>
+                </div>
+            </p-dialog>
+
+            <!-- Dialog pour éditer -->
+            <p-dialog [(visible)]="displayEditDialog" 
+                     [style]="{width: '450px'}" 
+                     header="Modifier le débiteur" 
+                     [modal]="true">
+                <div class="grid p-fluid" *ngIf="editingDebiteur">
+                    <div class="col-12">
+                        <div class="field">
+                            <label for="debiteur">Débiteur</label>
+                            <input type="text" pInputText [(ngModel)]="editingDebiteur.debiteur">
+                        </div>
+                        <div class="field">
+                            <label for="promoteur">Promoteur</label>
+                            <input type="text" pInputText [(ngModel)]="editingDebiteur.promoteur">
+                        </div>
+                        <div class="field">
+                            <label for="numeroIFU">Numéro IFU</label>
+                            <input type="text" pInputText [(ngModel)]="editingDebiteur.numeroIFU">
+                        </div>
+                        <div class="field">
+                            <label for="numeroImmatriculation">Numéro d'immatriculation</label>
+                            <input type="text" pInputText [(ngModel)]="editingDebiteur.numeroImmatriculation">
+                        </div>
+                        <div class="field">
+                            <label for="registreCommerce">Registre de commerce</label>
+                            <input type="text" pInputText [(ngModel)]="editingDebiteur.registreCommerce">
+                        </div>
+                        <div class="field">
+                            <label for="contacts">Contacts</label>
+                            <input type="text" pInputText [(ngModel)]="editingDebiteur.contacts">
+                        </div>
+                        <div class="field">
+                            <label for="numeroCNIB">Numéro CNIB</label>
+                            <input type="text" pInputText [(ngModel)]="editingDebiteur.numeroCNIB">
+                        </div>
+                        <div class="field">
+                            <label for="numeroCheque">Numéro de chèque</label>
+                            <input type="text" pInputText [(ngModel)]="editingDebiteur.numeroCheque">
+                        </div>
+                        <div class="field">
+                            <label for="montantDu">Montant dû</label>
+                            <p-inputNumber [(ngModel)]="editingDebiteur.montantDu"
+                                         mode="currency" 
+                                         currency="XOF" 
+                                         locale="fr-FR">
+                            </p-inputNumber>
+                        </div>
+                    </div>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Annuler" 
+                            icon="pi pi-times" 
+                            class="p-button-text" 
+                            (click)="displayEditDialog = false">
+                    </button>
+                    <button pButton pRipple label="Sauvegarder" 
+                            icon="pi pi-check" 
+                            class="p-button-text" 
+                            (click)="saveEdit()">
+                    </button>
+                </ng-template>
+            </p-dialog>
+
+            
+            <p-dialog header="Import de fichier CSV" 
+            [(visible)]="displayDialog" 
+            [modal]="true" 
+            [style]="{width: '450px'}">
+        <div class="m-3">
+        <p>Veuillez sélectionner un fichier CSV à importer</p>
+
+        <p-fileUpload #fileUpload
+                    mode="basic"
+                    accept=".csv"
+                    [maxFileSize]="1000000"
+                    chooseLabel="Sélectionner un fichier"
+                    [auto]="false"
+                    (onSelect)="onFileSelect($event)"
+                    styleClass="mb-3">
+        </p-fileUpload>
+
+        <div *ngIf="selectedFile" class="text-success mb-3">
+        Fichier sélectionné : {{selectedFile.name}}
+        </div>
+        </div>
+
+        <ng-template pTemplate="footer">
+        <button pButton label="Annuler" 
+            (click)="displayDialog = false" 
+            class="p-button-text">
+        </button>
+        <button pButton label="Valider" 
+            (click)="onImportCSV()" 
+            [disabled]="!selectedFile"
+            class="p-button-success">
+        </button>
+        </ng-template>
+        </p-dialog>
+        </div>
+    </div>
+</div>

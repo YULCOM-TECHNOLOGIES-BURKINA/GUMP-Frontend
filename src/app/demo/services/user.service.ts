@@ -17,7 +17,6 @@ export class UserService {
 
   private token = localStorage.getItem('currentToken');
 
-  // Méthode pour obtenir les headers avec le token Bearer
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
@@ -25,7 +24,6 @@ export class UserService {
     });
   }
 
-  // Méthode pour obtenir les headers spécifiques pour FormData
   private getFormDataHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
@@ -42,17 +40,18 @@ export class UserService {
     return this.http.get(`${this.apiUrlFind}/${ifuNumber}/find?service=users-ms`);
   }
 
-//   getUserByIfu(ifuNumber: string): Observable<any> {
-//     return this.http.get(`${this.apiUrlFind}/${ifuNumber}/find?service=users-ms`, {
-//         headers: this.getFormDataHeaders()
-//     });
-//   }
 
  approveUser(userId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/${userId}/approve?service=users-ms`, {
+    return this.http.post(`${this.apiUrl}/users/${userId}/approve?service=users-ms`, {
         headers: this.getFormDataHeaders()
     });
  }
+
+ rejectUser(userId: number): Observable<any> {
+  return this.http.post(`${this.apiUrl}/users/${userId}/reject?service=users-ms`, {
+      headers: this.getFormDataHeaders()
+  });
+}
 
   register(userData: any): Observable<any> {
       return this.http.post(`${this.apiUrl}/auth/register?service=users-ms`, userData, {
@@ -73,13 +72,6 @@ export class UserService {
     });
 }
 
-  desactivateUser(id: number): Observable<any> {
-      return this.http.patch(`${this.apiUrl}/${id}/desactiver`, {});
-  }
-
-  deleteUser(id: number): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/${id}`);
-  }
 
   submitUserRequest(formData: FormData): Observable<any> {
       return this.http.post(`${this.apiUrl}/submit`, formData, {
