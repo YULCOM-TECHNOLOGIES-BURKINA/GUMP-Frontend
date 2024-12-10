@@ -210,7 +210,11 @@ export class DemandesComponent implements OnInit {
   }
 
   getDemandesAsf() {
-    this.asfService.getDemandes().subscribe((data: DemandeAsfResponse) => {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    this.asfService.getDemandesHistory({
+      ifu: user.username,
+      nes: user.nes
+    }).subscribe((data: DemandeAsfResponse) => {
       this.requestsAsf = data.content;
       this.totalRecordsAsf = data.totalElements;
       this.countAsf = this.requestsAsf.length;

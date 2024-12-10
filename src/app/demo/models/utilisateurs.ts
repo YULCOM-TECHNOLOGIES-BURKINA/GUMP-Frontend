@@ -27,6 +27,7 @@ export interface User {
     isActif?: boolean;
     statutDocumentPath?: string;
     cnibDocumentPath?: string;
+    nes?: string;
 }
 
 

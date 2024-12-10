@@ -87,7 +87,20 @@ export class AsfComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (localStorage.getItem('currentUser') !== null) {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      this.ifu = user.username;
+      this.nes = user.nes;
+    } else{
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Veuillez vous connecter.',
+        life: 15000 
+      });
+    }
+  }
 
   resetForm() {
     this.ifu = '';
@@ -104,7 +117,6 @@ export class AsfComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.ifu && this.nes) {
       const requestData = {
         ifu: this.ifu,
         nes: this.nes
@@ -170,13 +182,6 @@ export class AsfComponent implements OnInit {
           });
         }
       });
-    } else {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Attention',
-        detail: 'Veuillez remplir les champs obligatoires.',
-        life: 15000
-      });
-    }
+    
   }
 }
