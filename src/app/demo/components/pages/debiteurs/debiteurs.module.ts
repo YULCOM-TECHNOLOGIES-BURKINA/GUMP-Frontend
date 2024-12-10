@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TraitementDrtssRoutingModule } from './drtss-routing.module';
+import { DebiteursRoutingModule } from './debiteurs-routing.module';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
@@ -14,9 +14,10 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
-import { TraitementDrtssComponent } from './drtss.component';
+import { DebiteursComponent } from './debiteurs.component';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
+import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -24,15 +25,12 @@ import { RatingModule } from 'primeng/rating';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TooltipModule } from 'primeng/tooltip';
 import { TabViewModule } from 'primeng/tabview';
-import { BadgeModule } from 'primeng/badge';
-import { PanelModule } from 'primeng/panel';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
-  declarations: [TraitementDrtssComponent],
+  declarations: [DebiteursComponent],
   imports: [
     CommonModule,
-    TraitementDrtssRoutingModule,
+    DebiteursRoutingModule,
     FormsModule,
 	AutoCompleteModule,
 	CalendarModule,
@@ -55,9 +53,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 	RadioButtonModule,
 	TooltipModule,
 	TabViewModule,
-	BadgeModule,
-	PanelModule,
-	PdfViewerModule
+	BadgeModule
+    
   ]
 })
-export class DrtssModule { }
+export class AjeModule { }

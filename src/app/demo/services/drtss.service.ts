@@ -12,8 +12,7 @@ export class DrtssService {
   constructor(private http: HttpClient, private keycloak: KeycloakAuthService) {}
 
   private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
-  // private apiUrl = 'http://195.35.48.198:8082/api/demandes';
-  // private token = this.keycloak.getToken();
+  private apiGateway = 'https://gump-gateway.yulpay.com/api';
   private token = localStorage.getItem('currentToken');
 
   // Méthode pour obtenir les headers avec le token Bearer
@@ -47,26 +46,32 @@ export class DrtssService {
 
   // Méthode pour obtenir le statut d'une demande
   getRequestStatus(requestId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/status/${requestId}`, {
+    return this.http.get(`${this.apiGateway}/demandes/status/${requestId}?service=drtss-ms`, {
       headers: this.getHeaders()
     });
   }
 
   getOneDemande(requestId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${requestId}`, {
+    return this.http.get(`${this.apiGateway}/demandes/${requestId}?service=drtss-ms`, {
       headers: this.getHeaders()
     });
   }
 
   approveRequest(requestId: number, requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/approve`, requestData, {
+    return this.http.post(`${this.apiGateway}/demandes/${requestId}/approve?service=drtss-ms`, requestData, {
       headers: this.getHeaders()
     });
   }
 
+  rejectRequest(requestId: number, requestData: any): Observable<any> {
+    return this.http.post(`${this.apiGateway}/demandes/${requestId}/review?status=REJECTED?rejectionReason=${requestData}?service=drtss-ms`, {
+      headers: this.getFormDataHeaders()
+    });
+  }
+
   reviewRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING`, {}, {
-      headers: this.getHeaders()
+    return this.http.post(`${this.apiGateway}/demandes/${requestId}/review?status=PROCESSING?service=drtss-ms`, {}, {
+      headers: this.getFormDataHeaders()
     });
   }
 
@@ -82,24 +87,11 @@ export class DrtssService {
     });
   }
 
-  // 195.35.48.198:8082/api/updatePaymentStatus
-
-  //  méthode pour vérifier le statut du paiement
-  // checkPaymentStatus(paymentId: string): Observable<any> {
-  //   return this.http.get(`${this.apiUrl}/payments/${paymentId}/status`, {
-  //     headers: this.getHeaders()
-  //   });
-  // }
-
   updatePaymentStatus( demandeId: number, paymentId: string): Observable<any> {
 
     const paymentData = {
       paymentId: paymentId
     };
-
-    // return this.http.post(`http://195.35.48.198:8082/api/demandes/${demandeId}/update-payment-status`, paymentData, {
-    //   headers: this.getHeaders()
-    // });
 
     return this.http.post(`http://195.35.48.198:8082/api/demandes/${demandeId}/update-payment-status?paymentId=${paymentId}`, {
       headers: this.getHeaders()

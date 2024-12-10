@@ -19,6 +19,7 @@ export interface DemandeDrtss {
     rejectionReason?: string;
     company?: Company;
     files?: File[];
+    isForPublicContract?: boolean;
 }
 
 export interface DemandeDrtssResponse {

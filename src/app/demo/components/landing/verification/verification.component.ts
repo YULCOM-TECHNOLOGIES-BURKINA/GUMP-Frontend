@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-
+import {  Router } from '@angular/router';
 
 interface VerificationResult {
   docType: string;
@@ -32,9 +32,16 @@ export class VerificationComponent implements OnInit {
     { label: 'Attestation ASF', value: 'ASF' }
   ];
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService, private router: Router) {}
 
-  ngOnInit() { }
+  ngOnInit() { 
+    if (localStorage.getItem('currentUser') !== null) {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (!user.role.includes('USER')){
+        this.router.navigate(['app/']);
+      }
+    }
+  }
 
   verify() {
     if (!this.reference || !this.selectedDocType) {
@@ -70,6 +77,10 @@ export class VerificationComponent implements OnInit {
     this.selectedDocType = '';
     this.showResult = false;
     this.verificationResult = null;
+  }
+
+  isFormValid(): boolean {
+    return this.reference?.trim().length > 0 && this.selectedDocType?.trim().length > 0;
   }
 
   getStatusSeverity(status: string): string {

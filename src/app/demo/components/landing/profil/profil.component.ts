@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
     templateUrl: './profil.component.html',
     providers: [MessageService],
 })
-export class ProfilComponent {
+export class ProfilComponent implements OnInit {
   profil = {
       nom: '',
       prenom: '',
@@ -20,10 +20,18 @@ export class ProfilComponent {
   deleteAccountDialog = false;
   desactivateAccountDialog = false;
 
+  currentUser = localStorage.getItem('currentUser');
+  request: any;
+
+
   constructor(
-      private utilisateurService: UserService,
+      private userService: UserService,
       private messageService: MessageService
   ) {}
+
+  ngOnInit() {
+    this.getUserProfile();
+  }
 
   // TODO: à terminer
   saveProfil() {
@@ -32,7 +40,7 @@ export class ProfilComponent {
           formData.append('nom', this.profil.nom);
 
           // Appel au service pour envoyer les fichiers
-          this.utilisateurService.submitUserRequest(formData).subscribe({
+          this.userService.submitUserRequest(formData).subscribe({
               next: (response) => {
                   this.messageService.add({
                       severity: 'success',
@@ -55,6 +63,25 @@ export class ProfilComponent {
               detail: 'Veuillez remplir les champs obligatoires.',
           });
       }
+  }
+
+  getUserProfile() {
+    if (this.currentUser !== null) {
+        const user = JSON.parse(this.currentUser);
+        this.userService.getUserByIfu(user.nom).subscribe({
+            next: (response) => {
+                this.request = response; 
+            },
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erruer',
+                    detail: 'Informations du profile non disponibles'
+                }); 
+            }
+        }); 
+       
+    }
   }
 
   desactivateAccount() {

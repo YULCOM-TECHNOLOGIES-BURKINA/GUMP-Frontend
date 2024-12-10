@@ -327,6 +327,64 @@
                         </ng-template>
                     </p-table>
                 </p-tabPanel>
+
+                <!-- Onglet demandes rejettées -->
+                <p-tabPanel header="Rejettée ({{ countRejected }})" leftIcon="pi pi-times">
+                    <p-table #dt 
+                        [value]="rejectedRequests" 
+                        [columns]="cols" 
+                        responsiveLayout="scroll" 
+                        [rows]="10"
+                        [paginator]="true" 
+                        [rowsPerPageOptions]="[10,20,30]" 
+                        [showCurrentPageReport]="true"
+                        currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes approuvées"
+                        [(selection)]="selectedRequests" 
+                        selectionMode="multiple" 
+                        dataKey="id"
+                        [globalFilterFields]="['demandeur', 'reference', 'status', 'region', 'createdAt']"
+                        [loading]="loading"
+                        [customSort]="true">
+
+                        <ng-template pTemplate="caption">
+                            <div class="flex justify-content-between">
+                                <h5 class="m-0">Demandes rejettées</h5>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
+                                <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-request>
+                            <tr>
+                                <td>
+                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                </td>
+                                <!-- <td>{{ request.id }}</td> -->
+                                <td>{{request.company.name}}</td>
+                                <td>{{ request.publicContractNumber }}</td>
+                                <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>
+                                    <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
+                                </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-eye" 
+                                            class="p-button-outlined p-button-secondary mr-2" 
+                                            (click)="openViewRequest(request)" 
+                                            pTooltip="Voir la demande" 
+                                            tooltipPosition="bottom">
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
             </p-tabView>
         </div>
     </div>
@@ -360,13 +418,39 @@
                     *ngFor="let file of request.files"
                     pButton 
                     pRipple 
+                    icon="pi pi-eye" 
+                    [label]="'Visualiser ' + file.label"
+                    class="p-button-info p-button-outlined mr-2"
+                    (click)="viewAttestation(file.path)" [disabled]="!file?.path" >
+                </button>
+            </div>
+            <div class="col-12 mt-2 flex" *ngIf="request.files">            
+                <button 
+                    *ngFor="let file of request.files"
+                    pButton 
+                    pRipple 
                     icon="pi pi-download" 
                     [label]="'Télécharger ' + file.label"
                     class="p-button-secondary p-button-outlined mr-2"
                     (click)="download(file)" >
                 </button>
             </div>
+            <div class="col-12 mt-2 flex" *ngIf="request.rejectionReason">
+                <p><strong>Motif de rejet</strong></p>
+                <p>{{request.rejectionReason }}</p>
+            </div>
         </div>
+    </p-dialog>
+
+    <p-dialog header="Document numérique" [(visible)]="viewpdfDialog" [modal]="true" [style]="{ width: '850px' }"
+        [breakpoints]="{'760px': '100vw'}">
+        <pdf-viewer [src]="pdfSrc" [render-text]="true"
+            style="width: 100%; height: 500px; display: block;"></pdf-viewer>
+
+        <ng-template pTemplate="footer">
+            <button pButton icon="pi pi-times" label="Fermer" (click)="viewpdfDialog=false"
+                class="p-button-danger p-button-outlined"></button>
+        </ng-template>
     </p-dialog>
 
     <p-dialog 

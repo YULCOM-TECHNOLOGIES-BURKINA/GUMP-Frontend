@@ -13,6 +13,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { KeycloakAuthService } from './demo/services/keycloak-auth.service';
+import { RouterModule } from '@angular/router';
 
 export function initializeKeycloak(keycloak: KeycloakAuthService) {
     return () => keycloak.init();
@@ -20,7 +21,7 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
 
 @NgModule({
     declarations: [
-        AppComponent, 
+        AppComponent,
         NotfoundComponent
     ],
     imports: [
@@ -31,12 +32,14 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
         BrowserModule,
         ToastModule,
         ButtonModule,
-        InputTextModule
+        InputTextModule,
+        RouterModule
     ],
     providers: [
         {
+
             provide: LocationStrategy,
-            useClass: PathLocationStrategy
+            useClass: PathLocationStrategy,
         },
         {
             provide: APP_INITIALIZER,
@@ -44,6 +47,7 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
             multi: true,
             deps: [KeycloakAuthService]
         },
+        
         DrtssService,
         MessageService,
         KeycloakAuthService

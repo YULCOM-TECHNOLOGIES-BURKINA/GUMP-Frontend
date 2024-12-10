@@ -7,30 +7,22 @@ import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-utilisateurs',
-  // standalone: true,
-  // imports: [],
   templateUrl: './utilisateurs.component.html',
   styleUrl: './utilisateurs.component.scss',
   providers: [MessageService]
 })
 
 export class UtilisateursComponent implements OnInit {
-
-    utilisateurs: User[] = [];
-
-    deleteRequestDialog: boolean = false;
-    deleteRequestsDialog: boolean = false;
-
+    approveRequestDialog: boolean = false;
+    rejectRequestDialog: boolean = false;
     requests: User[] = [];
     request: User = {};
-
     selectedRequests: User[] = [];
     cols: any[] = [];
 
     constructor(private utilisateurService: UserService, private messageService: MessageService) { }
 
     ngOnInit(): void {
-      // this.utilisateurService.getUtilisateurs().then(data => this.requests = data);
       this.getUtilisateurs();
       this.cols = [
         { field: 'company', header: 'Entité' },
@@ -44,45 +36,73 @@ export class UtilisateursComponent implements OnInit {
 
     getUtilisateurs() {
         this.utilisateurService.getUsersCompany().subscribe((data: UserResponse) => {
-            this.utilisateurs = data.content;
             this.requests = data.content.filter(user => user.role === 'USER');;
         });
     }
 
-    desactiverUtilisateur(utilisateur: User) {
-        this.utilisateurService.desactivateUser(utilisateur.id).subscribe(() => {
-            utilisateur.actif = false;
+  approveRequest(request: Utilisateur) {
+      this.request = { ...request };
+      this.approveRequestDialog = true;
+  }
+
+  rejectRequest(request: Utilisateur) {
+    this.request = { ...request };
+    this.rejectRequestDialog = true;
+}
+
+  confirmApproveRequest() {
+      this.approveRequestDialog = false;
+      this.utilisateurService.approveUser(this.request.id).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Succès',
+            detail: 'Utilisateur activé avec succès!',
+            life: 3000
+          });
+          this.request = null;
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erreur',
+            detail: 'Une erreur est survenue lors de l\'activation.',
+            life: 3000
+          });
+        }
+      });
+  }
+
+
+  confirmRejectRequest() {
+    this.rejectRequestDialog = false;
+    this.utilisateurService.rejectUser(this.request.id).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Utilisateur activé avec succès!',
+          life: 3000
         });
-    }
+        this.request = null;
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Une erreur est survenue lors de l\'activation.',
+          life: 3000
+        });
+      }
+    });
+}
 
-
-    deleteSelectedRequests() {
-      this.deleteRequestsDialog = true;
+download(file: any) {
+    const url = file;
+    window.open(url, '_blank');
+    this.messageService.add({ severity: 'info', summary: 'Succès', detail: 'Fichier téléchargé', life: 3000 });
   }
 
-  editRequest(request: Utilisateur) {
-      this.request = { ...request };
-      // Logique d'édition ici
-  }
-
-  deleteRequest(request: User) {
-      this.deleteRequestDialog = true;
-      this.request = { ...request };
-  }
-
-  confirmDeleteRequest() {
-      this.deleteRequestDialog = false;
-      this.requests = this.requests.filter(val => val.id !== this.request.id);
-      this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Utilisateur supprimé', life: 3000 });
-      this.request = {};
-  }
-
-  confirmDeleteSelected() {
-      this.deleteRequestsDialog = false;
-      this.requests = this.requests.filter(val => !this.selectedRequests.includes(val));
-      this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Utilisateurs supprimés', life: 3000 });
-      this.selectedRequests = [];
-  }
 
   onGlobalFilter(table: Table, event: Event) {
       table.filterGlobal((event.target as HTMLInputElement).value, 'contains');

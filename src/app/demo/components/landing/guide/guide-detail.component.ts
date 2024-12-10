@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import ActService from '../../../services/actes.service';
 
 interface LegalText {
@@ -48,10 +48,17 @@ export class GuideDetailComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private actService: ActService
     ) {}
 
     ngOnInit() {
+        if (localStorage.getItem('currentUser') !== null) {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user.role.includes('USER')){
+              this.router.navigate(['app/']);
+            }
+        }
         this.route.params.subscribe((params) => {
             const id = params['id'];
             this.getActInfo(id);

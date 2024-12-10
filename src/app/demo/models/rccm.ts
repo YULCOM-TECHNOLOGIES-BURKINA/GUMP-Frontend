@@ -11,6 +11,18 @@ export interface DemandeRccm {
     approvedBy?: string;
     createdAt?: string;
     files?: File[];
+    company?: {
+        name: string;
+        ifu: string;
+        address: string;
+    };
+    generatedDocument?: {
+        label: string;
+        path: string;
+    };
+    isPaid?: boolean;
+    type?: string;
+    rccm?: string;
 }
 
 export interface DemandeRccmResponse {

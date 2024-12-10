@@ -2,7 +2,7 @@
     <div class="guide-wrapper overflow-hidden">
         <app-header></app-header>  
         <!-- Hero Section -->
-        <div class="bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
+        <div class="other-hero bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl font-bold mb-4">Formulaire de demande du certificat de non faillite</h1>
             </div>
@@ -12,35 +12,11 @@
                 <div class="card">
                     <div class="p-fluid p-formgrid grid">
                         <div class="col-3 mt-2">
-                            <span>Reference du marché</span>
-                            <input [(ngModel)]="contractReference" pInputText id="contractReference"  placeholder="Reference du marché" required />
-                        </div>
-                        <div class="col-3 mt-2">
-                            <span>Objet du marché</span>
-                            <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose"  placeholder="Objet du marché" required />
-                        </div>
-                        <div class="col-3 mt-2">
-                            <span>Identité de l'organisme attribuant le marché</span>
-                            <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName"  placeholder="Identité de l'organisme attribuant le marché" required />
-                        </div>
-                        <div class="col-3 mt-2">
-                            <span>Adresse</span>
-                            <input [(ngModel)]="organizationAddress" pInputText id="organizationAddress"  placeholder="Adresse" required />
-                        </div>
-                        <div class="col-3 mt-2">
-                            <span>Numéro de téléphone</span>
-                            <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone"  placeholder="Numéro de téléphone" required />
+                            <span>Date d'immatriculation de votre entreprise (*)</span>
+                            <input pInputText type="date" id="immatriculationDate" [(ngModel)]="immatriculationDate" placeholder="yyyy/mm/dd" required />
                         </div>
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="city">Type d'acte dérivé</label>
-                            <p-dropdown 
-                                [options]="actes" 
-                                [(ngModel)]="selectedActe" 
-                                optionLabel="acte" 
-                                placeholder="Selectioner un type d'acte" />
-                        </div>
-                        <div class="field col-12 md:col-3">
-                            <label htmlFor="city">Joindre l'extrait du RCCM</label>
+                            <label htmlFor="city">Joindre l'extrait du RCCM (*)</label>
                             <p-toast />
                             <p-fileUpload 
                             mode="basic" 
@@ -53,7 +29,7 @@
                             (onSelect)="onFileSelect($event, 'rccmFile')"/>
                         </div>
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="city">Jondre l'extrait des statuts</label>
+                            <label htmlFor="city">Jondre l'extrait des statuts (*)</label>
                             <p-toast />
                             <p-fileUpload 
                                 mode="basic" 

@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { DemandeDrtss, DemandeDrtssResponse } from '../../../models/drtss';
 import { DemandeAnpe, DemandeAnpeResponse } from '../../../models/anpe';
 import { DemandeAje, DemandeAjeResponse } from '../../../models/aje';
+import { DemandeRccm, DemandeRccmResponse } from '../../../models/rccm';
+import { DemandeAsf, DemandeAsfResponse } from '../../../models/asf';
 import { Demande } from '../../../models/demande';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { DrtssService } from '../../../services/drtss.service';
+import { RccmService } from '../../../services/rccm.service';
 import { AnpeService } from '../../../services/anpe.service';
 import { DemandeService } from '../../../services/demande.service';
 import { AjeService } from '../../../services/aje.service';
+import { AsfService } from '../../../services/asf.service';
 import { interval } from 'rxjs';
 
 @Component({
@@ -44,19 +48,25 @@ export class DemandesComponent implements OnInit {
   requestsAnpe: DemandeAnpe[] = [];
   requestAnpe: DemandeAnpe = {};
 
-  requestRccm: Demande[] = [];
+  requestsRccm: DemandeRccm[] = [];
+  requestRccm: DemandeRccm = {};
+
+  requestsCnf: DemandeRccm[] = [];
+  requestCnf: DemandeRccm = {};
+
   requestCnss: Demande[] = [];
-  requestAsf: Demande[] = [];
-  requestCnf: Demande[] = [];
+
+  requestsAsf: DemandeAsf[] = [];
+  requestAsf: DemandeAsf = {};
+  
 
   selectedDrtssRequests: DemandeDrtss[] = [];
   selectedAjeRequests: DemandeAje[] = [];
   selectedAnpeRequests: DemandeAnpe[] = [];
-
-  selectedRccmRequests: Demande[] = [];
-  selectedAsfRequests: Demande[] = [];
+  selectedRccmRequests: DemandeRccm[] = [];
+  selectedAsfRequests: DemandeAsf[] = [];
   selectedCnssRequests: Demande[] = [];
-  selectedCnfRequests: Demande[] = [];
+  selectedCnfRequests: DemandeRccm[] = [];
 
   cols: any[] = [];
 
@@ -68,20 +78,18 @@ export class DemandesComponent implements OnInit {
   totalRecords: number = 0; 
   totalRecordsAje: number = 0; 
   totalRecordsAnpe: number = 0; 
-
-  totalRecordsAsf: number = 5; 
-  totalRecordsRccm: number = 5; 
-  totalRecordsCnf: number = 5; 
+  totalRecordsAsf: number = 0; 
+  totalRecordsRccm: number = 0; 
+  totalRecordsCnf: number = 0; 
   totalRecordsCnss: number = 5; 
 
   countDrtss = 0;
   countAje= 0;
   countAnpe = 0;
-
-  countAsf= 5;
-  countRccm= 5;
+  countAsf= 0;
+  countRccm= 0;
   countCnss= 5;
-  countCnf= 5;
+  countCnf= 0;
 
   readonly VALIDITY_DAYS = 90; // Durée de validité en jours
   readonly WARNING_DAYS = 14; // Seuil d'alerte en jours
@@ -89,7 +97,9 @@ export class DemandesComponent implements OnInit {
   constructor(
     private drtssService: DrtssService, 
     private ajeService: AjeService, 
+    private asfService: AsfService, 
     private anpeService: AnpeService, 
+    private rccmService: RccmService, 
     private demandeService: DemandeService, 
     private messageService: MessageService) { }
 
@@ -97,6 +107,8 @@ export class DemandesComponent implements OnInit {
       this.getDemandesDrtss();
       this.getDemandesAje();
       this.getDemandesAnpe();
+      this.getDemandesRccm();
+      this.getDemandesAsf();
       this.getDemandesSimulation();
       this.setupValidityCheck();
 
@@ -177,7 +189,7 @@ export class DemandesComponent implements OnInit {
     this.ajeService.getDemandes().subscribe((data: DemandeAjeResponse) => {
       this.requestsAje = data.content;
       this.totalRecordsAje = data.totalElements;
-      this.countAje= this.requestsAje.length;
+      this.countAje = this.requestsAje.length;
     });
   }
 
@@ -189,11 +201,28 @@ export class DemandesComponent implements OnInit {
     });
   }
 
+  getDemandesRccm() {
+    this.rccmService.getDemandes().subscribe((data: DemandeRccmResponse) => {
+      this.requestsRccm = data.content;
+      this.totalRecordsRccm = data.totalElements;
+      this.countRccm = this.requestsRccm.length;
+    });
+  }
+
+  getDemandesAsf() {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    this.asfService.getDemandesHistory({
+      ifu: user.username,
+      nes: user.nes
+    }).subscribe((data: DemandeAsfResponse) => {
+      this.requestsAsf = data.content;
+      this.totalRecordsAsf = data.totalElements;
+      this.countAsf = this.requestsAsf.length;
+    });
+  }
+
   getDemandesSimulation() {
     this.demandeService.getDemandes().subscribe((data: Demande[]) => {
-      this.requestRccm = data;
-      this.requestAsf = data;
-      this.requestCnf = data;
       this.requestCnss = data;
     });
   }

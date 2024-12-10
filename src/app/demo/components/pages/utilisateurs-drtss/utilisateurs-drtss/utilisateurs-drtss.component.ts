@@ -20,6 +20,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
 
     userForm: FormGroup;
+    userCompteRequestForm: FormGroup;
     dataSource: any[];
     utilisateurs: Utilisateur[];
 
@@ -42,7 +43,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     ) {}
     ngOnInit(): void {
         this.loadUsers(this.pageNumber, this.pageSize);
-
+        this.listRegions()
     }
 
     dataResponse: any;
@@ -50,18 +51,19 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.loading = true;
         this.signElectService.listUtilisateurDrtss(page, size).subscribe(
             (response: any) => {
-                this.dataResponse = response;
-                this.utilisateurs = response.content;
-                this.totalRecords = response.totalPages; // Mettre à jour le nombre total d'enregistrements
-                this.loading = false;
-                this.cdr.detectChanges(); // Forcer la détection des changements
 
+
+                const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
+                this.utilisateurs =filterdrtpsUser;
+                this.totalRecords = response.totalPages;
+                this.loading = false;
+                this.cdr.detectChanges();
                 console.log('dataResponse', this.dataResponse);
             },
             (error) => {
                 console.log("Une erreur s'est produite :", error);
                 this.loading = false;
-                this.cdr.detectChanges(); // Forcer la détection des changements
+                this.cdr.detectChanges();
             }
         );
     }
@@ -126,10 +128,15 @@ export class UtilisateursDrtssComponent implements OnInit {
     }
     submitted: boolean;
     modalDialog: boolean;
+    isUpdate:boolean=false
     openNew(type:string) {
 
         this.modalDialog = true;
         if (type=="UPDATE") {
+console.log("selecter",this.selectLine);
+this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region,"nomComplet":this.selectLine.region};
+
+            this.isUpdate=true;
             this.initForm()
             this.userForm.setValue({
                 id:this.selectLine.id,
@@ -138,7 +145,18 @@ export class UtilisateursDrtssComponent implements OnInit {
                 tel: this.selectLine.tel,
                 matricule: this.selectLine.matricule,
                 titre_honorifique:this.selectLine.titre_honorifique,
-                email: this.selectLine.email
+                email: this.selectLine.email,
+                region: this.selectLine.region,
+                role: this.selectLine.role,
+                userType: this.selectLine.userType,
+                 password: '',
+                lastname: this.selectLine.lastname,
+
+                username: this.selectLine.username,
+                forename: this.selectLine.forename,
+
+
+
             })
         }else{
             this.initForm()
@@ -158,27 +176,108 @@ export class UtilisateursDrtssComponent implements OnInit {
             tel: [],
             matricule: [],
             titre_honorifique:[],
-            email: ['', Validators.email],
+            email: ['',Validators.required],
+            region: [''],
+
+            /********* */
+            role: ['DRTSS_AGENT'],
+            userType:['DRTSS_USER'],
+            password:['password'],
+            lastname:[''],
+            username:[''],
+            forename:[''],
+
           });
+
+          this.userCompteRequestForm = this.fb.group({
+
+            email: [],
+            password:[''],
+            lastname:[''],
+            username:[''],
+            forename:[''],
+            region:[],
+            role: ['DRTSS_AGENT'],
+            userType:['DRTSS_USER'],
+          });
+
+
     }
     submitForm(){
+
+    if ( this.selectedRegion !=undefined && this.userForm.valid) {
+
+        this.userForm.patchValue({
+            region:this.selectedRegion.code
+        })
+        let usersInfo=this.userForm.value
+
+        this.userCompteRequestForm.patchValue(
+            {
+                email:usersInfo.email,
+                password:usersInfo.password,
+                username:usersInfo.username,
+                lastname:usersInfo.prenom,
+                forename:usersInfo.nom,
+                region:usersInfo.region,
+                role: usersInfo.role,
+                userType:usersInfo.userType
+            }
+        )
+
+        console.log("userCompteRequestForm",this.userCompteRequestForm.value);
+        console.log("userForm",this.userForm.value);
+
+
+        this.createUsersCompteRequest()
+
+    } else {
+        this.messageSucces("Veillez remplire tout les champs du formulaire","error")
+    }
+
+
+    }
+
+    isClicked:boolean=false
+
+    createUsersCompteRequest(){
+
+       this.signElectService.createUserRequest(this.userCompteRequestForm.value).subscribe(
+            (response: any) => {
+                    this.saveUsersDrtssCompte()
+
+                    this.isClicked=true
+
+               // this.userCompteRequestForm.reset()
+             },
+            (error) => {
+                 this.messageSucces("Une erreur s'est produite","error")
+                 this.isClicked=true
+
+              }
+        );
+    }
+
+    saveUsersDrtssCompte(){
         this.signElectService.creerUtilisateurDrtss(this.userForm.value).subscribe(
             (response: any) => {
 
                  this.loadUsers(this.pageNumber, this.pageSize);
                 this.messageSucces("Utilisateur créé avec succès.","success")
-
+                this.userForm.reset()
                 this.modalDialog = false;
+                this.isClicked=true
+
+
              },
             (error) => {
                  this.messageSucces("Une erreur s'est produite","error")
+                 this.isClicked=true
 
               }
-        );
-
-
-
+              );
     }
+
     deleteDialog = false;
     confirmDeleteSelected() {
         this.deleteDialog = true;
@@ -213,4 +312,40 @@ export class UtilisateursDrtssComponent implements OnInit {
     messageSucces(message:string, severity: string) {
         this.messageService.add({ key: 'tst', severity: severity, summary: 'Message information ', detail: message });
     }
+
+    listRegions(){
+        this.signElectService.listRegions()
+            .subscribe(regions => {
+                this.listeFiltreRegions=regions;
+            });
+
+
+    }
+    filteredRegionsAutoComplete: any[] = [];
+    listeFiltreRegions:any[]=[];
+
+    selectedRegion: any;
+
+    filterRegion(event: any) {
+        const filtered: any[] = [];
+        const query = event.query.toLowerCase();
+
+        if (Array.isArray(this.listeFiltreRegions)) {
+            for (let i = 0; i < this.listeFiltreRegions.length; i++) {
+                const region = this.listeFiltreRegions[i];
+                if (
+                    (region?.code?.toLowerCase().includes(query)) ||
+                    (region?.name?.toLowerCase().includes(query))
+                ) {
+                    region.nomComplet = `${region.name}`;
+                    filtered.push(region);
+                }
+            }
+        }
+
+        this.filteredRegionsAutoComplete = filtered;
+        console.log("Résultats du filtre :", this.filteredRegionsAutoComplete);
+    }
+
+
 }
