@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
         { path: 'profil', loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },
         { path: 'signature-electronique', loadChildren: () => import('./signatures-electroniques/signatures-electroniques.module').then(m => m.SignaturesElectroniquesModule) },
         { path: 'application-config', loadChildren: () => import('./application-config/application-config.module').then(m => m.ApplicationConfigModule) },
+        { path: 'debiteurs', loadChildren: () => import('./debiteurs/debiteurs.module').then(m => m.AjeModule) },
 
         { path: '**', redirectTo: '/notfound' }
     ])],
