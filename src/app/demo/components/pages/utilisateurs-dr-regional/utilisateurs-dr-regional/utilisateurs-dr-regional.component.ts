@@ -26,7 +26,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
 
     userForm: FormGroup;
-    userCompteRequestForm: FormGroup;
+    //userCompteRequestForm: FormGroup;
     dataSource: any[];
     utilisateurs: Utilisateur[];
 
@@ -54,6 +54,7 @@ export class UtilisateursDrtssComponent implements OnInit {
 
     dataResponse: any;
     loadUsers(page: number, size: number) {
+
         this.loading = true;
         this.signElectService.listUtilisateurDrtss(page, size).subscribe(
             (response: any) => {
@@ -64,18 +65,15 @@ export class UtilisateursDrtssComponent implements OnInit {
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
-                console.log('dataResponse', filterdrtpsUser);
-            },
+             },
             (error) => {
-                console.log("Une erreur s'est produite :", error);
-                this.loading = false;
-                this.cdr.detectChanges(); // Forcer la détection des changements
+                 this.loading = false;
+                this.cdr.detectChanges();
             }
         );
     }
 
     onPageChange(event: any) {
-        console.log('Changement++', event);
 
         this.pageNumber = event.first / event.rows;
         this.pageSize = event.rows;
@@ -85,9 +83,8 @@ export class UtilisateursDrtssComponent implements OnInit {
     selectLine: Utilisateur;
     onLineClick(event: any) {
         this.selectLine = event;
-        console.log(this.selectLine);
-        let modifier = true;
-        if (this.selectLine.actif == true) {
+         let modifier = true;
+        if (this.selectLine.isActive == true) {
             this.selectlabel = 'Desactiver';
         } else {
             this.selectlabel = 'Activer';
@@ -100,8 +97,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 icon: 'pi pi-refresh',
                 visible: modifier,
                 command: () => {
-                    console.log('TEST');
-                    this.openNew('UPDATE');
+                     this.openNew('UPDATE');
                 },
             },
             { separator: true },
@@ -109,8 +105,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 label: this.selectlabel,
                 icon: 'pi pi-times',
                 command: () => {
-                    console.log('TEST');
-                    this.openDeleteDialog(this.selectLine);
+                     this.openDeleteDialog(this.selectLine);
                 },
             },
         ];
@@ -140,8 +135,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     openNew(type: string) {
         this.modalDialog = true;
         if (type == 'UPDATE') {
-            console.log('selecter', this.selectLine);
-            this.selectedRegion = {
+             this.selectedRegion = {
                 code: this.selectLine.region,
                 name: this.selectLine.region,
                 nomComplet: this.selectLine.region,
@@ -151,8 +145,8 @@ export class UtilisateursDrtssComponent implements OnInit {
             this.initForm();
             this.userForm.setValue({
                 id: this.selectLine.id,
-                nom: this.selectLine.nom,
-                prenom: this.selectLine.prenom,
+                forename: this.selectLine.forename,
+                lastname: this.selectLine.lastname,
                 tel: this.selectLine.tel,
                 matricule: this.selectLine.matricule,
                 titre_honorifique: this.selectLine.titre_honorifique,
@@ -161,10 +155,8 @@ export class UtilisateursDrtssComponent implements OnInit {
                 role: this.selectLine.role,
                 userType: this.selectLine.userType,
                 password: '',
-                lastname: this.selectLine.lastname,
 
                 username: this.selectLine.username,
-                forename: this.selectLine.forename,
             });
         } else {
             this.initForm();
@@ -177,60 +169,27 @@ export class UtilisateursDrtssComponent implements OnInit {
     public initForm() {
         this.userForm = this.fb.group({
             id: [],
-            nom: ['', Validators.required],
-            prenom: ['', Validators.required],
+            forename: ['', Validators.required],
+            lastname: ['', Validators.required],
             tel: [],
             matricule: [],
             titre_honorifique: [],
             email: ['', Validators.required],
             region: [''],
 
-            /********* */
             role: ['DRTSS_REGIONAL_MANAGER'],
             userType: ['DRTSS_USER'],
             password: ['password'],
-            lastname: [''],
             username: [''],
-            forename: [''],
-        });
-
-        this.userCompteRequestForm = this.fb.group({
-            email: [],
-            password: [''],
-            lastname: [''],
-            username: [''],
-            forename: [''],
-            region: [],
-            role: ['DRTSS_REGIONAL_MANAGER'],
-            userType: ['DRTSS_USER'],
         });
     }
-    isClicked: boolean = false;
     submitForm() {
-        this.isClicked = true;
         if (this.selectedRegion != undefined && this.userForm.valid) {
             this.userForm.patchValue({
                 region: this.selectedRegion.code,
             });
-            let usersInfo = this.userForm.value;
 
-            this.userCompteRequestForm.patchValue({
-                email: usersInfo.email,
-                password: usersInfo.password,
-                username: usersInfo.username,
-                lastname: usersInfo.prenom,
-                forename: usersInfo.nom,
-                region: usersInfo.region,
-                role: usersInfo.role,
-                userType: usersInfo.userType,
-            });
-
-            console.log(
-                'userCompteRequestForm',
-                this.userCompteRequestForm.value
-            );
-            console.log('userForm', this.userForm.value);
-
+ 
             this.createUsersCompteRequest();
         } else {
             this.messageSucces(
@@ -240,47 +199,42 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
     }
 
+    isClicked: boolean = false;
+
     createUsersCompteRequest() {
-        this.signElectService
-            .createUserRequest(this.userCompteRequestForm.value)
-            .subscribe(
-                (response: any) => {
-                    console.log('response creation', response);
-                    this.saveUsersDrtssCompte();
-                    // this.userCompteRequestForm.reset()
-                },
-                (error) => {
-                    this.isClicked = false;
-                    this.messageSucces("Une erreur s'est produite", 'error');
-                }
-            );
+        this.signElectService.createUserRequest(this.userForm.value).subscribe(
+            (response: any) => {
+
+                this.isClicked = true;
+                this.loadUsers(0, 100000);
+            },
+            (error) => {
+                this.messageSucces("Une erreur s'est produite", 'error');
+                this.isClicked = true;
+            }
+        );
     }
 
-    saveUsersDrtssCompte(): void {
-        if (this.userForm.valid) {
-            this.signElectService.creerUtilisateurDrtss(this.userForm.value).subscribe({
-                next: (response: any) => {
-                     this.loadUsers(this.pageNumber, this.pageSize);
-
-                     this.messageSucces('Utilisateur créé avec succès.', 'success');
-
-                     this.userForm.reset();
+    saveUsersDrtssCompte() {
+        this.signElectService
+            .creerUtilisateurDrtss(this.userForm.value)
+            .subscribe(
+                (response: any) => {
+                    this.loadUsers(this.pageNumber, this.pageSize);
+                    this.messageSucces(
+                        'Utilisateur créé avec succès.',
+                        'success'
+                    );
+                    this.userForm.reset();
                     this.modalDialog = false;
                     this.isClicked = true;
                 },
-                error: (err) => {
-                     console.error("Erreur lors de la création de l'utilisateur :", err);
-
-                     this.messageSucces("Une erreur s'est produite", 'error');
-
-                     this.isClicked = true;
-                },
-            });
-        } else {
-            this.messageSucces('Veuillez remplir correctement le formulaire.', 'warning');
-        }
+                (error) => {
+                    this.messageSucces("Une erreur s'est produite", 'error');
+                    this.isClicked = true;
+                }
+            );
     }
-
 
     deleteDialog = false;
     confirmDeleteSelected() {
@@ -329,7 +283,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     filteredRegionsAutoComplete: any[] = [];
     listeFiltreRegions: any[] = [];
 
-    selectedRegion: any = { code: 'ss', name: 'test', nomComplet: 'qwert' };
+    selectedRegion: any;
 
     filterRegion(event: any) {
         const filtered: any[] = [];
@@ -349,6 +303,5 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
 
         this.filteredRegionsAutoComplete = filtered;
-        console.log('Résultats du filtre :', this.filteredRegionsAutoComplete);
-    }
+     }
 }

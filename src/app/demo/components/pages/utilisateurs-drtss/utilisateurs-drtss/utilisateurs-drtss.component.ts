@@ -20,7 +20,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
 
     userForm: FormGroup;
-    userCompteRequestForm: FormGroup;
+    //userCompteRequestForm: FormGroup;
     dataSource: any[];
     utilisateurs: Utilisateur[];
 
@@ -48,6 +48,8 @@ export class UtilisateursDrtssComponent implements OnInit {
 
     dataResponse: any;
     loadUsers(page: number, size: number) {
+        console.log("MCT ---- :");
+
         this.loading = true;
         this.signElectService.listUtilisateurDrtss(page, size).subscribe(
             (response: any) => {
@@ -81,7 +83,7 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.selectLine=event
         console.log(this.selectLine);
         let modifier=true
-        if (this.selectLine.actif==true) {
+        if (this.selectLine.isActive==true) {
             this.selectlabel="Desactiver"
         }else{
             this.selectlabel="Activer"
@@ -140,8 +142,8 @@ this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region
             this.initForm()
             this.userForm.setValue({
                 id:this.selectLine.id,
-                nom:this.selectLine.nom,
-                prenom:this.selectLine.prenom,
+                forename:this.selectLine.forename,
+                lastname:this.selectLine.lastname,
                 tel: this.selectLine.tel,
                 matricule: this.selectLine.matricule,
                 titre_honorifique:this.selectLine.titre_honorifique,
@@ -150,10 +152,8 @@ this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region
                 role: this.selectLine.role,
                 userType: this.selectLine.userType,
                  password: '',
-                lastname: this.selectLine.lastname,
 
                 username: this.selectLine.username,
-                forename: this.selectLine.forename,
 
 
 
@@ -171,35 +171,22 @@ this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region
     public initForm(){
         this.userForm = this.fb.group({
             id:[],
-            nom: ['', Validators.required],
-            prenom: ['', Validators.required],
+            forename: ['', Validators.required],
+            lastname: ['', Validators.required],
             tel: [],
             matricule: [],
             titre_honorifique:[],
             email: ['',Validators.required],
             region: [''],
 
-            /********* */
-            role: ['DRTSS_AGENT'],
+             role: ['DRTSS_AGENT'],
             userType:['DRTSS_USER'],
             password:['password'],
-            lastname:[''],
-            username:[''],
-            forename:[''],
+             username:[''],
 
           });
 
-          this.userCompteRequestForm = this.fb.group({
 
-            email: [],
-            password:[''],
-            lastname:[''],
-            username:[''],
-            forename:[''],
-            region:[],
-            role: ['DRTSS_AGENT'],
-            userType:['DRTSS_USER'],
-          });
 
 
     }
@@ -212,21 +199,9 @@ this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region
         })
         let usersInfo=this.userForm.value
 
-        this.userCompteRequestForm.patchValue(
-            {
-                email:usersInfo.email,
-                password:usersInfo.password,
-                username:usersInfo.username,
-                lastname:usersInfo.prenom,
-                forename:usersInfo.nom,
-                region:usersInfo.region,
-                role: usersInfo.role,
-                userType:usersInfo.userType
-            }
-        )
 
-        console.log("userCompteRequestForm",this.userCompteRequestForm.value);
-        console.log("userForm",this.userForm.value);
+
+         console.log("userForm",this.userForm.value);
 
 
         this.createUsersCompteRequest()
@@ -242,13 +217,13 @@ this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region
 
     createUsersCompteRequest(){
 
-       this.signElectService.createUserRequest(this.userCompteRequestForm.value).subscribe(
+       this.signElectService.createUserRequest(this.userForm.value).subscribe(
             (response: any) => {
-                    this.saveUsersDrtssCompte()
+                console.log("res",response);
 
                     this.isClicked=true
+                    this.loadUsers(0,100000)
 
-               // this.userCompteRequestForm.reset()
              },
             (error) => {
                  this.messageSucces("Une erreur s'est produite","error")

@@ -1,14 +1,14 @@
-<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden" 
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
      [ngStyle]="{'background-image': 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)'}">
     <div class="flex flex-column align-items-center justify-content-center">
         <!-- Logo -->
         <img src="assets/image.png" alt="GUMP logo" class="mb-5 w-6rem flex-shrink-0 animate__animated animate__fadeIn">
-        
+
         <!-- Carte principale -->
-        <div class="surface-card p-4 shadow-2 border-round w-full lg:w-12" 
+        <div class="surface-card p-4 shadow-2 border-round w-full lg:w-12"
              style="max-width: 800px"
              [@cardAnimation]="showFullForm ? 'expanded' : 'initial'">
-            
+
             <!-- En-tête -->
             <div class="text-center mb-5">
                 <div class="text-900 text-3xl font-medium mb-3 animate__animated animate__fadeInDown">
@@ -28,9 +28,9 @@
                         <!-- <p-inputGroupAddon>
                             <i class="pi pi-id-card"></i>
                         </p-inputGroupAddon> -->
-                        <input id="ifuNumber" 
-                               pInputText 
-                               formControlName="ifuNumber" 
+                        <input id="ifuNumber"
+                               pInputText
+                               formControlName="ifuNumber"
                                placeholder="Entrez votre numéro IFU"
                                [class.ng-invalid]="submitted && ifuForm.get('ifuNumber')?.invalid"
                                class="w-full p-inputtext-lg"/>
@@ -47,20 +47,20 @@
                             Le numéro IFU doit contenir uniquement des chiffres
                         </small> -->
                     </div>
-                    <!-- <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['required'] && submitted" 
+                    <!-- <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['required'] && submitted"
                            class="p-error">Le numéro IFU est requis</small> -->
 
-                    <button pButton 
-                            type="submit" 
-                            label="Vérifier" 
-                            icon="pi pi-check" 
+                    <button pButton
+                            type="submit"
+                            label="Vérifier"
+                            icon="pi pi-check"
                             class="p-button-lg p-button-primary"
                             [loading]="loading"></button>
                 </div>
             </form>
 
             <!-- Étape 2: Formulaire complet -->
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="showFullForm" [@fadeInOut]>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="!showFullForm" [@fadeInOut]>
                 <div class="grid">
                     <!-- Informations de l'entreprise -->
                     <div class="col-12">
@@ -68,28 +68,28 @@
                             <div class="grid">
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
-                                        <input id="companyName" 
-                                               pInputText 
+                                        <input id="companyName"
+                                               pInputText
                                                readonly
-                                               formControlName="companyName" 
+                                               formControlName="companyName"
                                                class="w-full readonly-input"/>
                                         <label for="companyName">Nom commercial</label>
                                     </span>
                                 </div>
                                 <!-- <div class="col-12 md:col-6">
                                     <span class="p-float-label mt-4">
-                                        <input id="companyName" 
+                                        <input id="companyName"
                                                pInputText
-                                               readonly 
-                                               formControlName="companyName" 
+                                               readonly
+                                               formControlName="companyName"
                                                class="w-full readonly-input"/>
                                         <label for="companyName">Forme juridique</label>
                                     </span>
                                 </div> -->
                                 <!-- <div class="col-12 md:col-6">
                                     <span class="p-float-label mt-4">
-                                        <p-dropdown id="legalForm" 
-                                                  [options]="legalForms" 
+                                        <p-dropdown id="legalForm"
+                                                  [options]="legalForms"
                                                   formControlName="legalForm"
                                                   [autoDisplayFirst]="false"
                                                   class="w-full"></p-dropdown>
@@ -98,48 +98,48 @@
                                 </div> -->
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
-                                        <input id="region" 
-                                               pInputText 
+                                        <input id="region"
+                                               pInputText
                                                readonly
-                                               formControlName="region" 
+                                               formControlName="region"
                                                class="w-full readonly-input"/>
                                         <label for="region">Région</label>
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
-                                        <input id="phoneNumber" 
-                                               pInputText 
+                                        <input id="phoneNumber"
+                                               pInputText
                                                readonly
-                                               formControlName="phoneNumber" 
+                                               formControlName="phoneNumber"
                                                class="w-full readonly-input"/>
                                         <label for="phoneNumber">Téléphone</label>
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
-                                        <input id="ifuNumber" 
+                                        <input id="ifuNumber"
                                                pInputText
-                                               readonly 
-                                               formControlName="ifuNumber" 
+                                               readonly
+                                               formControlName="ifuNumber"
                                                class="w-full readonly-input"/>
                                         <label for="ifuNumber">IFU</label>
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
-                                        <input id="rccm" 
-                                               pInputText 
-                                               formControlName="rccm" 
+                                        <input id="rccm"
+                                               pInputText
+                                               formControlName="rccm"
                                                class="w-full"/>
                                         <label for="rccm">RCCM</label>
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
-                                        <input id="cnssNumber" 
-                                               pInputText 
-                                               formControlName="cnssNumber" 
+                                        <input id="cnssNumber"
+                                               pInputText
+                                               formControlName="cnssNumber"
                                                class="w-full"/>
                                         <label for="cnssNumber">Numéro d'adhérent CNSS</label>
                                     </span>
@@ -147,24 +147,24 @@
 
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
-                                        <input id="nes" 
-                                               pInputText 
-                                               formControlName="nes" 
+                                        <input id="nes"
+                                               pInputText
+                                               formControlName="nes"
                                                class="w-full"/>
                                         <label for="nes">NES eSintax</label>
                                     </span>
                                 </div>
-                                
+
                                 <div class="col-12 md:col-4">
                                     <label for="statutFile">Statut de l'entreprise</label>
-                                    <p-fileUpload 
-                                        mode="basic" 
-                                        chooseLabel="Charger le fichier" 
+                                    <p-fileUpload
+                                        mode="basic"
+                                        chooseLabel="Charger le fichier"
                                         styleClass="p-button-secondary"
                                         chooseIcon="pi pi-upload"
-                                        name="statutFile" 
-                                        accept="image/*,.pdf" 
-                                        maxFileSize="1000000000" 
+                                        name="statutFile"
+                                        accept="image/*,.pdf"
+                                        maxFileSize="1000000000"
                                         (onSelect)="onFileSelect($event, 'statutFile')"/>
                                 </div>
                             </div>
@@ -177,41 +177,41 @@
                             <div class="grid">
                                 <div class="col-12 md:col-6">
                                     <span class="p-float-label mt-4">
-                                        <input id="lastname" 
-                                               pInputText 
-                                               formControlName="lastname" 
+                                        <input id="lastname"
+                                               pInputText
+                                               formControlName="lastname"
                                                class="w-full"/>
                                         <label for="lastname">Nom</label>
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-6">
                                     <span class="p-float-label mt-4">
-                                        <input id="forename" 
-                                               pInputText 
-                                               formControlName="forename" 
+                                        <input id="forename"
+                                               pInputText
+                                               formControlName="forename"
                                                class="w-full"/>
                                         <label for="forename">Prénom</label>
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-6">
                                     <span class="p-float-label mt-4">
-                                        <input id="phoneNumberR" 
-                                               pInputText 
-                                               formControlName="phoneNumberR" 
+                                        <input id="phoneNumberR"
+                                               pInputText
+                                               formControlName="phoneNumberR"
                                                class="w-full"/>
                                         <label for="phoneNumberR">Téléphone</label>
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-6">
                                     <label for="cnibFile">Carte d'identité</label>
-                                    <p-fileUpload 
-                                        mode="basic" 
-                                        chooseLabel="Charger le fichier" 
+                                    <p-fileUpload
+                                        mode="basic"
+                                        chooseLabel="Charger le fichier"
                                         styleClass="p-button-secondary"
                                         chooseIcon="pi pi-upload"
-                                        name="cnibFile" 
-                                        accept="image/*,.pdf" 
-                                        maxFileSize="1000000000" 
+                                        name="cnibFile"
+                                        accept="image/*,.pdf"
+                                        maxFileSize="1000000000"
                                         (onSelect)="onFileSelect($event, 'cnibFile')"/>
                                 </div>
                             </div>
@@ -224,9 +224,9 @@
                             <div class="grid">
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
-                                        <input id="email" 
-                                               pInputText 
-                                               formControlName="email" 
+                                        <input id="email"
+                                               pInputText
+                                               formControlName="email"
                                                type="email"
                                                class="w-full"/>
                                         <label for="email">Email</label>
@@ -238,9 +238,9 @@
                                                    formControlName="password"
                                                    [toggleMask]="true"
                                                    [feedback]="true"
-                                                   promptLabel="Votre mot de passe" 
-                                                   weakLabel="Très faible"  
-                                                   mediumLabel="Bon"  
+                                                   promptLabel="Votre mot de passe"
+                                                   weakLabel="Très faible"
+                                                   mediumLabel="Bon"
                                                    strongLabel="Fort"
                                                    class="w-full"></p-password>
                                         <label for="password">Mot de passe</label>
@@ -255,7 +255,7 @@
                                                    class="w-full"></p-password>
                                         <label for="passwordConfirmation">Confirmer le mot de passe</label>
                                     </span>
-                                    <small class="p-error" *ngIf="registerForm.errors?.['passwordMismatch'] && 
+                                    <small class="p-error" *ngIf="registerForm.errors?.['passwordMismatch'] &&
                                            registerForm.get('passwordConfirmation')?.touched">
                                         Les mots de passe ne correspondent pas
                                     </small>
@@ -265,16 +265,23 @@
                     </div>
 
                     <div class="col-12 flex justify-content-center">
-                        <!-- <button pButton 
-                                type="submit" 
-                                label="S'inscrire" 
-                                icon="pi pi-user-plus" 
+                        <!-- <button pButton
+                                type="submit"
+                                label="S'inscrire"
+                                icon="pi pi-user-plus"
                                 class="p-button-lg"
                                 [loading]="loading"></button> -->
-                        <button pButton 
-                                type="submit" 
-                                label="Soumettre le formulaire d'inscription" 
-                                icon="pi pi-user-plus" 
+
+                                <button pButton
+                                type="submit"
+                                label="Soumettre le formulaire d'inscription"
+                                icon="pi pi-user-plus"
+                                class="p-button-lg"
+                                 ></button>
+                        <button pButton
+                                type="submit"
+                                label="Soumettre le formulaire d'inscription"
+                                icon="pi pi-user-plus"
                                 class="p-button-lg"
                                 [ngClass]="{'p-button-secondary': registerForm.invalid || !cnibFile || !statutFile}"
                                 [loading]="loading"

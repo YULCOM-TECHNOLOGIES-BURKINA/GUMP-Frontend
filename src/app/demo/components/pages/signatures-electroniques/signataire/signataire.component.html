@@ -29,7 +29,7 @@
 
                         <p-autoComplete appendTo="body" [(ngModel)]="selectedUser"
                             [suggestions]="filteredUsersAutoComplete" (completeMethod)="filterUsers($event)"
-                            field="nomComplet" [dropdown]="true">
+                            field="forenameComplet" [dropdown]="true">
                         </p-autoComplete>
 
                     </div>
@@ -89,7 +89,7 @@
         <h5>Listes des Signataires de la DRTSS</h5>
         <p-table #dt1 (onPage)="onPageChange($event)" [value]="utilisateurs" dataKey="id" [rows]="pageSize"
             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
-            groupRowsBy="nom" sortField="nom" [paginator]="true" [totalRecords]="{totalRecords}"
+            groupRowsBy="forename" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
             currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
             [scrollable]="true" scrollHeight="500px">
@@ -136,16 +136,16 @@
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Nom
-                            <p-columnFilter type="text" field="nom" display="menu"
+                            forename
+                            <p-columnFilter type="text" field="forename" display="menu"
                                 placeholder="rechercher ...  "></p-columnFilter>
                         </div>
                     </th>
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Prenom
-                            <p-columnFilter type="text" field="prenom" display="menu"
+                            lastname
+                            <p-columnFilter type="text" field="lastname" display="menu"
                                 placeholder="rechercher ... name"></p-columnFilter>
                         </div>
                     </th>
@@ -196,10 +196,10 @@
                         {{ res?.utilisateur?.matricule }}
                     </td>
                     <td>
-                        {{ res?.utilisateur?.nom }}
+                        {{ res?.utilisateur?.forename }}
                     </td>
                     <td>
-                        {{ res?.utilisateur?.prenom }}
+                        {{ res?.utilisateur?.lastname }}
                     </td>
 
                     <td>

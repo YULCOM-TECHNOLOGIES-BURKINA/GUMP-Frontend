@@ -101,25 +101,23 @@ export class SignataireComponent implements OnInit {
 
     loadUsers(page: number, size: number) {
         this.loading = true;
+        console.log("Hello ftk");
+
         this.signElectService
             .listUtilisateurSignataieDrtss(page, size)
             .subscribe(
                 (response: any) => {
-                        console.log("response",response);
+                        console.log("hrllo",response);
 
-               const filterdrtpsUser = response.content.filter(user => user.utilisateur.userType === "DRTSS_USER" );
-                this.utilisateurs =filterdrtpsUser;
+              /* const filterdrtpsUser = response.filter(user => user.utilisateur.userType === "DRTSS_USER" );
+                this.utilisateurs =response;
 
-               /* this.totalRecords = response.totalPages;
-                this.loading = false;
-                this.cdr.detectChanges();
-                console.log('dataResponse', this.dataResponse);*/
 
                     this.dataResponse = response;
                   //  this.utilisateurs = response.content;
 
                     this.totalRecords = response.totalPages;
-                    this.loading = false;
+                    this.loading = false;*/
                     this.cdr.detectChanges();
                 },
                 (error) => {
@@ -266,10 +264,10 @@ export class SignataireComponent implements OnInit {
             for (let i = 0; i < this.listeFiltreUtilisateurs.length; i++) {
                 const utilisateur = this.listeFiltreUtilisateurs[i];
                 if (
-                    (utilisateur?.nom &&
-                        utilisateur.nom.toLowerCase().includes(query)) ||
-                    (utilisateur?.prenom &&
-                        utilisateur.prenom.toLowerCase().includes(query)) ||
+                    (utilisateur?.forename &&
+                        utilisateur.forename.toLowerCase().includes(query)) ||
+                    (utilisateur?.lastname &&
+                        utilisateur.lastname.toLowerCase().includes(query)) ||
                     (utilisateur?.matricule &&
                         utilisateur.matricule.toLowerCase().includes(query)) ||
                     (utilisateur?.email &&
@@ -277,7 +275,7 @@ export class SignataireComponent implements OnInit {
                 ) {
                     this.listeFiltreUtilisateurs[
                         i
-                    ].nomComplet = `${utilisateur.nom} ${utilisateur.prenom}`;
+                    ].forenameComplet = `${utilisateur.forename} ${utilisateur.lastname}`;
                     filtered.push(this.listeFiltreUtilisateurs[i]);
                 }
             }
