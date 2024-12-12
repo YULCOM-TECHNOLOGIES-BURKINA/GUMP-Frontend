@@ -91,7 +91,7 @@ export class SignataireComponent implements OnInit {
             { separator: true },
             { label: this.selectlabel, icon: 'pi pi-times' ,command: () => {
                 console.log('TEST');
-                this.confirmToggleStatus(this.selectLine.id);
+                this.confirmToggleStatus(this.selectLine.user_id);
             },},
          ];
 
@@ -107,17 +107,17 @@ export class SignataireComponent implements OnInit {
             .listUtilisateurSignataieDrtss(page, size)
             .subscribe(
                 (response: any) => {
-                        console.log("hrllo",response);
 
-              /* const filterdrtpsUser = response.filter(user => user.utilisateur.userType === "DRTSS_USER" );
-                this.utilisateurs =response;
+            //  const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
+               // this.utilisateurs =response;
+               console.log("hrllo",response.content);
 
 
-                    this.dataResponse = response;
-                  //  this.utilisateurs = response.content;
+                   // this.dataResponse = response;
+                   this.utilisateurs =response.content;
 
                     this.totalRecords = response.totalPages;
-                    this.loading = false;*/
+                    this.loading = false;
                     this.cdr.detectChanges();
                 },
                 (error) => {
@@ -131,7 +131,7 @@ export class SignataireComponent implements OnInit {
             (response: any) => {
 
 
-               const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
+               const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" && user.is_signatory === false );
                this.listeFiltreUtilisateurs=filterdrtpsUser;
                /*this.utilisateurs =filterdrtpsUser;
                 this.totalRecords = response.totalPages;
@@ -213,7 +213,7 @@ export class SignataireComponent implements OnInit {
                  this.loadUsers(this.pageNumber, this.pageSize);
 
                  this.messageSucces('Operation effecuee avec succès.', 'success');
-
+               // this.selectLine=null;
                  this.userForm.reset();
                 this.modalDialog = false;
              },

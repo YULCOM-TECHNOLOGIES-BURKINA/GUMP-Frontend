@@ -140,9 +140,10 @@ export class SignatureElectroniquesService {
         createUserRequest: CreateUserRequest
     ): Observable<void> {
         return this.fastService.post<void>(
-            this._gateway+`signature_electronique/sign_attestation`+this._ms_drtss,
+            this._gateway+`signature_electronique/sign_attestation&`+this._ms_drtss,
             createUserRequest
         );
+
     }
     public modifierStatusUtilisateurDrtss(idUser: number) {
         return this.fastService
@@ -163,7 +164,7 @@ export class SignatureElectroniquesService {
 
     public telechargerCertificat(path: string, certificatFile: any): void {
         const url =
-           this._gateway+`signature_electronique/download_certificate?path=${encodeURIComponent(path)}`+this._ms_drtss;
+           this._gateway+`signature_electronique/download_certificate?path=${encodeURIComponent(path)}`+"&"+this._ms_drtss;
 
         this.http.get(url, { responseType: 'blob' }).subscribe(
             (res: Blob) => {
@@ -196,7 +197,7 @@ export class SignatureElectroniquesService {
 
     public toggleSignatoryStatus(id: number) {
         return this.fastService
-            .post<any>(`${API_ROOT.API_TOGGLE_SIGNATORY_STATUS + id}`, {})
+            .post<any>(this._gateway+"signature_electronique/toggle_status/"+`${id}`+"?"+this._ms_drtss, {})
             .pipe(
                 tap((utilisateurs) => {}),
                 catchError((error) => {
@@ -211,7 +212,7 @@ export class SignatureElectroniquesService {
         formData.append('userId', selectedUser.id.toString());
 
         return this.fastService
-            .post<any>(`${API_ROOT.API_CREATE_SIGNATAIRE_DRTSS}`, formData)
+            .post<any>(this._gateway+"signature_electronique/create_signataire?userId="+selectedUser.id+"&"+this._ms_drtss, formData)
             .pipe(
                 tap((res) => {
                     console.log('Signataire enregistré avec succès :', res);
