@@ -97,13 +97,13 @@
                         </div>
 
                         <div class="flex align-items-center gap-2 p-4 surface-ground border-round-bottom-xl">
-                            <button pButton pRipple type="button" label="Voir les détails" icon="pi pi-arrow-right"
-                                (click)="navigateToDetail('cnss')" class="p-button-success p-button-outlined flex-auto">
-                            </button>
-                            <a pButton pRipple type="button" icon="pi pi-file-edit" pTooltip="Faire une demande"
-                                tooltipPosition="top" href="https://eservices.cnss.bf/" target="_blank"
-                                rel="noopener noreferrer" class="p-button-success text-white">
+                            <a pButton pRipple type="button" icon="pi pi-file-edit" label="Faire une demande"
+                                 href="https://eservices.cnss.bf/" target="_blank"
+                                rel="noopener noreferrer" class="p-button-success text-white flex-auto">
                             </a>
+                            <button pButton pRipple type="button" pTooltip="Voir les détails" icon="pi pi-arrow-right"
+                                tooltipPosition="top" (click)="navigateToDetail('cnss')" class="p-button-success">
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -140,11 +140,11 @@
                         </div>
 
                         <div class="flex align-items-center gap-2 p-4 surface-ground border-round-bottom-xl">
-                            <button pButton pRipple type="button" label="Voir les détails" icon="pi pi-arrow-right"
-                                (click)="navigateToDetail(act.id)" class="p-button-success p-button-outlined flex-auto">
+                            <button pButton pRipple type="button" icon="pi pi-file-edit" label="Faire une demande"
+                                [routerLink]="['/actes/'+act.id]" class="p-button-success flex-auto">
                             </button>
-                            <button pButton pRipple type="button" icon="pi pi-file-edit" pTooltip="Faire une demande"
-                                tooltipPosition="top" [routerLink]="['/actes/'+act.id]" class="p-button-success">
+                            <button pButton pRipple type="button" pTooltip="Voir les détails" icon="pi pi-arrow-right"
+                                tooltipPosition="top" (click)="navigateToDetail(act.id)" class="p-button-success">
                             </button>
                         </div>
                     </div>

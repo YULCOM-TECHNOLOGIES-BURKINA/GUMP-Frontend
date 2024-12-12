@@ -31,7 +31,7 @@ export class UtilisateursComponent implements OnInit {
         { field: 'cnssNumber', header: 'Numéro CNSS' },
         { field: 'region', header: 'Région' },
         { field: 'status', header: 'Statut' }
-    ];
+      ];
     }
 
     getUtilisateurs() {
@@ -58,7 +58,7 @@ export class UtilisateursComponent implements OnInit {
             severity: 'success',
             summary: 'Succès',
             detail: 'Utilisateur activé avec succès!',
-            life: 3000
+            life: 5000
           });
           this.request = null;
         },
@@ -67,7 +67,7 @@ export class UtilisateursComponent implements OnInit {
             severity: 'error',
             summary: 'Erreur',
             detail: 'Une erreur est survenue lors de l\'activation.',
-            life: 3000
+            life: 5000
           });
         }
       });
@@ -81,7 +81,7 @@ export class UtilisateursComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Succès',
-          detail: 'Utilisateur activé avec succès!',
+          detail: 'Utilisateur rejeté avec succès!',
           life: 3000
         });
         this.request = null;
