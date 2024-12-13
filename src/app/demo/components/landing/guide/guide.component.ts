@@ -21,6 +21,18 @@ interface ActGuide {
 export class GuideComponent implements OnInit {
     acts: ActGuide[] = [
       {
+        id: 'cnss',
+        title: 'Attestation CNSS',
+        description: 'Attestation de situation cotisante',
+        icon: 'pi pi-building',
+        organization: 'Agence Judiciaire de l\'État',
+        validityPeriod: '3 mois',
+        processingTime: '24 heures',
+        price: '7 500 FCFA',
+        category: 'Fonction Publique',
+        img:'assets/cnss.jpg'
+      },
+      {
         id: 'rccm',
         title: 'Attestation d\'inscription au RCCM',
         description: 'Registre du commerce et du crédit Mobilier',

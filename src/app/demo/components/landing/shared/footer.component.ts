@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
         <!-- Logo and Title Section -->
         <div class="col-12 md:col-3 text-center md:text-left">
           <a href="/" class="flex flex-wrap align-items-center justify-content-center md:justify-content-start mb-6 md:mb-0">
-            <img src="assets/image.png" alt="logo guichet" width="125" height="150" class="mr-3">
+            <img src="assets/logo1.png" alt="logo guichet" width="125" height="150" class="mr-3">
             <h5 class="font-bold text-4xl text-white">Guichet Unique des Marchés Publics</h5>
           </a>
         </div>
