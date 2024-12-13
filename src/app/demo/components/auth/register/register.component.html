@@ -60,7 +60,7 @@
             </form>
 
             <!-- Étape 2: Formulaire complet -->
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="!showFullForm" [@fadeInOut]>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" *ngIf="showFullForm" [@fadeInOut]>
                 <div class="grid">
                     <!-- Informations de l'entreprise -->
                     <div class="col-12">
@@ -271,13 +271,6 @@
                                 icon="pi pi-user-plus"
                                 class="p-button-lg"
                                 [loading]="loading"></button> -->
-
-                                <button pButton
-                                type="submit"
-                                label="Soumettre le formulaire d'inscription"
-                                icon="pi pi-user-plus"
-                                class="p-button-lg"
-                                 ></button>
                         <button pButton
                                 type="submit"
                                 label="Soumettre le formulaire d'inscription"
