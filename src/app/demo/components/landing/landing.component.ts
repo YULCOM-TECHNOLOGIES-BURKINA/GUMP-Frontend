@@ -54,7 +54,7 @@ export class LandingComponent implements OnInit {
       validityPeriod: '3 mois',
       processingTime: '48 heures',
       price: '10 000 FCFA',
-      img:'assets/image.png'
+      img:'assets/logo1.png'
     },
     {
       id: 'aje',
