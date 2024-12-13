@@ -16,7 +16,8 @@ export class SignatureElectroniquesService {
     _ms_drtss = 'service=drtss-ms';
     _ms_users = 'service=users-ms';
 
-    _gateway = 'http://localhost:9090/api/';
+    _gateway = 'https://gump-gateway.yulpay.com/api/';
+   // _gateway = 'http://localhost:9090/api/';
 
     private token = localStorage.getItem('currentToken');
 
