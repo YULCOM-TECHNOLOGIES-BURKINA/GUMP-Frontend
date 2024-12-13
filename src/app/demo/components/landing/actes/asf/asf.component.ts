@@ -91,7 +91,7 @@ export class AsfComponent implements OnInit {
     if (localStorage.getItem('currentUser') !== null) {
       const user = JSON.parse(localStorage.getItem('currentUser'));
       this.ifu = user.username;
-      this.nes = user.nes;
+      //this.nes = user.nes;
     } else{
       this.messageService.add({
         severity: 'error',
@@ -103,7 +103,7 @@ export class AsfComponent implements OnInit {
   }
 
   resetForm() {
-    this.ifu = '';
+    //this.ifu = '';
     this.nes = '';
   }
 
