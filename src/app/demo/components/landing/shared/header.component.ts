@@ -118,7 +118,6 @@ export class HeaderComponent implements OnInit {
         label: 'Guide d\'utilisation',
         icon: 'pi pi-book',
         routerLink: ['/guide'],
-        routerLinkActiveOptions: { exact: true },
         styleClass: 'active-link'
       },
       {
