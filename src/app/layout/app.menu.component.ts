@@ -30,6 +30,7 @@ export class AppMenuComponent implements OnInit {
     checkSignatory(email: string): void {
         this.signatureService.getSignatoryByEmail(email).subscribe({
           next: (res: any) => {
+                console.log("log",res);
 
             if ( !!res?.signatureCertificat ) {
                 this.userRole
