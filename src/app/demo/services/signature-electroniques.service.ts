@@ -9,15 +9,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
     providedIn: 'root',
 })
 export class SignatureElectroniquesService {
-    private apiUrl =
-        'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
-   // private apiGateway = 'https://gump-gateway.yulpay.com/api/';
+    private apiUrl ='https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
 
+    // private apiGateway = 'https://gump-gateway.yulpay.com/api/';
+
+    _gateway = 'https://gump-gateway.yulpay.com/api/';
     _ms_drtss = 'service=drtss-ms';
     _ms_users = 'service=users-ms';
-
- //   _gateway = 'https://gump-gateway.yulpay.com/api/';
-    _gateway = 'http://localhost:9090/api/';
 
     private token = localStorage.getItem('currentToken');
 
@@ -255,7 +253,7 @@ export class SignatureElectroniquesService {
         formData.append('keyStorePassword', keyStorePassword);
 
         return this.fastService
-            .post<any>(`${API_ROOT.API_SIGNE_ATTESTATION_DRTSS}`, formData)
+            .post<any>(`${this._gateway+"signature_electronique/sign_attestation&"+this._ms_drtss}`, formData)
             .pipe(
                 tap((res) => {
                     console.log('Attestation signée avec succès :', res);
