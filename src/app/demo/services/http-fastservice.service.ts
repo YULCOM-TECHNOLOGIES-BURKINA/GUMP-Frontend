@@ -12,24 +12,10 @@ import { Observable, catchError, map, throwError } from 'rxjs';
     providedIn: 'root',
 })
 export class HttpFastserviceService {
-    /*   httpOptions = {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        headers: new HttpHeaders({
-             'Content-Type': 'multipart/form-data',
-            enctype: 'multipart/form-data',
-            Accept: 'multipart/form-data',
-            Authorization: 'Bearer ' + '',
-        }),
-    };*/
-    private token = localStorage.getItem('currentToken');
 
-    // Méthode pour obtenir les headers avec le token Bearer
-  /*  private getHeaders(): HttpHeaders {
-      return new HttpHeaders({
-        'Authorization': `Bearer ${this.token}`,
-        'Content-Type': 'application/json'
-      });
-    }*/
+    private token = localStorage.getItem('currentToken');
+  //   _gateway = 'https://gump-gateway.yulpay.com/api/';
+  _gateway = 'http://localhost:9090/api/';
 
   // Méthode pour obtenir les headers spécifiques pour FormData
   private getFormDataHeaders(): HttpHeaders {
@@ -128,7 +114,7 @@ export class HttpFastserviceService {
     }
 
     downloadFile(path: string): Observable<Blob> {
-        const url = 'http://localhost:8082/api/download_certificate'; // URL de votre backend
+        const url =this._gateway+'download_certificate?service=drtss-ms'; // URL de votre backend
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post(url, { path }, { headers, responseType: 'blob' });
       }

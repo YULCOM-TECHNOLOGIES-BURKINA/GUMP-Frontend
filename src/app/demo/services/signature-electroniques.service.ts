@@ -16,8 +16,8 @@ export class SignatureElectroniquesService {
     _ms_drtss = 'service=drtss-ms';
     _ms_users = 'service=users-ms';
 
-    _gateway = 'https://gump-gateway.yulpay.com/api/';
-   // _gateway = 'http://localhost:9090/api/';
+ //   _gateway = 'https://gump-gateway.yulpay.com/api/';
+    _gateway = 'http://localhost:9090/api/';
 
     private token = localStorage.getItem('currentToken');
 
@@ -190,6 +190,18 @@ export class SignatureElectroniquesService {
                 tap((regions) => {
                     console.log('Liste region', regions);
                 }),
+                catchError((error) => {
+                    return of([]);
+                })
+            );
+    }
+
+    public getUsersInfoByEmail(email: String) {
+        return this.fastService
+        .get<any[]>(this._gateway+"users/"+ email+"/email?"+this._ms_users)
+        .pipe(
+                tap((user) => {
+                 }),
                 catchError((error) => {
                     return of([]);
                 })
