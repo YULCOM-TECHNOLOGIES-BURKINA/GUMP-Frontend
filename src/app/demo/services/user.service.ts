@@ -55,7 +55,7 @@ export class UserService {
 
   register(userData: any): Observable<any> {
       return this.http.post(`${this.apiUrl}/auth/register?service=users-ms`, userData, {
-          headers: this.getHeaders()
+          headers: this.getFormDataHeaders()
     });
   }
 
