@@ -47,7 +47,7 @@ export class SignataireComponent implements OnInit {
     pageSize: number = 10;
     pageNumber: number = 0;
     items: MenuItem[] = [];
-
+    userInfo:any
     constructor(
         public layoutService: LayoutService,
         public router: Router,
@@ -56,9 +56,19 @@ export class SignataireComponent implements OnInit {
         private fb: FormBuilder,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
-        private http: HttpClient
+        private http: HttpClient,
+        private signatureService:SignatureElectroniquesService
     ) {}
     ngOnInit(): void {
+        const userDetails = localStorage.getItem('currentUser');
+        let user = JSON.parse(userDetails);
+
+        this.signatureService.getUsersInfoByEmail(user.email).subscribe({
+            next: (res: any) => {
+                this.userInfo = res;
+             },
+            error: (error) => {},
+        });
         this.loadUsers(this.pageNumber, this.pageSize);
         this.items = [
 
@@ -131,7 +141,7 @@ export class SignataireComponent implements OnInit {
             (response: any) => {
 
 
-               const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" && user.is_signatory === false );
+               const filterdrtpsUser = response.content.filter(user => user.region === this.userInfo.region &&  user.is_signatory === false  && user.userType === "DRTSS_USER"  );
                this.listeFiltreUtilisateurs=filterdrtpsUser;
                /*this.utilisateurs =filterdrtpsUser;
                 this.totalRecords = response.totalPages;
