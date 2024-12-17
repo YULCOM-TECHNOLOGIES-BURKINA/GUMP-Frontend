@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -9,12 +15,12 @@ import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
-  selector: 'app-utilisateurs-drtss',
-  standalone: true,
-  imports: [UtilsModuleModule],
-  templateUrl: './utilisateurs-drtss.component.html',
-  styleUrl: './utilisateurs-drtss.component.scss',
-  providers: [ConfirmationService, MessageService]
+    selector: 'app-utilisateurs-drtss',
+    standalone: true,
+    imports: [UtilsModuleModule],
+    templateUrl: './utilisateurs-drtss.component.html',
+    styleUrl: './utilisateurs-drtss.component.scss',
+    providers: [ConfirmationService, MessageService],
 })
 export class UtilisateursDrtssComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
@@ -31,7 +37,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     pageSize: number = 10;
     pageNumber: number = 0;
     items: MenuItem[] = [];
-
+    userInfo: any;
     constructor(
         public layoutService: LayoutService,
         public router: Router,
@@ -39,218 +45,207 @@ export class UtilisateursDrtssComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private fb: FormBuilder,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private signatureService: SignatureElectroniquesService
     ) {}
     ngOnInit(): void {
+        const userDetails = localStorage.getItem('currentUser');
+        let user = JSON.parse(userDetails);
+
+        this.signatureService.getUsersInfoByEmail(user.email).subscribe({
+            next: (res: any) => {
+                this.userInfo = res;
+             },
+            error: (error) => {},
+        });
+
         this.loadUsers(this.pageNumber, this.pageSize);
-        this.listRegions()
     }
 
     dataResponse: any;
     loadUsers(page: number, size: number) {
-        console.log("MCT ---- :");
 
         this.loading = true;
         this.signElectService.listUtilisateurDrtss(page, size).subscribe(
             (response: any) => {
+                const filterdrtpsUser = response.content.filter(
+                    (user) =>
+                        user.region === this.userInfo.region &&
+                        user.userType === 'DRTSS_USER'
+                );
+                this.utilisateurs = filterdrtpsUser;
 
-
-                const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
-                this.utilisateurs =filterdrtpsUser;
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
-                console.log('dataResponse', this.dataResponse);
-            },
+             },
             (error) => {
-                console.log("Une erreur s'est produite :", error);
-                this.loading = false;
+                 this.loading = false;
                 this.cdr.detectChanges();
             }
         );
     }
 
     onPageChange(event: any) {
-        console.log('Changement++', event);
 
         this.pageNumber = event.first / event.rows;
         this.pageSize = event.rows;
         this.loadUsers(this.pageNumber, this.pageSize);
     }
-    selectlabel=""
-    selectLine:Utilisateur
-    onLineClick(event: any){
-        this.selectLine=event
-        console.log(this.selectLine);
-        let modifier=true
-        if (this.selectLine.isActive==true) {
-            this.selectlabel="Desactiver"
-        }else{
-            this.selectlabel="Activer"
-            modifier=false
+    selectlabel = '';
+    selectLine: Utilisateur;
+    onLineClick(event: any) {
+        this.selectLine = event;
+         let modifier = true;
+        if (this.selectLine.isActive == true) {
+            this.selectlabel = 'Desactiver';
+        } else {
+            this.selectlabel = 'Activer';
+            modifier = false;
         }
 
         this.items = [
             {
                 label: 'Modifier',
                 icon: 'pi pi-refresh',
-                visible:modifier,
+                visible: modifier,
                 command: () => {
-                    console.log('TEST');
-                    this.openNew("UPDATE");
+                     this.openNew('UPDATE');
                 },
             },
             { separator: true },
-            { label: this.selectlabel, icon: 'pi pi-times' ,command: () => {
-                console.log('TEST');
-                this.openDeleteDialog(this.selectLine);
-            },},
-         ];
-
-
-
+            {
+                label: this.selectlabel,
+                icon: 'pi pi-times',
+                command: () => {
+                     this.openDeleteDialog(this.selectLine);
+                },
+            },
+        ];
     }
 
+    onConfirm() {
+        this.signElectService
+            .modifierStatusUtilisateurDrtss(this.selectLine.id)
+            .subscribe(
+                (response: any) => {
+                    this.loadUsers(this.pageNumber, this.pageSize);
+                    this.messageSucces(
+                        'Operation éffectueé avec succès.',
+                        'success'
+                    );
 
-    onConfirm(){
-        this.signElectService.modifierStatusUtilisateurDrtss(this.selectLine.id).subscribe(
-            (response: any) => {
-
-                 this.loadUsers(this.pageNumber, this.pageSize);
-                this.messageSucces("Operation éffectueé avec succès.","success")
-
-                this.deleteDialog = false;
-             },
-            (error) => {
-                 this.messageSucces("Une erreur s'est produite","error")
-
-              }
-        );
-
+                    this.deleteDialog = false;
+                },
+                (error) => {
+                    this.messageSucces("Une erreur s'est produite", 'error');
+                }
+            );
     }
     submitted: boolean;
     modalDialog: boolean;
-    isUpdate:boolean=false
-    openNew(type:string) {
-
+    isUpdate: boolean = false;
+    openNew(type: string) {
         this.modalDialog = true;
-        if (type=="UPDATE") {
-console.log("selecter",this.selectLine);
-this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region,"nomComplet":this.selectLine.region};
+        if (type == 'UPDATE') {
 
-            this.isUpdate=true;
-            this.initForm()
+            this.isUpdate = true;
+            this.initForm();
             this.userForm.setValue({
-                id:this.selectLine.id,
-                forename:this.selectLine.forename,
-                lastname:this.selectLine.lastname,
+                id: this.selectLine.id,
+                forename: this.selectLine.forename,
+                lastname: this.selectLine.lastname,
                 tel: this.selectLine.tel,
                 matricule: this.selectLine.matricule,
-                titre_honorifique:this.selectLine.titre_honorifique,
+                titre_honorifique: this.selectLine.titre_honorifique,
                 email: this.selectLine.email,
-                region: this.selectLine.region,
+                region: this.userInfo.region,
                 role: this.selectLine.role,
                 userType: this.selectLine.userType,
-                 password: '',
+                password: '',
 
                 username: this.selectLine.username,
-
-
-
-            })
-        }else{
-            this.initForm()
+            });
+        } else {
+            this.initForm();
         }
     }
 
-    openDeleteDialog(Utilisateur:Utilisateur){
-
-        this.confirmDeleteSelected()
-
+    openDeleteDialog(Utilisateur: Utilisateur) {
+        this.confirmDeleteSelected();
     }
-    public initForm(){
+    public initForm() {
         this.userForm = this.fb.group({
-            id:[],
+            id: [],
             forename: ['', Validators.required],
             lastname: ['', Validators.required],
             tel: [],
             matricule: [],
-            titre_honorifique:[],
-            email: ['',Validators.required],
-            region: [''],
+            titre_honorifique: [],
+            email: ['', Validators.required],
+            region: [this.userInfo.region],
 
-             role: ['DRTSS_AGENT'],
-            userType:['DRTSS_USER'],
-            password:['password'],
-             username:[''],
-
-          });
-
-
-
-
+            role: ['DRTSS_AGENT'],
+            userType: ['DRTSS_USER'],
+            password: ['password'],
+            username: [''],
+        });
     }
-    submitForm(){
-
-    if ( this.selectedRegion !=undefined && this.userForm.valid) {
-
-        this.userForm.patchValue({
+    submitForm() {
+        if (this.userForm.valid) {
+            /*  this.userForm.patchValue({
             region:this.selectedRegion.code
-        })
-        let usersInfo=this.userForm.value
+        })*/
+            let usersInfo = this.userForm.value;
 
 
-
-         console.log("userForm",this.userForm.value);
-
-
-        this.createUsersCompteRequest()
-
-    } else {
-        this.messageSucces("Veillez remplire tout les champs du formulaire","error")
+            this.createUsersCompteRequest();
+        } else {
+            this.messageSucces(
+                'Veillez remplire tout les champs du formulaire',
+                'error'
+            );
+        }
     }
 
+    isClicked: boolean = false;
 
-    }
-
-    isClicked:boolean=false
-
-    createUsersCompteRequest(){
-
-       this.signElectService.createUserRequest(this.userForm.value).subscribe(
+    createUsersCompteRequest() {
+        this.signElectService.createUserRequest(this.userForm.value).subscribe(
             (response: any) => {
-                console.log("res",response);
-
-                    this.isClicked=true
-                    this.loadUsers(0,100000)
-
-             },
+                 this.modalDialog;
+                this.loadUsers(0, 100000);
+                this.loadUsers(this.pageNumber, this.pageSize);
+                this.messageSucces('Utilisateur créé avec succès.', 'success');
+                this.modalDialog = false;
+                this.isClicked = true;
+            },
             (error) => {
-                 this.messageSucces("Une erreur s'est produite","error")
-                 this.isClicked=true
-
-              }
+                this.messageSucces("Une erreur s'est produite", 'error');
+                this.isClicked = true;
+            }
         );
     }
 
-    saveUsersDrtssCompte(){
-        this.signElectService.creerUtilisateurDrtss(this.userForm.value).subscribe(
-            (response: any) => {
-
-                 this.loadUsers(this.pageNumber, this.pageSize);
-                this.messageSucces("Utilisateur créé avec succès.","success")
-                this.userForm.reset()
-                this.modalDialog = false;
-                this.isClicked=true
-
-
-             },
-            (error) => {
-                 this.messageSucces("Une erreur s'est produite","error")
-                 this.isClicked=true
-
-              }
-              );
+    saveUsersDrtssCompte() {
+        this.signElectService
+            .creerUtilisateurDrtss(this.userForm.value)
+            .subscribe(
+                (response: any) => {
+                    this.loadUsers(this.pageNumber, this.pageSize);
+                    this.messageSucces(
+                        'Utilisateur créé avec succès.',
+                        'success'
+                    );
+                    this.userForm.reset();
+                    this.modalDialog = false;
+                    this.isClicked = true;
+                },
+                (error) => {
+                    this.messageSucces("Une erreur s'est produite", 'error');
+                    this.isClicked = true;
+                }
+            );
     }
 
     deleteDialog = false;
@@ -283,21 +278,22 @@ this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region
         this.filter.nativeElement.value = '';
     }
 
-
-    messageSucces(message:string, severity: string) {
-        this.messageService.add({ key: 'tst', severity: severity, summary: 'Message information ', detail: message });
+    messageSucces(message: string, severity: string) {
+        this.messageService.add({
+            key: 'tst',
+            severity: severity,
+            summary: 'Message information ',
+            detail: message,
+        });
     }
 
-    listRegions(){
-        this.signElectService.listRegions()
-            .subscribe(regions => {
-                this.listeFiltreRegions=regions;
-            });
-
-
+    listRegions() {
+        this.signElectService.listRegions().subscribe((regions) => {
+            this.listeFiltreRegions = regions;
+        });
     }
     filteredRegionsAutoComplete: any[] = [];
-    listeFiltreRegions:any[]=[];
+    listeFiltreRegions: any[] = [];
 
     selectedRegion: any;
 
@@ -309,8 +305,8 @@ this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region
             for (let i = 0; i < this.listeFiltreRegions.length; i++) {
                 const region = this.listeFiltreRegions[i];
                 if (
-                    (region?.code?.toLowerCase().includes(query)) ||
-                    (region?.name?.toLowerCase().includes(query))
+                    region?.code?.toLowerCase().includes(query) ||
+                    region?.name?.toLowerCase().includes(query)
                 ) {
                     region.nomComplet = `${region.name}`;
                     filtered.push(region);
@@ -319,8 +315,5 @@ this.selectedRegion={"code":this.selectLine.region,"name":this.selectLine.region
         }
 
         this.filteredRegionsAutoComplete = filtered;
-        console.log("Résultats du filtre :", this.filteredRegionsAutoComplete);
-    }
-
-
+     }
 }

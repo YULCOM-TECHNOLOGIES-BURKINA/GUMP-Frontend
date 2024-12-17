@@ -143,6 +143,12 @@
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
+                            Region
+                            <p-sortIcon field="region" />
+                        </div>
+                    </th>
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
                             Matricule
                             <p-sortIcon field="matricule" />
                         </div>
@@ -201,6 +207,11 @@
                     <td>
                         {{ res.createdAt | date: 'dd/MM/yyyy' }}
                     </td>
+
+                    <td>
+                        {{ res.region }}
+                    </td>
+
                     <td>
                         {{ res.matricule }}
                     </td>
@@ -216,6 +227,7 @@
                     <td>
                         {{ res.titre_honorifique }}
                     </td>
+
 
                     <td [ngClass]="{ '': res.isActive, 'bg-yellow-custom': !res.isActive }">
                         {{ res.isActive ? 'Compte Actif' : 'Compte Inactif' }}

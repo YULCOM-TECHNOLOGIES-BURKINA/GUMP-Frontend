@@ -180,7 +180,7 @@ export class UtilisateursDrtssComponent implements OnInit {
             role: ['DRTSS_REGIONAL_MANAGER'],
             userType: ['DRTSS_USER'],
             password: ['password'],
-            username: [''],
+            username: [ '',Validators.required],
         });
     }
     submitForm() {
@@ -189,7 +189,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 region: this.selectedRegion.code,
             });
 
- 
+
             this.createUsersCompteRequest();
         } else {
             this.messageSucces(
@@ -202,11 +202,16 @@ export class UtilisateursDrtssComponent implements OnInit {
     isClicked: boolean = false;
 
     createUsersCompteRequest() {
+        console.log(this.userForm.value);
+
         this.signElectService.createUserRequest(this.userForm.value).subscribe(
             (response: any) => {
 
                 this.isClicked = true;
                 this.loadUsers(0, 100000);
+                this.userForm.reset();
+                this.modalDialog = false;
+                this.isClicked = true;
             },
             (error) => {
                 this.messageSucces("Une erreur s'est produite", 'error');
