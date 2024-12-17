@@ -23,12 +23,9 @@
                 <div class="card shadow-2  ">
                     <div class="field" appendTo="body">
                         <label for="email">Sélectionner Région</label>
-                        <p-autoComplete appendTo="body"
-                                        [(ngModel)]="selectedRegion"
-                                        [suggestions]="filteredRegionsAutoComplete"
-                                        (completeMethod)="filterRegion($event)"
-                                        field="nomComplet"
-                                        [dropdown]="true">
+                        <p-autoComplete appendTo="body" [(ngModel)]="selectedRegion"
+                            [suggestions]="filteredRegionsAutoComplete" (completeMethod)="filterRegion($event)"
+                            field="nomComplet" [dropdown]="true">
                         </p-autoComplete>
                     </div>
 
@@ -40,7 +37,8 @@
                         <div class="p-fluid formgrid grid">
                             <div class="field col-12 md:col-12">
                                 <label for="username">Nom d'utilisateur?</label>
-                                <input formControlName="username" pInputText id="username" placeholder="Nom d'utilisateur" />
+                                <input formControlName="username" pInputText id="username"
+                                    placeholder="Nom d'utilisateur" />
                             </div>
 
                             <div class="field col-12 md:col-6">
@@ -93,9 +91,9 @@
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false" ></button>
-                <button   (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
-                    class="p-button-text p-button-success"   ></button>
+                <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
+                <button (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
+                    class="p-button-text p-button-success"></button>
             </ng-template>
         </p-dialog>
 
@@ -203,7 +201,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-res>
-                <tr >
+                <tr>
                     <td>
                         {{ res.createdAt | date: 'dd/MM/yyyy' }}
                     </td>
@@ -234,8 +232,8 @@
                     </td>
 
                     <td>
-                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
-                            styleClass="p-button-info"></p-splitButton>
+                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items"
+                            (click)="onLineClick(res)" styleClass="p-button-info"></p-splitButton>
                     </td>
                 </tr>
 

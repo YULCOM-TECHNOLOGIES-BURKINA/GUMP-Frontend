@@ -54,7 +54,6 @@ export class UtilisateursDrtssComponent implements OnInit {
 
     dataResponse: any;
     loadUsers(page: number, size: number) {
-
         this.loading = true;
         this.signElectService.listUtilisateurDrtss(page, size).subscribe(
             (response: any) => {
@@ -65,16 +64,15 @@ export class UtilisateursDrtssComponent implements OnInit {
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
-             },
+            },
             (error) => {
-                 this.loading = false;
+                this.loading = false;
                 this.cdr.detectChanges();
             }
         );
     }
 
     onPageChange(event: any) {
-
         this.pageNumber = event.first / event.rows;
         this.pageSize = event.rows;
         this.loadUsers(this.pageNumber, this.pageSize);
@@ -83,7 +81,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     selectLine: Utilisateur;
     onLineClick(event: any) {
         this.selectLine = event;
-         let modifier = true;
+        let modifier = true;
         if (this.selectLine.isActive == true) {
             this.selectlabel = 'Desactiver';
         } else {
@@ -97,7 +95,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 icon: 'pi pi-refresh',
                 visible: modifier,
                 command: () => {
-                     this.openNew('UPDATE');
+                    this.openNew('UPDATE');
                 },
             },
             { separator: true },
@@ -105,7 +103,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 label: this.selectlabel,
                 icon: 'pi pi-times',
                 command: () => {
-                     this.openDeleteDialog(this.selectLine);
+                    this.openDeleteDialog(this.selectLine);
                 },
             },
         ];
@@ -135,7 +133,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     openNew(type: string) {
         this.modalDialog = true;
         if (type == 'UPDATE') {
-             this.selectedRegion = {
+            this.selectedRegion = {
                 code: this.selectLine.region,
                 name: this.selectLine.region,
                 nomComplet: this.selectLine.region,
@@ -180,7 +178,7 @@ export class UtilisateursDrtssComponent implements OnInit {
             role: ['DRTSS_REGIONAL_MANAGER'],
             userType: ['DRTSS_USER'],
             password: ['password'],
-            username: [ '',Validators.required],
+            username: ['', Validators.required],
         });
     }
     submitForm() {
@@ -188,7 +186,6 @@ export class UtilisateursDrtssComponent implements OnInit {
             this.userForm.patchValue({
                 region: this.selectedRegion.code,
             });
-
 
             this.createUsersCompteRequest();
         } else {
@@ -206,7 +203,6 @@ export class UtilisateursDrtssComponent implements OnInit {
 
         this.signElectService.createUserRequest(this.userForm.value).subscribe(
             (response: any) => {
-
                 this.isClicked = true;
                 this.loadUsers(0, 100000);
                 this.userForm.reset();
@@ -308,5 +304,5 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
 
         this.filteredRegionsAutoComplete = filtered;
-     }
+    }
 }
