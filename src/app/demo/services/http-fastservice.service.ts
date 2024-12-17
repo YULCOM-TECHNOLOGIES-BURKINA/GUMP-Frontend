@@ -27,11 +27,16 @@ export class HttpFastserviceService {
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
-      'Content-Type': 'application/json'
+     // 'Content-Type': 'application/json'
     });
   }
 
 
+  private getHeadersFile(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+     });
+  }
 
     status!: string;
     errorMessage: any;
@@ -47,14 +52,22 @@ export class HttpFastserviceService {
      */
 
     // POST Method
+
     public post<T>(url: string, body: Object): Observable<T> {
        return this.http
-         .post<T>(url, body)
+         .post<T>(url, body,{headers: this.getHeaders()})
          .pipe(
            catchError((error) => this.handleError(error))
          );
      }
 
+     public postFile<T>(url: string, body: Object): Observable<T> {
+        return this.http
+          .post<T>(url, body,{headers: this.getHeadersFile()})
+          .pipe(
+            catchError((error) => this.handleError(error))
+          );
+      }
 
     // PUT Method
     public put<T>(url: string, body: Object): Observable<T> {

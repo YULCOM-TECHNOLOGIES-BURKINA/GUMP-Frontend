@@ -90,8 +90,7 @@ export class SignatureElectroniquesService {
             .get<any[]>(`${API_ROOT.API_LISTE_REGIONS}`)
             .pipe(
                 tap((regions) => {
-                    console.log('Liste region', regions);
-                }),
+                 }),
                 catchError((error) => {
                     return of([]);
                 })
@@ -103,8 +102,7 @@ export class SignatureElectroniquesService {
             .post<Utilisateur>(API_ROOT.API_CREATE_USERS_DRTSS, formData)
             .pipe(
                 tap((res: Utilisateur) => {
-                    console.log('Utilisateur enregistré :', res);
-                }),
+                 }),
                 catchError((error) => {
                     console.error(
                         "Erreur lors de l'enregistrement de l'utilisateur :",
@@ -123,8 +121,7 @@ export class SignatureElectroniquesService {
             )
             .pipe(
                 tap((res: CreateUserRequest) => {
-                    console.log('Utilisateur enregistré :', res);
-                }),
+                 }),
                 catchError((error) => {
                     console.error(
                         "Erreur lors de l'enregistrement de l'utilisateur :",
@@ -149,8 +146,7 @@ export class SignatureElectroniquesService {
             .get<Utilisateur>(this._gateway+'user/'+idUser+'/toggle?'+this._ms_users)
             .pipe(
                 tap((res: Utilisateur) => {
-                    console.log('Utilisateur enregistré :', res);
-                }),
+                 }),
                 catchError((error) => {
                     console.error(
                         "Erreur lors de l'enregistrement de l'utilisateur :",
@@ -186,8 +182,7 @@ export class SignatureElectroniquesService {
             .get<any[]>(this._gateway+"signature_electronique/signataire/"+ email+"?"+this._ms_drtss)
             .pipe(
                 tap((regions) => {
-                    console.log('Liste region', regions);
-                }),
+                 }),
                 catchError((error) => {
                     return of([]);
                 })
@@ -223,7 +218,7 @@ export class SignatureElectroniquesService {
         formData.append('userId', selectedUser.id.toString());
 
         return this.fastService
-            .post<any>(this._gateway+"signature_electronique/create_signataire?userId="+selectedUser.id+"&"+this._ms_drtss, formData)
+            .postFile<any>(this._gateway+"signature_electronique/create_signataire?userId="+selectedUser.id+"&"+this._ms_drtss, formData)
             .pipe(
                 tap((res) => {
                     console.log('Signataire enregistré avec succès :', res);
