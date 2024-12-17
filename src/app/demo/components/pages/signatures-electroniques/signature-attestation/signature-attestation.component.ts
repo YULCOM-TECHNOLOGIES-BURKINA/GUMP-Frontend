@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
     ChangeDetectorRef,
     Component,
@@ -26,6 +26,14 @@ import { Demande } from 'src/app/demo/models/demande';
 })
 export class SignatureAttestationComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
+
+    private token = localStorage.getItem('currentToken');
+
+    private getHeaders(): HttpHeaders {
+      return new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`
+       });
+    }
 
     signDocForm: FormGroup;
     dataSource: any[];
@@ -66,17 +74,16 @@ export class SignatureAttestationComponent implements OnInit {
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
+
             },
             (error) => {
-                console.log("Une erreur s'est produite :", error);
-                this.loading = false;
+                 this.loading = false;
                 this.cdr.detectChanges();
             }
         );
     }
 
     onPageChange(event: any) {
-        console.log('Changement++', event);
 
         this.pageNumber = event.first / event.rows;
         this.pageSize = event.rows;
@@ -85,8 +92,7 @@ export class SignatureAttestationComponent implements OnInit {
     selectLine: Demande;
     onLineClick(event: any) {
         this.selectLine = event;
-        console.log(this.selectLine);
-    }
+     }
 
     submitted: boolean;
     modalDialog: boolean;
@@ -107,8 +113,7 @@ export class SignatureAttestationComponent implements OnInit {
                         this.cdr.detectChanges();
                     },
                     (error) => {
-                        console.log("Une erreur s'est produite :", error);
-                        this.loading = false;
+                         this.loading = false;
                         this.cdr.detectChanges();
                     }
                 );
@@ -160,7 +165,6 @@ export class SignatureAttestationComponent implements OnInit {
     uploadedFiles: any[] = [];
     onUpload(event: any) {
         this.selectedFile = event;
-        console.log('Fichier uploadé:', this.selectedFile);
 
         this.messageService.add({
             severity: 'info',
@@ -180,9 +184,8 @@ export class SignatureAttestationComponent implements OnInit {
 
     pdfSrc: string | null = null;
     viewAttestation(url: string) {
-        console.log('url',url);
 
-         this.http.get(url, { responseType: 'blob' }).subscribe(
+         this.http.get(url, { responseType: 'blob',headers:this.getHeaders() }).subscribe(
           (response: Blob) => {
             if (response.size > 0) {
                this.pdfSrc = url;
@@ -203,8 +206,7 @@ export class SignatureAttestationComponent implements OnInit {
     onFileSelect(event: any): void {
         if (event.currentFiles && event.currentFiles.length > 0) {
             this.selectedFile = event.currentFiles[0];
-            console.log('Fichier sélectionné:', this.selectedFile);
-        }
+         }
     }
 
     selectedUser: any;

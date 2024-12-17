@@ -13,14 +13,21 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 })
 export class HttpFastserviceService {
 
-    private token = localStorage.getItem('currentToken');
-  //   _gateway = 'https://gump-gateway.yulpay.com/api/';
+   //   _gateway = 'https://gump-gateway.yulpay.com/api/';
   _gateway = 'http://localhost:9090/api/';
 
   // Méthode pour obtenir les headers spécifiques pour FormData
   private getFormDataHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
+    });
+  }
+  private token = localStorage.getItem('currentToken');
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
     });
   }
 
@@ -52,28 +59,28 @@ export class HttpFastserviceService {
     // PUT Method
     public put<T>(url: string, body: Object): Observable<T> {
         return this.http
-            .put<T>(url, body, { observe: 'body' })
+            .put<T>(url, body, { observe: 'body',headers: this.getHeaders() })
             .pipe(catchError(this.handleError));
     }
 
     // PATCH Method
     public patch<T>(url: string, body: Object): Observable<T> {
         return this.http
-            .patch<T>(url, body, { observe: 'body' })
+            .patch<T>(url, body, { observe: 'body',headers: this.getHeaders() })
             .pipe(catchError(this.handleError));
     }
 
     // DELETE Method
     public delete<T>(url: string): Observable<T> {
         return this.http
-            .delete<T>(url, { observe: 'body' })
+            .delete<T>(url, { observe: 'body',headers: this.getHeaders() })
             .pipe(catchError(this.handleError));
     }
 
     // GET Method
     public get<T>(url: string): Observable<T> {
         return this.http
-            .get<T>(url, { observe: 'body' })
+            .get<T>(url, { observe: 'body', headers: this.getHeaders()},)
             .pipe(catchError(this.handleError));
     }
 

@@ -62,7 +62,7 @@ export class SignatureElectroniquesService {
     public listUtilisateurSignataieDrtss(page: number, size: number) {
         return this.fastService
             .get<Utilisateur[]>(
-                this._gateway+`signature_electronique/liste_signataire?page=${page}&size=${size}`+"&"+this._ms_drtss
+                this._gateway+`signature_electronique/liste_signataire?page=${page}&size=${size}`+"&"+this._ms_drtss,
             )
             .pipe(
                 tap((utilisateurs) => {}),
@@ -75,7 +75,7 @@ export class SignatureElectroniquesService {
     public listDemandes(page: number, size: number) {
         return this.fastService
             .get<Utilisateur[]>(
-                this._gateway+`demandes?page=${page}&size=${size}`+this._ms_drtss
+                this._gateway+`demandes?`+this._ms_drtss
             )
             .pipe(
                 tap((utilisateurs) => {}),
