@@ -47,7 +47,7 @@ export class SignataireComponent implements OnInit {
     pageSize: number = 10;
     pageNumber: number = 0;
     items: MenuItem[] = [];
-
+    userInfo:any
     constructor(
         public layoutService: LayoutService,
         public router: Router,
@@ -56,9 +56,19 @@ export class SignataireComponent implements OnInit {
         private fb: FormBuilder,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
-        private http: HttpClient
+        private http: HttpClient,
+        private signatureService:SignatureElectroniquesService
     ) {}
     ngOnInit(): void {
+        const userDetails = localStorage.getItem('currentUser');
+        let user = JSON.parse(userDetails);
+
+        this.signatureService.getUsersInfoByEmail(user.email).subscribe({
+            next: (res: any) => {
+                this.userInfo = res;
+             },
+            error: (error) => {},
+        });
         this.loadUsers(this.pageNumber, this.pageSize);
         this.items = [
 
@@ -91,7 +101,7 @@ export class SignataireComponent implements OnInit {
             { separator: true },
             { label: this.selectlabel, icon: 'pi pi-times' ,command: () => {
                 console.log('TEST');
-                this.confirmToggleStatus(this.selectLine.id);
+                this.confirmToggleStatus(this.selectLine.user_id);
             },},
          ];
 
@@ -101,22 +111,20 @@ export class SignataireComponent implements OnInit {
 
     loadUsers(page: number, size: number) {
         this.loading = true;
+        console.log("Hello ftk");
+
         this.signElectService
             .listUtilisateurSignataieDrtss(page, size)
             .subscribe(
                 (response: any) => {
-                        console.log("response",response);
 
-               const filterdrtpsUser = response.content.filter(user => user.utilisateur.userType === "DRTSS_USER" );
-                this.utilisateurs =filterdrtpsUser;
+            //  const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
+               // this.utilisateurs =response;
+               console.log("hrllo",response.content);
 
-               /* this.totalRecords = response.totalPages;
-                this.loading = false;
-                this.cdr.detectChanges();
-                console.log('dataResponse', this.dataResponse);*/
 
-                    this.dataResponse = response;
-                  //  this.utilisateurs = response.content;
+                   // this.dataResponse = response;
+                   this.utilisateurs =response.content;
 
                     this.totalRecords = response.totalPages;
                     this.loading = false;
@@ -133,7 +141,7 @@ export class SignataireComponent implements OnInit {
             (response: any) => {
 
 
-               const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
+               const filterdrtpsUser = response.content.filter(user => user.region === this.userInfo.region &&  user.is_signatory === false  && user.userType === "DRTSS_USER"  );
                this.listeFiltreUtilisateurs=filterdrtpsUser;
                /*this.utilisateurs =filterdrtpsUser;
                 this.totalRecords = response.totalPages;
@@ -215,7 +223,7 @@ export class SignataireComponent implements OnInit {
                  this.loadUsers(this.pageNumber, this.pageSize);
 
                  this.messageSucces('Operation effecuee avec succès.', 'success');
-
+               // this.selectLine=null;
                  this.userForm.reset();
                 this.modalDialog = false;
              },
@@ -266,10 +274,10 @@ export class SignataireComponent implements OnInit {
             for (let i = 0; i < this.listeFiltreUtilisateurs.length; i++) {
                 const utilisateur = this.listeFiltreUtilisateurs[i];
                 if (
-                    (utilisateur?.nom &&
-                        utilisateur.nom.toLowerCase().includes(query)) ||
-                    (utilisateur?.prenom &&
-                        utilisateur.prenom.toLowerCase().includes(query)) ||
+                    (utilisateur?.forename &&
+                        utilisateur.forename.toLowerCase().includes(query)) ||
+                    (utilisateur?.lastname &&
+                        utilisateur.lastname.toLowerCase().includes(query)) ||
                     (utilisateur?.matricule &&
                         utilisateur.matricule.toLowerCase().includes(query)) ||
                     (utilisateur?.email &&
@@ -277,7 +285,7 @@ export class SignataireComponent implements OnInit {
                 ) {
                     this.listeFiltreUtilisateurs[
                         i
-                    ].nomComplet = `${utilisateur.nom} ${utilisateur.prenom}`;
+                    ].forenameComplet = `${utilisateur.forename} ${utilisateur.lastname}`;
                     filtered.push(this.listeFiltreUtilisateurs[i]);
                 }
             }

@@ -16,8 +16,8 @@ interface UploadEvent {
 
 export class DrtssComponent {
 
-  anpeFile: File | null = null; 
-  cnssFile: File | null = null; 
+  anpeFile: File | null = null;
+  cnssFile: File | null = null;
   attestationAnpeNumber: string = '';
   attestationCnssNumber: string = '';
 
@@ -30,7 +30,7 @@ export class DrtssComponent {
   isForPublicContract: boolean = true;
 
   constructor(
-    private messageService: MessageService, 
+    private messageService: MessageService,
     private drtssService: DrtssService,
     private router: Router) {}
 
@@ -57,38 +57,38 @@ export class DrtssComponent {
 
       this.drtssService.submitAttestationRequest(formData).subscribe({
         next: (response) => {
-          this.messageService.add({ 
-            severity: 'success', 
-            summary: 'Succès', 
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Succès',
             detail: 'Demande créée avec succès !',
-            life: 2000 
+            life: 2000
           });
-          
+
           // Récupérer l'ID de la demande depuis la réponse
           const demandeId = response.id;
-          
-          // Construction du callback URL 
+
+          // Construction du callback URL
           const callbackUrl = `${window.location.origin}/actes/drtps/payment-callback/${demandeId}`;
-          
+
           // Initier le paiement
           setTimeout(() => {
             this.initatePayment(demandeId, callbackUrl);
           }, 2000);
-          
+
         },
         error: (err) => {
-          this.messageService.add({ 
-            severity: 'error', 
-            summary: 'Erreur', 
-            detail: 'Une erreur est survenue lors de l\'envoi.' 
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erreur',
+            detail: 'Une erreur est survenue lors de l\'envoi.'
           });
         }
       });
     } else {
-      this.messageService.add({ 
-        severity: 'warn', 
-        summary: 'Attention', 
-        detail: 'Veuillez charger les deux fichiers.' 
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Attention',
+        detail: 'Veuillez charger les deux fichiers.'
       });
     }
   }

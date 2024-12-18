@@ -12,24 +12,9 @@ import { Observable, catchError, map, throwError } from 'rxjs';
     providedIn: 'root',
 })
 export class HttpFastserviceService {
-    /*   httpOptions = {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        headers: new HttpHeaders({
-             'Content-Type': 'multipart/form-data',
-            enctype: 'multipart/form-data',
-            Accept: 'multipart/form-data',
-            Authorization: 'Bearer ' + '',
-        }),
-    };*/
-    private token = localStorage.getItem('currentToken');
 
-    // Méthode pour obtenir les headers avec le token Bearer
-  /*  private getHeaders(): HttpHeaders {
-      return new HttpHeaders({
-        'Authorization': `Bearer ${this.token}`,
-        'Content-Type': 'application/json'
-      });
-    }*/
+ _gateway = 'https://gump-gateway.yulpay.com/api/';
+ // _gateway = 'http://localhost:9090/api/';
 
   // Méthode pour obtenir les headers spécifiques pour FormData
   private getFormDataHeaders(): HttpHeaders {
@@ -37,8 +22,21 @@ export class HttpFastserviceService {
       'Authorization': `Bearer ${this.token}`
     });
   }
+  private token = localStorage.getItem('currentToken');
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+     // 'Content-Type': 'application/json'
+    });
+  }
 
 
+  private getHeadersFile(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+     });
+  }
 
     status!: string;
     errorMessage: any;
@@ -54,40 +52,48 @@ export class HttpFastserviceService {
      */
 
     // POST Method
+
     public post<T>(url: string, body: Object): Observable<T> {
        return this.http
-         .post<T>(url, body)
+         .post<T>(url, body,{headers: this.getHeaders()})
          .pipe(
            catchError((error) => this.handleError(error))
          );
      }
 
+     public postFile<T>(url: string, body: Object): Observable<T> {
+        return this.http
+          .post<T>(url, body,{headers: this.getHeadersFile()})
+          .pipe(
+            catchError((error) => this.handleError(error))
+          );
+      }
 
     // PUT Method
     public put<T>(url: string, body: Object): Observable<T> {
         return this.http
-            .put<T>(url, body, { observe: 'body' })
+            .put<T>(url, body, { observe: 'body',headers: this.getHeaders() })
             .pipe(catchError(this.handleError));
     }
 
     // PATCH Method
     public patch<T>(url: string, body: Object): Observable<T> {
         return this.http
-            .patch<T>(url, body, { observe: 'body' })
+            .patch<T>(url, body, { observe: 'body',headers: this.getHeaders() })
             .pipe(catchError(this.handleError));
     }
 
     // DELETE Method
     public delete<T>(url: string): Observable<T> {
         return this.http
-            .delete<T>(url, { observe: 'body' })
+            .delete<T>(url, { observe: 'body',headers: this.getHeaders() })
             .pipe(catchError(this.handleError));
     }
 
     // GET Method
     public get<T>(url: string): Observable<T> {
         return this.http
-            .get<T>(url, { observe: 'body' })
+            .get<T>(url, { observe: 'body', headers: this.getHeaders()},)
             .pipe(catchError(this.handleError));
     }
 
@@ -128,7 +134,7 @@ export class HttpFastserviceService {
     }
 
     downloadFile(path: string): Observable<Blob> {
-        const url = 'http://localhost:8082/api/download_certificate'; // URL de votre backend
+        const url =this._gateway+'download_certificate?service=drtss-ms'; // URL de votre backend
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post(url, { path }, { headers, responseType: 'blob' });
       }
