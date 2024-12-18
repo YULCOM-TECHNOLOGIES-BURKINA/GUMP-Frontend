@@ -83,74 +83,172 @@ export class RegisterComponent implements OnInit {
         });
     }
 
+    // verifyIfu() {
+    //     this.submitted = true;
+    //     if (this.ifuForm.invalid) {
+    //         return;
+    //     }
+
+    //     this.loading = true;
+    //     this.ifuForm.get('nes')?.value
+    //     const vData = {
+    //         ifu : this.ifuForm.get('ifuNumber')?.value,
+    //         nes: this.ifuForm.get('nes')?.value
+    //     }
+
+    //     // vérification du NES
+    //     this.userService.verifyNes(vData).subscribe({
+    //         next: (data) => {
+    //             if (data.error.code === 200){
+    //                 // Vérification du IFU
+    //                 this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+    //                     next: (response) => {
+    //                         this.loading = false;
+    //                         // Vérification de l'existance d'un compte avec le même IFU
+    //                         this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+    //                             next: (response) => {
+    //                                 this.messageService.add({
+    //                                     severity: 'error',
+    //                                     summary: 'Erreur',
+    //                                     detail: 'Un compte avec ce numéro IFU existe déjà.'
+    //                                 });
+    //                             },
+    //                             error: (error) => {
+    //                                 this.showFullForm = true;
+            
+    //                                 // Pré-remplir le formulaire avec les données de l'entreprise
+    //                                 this.registerForm.patchValue({
+    //                                     companyName: response.name,
+    //                                     address: response.address,
+    //                                     phoneNumber: response.phoneNumber,
+    //                                     ifuNumber: this.ifuForm.get('ifuNumber')?.value
+    //                                 });
+            
+    //                                 this.messageService.add({
+    //                                     severity: 'success',
+    //                                     summary: 'Succès',
+    //                                     detail: 'IFU vérifié avec succès'
+    //                                 });
+    //                             }
+    //                         });
+    //                     },
+    //                     error: (error) => {
+    //                         this.loading = false;
+    //                         this.messageService.add({
+    //                             severity: 'error',
+    //                             summary: 'Erreur',
+    //                             detail: 'Numéro IFU invalide ou non trouvé'
+    //                         });
+    //                     }
+    //                 });
+    //             } else {
+    //                 this.messageService.add({
+    //                     severity: 'error',
+    //                     summary: 'Erreur',
+    //                     detail: data.error.message
+    //                     // detail: 'Votre NES est invalide'
+    //                 });
+    //             }
+    //         },
+    //         error: (error) => {
+    //             this.messageService.add({
+    //                 severity: 'error',
+    //                 summary: 'Erreur',
+    //                 detail: 'Une erreur est survenue lors de la vérification du NES'
+    //             });
+    //         }
+    //     });
+    //     // this.userService.verifyNes(this.ifuForm.get('nes')?.value).subscribe({
+    //     //     next: (response) => {
+    //     //         this.messageService.add({
+    //     //             severity: 'error',
+    //     //             summary: 'Erreur',
+    //     //             detail: 'Un compte avec ce numéro IFU existe déjà.'
+    //     //         });
+    //     //     },
+    //     //     error: (error) => {
+    //     //         this.messageService.add({
+    //     //             severity: 'success',
+    //     //             summary: 'Succès',
+    //     //             detail: 'Votre NES est invalide'
+    //     //         });
+            
+    //     //     }
+    //     // }); 
+    // }
+
+
     verifyIfu() {
         this.submitted = true;
         if (this.ifuForm.invalid) {
             return;
         }
-
+    
         this.loading = true;
-        this.ifuForm.get('nes')?.value
         const vData = {
-            ifu : this.ifuForm.get('ifuNumber')?.value,
+            ifu: this.ifuForm.get('ifuNumber')?.value,
             nes: this.ifuForm.get('nes')?.value
-        }
-
-        // vérification du NES
+        };
+    
+        // Vérification du NES
         this.userService.verifyNes(vData).subscribe({
-            next: (data) => {
-                if (data.error.code === 200){
-                    // Vérification du IFU
-                    this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
-                        next: (response) => {
-                            this.loading = false;
-                            // Vérification de l'existance d'un compte avec le même IFU
-                            this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
-                                next: (response) => {
-                                    this.messageService.add({
-                                        severity: 'error',
-                                        summary: 'Erreur',
-                                        detail: 'Un compte avec ce numéro IFU existe déjà.'
-                                    });
-                                },
-                                error: (error) => {
-                                    this.showFullForm = true;
-            
-                                    // Pré-remplir le formulaire avec les données de l'entreprise
-                                    this.registerForm.patchValue({
-                                        companyName: response.name,
-                                        address: response.address,
-                                        phoneNumber: response.phoneNumber,
-                                        ifuNumber: this.ifuForm.get('ifuNumber')?.value
-                                    });
-            
-                                    this.messageService.add({
-                                        severity: 'success',
-                                        summary: 'Succès',
-                                        detail: 'IFU vérifié avec succès'
-                                    });
-                                }
-                            });
-                        },
-                        error: (error) => {
-                            this.loading = false;
-                            this.messageService.add({
-                                severity: 'error',
-                                summary: 'Erreur',
-                                detail: 'Numéro IFU invalide ou non trouvé'
-                            });
-                        }
-                    });
-                } else {
+            next: (response) => {
+                // Vérifions si la réponse contient data.error
+                if (response?.data?.error?.code === 404) {
+                    this.loading = false;
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Erreur',
-                        detail: data.error.message
-                        // detail: 'Votre NES est invalide'
+                        detail: 'NES invalide ou non trouvé'
                     });
+                    return;
                 }
+    
+                // Si le NES est valide, on vérifie l'IFU
+                this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+                    next: (ifuResponse) => {
+                        // Vérification de l'existence d'un compte avec le même IFU
+                        this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+                            next: () => {
+                                this.loading = false;
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: 'Erreur',
+                                    detail: 'Un compte avec ce numéro IFU existe déjà.'
+                                });
+                            },
+                            error: () => {
+                                this.loading = false;
+                                this.showFullForm = true;
+    
+                                // Pré-remplir le formulaire avec les données de l'entreprise
+                                this.registerForm.patchValue({
+                                    companyName: ifuResponse.name,
+                                    address: ifuResponse.address,
+                                    phoneNumber: ifuResponse.phoneNumber,
+                                    ifuNumber: this.ifuForm.get('ifuNumber')?.value
+                                });
+    
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: 'Succès',
+                                    detail: 'Vérification réussie. Vous pouvez continuer votre inscription.'
+                                });
+                            }
+                        });
+                    },
+                    error: (error) => {
+                        this.loading = false;
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Erreur',
+                            detail: 'Numéro IFU invalide ou non trouvé'
+                        });
+                    }
+                });
             },
             error: (error) => {
+                this.loading = false;
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Erreur',
@@ -158,23 +256,6 @@ export class RegisterComponent implements OnInit {
                 });
             }
         });
-        // this.userService.verifyNes(this.ifuForm.get('nes')?.value).subscribe({
-        //     next: (response) => {
-        //         this.messageService.add({
-        //             severity: 'error',
-        //             summary: 'Erreur',
-        //             detail: 'Un compte avec ce numéro IFU existe déjà.'
-        //         });
-        //     },
-        //     error: (error) => {
-        //         this.messageService.add({
-        //             severity: 'success',
-        //             summary: 'Succès',
-        //             detail: 'Votre NES est invalide'
-        //         });
-            
-        //     }
-        // }); 
     }
 
     onFileSelect(event: any, fileType: string) {
