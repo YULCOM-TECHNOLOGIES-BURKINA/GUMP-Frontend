@@ -28,7 +28,7 @@ export class GuideComponent implements OnInit {
         organization: 'Agence Judiciaire de l\'État',
         validityPeriod: '3 mois',
         processingTime: '24 heures',
-        price: '7 500 FCFA',
+        price: '2000 FCFA',
         category: 'Fonction Publique',
         img:'assets/cnss.jpg'
       },
@@ -40,7 +40,7 @@ export class GuideComponent implements OnInit {
         organization: 'Agence Judiciaire de l\'État',
         validityPeriod: '3 mois',
         processingTime: '72 heures',
-        price: '15 000 FCFA',
+        price: '1500 FCFA',
         category: 'Justice',
         img:'assets/justice.jpg'
       },
@@ -52,7 +52,7 @@ export class GuideComponent implements OnInit {
         organization: 'Agence Judiciaire de l\'État',
         validityPeriod: '3 mois',
         processingTime: '72 heures',
-        price: '15 000 FCFA',
+        price: '1500 FCFA',
         category: 'Emploi',
         img:'assets/anpe.jpg'
       },
@@ -63,8 +63,8 @@ export class GuideComponent implements OnInit {
           icon: 'pi pi-file',
           organization: 'Direction Régionale du Travail et de la Protection Sociale',
           validityPeriod: '3 mois',
-          processingTime: '48 heures',
-          price: '10 000 FCFA',
+          processingTime: '24 heures',
+          price: '1500 FCFA',
           category: 'Fonction Publique',
           img:'assets/image.png'
         },
@@ -88,7 +88,7 @@ export class GuideComponent implements OnInit {
           organization: 'Agence Judiciaire de l\'État',
           validityPeriod: '3 mois',
           processingTime: '72 heures',
-          price: '15 000 FCFA',
+          price: '1500 FCFA',
           category: 'Justice',
           img:'assets/justice.jpg'
         },
@@ -100,7 +100,7 @@ export class GuideComponent implements OnInit {
           organization: 'Agence Judiciaire de l\'État',
           validityPeriod: '3 mois',
           processingTime: '72 heures',
-          price: '15 000 FCFA',
+          price: '1500 FCFA',
           category: 'Finances',
           img:'assets/dgi.png'
         }

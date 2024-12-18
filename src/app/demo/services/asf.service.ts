@@ -8,7 +8,7 @@ import { DemandeAsf, DemandeAsfResponse } from '../models/asf';
 })
 export class AsfService {
 
-  private apiUrl = 'http://localhost:8083/api';
+  private apiUrl = 'http://195.35.48.198:8083/api';
 
   constructor(private http: HttpClient) {}
 
