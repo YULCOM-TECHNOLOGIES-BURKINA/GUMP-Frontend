@@ -16,7 +16,7 @@
                 </div>
                 <div class="field col-12 md:col-6">
                     <label for="email">Email</label>
-                    <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Email" />
+                    <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Email" readonly />
                 </div>
 
                 <div class="field col-12 md:col-6">
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success" (onClick)="saveProfil()"></p-button>
+                <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success"></p-button>
             </div>
 
             

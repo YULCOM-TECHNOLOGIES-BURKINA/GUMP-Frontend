@@ -23,6 +23,8 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
 
 @NgModule({
     imports: [
@@ -49,7 +51,8 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
         ReactiveFormsModule,
         ToggleButtonModule,
         FieldsetModule,
-        InputGroupAddonModule
+        InputGroupAddonModule,
+        AutoCompleteModule
     ],
     declarations: [RegisterComponent]
 })
