@@ -9,8 +9,6 @@ import { UserResponse } from '../models/utilisateurs';
 })
 export class UserService {
   private apiUrl = 'https://gump-gateway.yulpay.com/api';
-  private apiUrlFind = 'https://gump-gateway.yulpay.com/api/users';
-  private apiNES = 'http://195.35.48.198:8083/api';
 
   constructor(private http: HttpClient) {}
 
@@ -43,13 +41,13 @@ export class UserService {
 
   verifyNes(vData: any): Observable<any> {
       return this.http.post(
-          `${this.apiNES}/verify_esyntax`, vData
+          `${this.apiUrl}/verify_esyntax?service=asf-ms`, vData
       );
   }
 
   getUserByIfu(ifuNumber: string): Observable<any> {
       return this.http.get(
-          `${this.apiUrlFind}/${ifuNumber}/find?service=users-ms`
+          `${this.apiUrl}/users/${ifuNumber}/find?service=users-ms`
       );
   }
 
