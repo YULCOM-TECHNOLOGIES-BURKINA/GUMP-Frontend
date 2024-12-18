@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { SignatureElectroniquesService } from 'src/app/demo/services/signature-electroniques.service';
 
 @Component({
     selector: 'app-register',
@@ -39,12 +40,6 @@ export class RegisterComponent implements OnInit {
     submitted = false;
     loading = false;
     showFullForm = false;
-    legalForms: any[] = [
-        { label: 'SARL', value: 'SARL' },
-        { label: 'SA', value: 'SA' },
-        { label: 'SAS', value: 'SAS' },
-        { label: 'Entreprise individuelle', value: 'EI' }
-    ];
 
     cnibFile: File | null = null;
     statutFile: File | null = null;
@@ -53,83 +48,211 @@ export class RegisterComponent implements OnInit {
         private fb: FormBuilder,
         private userService: UserService,
         private messageService: MessageService,
+        private signElectService: SignatureElectroniquesService,
         private router: Router
     ) {}
 
     ngOnInit(): void {
         this.initializeForms();
+        this.listRegions();
     }
 
     initializeForms() {
         this.ifuForm = this.fb.group({
-            ifuNumber: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(13)]]
+            ifuNumber: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(13)]],
+            nes: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(12)]]
         });
 
         this.registerForm = this.fb.group({
             companyName: [''],
-            legalForm: [''],
             address: [''],
             phoneNumber: [''],
             phoneNumberR: [''],
-            nom: ['', Validators.required],
-            prenom: ['', Validators.required],
+            lastname: ['', Validators.required],
+            forename: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]],
             passwordConfirmation: ['', [Validators.required]],
             ifuNumber: [''],
             rccm: [''],
             cnssNumber: [''],
+            region: [''],
             nes: ['']
         },{
             validators: this.passwordMatchValidator
         });
     }
 
+    // verifyIfu() {
+    //     this.submitted = true;
+    //     if (this.ifuForm.invalid) {
+    //         return;
+    //     }
+
+    //     this.loading = true;
+    //     this.ifuForm.get('nes')?.value
+    //     const vData = {
+    //         ifu : this.ifuForm.get('ifuNumber')?.value,
+    //         nes: this.ifuForm.get('nes')?.value
+    //     }
+
+    //     // vérification du NES
+    //     this.userService.verifyNes(vData).subscribe({
+    //         next: (data) => {
+    //             if (data.error.code === 200){
+    //                 // Vérification du IFU
+    //                 this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+    //                     next: (response) => {
+    //                         this.loading = false;
+    //                         // Vérification de l'existance d'un compte avec le même IFU
+    //                         this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+    //                             next: (response) => {
+    //                                 this.messageService.add({
+    //                                     severity: 'error',
+    //                                     summary: 'Erreur',
+    //                                     detail: 'Un compte avec ce numéro IFU existe déjà.'
+    //                                 });
+    //                             },
+    //                             error: (error) => {
+    //                                 this.showFullForm = true;
+            
+    //                                 // Pré-remplir le formulaire avec les données de l'entreprise
+    //                                 this.registerForm.patchValue({
+    //                                     companyName: response.name,
+    //                                     address: response.address,
+    //                                     phoneNumber: response.phoneNumber,
+    //                                     ifuNumber: this.ifuForm.get('ifuNumber')?.value
+    //                                 });
+            
+    //                                 this.messageService.add({
+    //                                     severity: 'success',
+    //                                     summary: 'Succès',
+    //                                     detail: 'IFU vérifié avec succès'
+    //                                 });
+    //                             }
+    //                         });
+    //                     },
+    //                     error: (error) => {
+    //                         this.loading = false;
+    //                         this.messageService.add({
+    //                             severity: 'error',
+    //                             summary: 'Erreur',
+    //                             detail: 'Numéro IFU invalide ou non trouvé'
+    //                         });
+    //                     }
+    //                 });
+    //             } else {
+    //                 this.messageService.add({
+    //                     severity: 'error',
+    //                     summary: 'Erreur',
+    //                     detail: data.error.message
+    //                     // detail: 'Votre NES est invalide'
+    //                 });
+    //             }
+    //         },
+    //         error: (error) => {
+    //             this.messageService.add({
+    //                 severity: 'error',
+    //                 summary: 'Erreur',
+    //                 detail: 'Une erreur est survenue lors de la vérification du NES'
+    //             });
+    //         }
+    //     });
+    //     // this.userService.verifyNes(this.ifuForm.get('nes')?.value).subscribe({
+    //     //     next: (response) => {
+    //     //         this.messageService.add({
+    //     //             severity: 'error',
+    //     //             summary: 'Erreur',
+    //     //             detail: 'Un compte avec ce numéro IFU existe déjà.'
+    //     //         });
+    //     //     },
+    //     //     error: (error) => {
+    //     //         this.messageService.add({
+    //     //             severity: 'success',
+    //     //             summary: 'Succès',
+    //     //             detail: 'Votre NES est invalide'
+    //     //         });
+            
+    //     //     }
+    //     // }); 
+    // }
+
+
     verifyIfu() {
         this.submitted = true;
         if (this.ifuForm.invalid) {
             return;
         }
-
+    
         this.loading = true;
-        this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+        const vData = {
+            ifu: this.ifuForm.get('ifuNumber')?.value,
+            nes: this.ifuForm.get('nes')?.value
+        };
+    
+        // Vérification du NES
+        this.userService.verifyNes(vData).subscribe({
             next: (response) => {
-                this.loading = false;
-
-                this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
-                    next: (response) => {
+                // Vérifions si la réponse contient data.error
+                if (response?.data?.error?.code === 404) {
+                    this.loading = false;
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erreur',
+                        detail: 'NES invalide ou non trouvé'
+                    });
+                    return;
+                }
+    
+                // Si le NES est valide, on vérifie l'IFU
+                this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+                    next: (ifuResponse) => {
+                        // Vérification de l'existence d'un compte avec le même IFU
+                        this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
+                            next: () => {
+                                this.loading = false;
+                                this.messageService.add({
+                                    severity: 'error',
+                                    summary: 'Erreur',
+                                    detail: 'Un compte avec ce numéro IFU existe déjà.'
+                                });
+                            },
+                            error: () => {
+                                this.loading = false;
+                                this.showFullForm = true;
+    
+                                // Pré-remplir le formulaire avec les données de l'entreprise
+                                this.registerForm.patchValue({
+                                    companyName: ifuResponse.name,
+                                    address: ifuResponse.address,
+                                    phoneNumber: ifuResponse.phoneNumber,
+                                    ifuNumber: this.ifuForm.get('ifuNumber')?.value
+                                });
+    
+                                this.messageService.add({
+                                    severity: 'success',
+                                    summary: 'Succès',
+                                    detail: 'Vérification réussie. Vous pouvez continuer votre inscription.'
+                                });
+                            }
+                        });
+                    },
+                    error: (error) => {
+                        this.loading = false;
                         this.messageService.add({
                             severity: 'error',
                             summary: 'Erreur',
-                            detail: 'Un compte avec ce numéro IFU existe déjà.'
-                        }); 
-                    },
-                    error: (error) => {
-                        this.showFullForm = true;
-            
-                        // Pré-remplir le formulaire avec les données de l'entreprise
-                        this.registerForm.patchValue({
-                            companyName: response.name,
-                            legalForm: response.legalForm,
-                            address: response.address,
-                            phoneNumber: response.phoneNumber,
-                            ifuNumber: this.ifuForm.get('ifuNumber')?.value
+                            detail: 'Numéro IFU invalide ou non trouvé'
                         });
-
-                        this.messageService.add({
-                            severity: 'success',
-                            summary: 'Succès',
-                            detail: 'IFU vérifié avec succès'
-                        }); 
                     }
-                });  
+                });
             },
             error: (error) => {
                 this.loading = false;
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Erreur',
-                    detail: 'Numéro IFU invalide ou non trouvé'
+                    detail: 'Une erreur est survenue lors de la vérification du NES'
                 });
             }
         });
@@ -185,12 +308,15 @@ export class RegisterComponent implements OnInit {
             ifuNumber: this.registerForm.get('ifuNumber')?.value,
             cnssNumber: this.registerForm.get('cnssNumber')?.value,
             password: this.registerForm.get('password')?.value,
+            tel: this.registerForm.get('phoneNumberR')?.value,
             email: this.registerForm.get('email')?.value,
             nes: this.registerForm.get('nes')?.value,
+            region: this.selectedRegion.code,
+            // region: this.registerForm.get('region')?.value,
             cnibFile: this.cnibFile,
             statutFile: this.statutFile,
             };
-            
+
             this.userService.register(userData).subscribe({
                 next: () => {
                     this.loading = false;
@@ -216,5 +342,36 @@ export class RegisterComponent implements OnInit {
         } else {
             this.messageService.add({ severity: 'warn', summary: 'Attention', detail: 'Veuillez charger correctement les fichiers.' });
         }
+    }
+
+    listRegions() {
+        this.signElectService.listRegions().subscribe((regions) => {
+            this.listeFiltreRegions = regions;
+        });
+    }
+    filteredRegionsAutoComplete: any[] = [];
+    listeFiltreRegions: any[] = [];
+
+    selectedRegion: any ;
+
+    filterRegion(event: any) {
+        const filtered: any[] = [];
+        const query = event.query.toLowerCase();
+
+        if (Array.isArray(this.listeFiltreRegions)) {
+            for (let i = 0; i < this.listeFiltreRegions.length; i++) {
+                const region = this.listeFiltreRegions[i];
+                if (
+                    region?.code?.toLowerCase().includes(query) ||
+                    region?.name?.toLowerCase().includes(query)
+                ) {
+                    region.nomComplet = `${region.name}`;
+                    filtered.push(region);
+                }
+            }
+        }
+
+        this.filteredRegionsAutoComplete = filtered;
+        console.log('Résultats du filtre :', this.filteredRegionsAutoComplete);
     }
 }

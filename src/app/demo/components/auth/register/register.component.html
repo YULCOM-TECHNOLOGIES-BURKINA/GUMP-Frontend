@@ -14,7 +14,7 @@
                 <div class="text-900 text-3xl font-medium mb-3 animate__animated animate__fadeInDown">
                     Guichet Unique des Marchés Publics
                 </div>
-                <span class="text-600 font-medium animate__animated animate__fadeIn">{{showFullForm ? 'Complétez votre inscription' : 'Vérification IFU'}}</span>
+                <span class="text-600 font-medium animate__animated animate__fadeIn">{{showFullForm ? 'Complétez votre inscription' : 'Vérification NES & IFU'}}</span>
             </div>
 
             <!-- Notifications -->
@@ -23,7 +23,7 @@
             <!-- Étape 1: Vérification IFU -->
             <form [formGroup]="ifuForm" (ngSubmit)="verifyIfu()" *ngIf="!showFullForm" [@fadeInOut]>
                 <div class="flex flex-column gap-3">
-                    <label for="ifuNumber" class="font-medium">Numéro IFU de votre entreprise</label>
+                    <!-- <label for="ifuNumber" class="font-medium">Numéro IFU de votre entreprise</label> -->
                     <p-inputGroup>
                         <!-- <p-inputGroupAddon>
                             <i class="pi pi-id-card"></i>
@@ -35,21 +35,30 @@
                                [class.ng-invalid]="submitted && ifuForm.get('ifuNumber')?.invalid"
                                class="w-full p-inputtext-lg"/>
                     </p-inputGroup>
-                     <!-- Messages d'erreur détaillés -->
-                     <div *ngIf="submitted && ifuForm.get('ifuNumber')?.errors" class="p-error">
+                    <div *ngIf="submitted && ifuForm.get('ifuNumber')?.errors" class="p-error">
                         <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['required']">
                             Le numéro IFU est requis
                         </small>
                         <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['minlength'] || ifuForm.get('ifuNumber')?.errors?.['maxlength']">
                             Le numéro IFU doit contenir exactement 09 caractères
                         </small>
-                        <!-- <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['pattern']">
-                            Le numéro IFU doit contenir uniquement des chiffres
-                        </small> -->
                     </div>
-                    <!-- <small *ngIf="ifuForm.get('ifuNumber')?.errors?.['required'] && submitted" 
-                           class="p-error">Le numéro IFU est requis</small> -->
-
+                    <p-inputGroup>
+                        <input id="nes" 
+                               pInputText 
+                               formControlName="nes" 
+                               placeholder="Entrez votre NES eSintax"
+                               [class.ng-invalid]="submitted && ifuForm.get('nes')?.invalid"
+                               class="w-full p-inputtext-lg"/>
+                    </p-inputGroup>
+                     <div *ngIf="submitted && ifuForm.get('nes')?.errors" class="p-error">
+                        <small *ngIf="ifuForm.get('nes')?.errors?.['required']">
+                            Le NES est requis
+                        </small>
+                        <small *ngIf="ifuForm.get('nes')?.errors?.['minlength'] || ifuForm.get('nes')?.errors?.['maxlength']">
+                            Le NES doit contenir exactement 11 caractères
+                        </small>
+                    </div>
                     <button pButton 
                             type="submit" 
                             label="Vérifier" 
@@ -76,36 +85,7 @@
                                         <label for="companyName">Nom commercial</label>
                                     </span>
                                 </div>
-                                <!-- <div class="col-12 md:col-6">
-                                    <span class="p-float-label mt-4">
-                                        <input id="companyName" 
-                                               pInputText
-                                               readonly 
-                                               formControlName="companyName" 
-                                               class="w-full readonly-input"/>
-                                        <label for="companyName">Forme juridique</label>
-                                    </span>
-                                </div> -->
-                                <!-- <div class="col-12 md:col-6">
-                                    <span class="p-float-label mt-4">
-                                        <p-dropdown id="legalForm" 
-                                                  [options]="legalForms" 
-                                                  formControlName="legalForm"
-                                                  [autoDisplayFirst]="false"
-                                                  class="w-full"></p-dropdown>
-                                        <label for="legalForm">Forme juridique</label>
-                                    </span>
-                                </div> -->
-                                <div class="col-12 md:col-4">
-                                    <span class="p-float-label mt-4">
-                                        <input id="region" 
-                                               pInputText 
-                                               readonly
-                                               formControlName="region" 
-                                               class="w-full readonly-input"/>
-                                        <label for="region">Région</label>
-                                    </span>
-                                </div>
+                                
                                 <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
                                         <input id="phoneNumber" 
@@ -145,14 +125,16 @@
                                     </span>
                                 </div>
 
-                                <div class="col-12 md:col-4">
-                                    <span class="p-float-label mt-4">
-                                        <input id="nes" 
-                                               pInputText 
-                                               formControlName="nes" 
-                                               class="w-full"/>
-                                        <label for="nes">NES eSintax</label>
-                                    </span>
+                
+                                <div class="col-12 md:col-4 field" appendTo="body">
+                                    <label for="region">Sélectionner Région</label>
+                                    <p-autoComplete appendTo="body"
+                                                    [(ngModel)]="selectedRegion"
+                                                    [suggestions]="filteredRegionsAutoComplete"
+                                                    (completeMethod)="filterRegion($event)"
+                                                    field="nomComplet"
+                                                    [dropdown]="true">
+                                    </p-autoComplete>
                                 </div>
                                 
                                 <div class="col-12 md:col-4">

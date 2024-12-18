@@ -35,36 +35,36 @@ export class ProfilComponent implements OnInit {
   }
 
   // TODO/ à implementer les méthodes pour gérer le profil utilisateur
-  saveProfil() {
-      if (this.profil) {
-          const formData = new FormData();
-          formData.append('nom', this.profil.nom);
+//   saveProfil() {
+//       if (this.profil) {
+//           const formData = new FormData();
+//           formData.append('nom', this.profil.nom);
 
-          // Appel au service pour envoyer les fichiers
-          this.userService.submitUserRequest(formData).subscribe({
-              next: (response) => {
-                  this.messageService.add({
-                      severity: 'success',
-                      summary: 'Profil mis à jour',
-                      detail: 'Les nouvelles informations du profil ont été sauvegardées!',
-                  });
-              },
-              error: (err) => {
-                  this.messageService.add({
-                      severity: 'error',
-                      summary: 'Erreur',
-                      detail: "Une erreur est survenue lors de l'envoi.",
-                  });
-              },
-          });
-      } else {
-          this.messageService.add({
-              severity: 'warn',
-              summary: 'Attention',
-              detail: 'Veuillez remplir les champs obligatoires.',
-          });
-      }
-  }
+//           // Appel au service pour envoyer les fichiers
+//           this.userService.submitUserRequest(formData).subscribe({
+//               next: (response) => {
+//                   this.messageService.add({
+//                       severity: 'success',
+//                       summary: 'Profil mis à jour',
+//                       detail: 'Les nouvelles informations du profil ont été sauvegardées!',
+//                   });
+//               },
+//               error: (err) => {
+//                   this.messageService.add({
+//                       severity: 'error',
+//                       summary: 'Erreur',
+//                       detail: "Une erreur est survenue lors de l'envoi.",
+//                   });
+//               },
+//           });
+//       } else {
+//           this.messageService.add({
+//               severity: 'warn',
+//               summary: 'Attention',
+//               detail: 'Veuillez remplir les champs obligatoires.',
+//           });
+//       }
+//   }
 
   getUserProfile() {
     if (this.currentUser !== null) {
