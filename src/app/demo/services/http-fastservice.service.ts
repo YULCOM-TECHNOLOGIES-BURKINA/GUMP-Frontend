@@ -31,6 +31,13 @@ export class HttpFastserviceService {
     });
   }
 
+  private getHeadersWithoutToken(): HttpHeaders {
+    return new HttpHeaders({
+     'Content-Type': 'application/json'
+    });
+  }
+
+
 
   private getHeadersFile(): HttpHeaders {
     return new HttpHeaders({
@@ -96,6 +103,13 @@ export class HttpFastserviceService {
             .get<T>(url, { observe: 'body', headers: this.getHeaders()},)
             .pipe(catchError(this.handleError));
     }
+
+    public getWithoutToken<T>(url: string): Observable<T> {
+        return this.http
+            .get<T>(url, { observe: 'body', headers: this.getHeadersWithoutToken()},)
+            .pipe(catchError(this.handleError));
+    }
+
 
     private handleError(error: HttpErrorResponse) {
         console.error('Erreur lors de la requête HTTP :', error.message);
