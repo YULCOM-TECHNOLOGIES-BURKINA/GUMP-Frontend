@@ -23,12 +23,9 @@
                 <div class="card shadow-2  ">
                     <div class="field" appendTo="body">
                         <label for="email">Sélectionner Région</label>
-                        <p-autoComplete appendTo="body"
-                                        [(ngModel)]="selectedRegion"
-                                        [suggestions]="filteredRegionsAutoComplete"
-                                        (completeMethod)="filterRegion($event)"
-                                        field="nomComplet"
-                                        [dropdown]="true">
+                        <p-autoComplete appendTo="body" [(ngModel)]="selectedRegion"
+                            [suggestions]="filteredRegionsAutoComplete" (completeMethod)="filterRegion($event)"
+                            field="nomComplet" [dropdown]="true">
                         </p-autoComplete>
                     </div>
 
@@ -40,17 +37,18 @@
                         <div class="p-fluid formgrid grid">
                             <div class="field col-12 md:col-12">
                                 <label for="username">Nom d'utilisateur?</label>
-                                <input formControlName="username" pInputText id="username" placeholder="Nom d'utilisateur" />
+                                <input formControlName="username" pInputText id="username"
+                                    placeholder="Nom d'utilisateur" />
                             </div>
 
                             <div class="field col-12 md:col-6">
-                                <label for="nom">Nom</label>
-                                <input formControlName="nom" pInputText id="nom" placeholder="Nom" />
+                                <label for="forename">Nom</label>
+                                <input formControlName="forename" pInputText id="forename" placeholder="Nom" />
                             </div>
 
                             <div class="field col-12 md:col-6">
-                                <label for="prenom">Prenom</label>
-                                <input formControlName="prenom" pInputText id="prenom" placeholder="prenom" />
+                                <label for="lastname">Prenom</label>
+                                <input formControlName="lastname" pInputText id="lastname" placeholder="lastname" />
                             </div>
 
                             <div class="field col-12 md:col-6">
@@ -93,9 +91,9 @@
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"  ></button>
-                <button   (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
-                    class="p-button-text p-button-success"  [disabled]="isClicked" ></button>
+                <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
+                <button (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
+                    class="p-button-text p-button-success"></button>
             </ng-template>
         </p-dialog>
 
@@ -114,10 +112,10 @@
     </div>
 
     <div class="card">
-        <h5>Utilisateurs DRTSS</h5>
+        <h5> Directeurs Régionaux DRTSS</h5>
         <p-table #dt1 (onPage)="onPageChange($event)" [value]="utilisateurs" dataKey="id" [rows]="pageSize"
             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
-            groupRowsBy="nom" sortField="nom" [paginator]="true" [totalRecords]="{totalRecords}"
+            groupRowsBy="forename" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
             currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
             [scrollable]="true" scrollHeight="500px">
@@ -140,6 +138,7 @@
                             <p-sortIcon field="matricule" />
                         </div>
                     </th>
+
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Region
@@ -156,7 +155,7 @@
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Nom
-                            <p-columnFilter type="text" field="nom" display="menu"
+                            <p-columnFilter type="text" field="forename" display="menu"
                                 placeholder="rechercher ...  "></p-columnFilter>
                         </div>
                     </th>
@@ -164,7 +163,7 @@
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Prenom
-                            <p-columnFilter type="text" field="prenom" display="menu"
+                            <p-columnFilter type="text" field="lastname" display="menu"
                                 placeholder="rechercher ... name"></p-columnFilter>
                         </div>
                     </th>
@@ -185,15 +184,6 @@
                         </div>
                     </th>
 
-
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
-                            Role
-                            <p-sortIcon field="role" />
-                        </div>
-                    </th>
-
-
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Status
@@ -211,21 +201,23 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-res>
-                <tr >
+                <tr>
                     <td>
                         {{ res.createdAt | date: 'dd/MM/yyyy' }}
                     </td>
+
                     <td>
                         {{ res.region }}
                     </td>
+
                     <td>
                         {{ res.matricule }}
                     </td>
                     <td>
-                        {{ res.nom }}
+                        {{ res.forename }}
                     </td>
                     <td>
-                        {{ res.prenom }}
+                        {{ res.lastname }}
                     </td>
                     <td>
                         {{ res.email }}
@@ -234,18 +226,14 @@
                         {{ res.titre_honorifique }}
                     </td>
 
-                    <td>
-                        {{ res.role }}
-                    </td>
 
-
-                    <td [ngClass]="{ '': res.actif, 'bg-yellow-custom': !res.actif }">
-                        {{ res.actif ? 'Compte Actif' : 'Compte Inactif' }}
+                    <td [ngClass]="{ '': res.isActive, 'bg-yellow-custom': !res.isActive }">
+                        {{ res.isActive ? 'Compte Actif' : 'Compte Inactif' }}
                     </td>
 
                     <td>
-                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
-                            styleClass="p-button-info"></p-splitButton>
+                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items"
+                            (click)="onLineClick(res)" styleClass="p-button-info"></p-splitButton>
                     </td>
                 </tr>
 

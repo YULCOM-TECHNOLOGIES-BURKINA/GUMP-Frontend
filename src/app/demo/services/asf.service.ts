@@ -8,7 +8,7 @@ import { DemandeAsf, DemandeAsfResponse } from '../models/asf';
 })
 export class AsfService {
 
-  private apiUrl = 'http://195.35.48.198:8083/api'; 
+  private apiUrl = 'http://localhost:8083/api';
 
   constructor(private http: HttpClient) {}
 
@@ -36,7 +36,7 @@ export class AsfService {
    downloadAsf(data: { ifu: string, nes: string, reference: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/telecharger`, data, {
       headers: this.getHeaders(),
-      responseType: 'blob' 
+      responseType: 'blob'
     });
   }
 
@@ -50,7 +50,7 @@ export class AsfService {
   getDemandes(): Observable<DemandeAsfResponse> {
     return this.http.get<DemandeAsfResponse>(`${this.apiUrl}`, {
       headers: this.getFormDataHeaders()
-    }); 
+    });
   }
 
   // getOneDemande(requestId: number): Observable<any> {
@@ -66,15 +66,15 @@ export class AsfService {
     //     headers: this.getHeaders()
     //   });
     // }
-  
-  
+
+
     // // 5. Vérifier une demande ASF
     // verifyAsf(data: { ifu: string, nes: string, attestation: string }): Observable<any> {
     //   return this.http.post(`${this.baseUrl}/verifier`, data, {
     //     headers: this.getHeaders()
     //   });
     // }
-  
+
     // // 6. Détails d'une demande ASF
     // getDemandeDetails(data: { ifu: string, nes: string, reference: string }): Observable<any> {
     //   return this.http.post(`${this.baseUrl}/details`, data, {

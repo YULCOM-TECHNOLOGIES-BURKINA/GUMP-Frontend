@@ -29,7 +29,7 @@
 
                         <p-autoComplete appendTo="body" [(ngModel)]="selectedUser"
                             [suggestions]="filteredUsersAutoComplete" (completeMethod)="filterUsers($event)"
-                            field="nomComplet" [dropdown]="true">
+                            field="forenameComplet" [dropdown]="true">
                         </p-autoComplete>
 
                     </div>
@@ -89,7 +89,7 @@
         <h5>Listes des Signataires de la DRTSS</h5>
         <p-table #dt1 (onPage)="onPageChange($event)" [value]="utilisateurs" dataKey="id" [rows]="pageSize"
             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
-            groupRowsBy="nom" sortField="nom" [paginator]="true" [totalRecords]="{totalRecords}"
+            groupRowsBy="forename" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
             currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
             [scrollable]="true" scrollHeight="500px">
@@ -114,41 +114,22 @@
                     </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Region
-                            <p-sortIcon field="region" />
-                        </div>
-                    </th>
-
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
-                            Role
-                            <p-sortIcon field="region" />
+                            Email
+                            <p-sortIcon field="email" />
                         </div>
                     </th>
 
 
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
-                            Matricule
-                            <p-sortIcon field="matricule" />
-                        </div>
-                    </th>
+
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Nom
-                            <p-columnFilter type="text" field="nom" display="menu"
+                            signataire
+                            <p-columnFilter type="text" field="forename" display="menu"
                                 placeholder="rechercher ...  "></p-columnFilter>
                         </div>
                     </th>
 
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
-                            Prenom
-                            <p-columnFilter type="text" field="prenom" display="menu"
-                                placeholder="rechercher ... name"></p-columnFilter>
-                        </div>
-                    </th>
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
@@ -181,25 +162,15 @@
             <ng-template pTemplate="body" let-res>
                 <tr>
                     <td>
-                        {{ res?.utilisateur?.createdAt| date: 'dd/MM/yyyy' }}
+                        {{ res?.createdAt| date: 'dd/MM/yyyy' }}
                     </td>
 
                     <td>
-                        {{ res?.utilisateur?.region }}
+                        {{ res?.email }}
                     </td>
 
                     <td>
-                        {{ res?.utilisateur?.role }}
-                    </td>
-
-                    <td>
-                        {{ res?.utilisateur?.matricule }}
-                    </td>
-                    <td>
-                        {{ res?.utilisateur?.nom }}
-                    </td>
-                    <td>
-                        {{ res?.utilisateur?.prenom }}
+                        {{ res?.signatureCertificat.commonName }}
                     </td>
 
                     <td>
@@ -208,7 +179,6 @@
                     <td [ngClass]="{ '': res.signatureCertificat.actif, 'bg-custom': !res.signatureCertificat.actif }">
                         {{ res.signatureCertificat.actif ? 'Actif' : 'Inactif' }}
                     </td>
-
 
                     <td>
 
@@ -221,7 +191,7 @@
                     </td>
 
                     <td>
-                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res.signatureCertificat)"
+                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
                             styleClass="p-button-info"></p-splitButton>
                     </td>
                 </tr>

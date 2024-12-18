@@ -10,13 +10,14 @@ export const environment = {
     version: '0.1.1',
 };
 
-const host_ms_drtss = 'http://195.35.48.198:8082/api';
-const host_ms_users = 'http://195.35.48.198:8081/api';
+const host_ms_drtss = 'http://localhost:8082/api';
+const host_ms_users = 'http://localhost:8081/api';
+
+const host_gateway = 'http://localhost:9090/api';
 
 
 //const host_ms_drtss = 'http://195.35.48.198:8082/api';
 const host_ms_aje = 'http://195.35.48.198:8080/api';
-const host_gateway = '';
 const apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
 const apiGateway = 'https://gump-gateway.yulpay.com/api';
 // private apiUrl = 'http://195.35.48.198:8082/api/demandes';
@@ -25,6 +26,9 @@ export const API_ROOT = {
     /**
      * API SIGNATURE ELECTRONIQUE
      */
+    API_LISTE_USERS: `${host_gateway}/users?`,
+
+
 
     API_GET_SIGNATAIRE_BY_MAIL: `${host_ms_drtss}/signature_electronique/signataire/`,
     API_CREATE_SIGNATAIRE_DRTSS: `${host_ms_drtss}/signature_electronique/create_signataire`,

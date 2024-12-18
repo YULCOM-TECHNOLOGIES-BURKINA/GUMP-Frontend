@@ -115,7 +115,7 @@ export class RegisterComponent implements OnInit {
     //                             },
     //                             error: (error) => {
     //                                 this.showFullForm = true;
-            
+
     //                                 // Pré-remplir le formulaire avec les données de l'entreprise
     //                                 this.registerForm.patchValue({
     //                                     companyName: response.name,
@@ -123,7 +123,7 @@ export class RegisterComponent implements OnInit {
     //                                     phoneNumber: response.phoneNumber,
     //                                     ifuNumber: this.ifuForm.get('ifuNumber')?.value
     //                                 });
-            
+
     //                                 this.messageService.add({
     //                                     severity: 'success',
     //                                     summary: 'Succès',
@@ -172,9 +172,9 @@ export class RegisterComponent implements OnInit {
     //     //             summary: 'Succès',
     //     //             detail: 'Votre NES est invalide'
     //     //         });
-            
+
     //     //     }
-    //     // }); 
+    //     // });
     // }
 
 
@@ -183,13 +183,13 @@ export class RegisterComponent implements OnInit {
         if (this.ifuForm.invalid) {
             return;
         }
-    
+
         this.loading = true;
         const vData = {
             ifu: this.ifuForm.get('ifuNumber')?.value,
             nes: this.ifuForm.get('nes')?.value
         };
-    
+
         // Vérification du NES
         this.userService.verifyNes(vData).subscribe({
             next: (response) => {
@@ -203,7 +203,7 @@ export class RegisterComponent implements OnInit {
                     });
                     return;
                 }
-    
+
                 // Si le NES est valide, on vérifie l'IFU
                 this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
                     next: (ifuResponse) => {
@@ -220,7 +220,7 @@ export class RegisterComponent implements OnInit {
                             error: () => {
                                 this.loading = false;
                                 this.showFullForm = true;
-    
+
                                 // Pré-remplir le formulaire avec les données de l'entreprise
                                 this.registerForm.patchValue({
                                     companyName: ifuResponse.name,
@@ -228,7 +228,7 @@ export class RegisterComponent implements OnInit {
                                     phoneNumber: ifuResponse.phoneNumber,
                                     ifuNumber: this.ifuForm.get('ifuNumber')?.value
                                 });
-    
+
                                 this.messageService.add({
                                     severity: 'success',
                                     summary: 'Succès',
@@ -256,6 +256,23 @@ export class RegisterComponent implements OnInit {
                 });
             }
         });
+        // this.userService.verifyNes(this.ifuForm.get('nes')?.value).subscribe({
+        //     next: (response) => {
+        //         this.messageService.add({
+        //             severity: 'error',
+        //             summary: 'Erreur',
+        //             detail: 'Un compte avec ce numéro IFU existe déjà.'
+        //         });
+        //     },
+        //     error: (error) => {
+        //         this.messageService.add({
+        //             severity: 'success',
+        //             summary: 'Succès',
+        //             detail: 'Votre NES est invalide'
+        //         });
+
+        //     }
+        // });
     }
 
     onFileSelect(event: any, fileType: string) {
@@ -303,8 +320,6 @@ export class RegisterComponent implements OnInit {
         this.loading = true;
         if (this.cnibFile && this.statutFile) {
             const userData = {
-            forename: this.registerForm.get('forename')?.value,
-            lastname: this.registerForm.get('lastname')?.value,
             ifuNumber: this.registerForm.get('ifuNumber')?.value,
             cnssNumber: this.registerForm.get('cnssNumber')?.value,
             password: this.registerForm.get('password')?.value,

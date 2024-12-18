@@ -19,7 +19,7 @@ export interface Utilisateur {
     tel?: number,
     matricule?:string
     region?:string
-    actif?: boolean;
+    isActive?: boolean;
 
     username?: string;
     forename?: string;

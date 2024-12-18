@@ -2,6 +2,11 @@
     <a class="layout-topbar-logo" routerLink="">
         <img src="assets/logo.jpg" alt="logo">
         <span>GUMP</span>
+        <span> </span>
+        <p-button  *ngIf="userInfo.role" styleClass="ml-1 p-button-outlined p-button-secondary " disabled="true">
+            <span class="ml-2 font-bold ">{{userInfo?.role}}</span>
+       </p-button>
+
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -12,7 +17,14 @@
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
+
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <div>
+            <button *ngIf="userInfo.region" pButton pRipple type="button" [label]="userInfo?.region" class="p-button-outlined p-button-info mr-2" disabled="true"></button>
+            <button *ngIf="userInfo.email" pButton pRipple type="button" [label]="userInfo?.email" class="p-button-outlined p-button-danger mr-2" disabled="true"></button>
+
+            <button  *ngIf="userInfo.forename"  pButton pRipple type="button" [label]="userInfo?.forename +' '+ userInfo?.lastname | uppercase " class="p-button-raised p-button-secondary" disabled="true"></button>
+        </div>
         <button class="p-link layout-topbar-button" [routerLink]="'/app/pages/profil'">
             <i class="pi pi-user"></i>
             <span>Profil</span>
@@ -21,5 +33,6 @@
             <i class="pi pi-sign-out"></i>
             <span>Déconnexion</span>
         </button>
+
     </div>
 </div>
