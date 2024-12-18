@@ -34,44 +34,23 @@ export class ProfilComponent implements OnInit {
     this.getUserProfile();
   }
 
-  // TODO/ à implementer les méthodes pour gérer le profil utilisateur
-//   saveProfil() {
-//       if (this.profil) {
-//           const formData = new FormData();
-//           formData.append('nom', this.profil.nom);
-
-//           // Appel au service pour envoyer les fichiers
-//           this.userService.submitUserRequest(formData).subscribe({
-//               next: (response) => {
-//                   this.messageService.add({
-//                       severity: 'success',
-//                       summary: 'Profil mis à jour',
-//                       detail: 'Les nouvelles informations du profil ont été sauvegardées!',
-//                   });
-//               },
-//               error: (err) => {
-//                   this.messageService.add({
-//                       severity: 'error',
-//                       summary: 'Erreur',
-//                       detail: "Une erreur est survenue lors de l'envoi.",
-//                   });
-//               },
-//           });
-//       } else {
-//           this.messageService.add({
-//               severity: 'warn',
-//               summary: 'Attention',
-//               detail: 'Veuillez remplir les champs obligatoires.',
-//           });
-//       }
-//   }
 
   getUserProfile() {
     if (this.currentUser !== null) {
         const user = JSON.parse(this.currentUser);
-        this.profil.nom = user.nom;
-        this.profil.prenom = user.prenom;
-        this.profil.email = user.email;
+        this.userService.getUserByIfu(user.nom).subscribe({
+            next: (response) => {
+                this.request = response; 
+            },
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erruer',
+                    detail: 'Informations du profile non disponibles'
+                }); 
+            }
+        }); 
+       
     }
   }
 

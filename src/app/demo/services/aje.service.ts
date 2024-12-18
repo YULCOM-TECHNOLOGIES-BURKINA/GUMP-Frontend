@@ -8,8 +8,7 @@ import { DemandeAje, DemandeAjeResponse } from '../models/aje';
 })
 export class AjeService {
 
- // private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes';
-  private apiUrl = 'http://localhost:9090/api/demandes';
+ private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes';
 
   constructor(private http: HttpClient) {}
 

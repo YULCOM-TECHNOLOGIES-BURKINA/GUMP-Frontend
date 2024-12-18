@@ -451,10 +451,6 @@
                 <span class="font-bold">Entreprise: {{ request?.company?.name }}</span>
             </div>
             <div class="col-6">
-                <p><strong>Localisation: </strong> Ouagadougou</p>
-                <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
-            </div>
-            <div class="col-6">
                 <p><strong>Adresse: </strong>{{ request?.company?.adress }}</p>
                 <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
             </div>
@@ -462,11 +458,11 @@
                 <p><strong>IFU: </strong> {{request?.company?.ifu}}</p>
             </div>
             <div class="col-6">
-                <p><strong>RCCM: </strong> 010203</p>
+                <p><strong>RCCM: </strong> {{request?.company?.rccm}}</p>
             </div>
             <div class="col-12">
-                <p><strong>Réfrence du marché: </strong> {{ request?.publicContractNumber }}</p>
-                <p><strong>Objet du marché: </strong> xxxxxxxxxxx</p>
+                <p><strong>Réfrence de l'appel d'offre: </strong> {{ request?.publicContractNumber }}</p>
+                <p><strong>Objet de l'appel d'offre: </strong> {{ request?.contractPurpose }}</p>
             </div>
             <div class="col-12 mt-2 flex" *ngIf="request.files">            
                 <button 
@@ -517,25 +513,21 @@
         *ngIf="request">
         <div class="grid p-fluid">
             <div class="col-12">
-                <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
+                <span class="font-bold">Entreprise: {{ request?.company?.name }}</span>
             </div>
             <div class="col-6">
-                <p><strong>Localisation: </strong> Ouagadougou</p>
-                <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
-            </div>
-            <div class="col-6">
-                <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
+                <p><strong>Adresse: </strong>{{ request?.company?.adress }}</p>
                 <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
             </div>
             <div class="col-6">
-                <p><strong>IFU: </strong> 010203</p>
+                <p><strong>IFU: </strong> {{request?.company?.ifu}}</p>
             </div>
             <div class="col-6">
-                <p><strong>RCCM: </strong> 010203</p>
+                <p><strong>RCCM: </strong> {{request?.company?.rccm}}</p>
             </div>
             <div class="col-12">
-                <p><strong>Réfrence du marché: </strong> xxxxxxxxx</p>
-                <p><strong>Objet du marché: </strong> xxxxxxxxxxx</p>
+                <p><strong>Réfrence de l'appel d'offre: </strong> {{ request?.publicContractNumber }}</p>
+                <p><strong>Objet de l'appel d'offre: </strong> {{ request?.contractPurpose }}</p>
             </div>
             <div class="col-6 mt-2">
                 <label>N° Attestation ANPE</label>
@@ -543,7 +535,6 @@
             </div>
             <div class="col-6 mt-2">
                 <label>Date Attestation ANPE</label>
-                <!-- <p-calendar [(ngModel)]="attestationAnpeDate" dateFormat="yy-mm-dd" required  /> -->
                 <input pInputText type="date" id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="dd/mm/yyyy" required />
 
             </div>
@@ -553,7 +544,6 @@
             </div>
             <div class="col-6 mt-2">
                 <label>Date Attestation CNSS</label>
-                <!-- <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" dateFormat="yy-mm-dd" required /> -->
                 <input pInputText type="date" id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="dd/mm/yyyy" required />
             </div>
         </div>
