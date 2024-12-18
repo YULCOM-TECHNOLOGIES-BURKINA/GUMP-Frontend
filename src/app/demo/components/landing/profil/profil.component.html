@@ -12,11 +12,11 @@
                     <div class="p-fluid formgrid grid">
                         <div class="field col-12 md:col-6">
                             <label for="nom">Nom</label>
-                            <input pInputText id="nom" [(ngModel)]="request.name" placeholder="Nom" />
+                            <input pInputText id="nom" [(ngModel)]="request.lastname" placeholder="Nom" />
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="prenom">Prénom</label>
-                            <input pInputText id="prenom" [(ngModel)]="request.lastname" placeholder="Prénom" />
+                            <input pInputText id="prenom" [(ngModel)]="request.forename" placeholder="Prénom" />
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="email">Email</label>
@@ -24,24 +24,20 @@
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="entreprise">Nom de l'entreprise</label>
-                            <input pInputText id="email" [(ngModel)]="request.company.name" placeholder="Nom de l'entreprise"  readonly/>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.name" placeholder="Nom de l'entreprise"  readonly/>
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="adresse">Adresse de l'entreprise</label>
-                            <input pInputText id="email" [(ngModel)]="request.company.address" placeholder="Adresse de l'entreprise" readonly/>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.address" placeholder="Adresse de l'entreprise" readonly/>
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="phone">Téléphone</label>
-                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Téléphone" readonly/>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="profil.email" placeholder="Téléphone" readonly/>
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="phone">Numéro IFU</label>
-                            <input pInputText id="email" [(ngModel)]="request.company.ifu" placeholder="Numéro IFU" readonly/>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.ifu" placeholder="Numéro IFU" readonly/>
                         </div>
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="phone">Numéro RCCM</label>
-                            <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Numéro RCCM" />
-                        </div> -->
 
                         <div class="field col-12 md:col-6">
                             <label for="password">Nouveau mot de passe</label>
@@ -94,3 +90,10 @@
         <app-footer></app-footer>  
     </div>
 </div>
+<style>
+    .readonly-input[readonly] {
+    background-color: #f0f0f0; /* Gris clair */
+    color: #6c757d; /* Texte gris */
+    cursor: not-allowed;
+}
+</style>

@@ -8,15 +8,15 @@
             <div class="p-fluid formgrid grid">
                 <div class="field col-12 md:col-6">
                     <label for="nom">Nom</label>
-                    <input pInputText id="nom" [(ngModel)]="profil.nom" placeholder="Nom" />
+                    <input pInputText id="nom" [(ngModel)]="request.lastname" placeholder="Nom" />
                 </div>
                 <div class="field col-12 md:col-6">
                     <label for="prenom">Prénom</label>
-                    <input pInputText id="prenom" [(ngModel)]="profil.prenom" placeholder="Prénom" />
+                    <input pInputText id="prenom" [(ngModel)]="request.forename" placeholder="Prénom" />
                 </div>
                 <div class="field col-12 md:col-6">
                     <label for="email">Email</label>
-                    <input pInputText id="email" [(ngModel)]="profil.email" placeholder="Email" readonly />
+                    <input pInputText id="email" [(ngModel)]="request.email" placeholder="Email" readonly />
                 </div>
 
                 <div class="field col-12 md:col-6">
@@ -36,12 +36,6 @@
             </div>
 
             
-            <p-divider></p-divider>
-            
-            <div class="flex justify-content-between">
-                <p-button label="Désactiver le compte" icon="pi pi-ban" severity="danger"  (onClick)="desactivateAccount()"></p-button>
-                <p-button label="Supprimer le compte" icon="pi pi-trash" severity="danger"  (onClick)="deleteAccount()"></p-button>
-            </div>
         </div>
 
         <!-- Dialogs -->

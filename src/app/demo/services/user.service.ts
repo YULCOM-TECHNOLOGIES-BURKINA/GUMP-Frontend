@@ -47,7 +47,10 @@ export class UserService {
 
   getUserByIfu(ifuNumber: string): Observable<any> {
       return this.http.get(
-          `${this.apiUrl}/users/${ifuNumber}/find?service=users-ms`
+          `${this.apiUrl}/users/${ifuNumber}/find?service=users-ms`,
+          {
+              headers: this.getFormDataHeaders(),
+          }
       );
   }
 
