@@ -24,18 +24,16 @@ class ActService {
       id: 'drtps',
       title: 'Attestation DRTPS',
       img:'assets/image.png',
-      description: 'L\'attestation DRTPS (Direction Régionale du Travail et de la Protection Sociale) est un document officiel qui certifie la régularité d\'une entreprise en matière de droit du travail et de sécurité sociale.',
+      description: 'L\'attestation DRTPS (Direction Régionale du Travail et de la Protection Sociale) est un document officiel qui certifie la régularité d\'une entreprise en matière de droit du travail et de sécurité sociale.La DRTPS  veille au respect et à l\'application de la réglementation du travail au sein des entreprises régies par le code du travail.',
       icon: 'pi pi-file',
       organization: 'Direction Régionale du Travail et de la Protection Sociale',
       validityPeriod: '3 mois',
-      processingTime: '48 heures',
-      price: '10 000 FCFA',
+      processingTime: '24 heures',
+      price: '1500 FCFA',
       category: 'Travail',
       usages: [
-        'Participation aux marchés publics',
-        'Renouvellement des agréments',
-        'Demandes de financement',
-        'Certification qualité'
+        'Soumission aux marchés publics',
+        
       ],
       requiredDocuments: [
         'Registre d\'employeur à jour',
@@ -52,15 +50,11 @@ class ActService {
       ],
       legalTexts: [
         {
-          title: 'Code du Travail - Article L.118',
-          content: 'L\'attestation de régularité est délivrée par l\'inspection du travail aux entreprises qui respectent les dispositions du présent code.',
+          title: 'décret n*2003-303/PRES/PM/MTEJ/MFB',
+          content: 'L\'attestation de la DRTPSC est régie par le décret n*2003-303/PRES/PM/MTEJ/MFB fixant le montant et les modalités de perception des frais de délivrance de l\'attestation de soumission aux marchés publics. L\'ASMP est la preuve que l\'entreprise est en règle vis à vis de la réglementation du travail en vigueur',
           link: 'https://exemple.com/code-travail'
         },
-        {
-          title: 'Décret n°2023-456',
-          content: 'Fixe les modalités de délivrance et de renouvellement des attestations de régularité en matière de travail.',
-          link: 'https://exemple.com/decret'
-        }
+      
       ],
       steps: [
         {
@@ -94,7 +88,7 @@ class ActService {
         organization: 'L\'Agence Nationale Pour l\'Emploi ',
         validityPeriod: '3 mois',
         processingTime: '48 heures',
-        price: '10 000 FCFA',
+        price: '1500 FCFA',
         category: 'Travail',
         usages: [
           'Participation aux marchés publics',
@@ -159,7 +153,7 @@ class ActService {
       organization: 'Caisse Nationale de Sécurité Sociale',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '5 000 FCFA',
+      price: '2 000 FCFA',
       category: 'Sécurité Sociale',
       usages: [
           'Accès aux marchés publics',
@@ -205,9 +199,9 @@ class ActService {
       description: 'L\'attestation de non-engagement certifie qu\'une entreprise n\'est pas en situation d\'engagement auprès de l\'État pour des projets en cours.',
       icon: 'pi pi-file',
       organization: 'Ministère de l\'Économie et des Finances',
-      validityPeriod: '1 an',
-      processingTime: '5 jours ouvrables',
-      price: '15 000 FCFA',
+      validityPeriod: '3 mois',
+      processingTime: '24 heures',
+      price: '1000 FCFA',
       category: 'Finance',
       usages: [
           'Participation aux appels d\'offres',
@@ -259,7 +253,7 @@ class ActService {
       organization: 'Greffe du Tribunal de Commerce',
       validityPeriod: 'Indéfini',
       processingTime: '5 jours',
-      price: '25 000 FCFA',
+      price: '1500 FCFA',
       category: 'Commerce',
       usages: [
           'Démarches bancaires',
@@ -311,7 +305,7 @@ class ActService {
       organization: 'Tribunal de Commerce',
       validityPeriod: '6 mois',
       processingTime: '72 heures',
-      price: '20 000 FCFA',
+      price: '1500 FCFA',
       category: 'Juridique',
       usages: [
           'Participation aux marchés publics',
@@ -363,7 +357,7 @@ class ActService {
       organization: 'Tribunal de Commerce',
       validityPeriod: '6 mois',
       processingTime: '72 heures',
-      price: '20 000 FCFA',
+      price: '1500 FCFA',
       category: 'Juridique',
       usages: [
           'Participation aux marchés publics',

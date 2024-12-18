@@ -31,7 +31,7 @@ export class LandingComponent implements OnInit {
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '15 000 FCFA',
+      price: '1500 FCFA',
       img:'assets/justice.jpg'
     },
     {
@@ -42,7 +42,7 @@ export class LandingComponent implements OnInit {
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '15 000 FCFA',
+      price: '1500 FCFA',
       img:'assets/anpe.jpg'
     },
     {
@@ -52,8 +52,8 @@ export class LandingComponent implements OnInit {
       icon: 'pi pi-file',
       organization: 'Direction Régionale du Travail et de la Protection Sociale',
       validityPeriod: '3 mois',
-      processingTime: '48 heures',
-      price: '10 000 FCFA',
+      processingTime: '24 heures',
+      price: '1500 FCFA',
       img:'assets/logo1.png'
     },
     {
@@ -63,8 +63,8 @@ export class LandingComponent implements OnInit {
       icon: 'pi pi-building',
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
-      processingTime: '72 heures',
-      price: '15 000 FCFA',
+      processingTime: '24 heures',
+      price: '1000FCFA',
       img:'assets/justice.jpg'
     },
    
@@ -76,7 +76,7 @@ export class LandingComponent implements OnInit {
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '15 000 FCFA',
+      price: '1500 FCFA',
       img:'assets/justice.jpg'
     },
     {
@@ -87,7 +87,7 @@ export class LandingComponent implements OnInit {
       organization: 'Agence Judiciaire de l\'État',
       validityPeriod: '3 mois',
       processingTime: '72 heures',
-      price: '15 000 FCFA',
+      price: '1500 FCFA',
       img:'assets/dgi.png'
     }
   ];
