@@ -64,13 +64,13 @@ export class DrtssService {
   }
 
   rejectRequest(requestId: number, requestData: any): Observable<any> {
-    return this.http.post(`${this.apiGateway}/demandes/${requestId}/review?status=REJECTED?rejectionReason=${requestData}?service=drtss-ms`, {
+    return this.http.post(`${this.apiGateway}/demandes/${requestId}/review?status=REJECTED&rejectionReason=${requestData}&service=drtss-ms`, {
       headers: this.getFormDataHeaders()
     });
   }
 
   reviewRequest(requestId: number): Observable<any> {
-    return this.http.post(`${this.apiGateway}/demandes/${requestId}/review?status=PROCESSING?service=drtss-ms`, {}, {
+    return this.http.post(`${this.apiGateway}/demandes/${requestId}/review?status=PROCESSING&service=drtss-ms`, {}, {
       headers: this.getFormDataHeaders()
     });
   }
@@ -82,7 +82,7 @@ export class DrtssService {
       callbackUrl: callbackUrl
     };
 
-    return this.http.post(`${this.apiUrl}/${demandeId}/pay`, paymentData, {
+    return this.http.post(`${this.apiGateway}/demandes/${demandeId}/pay?service=drtss-ms`, paymentData, {
       headers: this.getHeaders()
     });
   }
@@ -93,7 +93,7 @@ export class DrtssService {
       paymentId: paymentId
     };
 
-    return this.http.post(`http://195.35.48.198:8082/api/demandes/${demandeId}/update-payment-status?paymentId=${paymentId}`, {
+    return this.http.post(`${this.apiGateway}/demandes/${demandeId}/update-payment-status?paymentId=${paymentId}&service=drtss-ms`, {
       headers: this.getHeaders()
     });
   }

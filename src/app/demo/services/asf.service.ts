@@ -8,7 +8,7 @@ import { DemandeAsf, DemandeAsfResponse } from '../models/asf';
 })
 export class AsfService {
 
-  private apiUrl = 'http://195.35.48.198:8083/api';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api';
 
   constructor(private http: HttpClient) {}
 
@@ -28,27 +28,27 @@ export class AsfService {
   }
 
   submitAttestationRequest(requestData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/demandes`, requestData, {
+    return this.http.post(`${this.apiUrl}/demandes?service=asf-ms`, requestData, {
       headers: this.getHeaders()
     });
   }
 
    downloadAsf(data: { ifu: string, nes: string, reference: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/telecharger`, data, {
+    return this.http.post(`${this.apiUrl}/telecharger?service=asf-ms`, data, {
       headers: this.getHeaders(),
       responseType: 'blob'
     });
   }
 
   getDemandesHistory(data: { ifu: string, nes: string }): Observable<any> {
-    return this.http.get(`${this.apiUrl}/demandes`, {
+    return this.http.get(`${this.apiUrl}/demandes?service=asf-ms`, {
       headers: this.getHeaders(),
-      params: data // Pour les requêtes GET, on utilise params plutôt qu'un body
+      params: data 
     });
   }
 
   getDemandes(): Observable<DemandeAsfResponse> {
-    return this.http.get<DemandeAsfResponse>(`${this.apiUrl}`, {
+    return this.http.get<DemandeAsfResponse>(`${this.apiUrl}?service=asf-ms`, {
       headers: this.getFormDataHeaders()
     });
   }

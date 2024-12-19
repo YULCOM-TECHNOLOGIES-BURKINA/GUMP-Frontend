@@ -43,18 +43,6 @@ export class PaymentCallbackComponent implements OnInit {
         // Vérifier le statut du paiement 
         this.drtssService.updatePaymentStatus(this.demandeId, paymentId).subscribe({
           next: (response) => {
-            // if (response.status === 'PAID') {
-            //   this.messageService.add({
-            //     severity: 'success',
-            //     summary: 'Succès',
-            //     detail: 'Paiement effectué avec succès!'
-            //   });
-            //   setTimeout(() => {
-            //     this.router.navigate(['/demandes']);
-            //   }, 2000);
-            // } else {
-            //   this.handlePaymentError();
-            // }
           },
           error: () => this.handlePaymentError()
         });
@@ -70,7 +58,7 @@ export class PaymentCallbackComponent implements OnInit {
                 });
                 setTimeout(() => {
                   this.router.navigate(['/demandes']);
-                }, 3000);
+                }, 2000);
               } else {
                 this.handlePaymentError();
               }
@@ -81,34 +69,6 @@ export class PaymentCallbackComponent implements OnInit {
         this.handlePaymentError();
       }
     });
-
-    // this.route.queryParams.subscribe(params => {
-    //     const demandeId = params['demandeId'];
-    //     // this.drtssService.getOneDemande(requestDrtss.id).subscribe(data => {
-    //     //     this.requestDrtss = data;
-    //     //   });
-  
-
-    //       // Vérifier le statut du paiement 
-    //       this.drtssService.getOneDemande(demandeId).subscribe({
-    //         next: (response) => {
-    //           if (response.isPaid) {
-    //             this.messageService.add({
-    //               severity: 'success',
-    //               summary: 'Succès',
-    //               detail: 'Paiement effectué avec succès!'
-    //             });
-    //             setTimeout(() => {
-    //               this.router.navigate(['/demandes']);
-    //             }, 3000);
-    //           } else {
-    //             this.handlePaymentError();
-    //           }
-    //         },
-    //         error: () => this.handlePaymentError()
-    //       });
-
-    //   });
   }
 
   private handlePaymentError() {
