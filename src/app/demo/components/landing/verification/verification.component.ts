@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { VerificationService } from '../../../services/verification.service';
 
 interface VerificationResult {
   docType: string;
@@ -38,6 +39,7 @@ export class VerificationComponent implements OnInit {
 
   constructor(
     private messageService: MessageService, 
+    private verificationService: VerificationService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -71,6 +73,49 @@ export class VerificationComponent implements OnInit {
     this.verificationForm.get('ifu').updateValueAndValidity();
   }
 
+  // verify() {
+  //   if (this.selectedDocType === 'ASF' && 
+  //       (!this.verificationForm.get('nes').value || 
+  //        !this.verificationForm.get('ifu').value || 
+  //        !this.verificationForm.get('reference').value)) {
+  //     this.messageService.add({
+  //       severity: 'warn',
+  //       summary: 'Attention',
+  //       detail: 'Veuillez remplir tous les champs requis'
+  //     });
+  //     return;
+  //   } else if (!this.selectedDocType || !this.verificationForm.get('reference').value) {
+  //     this.messageService.add({
+  //       severity: 'warn',
+  //       summary: 'Attention',
+  //       detail: 'Veuillez saisir une référence et sélectionner un type de document'
+  //     });
+  //     return;
+  //   }
+
+  //   this.loading = true;
+  //   this.showResult = false;
+
+  //   // Simuler la vérification (à remplacer par votre appel API réel)
+  //   setTimeout(() => {
+  //     // Simulation d'un document invalide (à adapter selon vos besoins)
+  //     const isValid = Math.random() > 0.5;
+      
+  //     this.verificationResult = {
+  //       docType: this.selectedDocType,
+  //       reference: this.verificationForm.get('reference').value,
+  //       status: isValid ? 'valid' : 'invalid',
+  //       issueDate: isValid ? '2024-01-15' : undefined,
+  //       expiryDate: isValid ? '2024-12-31' : undefined,
+  //       organization: isValid ? 'Direction Régionale du Travail et de la Protection Sociale' : undefined,
+  //       additionalInfo: isValid ? 'Document émis par la DRPTS du Centre' : 'Document non valide ou inexistant'
+  //     };
+
+  //     this.loading = false;
+  //     this.showResult = true;
+  //   }, 1500);
+  // }
+
   verify() {
     if (this.selectedDocType === 'ASF' && 
         (!this.verificationForm.get('nes').value || 
@@ -90,28 +135,91 @@ export class VerificationComponent implements OnInit {
       });
       return;
     }
-
+  
     this.loading = true;
     this.showResult = false;
-
-    // Simuler la vérification (à remplacer par votre appel API réel)
-    setTimeout(() => {
-      // Simulation d'un document invalide (à adapter selon vos besoins)
-      const isValid = Math.random() > 0.5;
-      
-      this.verificationResult = {
-        docType: this.selectedDocType,
+  
+    if (this.selectedDocType === 'ASF') {
+      const asfData = {
         reference: this.verificationForm.get('reference').value,
-        status: isValid ? 'valid' : 'invalid',
-        issueDate: isValid ? '2024-01-15' : undefined,
-        expiryDate: isValid ? '2024-12-31' : undefined,
-        organization: isValid ? 'Direction Régionale du Travail et de la Protection Sociale' : undefined,
-        additionalInfo: isValid ? 'Document émis par la DRPTS du Centre' : 'Document non valide ou inexistant'
+        nes: this.verificationForm.get('nes').value,
+        ifu: this.verificationForm.get('ifu').value
       };
+  
+      this.verificationService.verifyASF(asfData).subscribe({
+        next: (response) => {
+          this.handleVerificationResponse(response);
+        },
+        error: (error) => {
+          this.handleVerificationError(error);
+        }
+      });
+    } else {
+      this.verificationService.verifyDocument(
+        this.selectedDocType,
+        this.verificationForm.get('reference').value
+      ).subscribe({
+        next: (response) => {
+          this.handleVerificationResponse(response);
+        },
+        error: (error) => {
+          this.handleVerificationError(error);
+        }
+      });
+    }
+  }
+  
+  private handleVerificationResponse(response: any) {
+    this.loading = false;
+    
+    const isValid = response.status === 200 && response.data?.valid;
+    
+    this.verificationResult = {
+      docType: this.selectedDocType,
+      reference: this.verificationForm.get('reference').value,
+      status: isValid ? 'valid' : 'invalid',
+      issueDate: isValid ? response.data?.issueDate : undefined,
+      expiryDate: isValid ? response.data?.expiryDate : undefined,
+      organization: isValid ? response.data?.organization : undefined,
+      additionalInfo: isValid ? 
+        response.data?.additionalInfo || 'Document valide' : 
+        response.data?.message || 'Document non valide ou inexistant'
+    };
+  
+    this.showResult = true;
+  }
+  
 
-      this.loading = false;
-      this.showResult = true;
-    }, 1500);
+  private handleVerificationError(error: any) {
+    this.loading = false;
+    
+    // Déterminer le message d'erreur en fonction du code HTTP
+    let errorMessage: string;
+    switch (error.status) {
+      case 404:
+        errorMessage = 'Document non valide ou inexistant';
+        break;
+      case 500:
+        errorMessage = 'Le serveur a rencontré une erreur';
+        break;
+      default:
+        errorMessage = 'Une erreur est survenue lors de la vérification du document';
+    }
+    
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: errorMessage
+    });
+    
+    this.verificationResult = {
+      docType: this.selectedDocType,
+      reference: this.verificationForm.get('reference').value,
+      status: 'invalid',
+      additionalInfo: errorMessage
+    };
+    
+    this.showResult = true;
   }
 
   reset() {
