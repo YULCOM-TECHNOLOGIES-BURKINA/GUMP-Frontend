@@ -87,7 +87,7 @@ export class SignatureElectroniquesService {
 
     public listRegions() {
         return this.fastService
-            .get<any[]>(`${API_ROOT.API_LISTE_REGIONS}`)
+            .getWithoutToken<any[]>(`${API_ROOT.API_LISTE_REGIONS}`)
             .pipe(
                 tap((regions) => {
                  }),

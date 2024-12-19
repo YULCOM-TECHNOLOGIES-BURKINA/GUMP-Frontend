@@ -21,7 +21,7 @@
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
         <div>
             <button *ngIf="userInfo.region" pButton pRipple type="button" [label]="userInfo?.region" class="p-button-outlined p-button-info mr-2" disabled="true"></button>
-            <button *ngIf="userInfo.email" pButton pRipple type="button" [label]="userInfo?.email" class="p-button-outlined p-button-danger mr-2" disabled="true"></button>
+        <!--    <button *ngIf="userInfo.email" pButton pRipple type="button" [label]="userInfo?.email" class="p-button-outlined p-button-danger mr-2" disabled="true"></button> -->
 
             <button  *ngIf="userInfo.forename"  pButton pRipple type="button" [label]="userInfo?.forename +' '+ userInfo?.lastname | uppercase " class="p-button-raised p-button-secondary" disabled="true"></button>
         </div>

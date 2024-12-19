@@ -21,8 +21,7 @@ export class AppMenuComponent implements OnInit {
         const user = JSON.parse(userDetails);
         this.checkSignatory(user.email)
         this.userRole = user.role;
-        console.log("userRole",user);
-        this.initMenu()
+         this.initMenu()
     }
     signatory_value:any[]=[]
     isSignatory:boolean=false;
@@ -30,7 +29,6 @@ export class AppMenuComponent implements OnInit {
     checkSignatory(email: string): void {
         this.signatureService.getSignatoryByEmail(email).subscribe({
           next: (res: any) => {
-                console.log("log",res);
 
             if ( !!res?.signatureCertificat ) {
                 this.userRole
@@ -101,6 +99,4 @@ export class AppMenuComponent implements OnInit {
             }
         ];
     }
-
-
 }
