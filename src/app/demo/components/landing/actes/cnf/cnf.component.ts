@@ -54,8 +54,11 @@ export class CnfComponent implements OnInit {
           severity: 'success', 
           summary: 'Succès', 
           detail: 'Formulaire envoyé avec succès !',
-          life: 1500 
+          life: 3000 
         });
+        setTimeout(() => {
+          this.router.navigate(['/demandes']);
+        }, 2000);
         
         // Réinitialisation du formulaire
         this.rccmFile = null;
