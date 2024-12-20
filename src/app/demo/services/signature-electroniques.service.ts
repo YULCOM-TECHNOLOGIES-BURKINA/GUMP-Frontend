@@ -3,7 +3,7 @@ import { HttpFastserviceService } from './http-fastservice.service';
 import { CreateUserRequest, Utilisateur } from '../models/utilisateurs';
 import { API_ROOT } from 'src/environments/environment';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -348,4 +348,16 @@ export class SignatureElectroniquesService {
                 })
             );
     }
+
+   /**
+   * Vérifie si un utilisateur avec un rôle donné existe dans une région donnée.
+   * @param role Rôle de l'utilisateur
+   * @param region Région de l'utilisateur
+   * @returns Un Observable contenant un boolean
+   */
+   checkUserExists(role: string, region: string): Observable<boolean> {
+
+    return this.fastService.get<boolean>(`${this._gateway}users/exists?role=${role}&region=${region}&`+this._ms_users);
+
+  }
 }
