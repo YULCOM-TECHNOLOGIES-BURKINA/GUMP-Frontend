@@ -7,13 +7,15 @@ import { NotfoundComponent } from './demo/components/notfound/notfound.component
 import { DrtssService } from './demo/services/drtss.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { KeycloakAuthService } from './demo/services/keycloak-auth.service';
 import { RouterModule } from '@angular/router';
+import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
+import { LoadingInterceptor } from './demo/shared/interceptors/loading.interceptor';
 
 export function initializeKeycloak(keycloak: KeycloakAuthService) {
     return () => keycloak.init();
@@ -33,9 +35,17 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
         ToastModule,
         ButtonModule,
         InputTextModule,
-        RouterModule
+        RouterModule,
+        NgxSpinnerModule
+
     ],
     providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoadingInterceptor,
+            multi: true
+          },
+ 
         {
 
             provide: LocationStrategy,
@@ -47,7 +57,7 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
             multi: true,
             deps: [KeycloakAuthService]
         },
-        
+
         DrtssService,
         MessageService,
         KeycloakAuthService

@@ -14,11 +14,13 @@ import { Utilisateur } from 'src/app/demo/models/utilisateurs';
 import { SignatureElectroniquesService } from 'src/app/demo/services/signature-electroniques.service';
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { SpinnerComponent } from "../../../../shared/spinner/spinner.component";
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
     selector: 'app-utilisateurs-dr-regional',
     standalone: true,
-    imports: [UtilsModuleModule],
+    imports: [UtilsModuleModule, SpinnerComponent],
     templateUrl: './utilisateurs-dr-regional.component.html',
     styleUrl: './utilisateurs-dr-regional.component.scss',
     providers: [ConfirmationService, MessageService],
@@ -38,6 +40,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
+    isLoading: boolean = false; // Contrôle l'affichage du spinner
 
     constructor(
         public layoutService: LayoutService,
@@ -46,7 +49,8 @@ export class UtilisateursDrtssComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private fb: FormBuilder,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private spinner: NgxSpinnerService
     ) {}
     ngOnInit(): void {
         this.loadUsers(this.pageNumber, this.pageSize);
@@ -65,9 +69,13 @@ export class UtilisateursDrtssComponent implements OnInit {
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
+                this.isLoading = false;
+
             },
             (error) => {
                 this.loading = false;
+                this.isLoading = false;
+
                 this.cdr.detectChanges();
             }
         );
@@ -306,7 +314,7 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.submitted = false;
     }
 
-  
+
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal(
