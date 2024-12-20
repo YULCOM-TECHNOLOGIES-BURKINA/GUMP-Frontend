@@ -150,10 +150,6 @@ export class AsfComponent implements OnInit {
                 });
                 // Réinitialisation du formulaire
                 this.resetForm();
-                // Navigation vers la page des demandes
-                setTimeout(() => {
-                  this.router.navigate(['/demandes']);
-                }, 2000);
               },
               error: (err) => {
                 this.messageService.add({

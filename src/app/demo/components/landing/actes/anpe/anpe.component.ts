@@ -281,7 +281,7 @@ export class AnpeComponent implements OnInit {
             detail: 'Formulaire envoyé avec succès !'
           });
           setTimeout(() => {
-            this.router.navigate(['/app/pages/demandes']);
+            this.router.navigate(['/demandes']);
           }, 2000);
         },
         error: (err) => {

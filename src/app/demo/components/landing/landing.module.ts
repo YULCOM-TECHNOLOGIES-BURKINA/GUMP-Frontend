@@ -20,7 +20,7 @@ import { InputTextModule } from "primeng/inputtext";
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
 import { TimelineModule } from 'primeng/timeline';
 import { SharedModule } from './shared/shared.module';
@@ -79,7 +79,8 @@ import { ChipsModule } from 'primeng/chips';
         TooltipModule,
         BadgeModule,
         TabViewModule,
-        ChipsModule
+        ChipsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         LandingComponent, 

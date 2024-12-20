@@ -2,7 +2,6 @@
     <div id="home" class="landing-wrapper overflow-hidden">
         <app-header></app-header>
 
-
         <div class="verification-wrapper overflow-hidden">
             <!-- Hero Section -->
             <div class="other-hero text-white px-4 py-8 md:px-6 lg:px-8">
@@ -21,27 +20,55 @@
                         <div class="col-12 mb-4">
                             <p-selectButton [options]="documentTypes" [(ngModel)]="selectedDocType" 
                                           optionLabel="label" optionValue="value"
+                                          (onChange)="onDocTypeChange()"
                                           styleClass="verification-toggle">
                             </p-selectButton>
                         </div>
     
                         <div class="col-12">
-                            <div class="p-inputgroup">
-                                <span class="p-inputgroup-addon">
-                                    <i class="pi pi-id-card"></i>
-                                </span>
-                                <input pInputText [(ngModel)]="reference" 
-                                       placeholder="Saisissez le numéro de référence du document"
-                                       class="p-inputtext-lg w-full"/>
-                                <button type="button" pButton pRipple 
-                                        label="Vérifier" 
-                                        icon="pi pi-search"
-                                        (click)="verify()"
-                                        [loading]="loading"
-                                        [disabled]="!isFormValid()"
-                                        class="p-button-success">
-                                </button>
-                            </div>
+                            <form [formGroup]="verificationForm">
+                                <!-- Champs supplémentaires pour ASF -->
+                                <div *ngIf="selectedDocType === 'ASF'" class="grid">
+                                    <div class="col-12 md:col-6 mb-3">
+                                        <div class="p-inputgroup">
+                                            <span class="p-inputgroup-addon">
+                                                <i class="pi pi-id-card"></i>
+                                            </span>
+                                            <input pInputText formControlName="nes" 
+                                                   placeholder="Numéro NES"
+                                                   class="p-inputtext-lg w-full"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-6 mb-3">
+                                        <div class="p-inputgroup">
+                                            <span class="p-inputgroup-addon">
+                                                <i class="pi pi-id-card"></i>
+                                            </span>
+                                            <input pInputText formControlName="ifu" 
+                                                   placeholder="Numéro IFU"
+                                                   class="p-inputtext-lg w-full"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Champ de référence -->
+                                <div class="p-inputgroup">
+                                    <span class="p-inputgroup-addon">
+                                        <i class="pi pi-id-card"></i>
+                                    </span>
+                                    <input pInputText formControlName="reference" 
+                                           placeholder="Saisissez le numéro de référence du document"
+                                           class="p-inputtext-lg w-full"/>
+                                    <button type="button" pButton pRipple 
+                                            label="Vérifier" 
+                                            icon="pi pi-search"
+                                            (click)="verify()"
+                                            [loading]="loading"
+                                            [disabled]="!isFormValid()"
+                                            class="p-button-success">
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -51,7 +78,9 @@
                      style="max-width: 800px;">
                     <p-card>
                         <ng-template pTemplate="header">
-                            <div class="flex align-items-center justify-content-between p-4 border-bottom-1 surface-border">
+                            <div class="flex align-items-center justify-content-between p-4"
+                                 [ngClass]="{'border-bottom-1 surface-border': verificationResult.status === 'valid',
+                                           'border-red-500 border-bottom-2 invalid-document-header': verificationResult.status === 'invalid'}">
                                 <h2 class="text-2xl font-semibold m-0">Résultat de la vérification</h2>
                                 <p-tag [severity]="getStatusSeverity(verificationResult.status)"
                                       [icon]="getStatusIcon(verificationResult.status)"
@@ -59,8 +88,7 @@
                                 </p-tag>
                             </div>
                         </ng-template>
-    
-                        <div class="grid">
+                        <div *ngIf="verificationResult.status === 'valid'" class="grid">
                             <div class="col-12 md:col-6">
                                 <div class="field">
                                     <label class="block text-900 font-medium mb-2 font-bold">Type de document</label>
@@ -98,7 +126,13 @@
                                 </div>
                             </div>
                         </div>
-    
+
+                        <div *ngIf="verificationResult.status === 'invalid'" class="text-center p-4">
+                            <i class="pi pi-times-circle text-6xl text-red-500 mb-4 invalid-document-icon"></i>
+                            <h3 class="invalid-document-message text-red-500 text-xl font-bold mb-2">Document Non Valide</h3>
+                            <p class="invalid-document-details text-700">{{verificationResult.additionalInfo}}</p>
+                        </div>
+                        
                         <ng-template pTemplate="footer">
                             <div class="flex justify-content-end">
                                 <button pButton pRipple type="button" 
@@ -117,7 +151,6 @@
         </div>
 
         <app-footer></app-footer>       
-        
     </div>
 </div>
 
@@ -180,6 +213,35 @@
         .p-card-content {
             padding: 0;
         }
+
+         /* Styles pour le cas de document non valide */
+         .invalid-document-header {
+            border-bottom: 3px solid #dc3545;
+            background-color: #fff5f5;
+        }
+
+        .invalid-document-icon {
+            color: #dc3545;
+            font-size: 5rem;
+            display: block;
+            margin: 1rem auto;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .invalid-document-message {
+            color: #dc3545;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .invalid-document-details {
+            background-color: #fff5f5;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
     }
 
     .p-tag {
@@ -188,6 +250,13 @@
 
         .p-tag-icon {
             margin-right: 0.5rem;
+        }
+
+        /* Styles spécifiques pour le tag de document non valide */
+        &.p-tag-danger {
+            background-color: #dc3545;
+            color: #ffffff;
+            font-weight: bold;
         }
     }
 
@@ -238,6 +307,45 @@
     .p-inputtext {
         &:enabled:focus {
             box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(0, 128, 0, 0.4);
+        }
+    }
+
+    /* Animation pour l'icône de document non valide */
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    /* Styles pour la bordure rouge en cas de document non valide */
+    .invalid-document-border {
+        border: 2px solid #dc3545;
+        border-radius: 0.5rem;
+    }
+
+    /* Style pour le message d'erreur */
+    .error-message {
+        color: #dc3545;
+        background-color: #fff5f5;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+        border: 1px solid #dc3545;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        i {
+            font-size: 1.25rem;
+        }
+    }
+
+    /* Override du style de la card pour le cas non valide */
+    .invalid-document-card {
+        border: 2px solid #dc3545;
+        
+        .p-card-header {
+            background-color: #fff5f5;
         }
     }
 }
