@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { Observable, retry } from 'rxjs';
 import { Utilisateur } from 'src/app/demo/models/utilisateurs';
 import { SignatureElectroniquesService } from 'src/app/demo/services/signature-electroniques.service';
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
@@ -186,20 +187,18 @@ export class UtilisateursDrtssComponent implements OnInit {
 
         this.userForm.patchValue({
             region: this.selectedRegion.code,
-            username: form.email
+            username: form.email,
         });
 
-        if (!this.isUpdate && this.selectedRegion != undefined && this.userForm.valid) {
-             this.createUsersCompteRequest();
-        }
-
-        else if (this.isUpdate) {
-
+        if (
+            !this.isUpdate &&
+            this.selectedRegion != undefined &&
+            this.userForm.valid
+        ) {
+            this.createUsersCompteRequest();
+        } else if (this.isUpdate) {
             this.UpdateUsersCompteRequest();
-        }
-
-         else
-         {
+        } else {
             this.messageSucces(
                 'Veillez remplire tout les champs du formulaire',
                 'error'
@@ -207,51 +206,73 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
     }
 
-
     isClicked: boolean = false;
 
     createUsersCompteRequest() {
         console.log(this.userForm.value);
+        let region = this.userForm.get('region').value;
+        let role = this.userForm.get('role').value;
+        let drExist: Observable<boolean> =
+            this.signElectService.checkUserExists(role, region);
 
-        this.signElectService.createUserRequest(this.userForm.value).subscribe(
-            (response: any) => {
-                this.isClicked = true;
-                this.loadUsers(0, 100000);
-                this.userForm.reset();
-                this.modalDialog = false;
-                this.isClicked = true;
-                this.isUpdate=false;
-            },
-            (error) => {
-                this.messageSucces("Une erreur s'est produite", 'error');
-                this.isClicked = true;
-            }
-        );
-    }
-
-    UpdateUsersCompteRequest() {
-
-        let form = this.userForm.value;
-        this.userForm.patchValue({ username: form.email });
-        console.log('u',this.userForm.value);
-
-
-            this.signElectService.updateUserRequest(this.userForm.value).subscribe(
-                (response: any) => {
-                    this.modalDialog;
-                    this.loadUsers(0, 100000);
-                    this.loadUsers(this.pageNumber, this.pageSize);
-                    this.messageSucces('Information utlisateur mis a jour avec succès.', 'success');
-                    this.modalDialog = false;
+        drExist.subscribe({
+            next: (exists: boolean) => {
+                if (exists) {
+                    this.messageSucces(
+                        'Un Directeur Regional existe deja  dans cette région.',
+                        'error'
+                    );
+                } else {
                     this.isClicked = true;
-                    this.isUpdate=false
-                },
-                (error) => {
-                    this.messageSucces("Une erreur s'est produite", 'error');
-                    this.isClicked = true;
+
+                    this.signElectService
+                        .createUserRequest(this.userForm.value)
+                        .pipe(
+                            retry(2)
+                          )
+                        .subscribe({
+                            next: (response: any) => {
+                                this.handleSuccess();
+                            },
+                            error: (error) => {
+                                this.handleError(error);
+                            },
+                            complete: () => {
+                                this.isClicked = false;
+                            },
+                        });
                 }
-            );
+            },
+            error: (err) => {
+                this.messageSucces(
+                    'Erreur lors de la vérification de des utlisateur de la region .',
+                    'error'
+                );
+            },
+        });
+        console.log(drExist);
+    }
+    UpdateUsersCompteRequest() {
+        const form = this.userForm.value;
+        this.userForm.patchValue({ username: form.email });
 
+        this.isClicked = true;
+        console.log('Formulaire mis à jour :', this.userForm.value);
+
+        this.signElectService.updateUserRequest(this.userForm.value)
+        .pipe(
+            retry(2)
+          ).subscribe({
+            next: (response: any) => {
+                this.handleUpdateSuccess();
+            },
+            error: (error: any) => {
+                this.handleUpdateError(error);
+            },
+            complete: () => {
+                this.isClicked = false;
+            },
+        });
     }
 
     saveUsersDrtssCompte() {
@@ -285,13 +306,7 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.submitted = false;
     }
 
-    /************************************* */
-    formatCurrency(value: number) {
-        return value.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        });
-    }
+  
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal(
@@ -342,5 +357,42 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
 
         this.filteredRegionsAutoComplete = filtered;
+    }
+
+    private handleSuccess(): void {
+        this.loadUsers(0, 100000);
+        this.userForm.reset();
+        this.modalDialog = false;
+        this.isUpdate = false;
+        this.messageSucces('Utilisateur créé avec succès', 'success');
+    }
+
+    private handleError(error: any): void {
+        this.messageSucces("Une erreur s'est produite", 'error');
+    }
+
+    private resetFormAndDialog(): void {
+        this.userForm.reset();
+        this.modalDialog = false;
+        this.isUpdate = false;
+    }
+
+    private handleUpdateSuccess(): void {
+        this.loadUsers(0, 100000);
+        this.loadUsers(this.pageNumber, this.pageSize);
+        this.messageSucces(
+            'Information utilisateur mise à jour avec succès.',
+            'success'
+        );
+        this.resetFormAndDialog();
+    }
+
+    private handleUpdateError(error: any): void {
+
+
+        this.messageSucces(
+            "Une erreur s'est produite lors de la mise à jour",
+            'error'
+        );
     }
 }
