@@ -13,51 +13,65 @@
                 </ng-template>
 
 
-
             </p-toolbar>
         </div>
 
-        <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Enregistrement Signataire Document"
-            [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }"
+            header="Enregistrement Agent AJE " [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
-
                 <div class="card shadow-2  ">
-
-
-                    <div class="field" appendTo="body">
-                        <label for="email">Sectionner l'utilisateur</label>
-
-                        <p-autoComplete appendTo="body" [(ngModel)]="selectedUser"
-                            [suggestions]="filteredUsersAutoComplete" (completeMethod)="filterUsers($event)"
-                            field="forenameComplet" [dropdown]="true">
+                    <!--
+                  <div class="field" appendTo="body">
+                        <label for="email">Sélectionner Région</label>
+                        <p-autoComplete appendTo="body"
+                                        [(ngModel)]="selectedRegion"
+                                        [suggestions]="filteredRegionsAutoComplete"
+                                        (completeMethod)="filterRegion($event)"
+                                        field="nomComplet"
+                                        [dropdown]="true">
                         </p-autoComplete>
-
                     </div>
+                -->
+
+                    <form (ngSubmit)="submitForm()" [formGroup]="userForm">
 
 
-                    <div class="field">
-                        <div class="card">
-                            <h5>Veuillez ajouter l'empreinte numérique de la signature.</h5>
-                            <p-fileUpload name="file" [multiple]="false" accept="image/*" [maxFileSize]="3500000"
-                                chooseLabel="Choisir" uploadLabel="Télécharger" cancelLabel="Annuler"
-                                chooseIcon="pi pi-plus" uploadIcon="pi pi-cloud-upload" cancelIcon="pi pi-times"
-                                [showUploadButton]="false" [showCancelButton]="false" [auto]="false"
-                                invalidFileSizeMessageSummary="Taille de fichier invalide"
-                                invalidFileSizeMessageDetail="La taille maximale est de 3 Mo" [previewWidth]="100"
-                                (onSelect)="onFileSelect($event)">
 
-                                <ng-template pTemplate="content">
-                                    <ul *ngIf="uploadedFiles.length">
-                                        <li *ngFor="let file of uploadedFiles">
-                                            {{file.name}} - {{file.size}} octets
-                                        </li>
-                                    </ul>
-                                </ng-template>
-                            </p-fileUpload>
+                        <div class="p-fluid formgrid grid">
 
+                            <div class="field col-12 md:col-6">
+                                <label for="forename">Nom</label>
+                                <input formControlName="forename" pInputText id="forename" placeholder="Nom" />
+                            </div>
 
+                            <div class="field col-12 md:col-6">
+                                <label for="lastname">Prenom</label>
+                                <input formControlName="lastname" pInputText id="lastname" placeholder="lastname" />
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="matricule">Matricule</label>
+                                <input formControlName="matricule" pInputText id="matricule" placeholder="matricule" />
+                            </div>
+
+                            <div class="field col-12 md:col-6">
+                                <label for="telephone">Telephone</label>
+                                <input formControlName="tel" pInputText id="telephone" placeholder="telephone" />
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="field">
+                            <label for="email">Email *</label>
+                            <input type="text" pInputText id="email" formControlName="email" />
+                        </div>
+                        <div class="field col-12 md:col-6" *ngIf="!isUpdate">
+                            <label for="password">Mots de passe *</label>
+                            <input formControlName="password" pInputText id="password" placeholder="password" />
+                        </div>
+
+
+                    </form>
+
 
                 </div>
 
@@ -79,14 +93,14 @@
             <ng-template pTemplate="footer">
                 <button pButton icon="pi pi-refresh" (click)="display=false" label="ANNULER"
                     (click)="deleteDialog=false" class=" p-button-danger p-button-outlined "></button>
-                <button pButton icon="pi pi-check" (click)="display=false" label="JE CONFIRME"
+                <button pButton icon="pi pi-check" (click)="onConfirm()" label="JE CONFIRME"
                     class="p-button-success p-button-outlined"></button>
             </ng-template>
         </p-dialog>
     </div>
 
     <div class="card">
-        <h5>Listes des Signataires de la DRTSS</h5>
+        <h5>Utilisateurs AJE</h5>
         <p-table #dt1 (onPage)="onPageChange($event)" [value]="utilisateurs" dataKey="id" [rows]="pageSize"
             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
             groupRowsBy="forename" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
@@ -108,48 +122,59 @@
                 <tr>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Date Creation
+                            Date
                             <p-sortIcon field="matricule" />
                         </div>
                     </th>
+
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Email
-                            <p-sortIcon field="email" />
+                            Matricule
+                            <p-sortIcon field="matricule" />
                         </div>
                     </th>
 
-
-
-
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            signataire
+                            Nom
                             <p-columnFilter type="text" field="forename" display="menu"
                                 placeholder="rechercher ...  "></p-columnFilter>
                         </div>
                     </th>
 
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Prenom
+                            <p-columnFilter type="text" field="lastname" display="menu"
+                                placeholder="rechercher ... name"></p-columnFilter>
+                        </div>
+                    </th>
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Alias
+                            Email
                             <p-columnFilter type="text" field="email" display="menu"
                                 placeholder="rechercher ...  "></p-columnFilter>
                         </div>
                     </th>
+
+
+
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Role
+                            <p-columnFilter type="text" field="role" display="menu"
+                                placeholder="rechercher ...  "></p-columnFilter>
+                        </div>
+                    </th>
+
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Status
-                            <p-columnFilter type="text" field="email" display="menu"
-                                placeholder="rechercher ...  "></p-columnFilter>
+
                         </div>
                     </th>
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
-                                Telecharger
-                        </div>
-                    </th>
+
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
@@ -162,43 +187,40 @@
             <ng-template pTemplate="body" let-res>
                 <tr>
                     <td>
-                        {{ res?.createdAt| date: 'dd/MM/yyyy' }}
+                        {{ res.createdAt | date: 'dd/MM/yyyy' }}
+                    </td>
+                    <td>
+                        {{ res.matricule }}
+                    </td>
+                    <td>
+                        {{ res.forename }}
+                    </td>
+                    <td>
+                        {{ res.lastname }}
+                    </td>
+                    <td>
+                        {{ res.email }}
+                    </td>
+
+
+
+                    <td>
+                        {{ res.role }}
+                    </td>
+                    <td [ngClass]="{ '': res.isActive, 'bg-yellow-custom': !res.isActive }">
+                        {{ res.isActive ? 'Compte Actif' : 'Compte Inactif' }}
                     </td>
 
                     <td>
-                        {{ res?.email }}
-                    </td>
-
-                    <td>
-                        {{ res?.signatureCertificat.commonName }}
-                    </td>
-
-                    <td>
-                        {{ res?.signatureCertificat?.alias }}
-                    </td>
-                    <td [ngClass]="{ '': res.signatureCertificat.actif, 'bg-custom': !res.signatureCertificat.actif }">
-                        {{ res.signatureCertificat.actif ? 'Actif' : 'Inactif' }}
-                    </td>
-
-                    <td>
-
-
-                        <button class="p-button-success p-button-outlined mr-2" pButton pRipple icon="pi pi-download"
-                            label="Télécharger Certificat" class="p-button-outlined p-button-info"
-                            (click)="downloadCertificat(res?.signatureCertificat?.cheminCertificat,res?.signatureCertificat?.certificatFile)">
-                        </button>
-
-                    </td>
-
-                    <td>
-                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
-                            styleClass="p-button-info"></p-splitButton>
+                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items"
+                            (click)="onLineClick(res)" styleClass="p-button-info"></p-splitButton>
                     </td>
                 </tr>
 
+
                 <p-confirmDialog header="Confirmation" key="confirm1" icon="pi pi-exclamation-triangle"
-                message="Are you sure you want to proceed?" [style]="{width: '350px'}"
-                acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                    message="Are you sure you want to proceed?" [style]="{width: '350px'}"
+                    acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
             </ng-template>
             <ng-template pTemplate="emptymessage">

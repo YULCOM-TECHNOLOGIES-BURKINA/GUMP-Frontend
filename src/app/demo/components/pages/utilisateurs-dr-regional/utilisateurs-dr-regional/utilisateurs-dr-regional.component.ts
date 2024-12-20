@@ -178,13 +178,16 @@ export class UtilisateursDrtssComponent implements OnInit {
             role: ['DRTSS_REGIONAL_MANAGER'],
             userType: ['DRTSS_USER'],
             password: ['password'],
-            username: ['', Validators.required],
+            username: [''],
         });
     }
     submitForm() {
         if (this.selectedRegion != undefined && this.userForm.valid) {
+            let form = this.userForm.value;
+
             this.userForm.patchValue({
                 region: this.selectedRegion.code,
+                username: form.email
             });
 
             this.createUsersCompteRequest();
