@@ -3,6 +3,7 @@ import {
     HttpClient,
     HttpResponse,
     HttpErrorResponse,
+    HttpParams,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -104,6 +105,7 @@ export class HttpFastserviceService {
             .pipe(catchError(this.handleError));
     }
 
+   
     public getWithoutToken<T>(url: string): Observable<T> {
         return this.http
             .get<T>(url, { observe: 'body', headers: this.getHeadersWithoutToken()},)

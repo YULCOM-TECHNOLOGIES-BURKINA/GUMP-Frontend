@@ -47,7 +47,7 @@ export class AjeService {
 
   approveRequest(requestId: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/${requestId}/approve?service=tresor-ms`, {
-      headers: this.getHeaders()
+      headers: this.getFormDataHeaders()
     });
   }
 
