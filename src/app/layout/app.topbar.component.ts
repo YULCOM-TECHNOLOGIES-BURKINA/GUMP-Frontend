@@ -11,7 +11,8 @@ export class AppTopBarComponent implements OnInit{
     userRole:any
     items!: MenuItem[];
     user:any=[]
-    userInfo:any=[]
+    userInfo!:any
+    currentUser:any=[]
 //currentUser :"{"nom":"drtss-agent","prenom":"drtss-agent","email":"drtss-agent@gmail.com","role_realm_access":["offline_access","default-roles-gump","uma_authorization"],"role":["DRTSS_AGENT"],"username":"drtss-agent"}"
     @ViewChild('menubutton') menuButton!: ElementRef;
 
@@ -22,8 +23,9 @@ export class AppTopBarComponent implements OnInit{
     constructor(public layoutService: LayoutService,public signatureService:SignatureElectroniquesService ) {
         const userDetails = localStorage.getItem('currentUser');
          this.user = JSON.parse(userDetails);
+         this.currentUser=this.user
          this.userRole = this.user.role;
-        console.log("userRole",this.user);
+        console.log("userRole",this.userRole);
 
     }
     ngOnInit(): void {
@@ -31,6 +33,8 @@ export class AppTopBarComponent implements OnInit{
         this.signatureService.getUsersInfoByEmail(this.user.email).subscribe({
             next: (res: any) => {
                 this.userInfo=res
+                console.log();
+
              },
             error: (error) => {
              },

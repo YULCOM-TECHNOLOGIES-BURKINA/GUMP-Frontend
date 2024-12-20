@@ -40,12 +40,12 @@
                     <div class="field">
                         <div class="card">
                             <h5>Veuillez ajouter le logo.</h5>
-                            <p-fileUpload name="file" [multiple]="false" accept="image/*" [maxFileSize]="1000000"
+                            <p-fileUpload name="file" [multiple]="false" accept="image/*" [maxFileSize]="3000000"
                                 chooseLabel="Choisir" uploadLabel="Télécharger" cancelLabel="Annuler"
                                 chooseIcon="pi pi-plus" uploadIcon="pi pi-cloud-upload" cancelIcon="pi pi-times"
                                 [showUploadButton]="false" [showCancelButton]="false" [auto]="false"
                                 invalidFileSizeMessageSummary="Taille de fichier invalide"
-                                invalidFileSizeMessageDetail="La taille maximale est de 2 Mo" [previewWidth]="100"
+                                invalidFileSizeMessageDetail="La taille maximale est de 3 Mo" [previewWidth]="100"
                                 (onSelect)="onFileSelect($event)">
 
                                 <ng-template pTemplate="content">

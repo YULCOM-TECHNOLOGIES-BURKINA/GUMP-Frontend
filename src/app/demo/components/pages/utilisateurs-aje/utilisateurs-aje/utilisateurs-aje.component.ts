@@ -15,14 +15,14 @@ import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
-    selector: 'app-utilisateurs-dr-regional',
+    selector: 'app-utilisateurs-aje',
     standalone: true,
     imports: [UtilsModuleModule],
-    templateUrl: './utilisateurs-dr-regional.component.html',
-    styleUrl: './utilisateurs-dr-regional.component.scss',
+    templateUrl: './utilisateurs-aje.component.html',
+    styleUrl: './utilisateurs-aje.component.scss',
     providers: [ConfirmationService, MessageService],
 })
-export class UtilisateursDrtssComponent implements OnInit {
+export class UtilisateursAjeComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
 
     userForm: FormGroup;
@@ -37,7 +37,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
-
+    userInfo: any;
     constructor(
         public layoutService: LayoutService,
         public router: Router,
@@ -45,22 +45,33 @@ export class UtilisateursDrtssComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private fb: FormBuilder,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private signatureService: SignatureElectroniquesService
     ) {}
     ngOnInit(): void {
+        const userDetails = localStorage.getItem('currentUser');
+        let user = JSON.parse(userDetails);
+
+        this.signatureService.getUsersInfoByEmail(user.email).subscribe({
+            next: (res: any) => {
+                this.userInfo = res;
+            },
+            error: (error) => {},
+        });
+
         this.loadUsers(this.pageNumber, this.pageSize);
-        this.listRegions();
     }
 
     dataResponse: any;
     loadUsers(page: number, size: number) {
         this.loading = true;
-        this.signElectService.listUtilisateurDrtss(page, size).subscribe(
+        this.signElectService.listUtilisateurAje(page, size).subscribe(
             (response: any) => {
-                const filterdrtpsUser = response.content.filter(
-                    (user) => user.role === 'DRTSS_REGIONAL_MANAGER'
-                );
-                this.utilisateurs = filterdrtpsUser;
+               /* const filterdrtpsUser = response.content.filter(
+                    (user) => user.userType === 'TRESOR_USER'
+                );*/
+                this.utilisateurs = response.content;
+
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
@@ -132,29 +143,24 @@ export class UtilisateursDrtssComponent implements OnInit {
     isUpdate: boolean = false;
     openNew(type: string) {
         this.modalDialog = true;
-        if (type == 'UPDATE') {
-            this.selectedRegion = {
-                code: this.selectLine.region,
-                name: this.selectLine.region,
-                nomComplet: this.selectLine.region,
-            };
+        console.log(type);
 
+        if (type == 'UPDATE') {
             this.isUpdate = true;
             this.initForm();
-            this.userForm.setValue({
+            this.userForm.patchValue({
                 id: this.selectLine.id,
                 forename: this.selectLine.forename,
                 lastname: this.selectLine.lastname,
                 tel: this.selectLine.tel,
                 matricule: this.selectLine.matricule,
-                titre_honorifique: this.selectLine.titre_honorifique,
+              //  titre_honorifique: this.selectLine.titre_honorifique,
                 email: this.selectLine.email,
-                region: this.selectLine.region,
                 role: this.selectLine.role,
                 userType: this.selectLine.userType,
-                password: '',
+              //  password: '',
 
-                username: this.selectLine.username,
+                username: this.selectLine.email
             });
         } else {
             this.initForm();
@@ -166,40 +172,30 @@ export class UtilisateursDrtssComponent implements OnInit {
     }
     public initForm() {
         this.userForm = this.fb.group({
-            id: [],
+            id: '',
             forename: ['', Validators.required],
             lastname: ['', Validators.required],
             tel: [],
             matricule: [],
-            titre_honorifique: [],
             email: ['', Validators.required],
-            region: [''],
 
-            role: ['DRTSS_REGIONAL_MANAGER'],
-            userType: ['DRTSS_USER'],
-            password: ['password'],
+            role: ['TRESOR_AGENT'],
+            userType: ['TRESOR_USER'],
+            password: ['', Validators.required],
             username: [''],
         });
     }
     submitForm() {
-        let form = this.userForm.value;
-
-        this.userForm.patchValue({
-            region: this.selectedRegion.code,
-            username: form.email
-        });
-
-        if (!this.isUpdate && this.selectedRegion != undefined && this.userForm.valid) {
-             this.createUsersCompteRequest();
+        console.log("userForm",this.userForm.value);
+        this.createUsersCompteRequest();
+        if (!this.isUpdate && this.userForm.valid) {
+           this.createUsersCompteRequest();
         }
-
         else if (this.isUpdate) {
-
             this.UpdateUsersCompteRequest();
         }
 
-         else
-         {
+        else {
             this.messageSucces(
                 'Veillez remplire tout les champs du formulaire',
                 'error'
@@ -207,27 +203,33 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
     }
 
-
     isClicked: boolean = false;
 
     createUsersCompteRequest() {
-        console.log(this.userForm.value);
 
-        this.signElectService.createUserRequest(this.userForm.value).subscribe(
-            (response: any) => {
-                this.isClicked = true;
-                this.loadUsers(0, 100000);
-                this.userForm.reset();
-                this.modalDialog = false;
-                this.isClicked = true;
-                this.isUpdate=false;
-            },
-            (error) => {
-                this.messageSucces("Une erreur s'est produite", 'error');
-                this.isClicked = true;
-            }
-        );
+        let form = this.userForm.value;
+        this.userForm.patchValue({ username: form.email });
+        console.log('u',this.userForm.value);
+
+
+            this.signElectService.createUserRequest(this.userForm.value).subscribe(
+                (response: any) => {
+                    this.modalDialog;
+                    this.loadUsers(0, 100000);
+                    this.loadUsers(this.pageNumber, this.pageSize);
+                    this.messageSucces('Utilisateur créé avec succès.', 'success');
+                    this.modalDialog = false;
+                    this.isUpdate=false;
+                    this.isClicked = true;
+                },
+                (error) => {
+                    this.messageSucces("Une erreur s'est produite", 'error');
+                    this.isClicked = true;
+                }
+            );
+
     }
+
 
     UpdateUsersCompteRequest() {
 
@@ -244,7 +246,8 @@ export class UtilisateursDrtssComponent implements OnInit {
                     this.messageSucces('Information utlisateur mis a jour avec succès.', 'success');
                     this.modalDialog = false;
                     this.isClicked = true;
-                    this.isUpdate=false
+                    this.isUpdate=false;
+
                 },
                 (error) => {
                     this.messageSucces("Une erreur s'est produite", 'error');
@@ -312,35 +315,5 @@ export class UtilisateursDrtssComponent implements OnInit {
             summary: 'Message information ',
             detail: message,
         });
-    }
-
-    listRegions() {
-        this.signElectService.listRegions().subscribe((regions) => {
-            this.listeFiltreRegions = regions;
-        });
-    }
-    filteredRegionsAutoComplete: any[] = [];
-    listeFiltreRegions: any[] = [];
-
-    selectedRegion: any;
-
-    filterRegion(event: any) {
-        const filtered: any[] = [];
-        const query = event.query.toLowerCase();
-
-        if (Array.isArray(this.listeFiltreRegions)) {
-            for (let i = 0; i < this.listeFiltreRegions.length; i++) {
-                const region = this.listeFiltreRegions[i];
-                if (
-                    region?.code?.toLowerCase().includes(query) ||
-                    region?.name?.toLowerCase().includes(query)
-                ) {
-                    region.nomComplet = `${region.name}`;
-                    filtered.push(region);
-                }
-            }
-        }
-
-        this.filteredRegionsAutoComplete = filtered;
     }
 }

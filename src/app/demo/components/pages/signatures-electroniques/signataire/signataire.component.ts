@@ -89,7 +89,7 @@ export class SignataireComponent implements OnInit {
         this.selectLine=event
         console.log("this.selectLine",this.selectLine);
         let modifier=true
-        if (this.selectLine.actif==true) {
+        if (this.selectLine.signatureCertificat.actif==true) {
             this.selectlabel="Desactiver"
         }else{
             this.selectlabel="Activer"
@@ -118,7 +118,7 @@ export class SignataireComponent implements OnInit {
             .subscribe(
                 (response: any) => {
 
-            //  const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
+              const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
                // this.utilisateurs =response;
                console.log("hrllo",response.content);
 

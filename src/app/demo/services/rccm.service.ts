@@ -7,7 +7,7 @@ import { DemandeRccm, DemandeRccmResponse } from '../models/rccm';
   providedIn: 'root'
 })
 export class RccmService {
-  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes';
+  private apiUrl = 'http://localhost:9090/api/demandes';
 
   constructor(private http: HttpClient) {}
 
@@ -29,7 +29,7 @@ export class RccmService {
 
   submitAttestationRequest(fileRccm: File, fileStatut: File, immatriculationDate: string, typeDemande: string): Observable<any> {
     const formData = new FormData();
-    
+
     formData.append('extraitRccm', fileRccm);
     formData.append('statutEntreprise', fileStatut);
 
@@ -53,5 +53,5 @@ export class RccmService {
     return this.http.get(`${this.apiUrl}/${requestId}?service=justice-ms`, {
       headers: this.getHeaders(),
     });
-  }  
+  }
 }
