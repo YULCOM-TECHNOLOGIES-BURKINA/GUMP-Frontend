@@ -17,7 +17,7 @@
         </div>
 
         <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }"
-            header="Enregistrement Agent DRTSS Région du {{this.userInfo.region}}" [modal]="true" class="p-fluid">
+            header="Enregistrement Agent AJE " [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="card shadow-2  ">
                     <!--
@@ -38,7 +38,6 @@
 
 
                         <div class="p-fluid formgrid grid">
-
 
                             <div class="field col-12 md:col-6">
                                 <label for="forename">Nom</label>
@@ -61,19 +60,9 @@
                             </div>
                         </div>
 
-
-
-                        <div class="field">
-                            <label for="titre_honorifique">Titre Honorifique</label>
-                            <input type="text" pInputText id="titre_honorifique" formControlName="titre_honorifique" />
-                        </div>
-
-
                         <div class="field">
                             <label for="email">Email *</label>
                             <input type="text" pInputText id="email" formControlName="email" />
-                            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name"> is
-                                required.</small>
                         </div>
                         <div class="field col-12 md:col-6" *ngIf="!isUpdate">
                             <label for="password">Mots de passe *</label>
@@ -111,7 +100,7 @@
     </div>
 
     <div class="card">
-        <h5>Utilisateurs DRTSS</h5>
+        <h5>Utilisateurs AJE</h5>
         <p-table #dt1 (onPage)="onPageChange($event)" [value]="utilisateurs" dataKey="id" [rows]="pageSize"
             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
             groupRowsBy="forename" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
@@ -169,21 +158,7 @@
                         </div>
                     </th>
 
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
-                            Titre Honorifique
-                            <p-columnFilter type="text" field="titre_honorifique" display="menu"
-                                placeholder="rechercher ...  "></p-columnFilter>
-                        </div>
-                    </th>
 
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
-                            Region
-                            <p-columnFilter type="text" field="region" display="menu"
-                                placeholder="rechercher ...  "></p-columnFilter>
-                        </div>
-                    </th>
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
@@ -226,13 +201,9 @@
                     <td>
                         {{ res.email }}
                     </td>
-                    <td>
-                        {{ res.titre_honorifique }}
-                    </td>
 
-                    <td>
-                        {{ res.region }}
-                    </td>
+
+
                     <td>
                         {{ res.role }}
                     </td>

@@ -9,7 +9,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
     providedIn: 'root',
 })
 export class SignatureElectroniquesService {
-    private apiUrl ='https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
+    private apiUrl =
+        'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
 
     // private apiGateway = 'https://gump-gateway.yulpay.com/api/';
 
@@ -41,7 +42,33 @@ export class SignatureElectroniquesService {
 
     public listUtilisateurDrtss(page: number, size: number) {
         return this.fastService
-            .get<Utilisateur[]>( this._gateway+`users?page=${page}&size=${size}&userType=DRTSS_USER&${this._ms_users}`)
+            .get<Utilisateur[]>(
+                this._gateway +
+                    `users?page=${page}&size=${size}&userType=DRTSS_USER&${this._ms_users}`
+            )
+            .pipe(
+                tap((utilisateurs) => {
+                    console.log(
+                        'Liste des utilisateurs récupérée :',
+                        utilisateurs
+                    );
+                }),
+                catchError((error) => {
+                    console.error(
+                        'Erreur lors de la récupération des utilisateurs :',
+                        error
+                    );
+                    return of([]);
+                })
+            );
+    }
+
+    public listUtilisateurAje(page: number, size: number) {
+        return this.fastService
+            .get<Utilisateur[]>(
+                this._gateway +
+                    `users?page=${page}&size=${size}&userType=TRESOR_USER&${this._ms_users}`
+            )
             .pipe(
                 tap((utilisateurs) => {
                     console.log(
@@ -62,7 +89,10 @@ export class SignatureElectroniquesService {
     public listUtilisateurSignataieDrtss(page: number, size: number) {
         return this.fastService
             .get<Utilisateur[]>(
-                this._gateway+`signature_electronique/liste_signataire?page=${page}&size=${size}`+"&"+this._ms_drtss,
+                this._gateway +
+                    `signature_electronique/liste_signataire?page=${page}&size=${size}` +
+                    '&' +
+                    this._ms_drtss
             )
             .pipe(
                 tap((utilisateurs) => {}),
@@ -74,9 +104,7 @@ export class SignatureElectroniquesService {
 
     public listDemandes(page: number, size: number) {
         return this.fastService
-            .get<Utilisateur[]>(
-                this._gateway+`demandes?`+this._ms_drtss
-            )
+            .get<Utilisateur[]>(this._gateway + `demandes?` + this._ms_drtss)
             .pipe(
                 tap((utilisateurs) => {}),
                 catchError((error) => {
@@ -87,10 +115,9 @@ export class SignatureElectroniquesService {
 
     public listRegions() {
         return this.fastService
-            .get<any[]>(`${API_ROOT.API_LISTE_REGIONS}`)
+            .getWithoutToken<any[]>(`${API_ROOT.API_LISTE_REGIONS}`)
             .pipe(
-                tap((regions) => {
-                 }),
+                tap((regions) => {}),
                 catchError((error) => {
                     return of([]);
                 })
@@ -101,8 +128,7 @@ export class SignatureElectroniquesService {
         return this.fastService
             .post<Utilisateur>(API_ROOT.API_CREATE_USERS_DRTSS, formData)
             .pipe(
-                tap((res: Utilisateur) => {
-                 }),
+                tap((res: Utilisateur) => {}),
                 catchError((error) => {
                     console.error(
                         "Erreur lors de l'enregistrement de l'utilisateur :",
@@ -116,12 +142,11 @@ export class SignatureElectroniquesService {
     public createUserRequest(formData: any): Observable<any> {
         return this.fastService
             .post<CreateUserRequest>(
-                this._gateway+"users?"+this._ms_users,
+                this._gateway + 'users?' + this._ms_users,
                 formData
             )
             .pipe(
-                tap((res: CreateUserRequest) => {
-                 }),
+                tap((res: CreateUserRequest) => {}),
                 catchError((error) => {
                     console.error(
                         "Erreur lors de l'enregistrement de l'utilisateur :",
@@ -132,21 +157,43 @@ export class SignatureElectroniquesService {
             );
     }
 
+
+    public updateUserRequest(formData: any): Observable<any> {
+        return this.fastService
+            .post<CreateUserRequest>(
+                this._gateway + 'users/update?' + this._ms_users,
+                formData
+            )
+            .pipe(
+                tap((res: CreateUserRequest) => {}),
+                catchError((error) => {
+                    console.error(
+                        "Erreur lors de l'enregistrement de l'utilisateur :",
+                        error
+                    );
+                    return of(null);
+                })
+            );
+    }
+
+
     public createUserCompte(
         createUserRequest: CreateUserRequest
     ): Observable<void> {
         return this.fastService.post<void>(
-            this._gateway+`signature_electronique/sign_attestation&`+this._ms_drtss,
+            this._gateway +
+                `signature_electronique/sign_attestation&` +
+                this._ms_drtss,
             createUserRequest
         );
-
     }
     public modifierStatusUtilisateurDrtss(idUser: number) {
         return this.fastService
-            .get<Utilisateur>(this._gateway+'user/'+idUser+'/toggle?'+this._ms_users)
+            .get<Utilisateur>(
+                this._gateway + 'user/' + idUser + '/toggle?' + this._ms_users
+            )
             .pipe(
-                tap((res: Utilisateur) => {
-                 }),
+                tap((res: Utilisateur) => {}),
                 catchError((error) => {
                     console.error(
                         "Erreur lors de l'enregistrement de l'utilisateur :",
@@ -159,30 +206,47 @@ export class SignatureElectroniquesService {
 
     public telechargerCertificat(path: string, certificatFile: any): void {
         const url =
-           this._gateway+`signature_electronique/download_certificate?path=${encodeURIComponent(path)}`+"&"+this._ms_drtss;
+            this._gateway +
+            `signature_electronique/download_certificate?path=${encodeURIComponent(
+                path
+            )}` +
+            '&' +
+            this._ms_drtss;
 
-        this.http.get(url, { responseType: 'blob' }).subscribe(
-            (res: Blob) => {
-                if (res.size > 0) {
-                    const blobUrl = window.URL.createObjectURL(res);
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = certificatFile;
-                    a.click();
-                    window.URL.revokeObjectURL(blobUrl);
-                } else {
-                }
-            },
-            (error) => {}
-        );
+        this.http
+            .get(url, {
+                responseType: 'blob',
+                headers: {
+                    Authorization: `Bearer ${this.token}`,
+                },
+            })
+            .subscribe(
+                (res: Blob) => {
+                    if (res.size > 0) {
+                        const blobUrl = window.URL.createObjectURL(res);
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = certificatFile;
+                        a.click();
+                        window.URL.revokeObjectURL(blobUrl);
+                    } else {
+                    }
+                },
+                (error) => {}
+            );
     }
 
     public getSignatoryByEmail(email: String) {
         return this.fastService
-            .get<any[]>(this._gateway+"signature_electronique/signataire/"+ email+"?"+this._ms_drtss)
+            .get<any[]>(
+                this._gateway +
+                    'signature_electronique/signataire/' +
+                    email +
+                    '?' +
+                    this._ms_drtss
+            )
             .pipe(
-                tap((regions) => {
-                 }),
+                tap((regions) => {}),
                 catchError((error) => {
                     return of([]);
                 })
@@ -191,10 +255,11 @@ export class SignatureElectroniquesService {
 
     public getUsersInfoByEmail(email: String) {
         return this.fastService
-        .get<any[]>(this._gateway+"users/"+ email+"/email?"+this._ms_users)
-        .pipe(
-                tap((user) => {
-                 }),
+            .get<any[]>(
+                this._gateway + 'users/' + email + '/email?' + this._ms_users
+            )
+            .pipe(
+                tap((user) => {}),
                 catchError((error) => {
                     return of([]);
                 })
@@ -203,7 +268,14 @@ export class SignatureElectroniquesService {
 
     public toggleSignatoryStatus(id: number) {
         return this.fastService
-            .post<any>(this._gateway+"signature_electronique/toggle_status/"+`${id}`+"?"+this._ms_drtss, {})
+            .post<any>(
+                this._gateway +
+                    'signature_electronique/toggle_status/' +
+                    `${id}` +
+                    '?' +
+                    this._ms_drtss,
+                {}
+            )
             .pipe(
                 tap((utilisateurs) => {}),
                 catchError((error) => {
@@ -218,7 +290,14 @@ export class SignatureElectroniquesService {
         formData.append('userId', selectedUser.id.toString());
 
         return this.fastService
-            .postFile<any>(this._gateway+"signature_electronique/create_signataire?userId="+selectedUser.id+"&"+this._ms_drtss, formData)
+            .postFile<any>(
+                this._gateway +
+                    'signature_electronique/create_signataire?userId=' +
+                    selectedUser.id +
+                    '&' +
+                    this._ms_drtss,
+                formData
+            )
             .pipe(
                 tap((res) => {
                     console.log('Signataire enregistré avec succès :', res);
@@ -248,7 +327,14 @@ export class SignatureElectroniquesService {
         formData.append('keyStorePassword', keyStorePassword);
 
         return this.fastService
-            .post<any>(`${this._gateway+"signature_electronique/sign_attestation&"+this._ms_drtss}`, formData)
+            .post<any>(
+                `${
+                    this._gateway +
+                    'signature_electronique/sign_attestation&' +
+                    this._ms_drtss
+                }`,
+                formData
+            )
             .pipe(
                 tap((res) => {
                     console.log('Attestation signée avec succès :', res);

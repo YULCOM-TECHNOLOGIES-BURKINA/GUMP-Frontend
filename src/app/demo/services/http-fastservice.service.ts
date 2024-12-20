@@ -13,7 +13,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 })
 export class HttpFastserviceService {
 
- _gateway = 'https://gump-gateway.yulpay.com/api/';
+ _gateway = 'http://localhost:9090/api/';
  // _gateway = 'http://localhost:9090/api/';
 
   // Méthode pour obtenir les headers spécifiques pour FormData
@@ -30,6 +30,13 @@ export class HttpFastserviceService {
      // 'Content-Type': 'application/json'
     });
   }
+
+  private getHeadersWithoutToken(): HttpHeaders {
+    return new HttpHeaders({
+     'Content-Type': 'application/json'
+    });
+  }
+
 
 
   private getHeadersFile(): HttpHeaders {
@@ -96,6 +103,13 @@ export class HttpFastserviceService {
             .get<T>(url, { observe: 'body', headers: this.getHeaders()},)
             .pipe(catchError(this.handleError));
     }
+
+    public getWithoutToken<T>(url: string): Observable<T> {
+        return this.http
+            .get<T>(url, { observe: 'body', headers: this.getHeadersWithoutToken()},)
+            .pipe(catchError(this.handleError));
+    }
+
 
     private handleError(error: HttpErrorResponse) {
         console.error('Erreur lors de la requête HTTP :', error.message);

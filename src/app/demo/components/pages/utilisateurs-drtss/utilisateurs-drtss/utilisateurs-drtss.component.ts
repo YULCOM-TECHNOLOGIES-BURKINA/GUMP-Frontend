@@ -70,8 +70,8 @@ export class UtilisateursDrtssComponent implements OnInit {
             (response: any) => {
                 const filterdrtpsUser = response.content.filter(
                     (user) =>
-                        user.region === this.userInfo.region &&
-                        user.userType === 'DRTSS_USER'
+                        user.region === this.userInfo.region 
+
                 );
                 this.utilisateurs = filterdrtpsUser;
 
@@ -211,7 +211,9 @@ export class UtilisateursDrtssComponent implements OnInit {
     isClicked: boolean = false;
 
     createUsersCompteRequest() {
-        this.signElectService.createUserRequest(this.userForm.value).subscribe(
+        let form = this.userForm.value;
+        this.userForm.patchValue({ username: form.email });
+               this.signElectService.createUserRequest(this.userForm.value).subscribe(
             (response: any) => {
                  this.modalDialog;
                 this.loadUsers(0, 100000);
