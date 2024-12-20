@@ -7,7 +7,7 @@ import { DemandeRccm, DemandeRccmResponse } from '../models/rccm';
   providedIn: 'root'
 })
 export class RccmService {
-  private apiUrl = 'http://localhost:9090/api/demandes';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes';
 
   constructor(private http: HttpClient) {}
 

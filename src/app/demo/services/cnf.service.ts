@@ -8,7 +8,7 @@ import { DemandeCnf, DemandeCnfResponse } from '../models/cnf';
 })
 export class CnfService {
 
-  private apiUrl = 'http://localhost:8082/api/demandes';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes';
 
   constructor(private http: HttpClient) {}
 
