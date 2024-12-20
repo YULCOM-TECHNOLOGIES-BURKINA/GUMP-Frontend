@@ -11,80 +11,65 @@
 
                     <div class="p-fluid formgrid grid">
                         <div class="field col-12 md:col-6">
-                            <label for="nom">Nom</label>
-                            <input pInputText id="nom" [(ngModel)]="request.lastname" placeholder="Nom" readonly/>
+                            <label for="nom">Nom du représentant</label>
+                            <input pInputText id="nom" [(ngModel)]="request.company.representantLastname" placeholder="Nom" />
                         </div>
                         <div class="field col-12 md:col-6">
-                            <label for="prenom">Prénom</label>
-                            <input pInputText id="prenom" [(ngModel)]="request.forename" placeholder="Prénom" readonly/>
+                            <label for="prenom">Prénom du représentant</label>
+                            <input pInputText id="prenom" [(ngModel)]="request.company.representantFirstname" placeholder="Prénom" />
                         </div>
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="email">Email</label>
-                            <input pInputText id="email" [(ngModel)]="request.email" placeholder="Email" />
-                        </div> -->
+                        <div class="field col-12 md:col-6">
+                            <label for="prenom">Numéro de téléphone du représentant</label>
+                            <input pInputText id="prenom" [(ngModel)]="request.company.representantPhone" placeholder="Numéro de téléphone du représentant" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="email">Email du representant</label>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.email" readonly/>
+                        </div>
                         <div class="field col-12 md:col-6">
                             <label for="entreprise">Nom de l'entreprise</label>
-                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.name" placeholder="Nom de l'entreprise"  readonly/>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.name"  readonly/>
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="adresse">Adresse de l'entreprise</label>
-                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.address" placeholder="Adresse de l'entreprise" readonly/>
+                            <input pInputText id="email" [(ngModel)]="request.company.address" placeholder="Adresse de l'entreprise"/>
                         </div>
                         <div class="field col-12 md:col-6">
-                            <label for="phone">Téléphone</label>
-                            <input class="readonly-input" pInputText id="email" [(ngModel)]="profil.email" placeholder="Téléphone" readonly/>
+                            <label for="phone">Téléphone de l'entreprise</label>
+                            <input pInputText id="email" [(ngModel)]="request.company.phone" placeholder="Téléphone de l'entreprise" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="prenom">Région de l'entreprise</label>
+                            <input pInputText id="prenom" [(ngModel)]="request.company.region" placeholder="Région de l'entreprise" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="prenom">Localisation de l'entreprise</label>
+                            <input pInputText id="prenom" [(ngModel)]="request.company.location" placeholder="Localisation de l'entreprise" />
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label for="prenom">Adresse postale de l'entreprise</label>
+                            <input pInputText id="prenom" [(ngModel)]="request.company.postalAddress" placeholder="Adresse postale de l'entreprise" />
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="phone">Numéro IFU</label>
-                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.ifu" placeholder="Numéro IFU" readonly/>
-                        </div>
-
-                        <!-- <div class="field col-12 md:col-6">
-                            <label for="password">Nouveau mot de passe</label>
-                            <p-password id="password" [(ngModel)]="profil.password" toggleMask feedback="false" placeholder="••••••••"
-                            promptLabel="Choisissez un mot de passe" weakLabel="Très faible"  mediumLabel="bon"  strongLabel="Fort"></p-password>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.ifu" readonly/>
                         </div>
 
                         <div class="field col-12 md:col-6">
-                            <label for="passwordConfirm">Confirmer mot de passe</label>
-                            <p-password id="passwordConfirm" [(ngModel)]="profil.passwordConfirm" toggleMask feedback="false" placeholder="••••••••"
-                            promptLabel="Confirmer votre mot de passe" weakLabel="Très faible"  mediumLabel="bon"  strongLabel="Fort"></p-password>
-                        </div> -->
+                            <label for="phone">Numéro adhérent CNSS</label>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.cnssNumber" readonly/>
+                        </div>
+
+                        <div class="field col-12 md:col-6">
+                            <label for="phone">Numéro RCCM</label>
+                            <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.rccm" readonly/>
+                        </div>
                     </div>
                     <div class="mt-4">
-                        <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success"></p-button>
+                        <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success" (click)="saveProfil()"></p-button>
                     </div>
                    
-                    <!-- <p-divider></p-divider>
-                    
-                    <div class="flex justify-content-between">
-                        <p-button label="Désactiver le compte" icon="pi pi-ban" severity="warning"  (onClick)="desactivateAccount()"></p-button>
-                        <p-button label="Supprimer le compte" icon="pi pi-trash" severity="danger"  (onClick)="deleteAccount()"></p-button>
-                    </div> -->
                 </div>
-
-                <!-- Dialogs -->
-                <!-- <p-dialog [(visible)]="deleteAccountDialog" header="Confirmation de suppression" [modal]="true" [style]="{width:'450px'}">
-                    <div class="flex align-items-center justify-content-center">
-                        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                        <span>Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.</span>
-                    </div>
-                    <ng-template pTemplate="footer">
-                        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteAccountDialog = false"></button>
-                        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteAccount()"></button>
-                    </ng-template>
-                </p-dialog>
-
-                <p-dialog [(visible)]="desactivateAccountDialog" header="Confirmation de désactivation" [modal]="true" [style]="{width:'450px'}">
-                    <div class="flex align-items-center justify-content-center">
-                        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                        <span>Voulez-vous vraiment désactiver votre compte ? Vous pouvez le réactiver ultérieurement.</span>
-                    </div>
-                    <ng-template pTemplate="footer">
-                        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="desactivateAccountDialog = false"></button>
-                        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDesactivateAccount()"></button>
-                    </ng-template>
-                </p-dialog> -->
             </div>
         </div>
         <app-footer></app-footer>  
