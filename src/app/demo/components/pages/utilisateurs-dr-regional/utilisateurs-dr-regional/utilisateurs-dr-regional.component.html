@@ -35,7 +35,7 @@
 
 
                         <div class="p-fluid formgrid grid">
-                           
+
                             <div class="field col-12 md:col-6">
                                 <label for="forename">Nom</label>
                                 <input formControlName="forename" pInputText id="forename" placeholder="Nom" />
@@ -198,27 +198,27 @@
             <ng-template pTemplate="body" let-res>
                 <tr>
                     <td>
-                        {{ res.createdAt | date: 'dd/MM/yyyy' }}
+                        {{ res?.createdAt | date: 'dd/MM/yyyy' }}
                     </td>
 
                     <td>
-                        {{ res.region }}
+                        {{ res?.region }}
                     </td>
 
                     <td>
-                        {{ res.matricule }}
+                        {{res?.matricule }}
                     </td>
                     <td>
-                        {{ res.forename }}
+                        {{ res?.forename }}
                     </td>
                     <td>
-                        {{ res.lastname }}
+                        {{ res?.lastname }}
                     </td>
                     <td>
-                        {{ res.email }}
+                        {{ res?.email }}
                     </td>
                     <td>
-                        {{ res.titre_honorifique }}
+                        {{ res?.titre_honorifique }}
                     </td>
 
 

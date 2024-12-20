@@ -34,7 +34,7 @@ export class UtilisateursAjeComponent implements OnInit {
     loading: boolean = false;
 
     // Pagination
-    pageSize: number = 10;
+    pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
     userInfo: any;
@@ -65,12 +65,12 @@ export class UtilisateursAjeComponent implements OnInit {
     dataResponse: any;
     loadUsers(page: number, size: number) {
         this.loading = true;
-        this.signElectService.listUtilisateurDrtss(page, size).subscribe(
+        this.signElectService.listUtilisateurAje(page, size).subscribe(
             (response: any) => {
-                const filterdrtpsUser = response.content.filter(
+               /* const filterdrtpsUser = response.content.filter(
                     (user) => user.userType === 'TRESOR_USER'
-                );
-                this.utilisateurs = filterdrtpsUser;
+                );*/
+                this.utilisateurs = response.content;
 
                 this.totalRecords = response.totalPages;
                 this.loading = false;
@@ -143,22 +143,24 @@ export class UtilisateursAjeComponent implements OnInit {
     isUpdate: boolean = false;
     openNew(type: string) {
         this.modalDialog = true;
+        console.log(type);
+
         if (type == 'UPDATE') {
             this.isUpdate = true;
             this.initForm();
-            this.userForm.setValue({
+            this.userForm.patchValue({
                 id: this.selectLine.id,
                 forename: this.selectLine.forename,
                 lastname: this.selectLine.lastname,
                 tel: this.selectLine.tel,
                 matricule: this.selectLine.matricule,
-                titre_honorifique: this.selectLine.titre_honorifique,
+              //  titre_honorifique: this.selectLine.titre_honorifique,
                 email: this.selectLine.email,
                 role: this.selectLine.role,
                 userType: this.selectLine.userType,
-                password: '',
+              //  password: '',
 
-                username: this.selectLine.email,
+                username: this.selectLine.email
             });
         } else {
             this.initForm();
@@ -184,9 +186,16 @@ export class UtilisateursAjeComponent implements OnInit {
         });
     }
     submitForm() {
-        if (this.userForm.valid) {
-            this.createUsersCompteRequest();
-        } else {
+        console.log("userForm",this.userForm.value);
+        this.createUsersCompteRequest();
+        if (!this.isUpdate && this.userForm.valid) {
+           this.createUsersCompteRequest();
+        }
+        else if (this.isUpdate) {
+            this.UpdateUsersCompteRequest();
+        }
+
+        else {
             this.messageSucces(
                 'Veillez remplire tout les champs du formulaire',
                 'error'
@@ -197,24 +206,55 @@ export class UtilisateursAjeComponent implements OnInit {
     isClicked: boolean = false;
 
     createUsersCompteRequest() {
+
         let form = this.userForm.value;
         this.userForm.patchValue({ username: form.email });
         console.log('u',this.userForm.value);
 
-        this.signElectService.createUserRequest(this.userForm.value).subscribe(
-            (response: any) => {
-                this.modalDialog;
-                this.loadUsers(0, 100000);
-                this.loadUsers(this.pageNumber, this.pageSize);
-                this.messageSucces('Utilisateur créé avec succès.', 'success');
-                this.modalDialog = false;
-                this.isClicked = true;
-            },
-            (error) => {
-                this.messageSucces("Une erreur s'est produite", 'error');
-                this.isClicked = true;
-            }
-        );
+
+            this.signElectService.createUserRequest(this.userForm.value).subscribe(
+                (response: any) => {
+                    this.modalDialog;
+                    this.loadUsers(0, 100000);
+                    this.loadUsers(this.pageNumber, this.pageSize);
+                    this.messageSucces('Utilisateur créé avec succès.', 'success');
+                    this.modalDialog = false;
+                    this.isUpdate=false;
+                    this.isClicked = true;
+                },
+                (error) => {
+                    this.messageSucces("Une erreur s'est produite", 'error');
+                    this.isClicked = true;
+                }
+            );
+
+    }
+
+
+    UpdateUsersCompteRequest() {
+
+        let form = this.userForm.value;
+        this.userForm.patchValue({ username: form.email });
+        console.log('u',this.userForm.value);
+
+
+            this.signElectService.updateUserRequest(this.userForm.value).subscribe(
+                (response: any) => {
+                    this.modalDialog;
+                    this.loadUsers(0, 100000);
+                    this.loadUsers(this.pageNumber, this.pageSize);
+                    this.messageSucces('Information utlisateur mis a jour avec succès.', 'success');
+                    this.modalDialog = false;
+                    this.isClicked = true;
+                    this.isUpdate=false;
+
+                },
+                (error) => {
+                    this.messageSucces("Une erreur s'est produite", 'error');
+                    this.isClicked = true;
+                }
+            );
+
     }
 
     saveUsersDrtssCompte() {

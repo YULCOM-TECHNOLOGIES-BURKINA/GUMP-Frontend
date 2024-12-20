@@ -34,7 +34,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     loading: boolean = false;
 
     // Pagination
-    pageSize: number = 10;
+    pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
 
@@ -182,22 +182,31 @@ export class UtilisateursDrtssComponent implements OnInit {
         });
     }
     submitForm() {
-        if (this.selectedRegion != undefined && this.userForm.valid) {
-            let form = this.userForm.value;
+        let form = this.userForm.value;
 
-            this.userForm.patchValue({
-                region: this.selectedRegion.code,
-                username: form.email
-            });
+        this.userForm.patchValue({
+            region: this.selectedRegion.code,
+            username: form.email
+        });
 
-            this.createUsersCompteRequest();
-        } else {
+        if (!this.isUpdate && this.selectedRegion != undefined && this.userForm.valid) {
+             this.createUsersCompteRequest();
+        }
+
+        else if (this.isUpdate) {
+
+            this.UpdateUsersCompteRequest();
+        }
+
+         else
+         {
             this.messageSucces(
                 'Veillez remplire tout les champs du formulaire',
                 'error'
             );
         }
     }
+
 
     isClicked: boolean = false;
 
@@ -211,12 +220,38 @@ export class UtilisateursDrtssComponent implements OnInit {
                 this.userForm.reset();
                 this.modalDialog = false;
                 this.isClicked = true;
+                this.isUpdate=false;
             },
             (error) => {
                 this.messageSucces("Une erreur s'est produite", 'error');
                 this.isClicked = true;
             }
         );
+    }
+
+    UpdateUsersCompteRequest() {
+
+        let form = this.userForm.value;
+        this.userForm.patchValue({ username: form.email });
+        console.log('u',this.userForm.value);
+
+
+            this.signElectService.updateUserRequest(this.userForm.value).subscribe(
+                (response: any) => {
+                    this.modalDialog;
+                    this.loadUsers(0, 100000);
+                    this.loadUsers(this.pageNumber, this.pageSize);
+                    this.messageSucces('Information utlisateur mis a jour avec succès.', 'success');
+                    this.modalDialog = false;
+                    this.isClicked = true;
+                    this.isUpdate=false
+                },
+                (error) => {
+                    this.messageSucces("Une erreur s'est produite", 'error');
+                    this.isClicked = true;
+                }
+            );
+
     }
 
     saveUsersDrtssCompte() {

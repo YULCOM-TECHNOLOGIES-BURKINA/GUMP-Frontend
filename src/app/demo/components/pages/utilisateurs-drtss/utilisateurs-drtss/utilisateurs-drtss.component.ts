@@ -70,8 +70,8 @@ export class UtilisateursDrtssComponent implements OnInit {
             (response: any) => {
                 const filterdrtpsUser = response.content.filter(
                     (user) =>
-                        user.region === this.userInfo.region &&
-                        user.userType === 'DRTSS_USER'
+                        user.region === this.userInfo.region 
+
                 );
                 this.utilisateurs = filterdrtpsUser;
 

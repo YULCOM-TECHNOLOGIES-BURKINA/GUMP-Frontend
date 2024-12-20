@@ -63,6 +63,29 @@ export class SignatureElectroniquesService {
             );
     }
 
+    public listUtilisateurAje(page: number, size: number) {
+        return this.fastService
+            .get<Utilisateur[]>(
+                this._gateway +
+                    `users?page=${page}&size=${size}&userType=TRESOR_USER&${this._ms_users}`
+            )
+            .pipe(
+                tap((utilisateurs) => {
+                    console.log(
+                        'Liste des utilisateurs récupérée :',
+                        utilisateurs
+                    );
+                }),
+                catchError((error) => {
+                    console.error(
+                        'Erreur lors de la récupération des utilisateurs :',
+                        error
+                    );
+                    return of([]);
+                })
+            );
+    }
+
     public listUtilisateurSignataieDrtss(page: number, size: number) {
         return this.fastService
             .get<Utilisateur[]>(
@@ -133,6 +156,26 @@ export class SignatureElectroniquesService {
                 })
             );
     }
+
+
+    public updateUserRequest(formData: any): Observable<any> {
+        return this.fastService
+            .post<CreateUserRequest>(
+                this._gateway + 'users/update?' + this._ms_users,
+                formData
+            )
+            .pipe(
+                tap((res: CreateUserRequest) => {}),
+                catchError((error) => {
+                    console.error(
+                        "Erreur lors de l'enregistrement de l'utilisateur :",
+                        error
+                    );
+                    return of(null);
+                })
+            );
+    }
+
 
     public createUserCompte(
         createUserRequest: CreateUserRequest
