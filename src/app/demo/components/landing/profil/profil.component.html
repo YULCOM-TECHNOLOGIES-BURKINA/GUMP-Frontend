@@ -12,16 +12,16 @@
                     <div class="p-fluid formgrid grid">
                         <div class="field col-12 md:col-6">
                             <label for="nom">Nom</label>
-                            <input pInputText id="nom" [(ngModel)]="request.lastname" placeholder="Nom" />
+                            <input pInputText id="nom" [(ngModel)]="request.lastname" placeholder="Nom" readonly/>
                         </div>
                         <div class="field col-12 md:col-6">
                             <label for="prenom">Prénom</label>
-                            <input pInputText id="prenom" [(ngModel)]="request.forename" placeholder="Prénom" />
+                            <input pInputText id="prenom" [(ngModel)]="request.forename" placeholder="Prénom" readonly/>
                         </div>
-                        <div class="field col-12 md:col-6">
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="email">Email</label>
                             <input pInputText id="email" [(ngModel)]="request.email" placeholder="Email" />
-                        </div>
+                        </div> -->
                         <div class="field col-12 md:col-6">
                             <label for="entreprise">Nom de l'entreprise</label>
                             <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.name" placeholder="Nom de l'entreprise"  readonly/>
@@ -39,7 +39,7 @@
                             <input class="readonly-input" pInputText id="email" [(ngModel)]="request.company.ifu" placeholder="Numéro IFU" readonly/>
                         </div>
 
-                        <div class="field col-12 md:col-6">
+                        <!-- <div class="field col-12 md:col-6">
                             <label for="password">Nouveau mot de passe</label>
                             <p-password id="password" [(ngModel)]="profil.password" toggleMask feedback="false" placeholder="••••••••"
                             promptLabel="Choisissez un mot de passe" weakLabel="Très faible"  mediumLabel="bon"  strongLabel="Fort"></p-password>
@@ -49,22 +49,22 @@
                             <label for="passwordConfirm">Confirmer mot de passe</label>
                             <p-password id="passwordConfirm" [(ngModel)]="profil.passwordConfirm" toggleMask feedback="false" placeholder="••••••••"
                             promptLabel="Confirmer votre mot de passe" weakLabel="Très faible"  mediumLabel="bon"  strongLabel="Fort"></p-password>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="mt-4">
                         <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success"></p-button>
                     </div>
                    
-                    <p-divider></p-divider>
+                    <!-- <p-divider></p-divider>
                     
                     <div class="flex justify-content-between">
                         <p-button label="Désactiver le compte" icon="pi pi-ban" severity="warning"  (onClick)="desactivateAccount()"></p-button>
                         <p-button label="Supprimer le compte" icon="pi pi-trash" severity="danger"  (onClick)="deleteAccount()"></p-button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Dialogs -->
-                <p-dialog [(visible)]="deleteAccountDialog" header="Confirmation de suppression" [modal]="true" [style]="{width:'450px'}">
+                <!-- <p-dialog [(visible)]="deleteAccountDialog" header="Confirmation de suppression" [modal]="true" [style]="{width:'450px'}">
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
                         <span>Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.</span>
@@ -84,7 +84,7 @@
                         <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="desactivateAccountDialog = false"></button>
                         <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDesactivateAccount()"></button>
                     </ng-template>
-                </p-dialog>
+                </p-dialog> -->
             </div>
         </div>
         <app-footer></app-footer>  
