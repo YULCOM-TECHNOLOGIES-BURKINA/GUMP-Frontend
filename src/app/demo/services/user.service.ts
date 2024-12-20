@@ -33,12 +33,6 @@ export class UserService {
       );
   }
 
-  // verifyNes(nes: string): Observable<any> {
-  //   return this.http.get(
-  //       `${this.apiUrl}/verify_esintax/${nes}?service=users-ms`
-  //   );
-  // }
-
   verifyNes(vData: any): Observable<any> {
       return this.http.post(
           `${this.apiUrl}/verify_esyntax?service=asf-ms`, vData
@@ -53,6 +47,24 @@ export class UserService {
           }
       );
   }
+
+getMe(): Observable<any> {
+    return this.http.get(
+        `${this.apiUrl}/users/me?service=users-ms`,
+        {
+            headers: this.getFormDataHeaders(),
+        }
+    );
+}
+
+saveMe(userData: any): Observable<any> {
+    return this.http.post(
+        `${this.apiUrl}/users/me?service=users-ms`, userData,
+        {
+            headers: this.getHeaders(),
+        }
+    );
+}
 
   approveUser(userId: number): Observable<any> {
       return this.http.post(

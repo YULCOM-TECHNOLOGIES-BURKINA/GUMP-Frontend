@@ -53,6 +53,10 @@ export class DrtssComponent {
       formData.append('attestationAnpeNumber', this.attestationAnpeNumber);
       formData.append('attestationCnssNumber', this.attestationCnssNumber);
       formData.append('publicContractNumber', this.contractReference);
+      formData.append('contractPurpose', this.contractPurpose);
+      formData.append('contractingOrganizationName', this.contractingOrganizationName);
+      formData.append('organizationAddress', this.organizationAddress);
+      formData.append('organizationPhone', this.organizationPhone);
       formData.append('isForPublicContract', this.isForPublicContract.toString());
 
       this.drtssService.submitAttestationRequest(formData).subscribe({
