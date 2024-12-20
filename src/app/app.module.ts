@@ -16,6 +16,7 @@ import { KeycloakAuthService } from './demo/services/keycloak-auth.service';
 import { RouterModule } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { LoadingInterceptor } from './demo/shared/interceptors/loading.interceptor';
+import { SpinnerComponent } from "./demo/shared/spinner/spinner.component";
 
 export function initializeKeycloak(keycloak: KeycloakAuthService) {
     return () => keycloak.init();
@@ -27,25 +28,25 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
         NotfoundComponent
     ],
     imports: [
-        AppRoutingModule,
-        AppLayoutModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        BrowserModule,
-        ToastModule,
-        ButtonModule,
-        InputTextModule,
-        RouterModule,
-        NgxSpinnerModule
-
-    ],
+    AppRoutingModule,
+    AppLayoutModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    BrowserModule,
+    ToastModule,
+    ButtonModule,
+    InputTextModule,
+    RouterModule,
+    NgxSpinnerModule,
+    SpinnerComponent
+],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: LoadingInterceptor,
             multi: true
           },
- 
+
         {
 
             provide: LocationStrategy,
