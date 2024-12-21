@@ -14,8 +14,8 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 })
 export class HttpFastserviceService {
 
- _gateway = 'http://localhost:9090/api/';
- // _gateway = 'http://localhost:9090/api/';
+ _gateway = 'https://gump-gateway.yulpay.com/api/';
+ // _gateway = 'https://gump-gateway.yulpay.com/api/';
 
   // Méthode pour obtenir les headers spécifiques pour FormData
   private getFormDataHeaders(): HttpHeaders {
@@ -105,7 +105,7 @@ export class HttpFastserviceService {
             .pipe(catchError(this.handleError));
     }
 
-   
+
     public getWithoutToken<T>(url: string): Observable<T> {
         return this.http
             .get<T>(url, { observe: 'body', headers: this.getHeadersWithoutToken()},)

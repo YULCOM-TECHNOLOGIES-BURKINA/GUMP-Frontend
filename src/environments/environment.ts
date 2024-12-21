@@ -18,7 +18,7 @@ const host_gateway = 'http://localhost:9090/api';
 
 //const host_ms_drtss = 'http://195.35.48.198:8082/api';
 const host_ms_aje = 'http://195.35.48.198:8080/api';
-const apiUrl = 'http://localhost:9090/api/demandes?service=drtss-ms';
+const apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
 const apiGateway = 'https://gump-gateway.yulpay.com/api';
 // private apiUrl = 'http://195.35.48.198:8082/api/demandes';
 /** @type {*} */

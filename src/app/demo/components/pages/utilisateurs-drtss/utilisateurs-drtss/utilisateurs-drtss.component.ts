@@ -34,7 +34,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     loading: boolean = false;
 
     // Pagination
-    pageSize: number = 10;
+    pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
     userInfo: any;
@@ -70,7 +70,7 @@ export class UtilisateursDrtssComponent implements OnInit {
             (response: any) => {
                 const filterdrtpsUser = response.content.filter(
                     (user) =>
-                        user.region === this.userInfo.region 
+                        user.region === this.userInfo.region
 
                 );
                 this.utilisateurs = filterdrtpsUser;

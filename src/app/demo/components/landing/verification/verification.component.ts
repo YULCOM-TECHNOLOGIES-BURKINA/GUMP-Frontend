@@ -38,7 +38,7 @@ export class VerificationComponent implements OnInit {
   ];
 
   constructor(
-    private messageService: MessageService, 
+    private messageService: MessageService,
     private verificationService: VerificationService,
     private router: Router,
     private fb: FormBuilder
@@ -74,9 +74,9 @@ export class VerificationComponent implements OnInit {
   }
 
   // verify() {
-  //   if (this.selectedDocType === 'ASF' && 
-  //       (!this.verificationForm.get('nes').value || 
-  //        !this.verificationForm.get('ifu').value || 
+  //   if (this.selectedDocType === 'ASF' &&
+  //       (!this.verificationForm.get('nes').value ||
+  //        !this.verificationForm.get('ifu').value ||
   //        !this.verificationForm.get('reference').value)) {
   //     this.messageService.add({
   //       severity: 'warn',
@@ -100,7 +100,7 @@ export class VerificationComponent implements OnInit {
   //   setTimeout(() => {
   //     // Simulation d'un document invalide (à adapter selon vos besoins)
   //     const isValid = Math.random() > 0.5;
-      
+
   //     this.verificationResult = {
   //       docType: this.selectedDocType,
   //       reference: this.verificationForm.get('reference').value,
@@ -117,9 +117,9 @@ export class VerificationComponent implements OnInit {
   // }
 
   verify() {
-    if (this.selectedDocType === 'ASF' && 
-        (!this.verificationForm.get('nes').value || 
-         !this.verificationForm.get('ifu').value || 
+    if (this.selectedDocType === 'ASF' &&
+        (!this.verificationForm.get('nes').value ||
+         !this.verificationForm.get('ifu').value ||
          !this.verificationForm.get('reference').value)) {
       this.messageService.add({
         severity: 'warn',
@@ -135,17 +135,17 @@ export class VerificationComponent implements OnInit {
       });
       return;
     }
-  
+
     this.loading = true;
     this.showResult = false;
-  
+
     if (this.selectedDocType === 'ASF') {
       const asfData = {
         reference: this.verificationForm.get('reference').value,
         nes: this.verificationForm.get('nes').value,
         ifu: this.verificationForm.get('ifu').value
       };
-  
+
       this.verificationService.verifyASF(asfData).subscribe({
         next: (response) => {
           this.handleVerificationResponse(response);
@@ -168,12 +168,12 @@ export class VerificationComponent implements OnInit {
       });
     }
   }
-  
+
   private handleVerificationResponse(response: any) {
     this.loading = false;
-    
+
     const isValid = response.status === 200 && response.data?.valid;
-    
+
     this.verificationResult = {
       docType: this.selectedDocType,
       reference: this.verificationForm.get('reference').value,
@@ -181,18 +181,18 @@ export class VerificationComponent implements OnInit {
       issueDate: isValid ? response.data?.issueDate : undefined,
       expiryDate: isValid ? response.data?.expiryDate : undefined,
       organization: isValid ? response.data?.organization : undefined,
-      additionalInfo: isValid ? 
-        response.data?.additionalInfo || 'Document valide' : 
+      additionalInfo: isValid ?
+        response.data?.additionalInfo || 'Document valide' :
         response.data?.message || 'Document non valide ou inexistant'
     };
-  
+
     this.showResult = true;
   }
-  
+
 
   private handleVerificationError(error: any) {
     this.loading = false;
-    
+
     // Déterminer le message d'erreur en fonction du code HTTP
     let errorMessage: string;
     switch (error.status) {
@@ -205,20 +205,20 @@ export class VerificationComponent implements OnInit {
       default:
         errorMessage = 'Une erreur est survenue lors de la vérification du document';
     }
-    
+
     this.messageService.add({
       severity: 'error',
       summary: 'Erreur',
       detail: errorMessage
     });
-    
+
     this.verificationResult = {
       docType: this.selectedDocType,
       reference: this.verificationForm.get('reference').value,
       status: 'invalid',
       additionalInfo: errorMessage
     };
-    
+
     this.showResult = true;
   }
 
@@ -233,7 +233,7 @@ export class VerificationComponent implements OnInit {
     if (this.selectedDocType === 'ASF') {
       return this.verificationForm.valid && this.selectedDocType?.trim().length > 0;
     }
-    return this.verificationForm.get('reference').value?.trim().length > 0 && 
+    return this.verificationForm.get('reference').value?.trim().length > 0 &&
            this.selectedDocType?.trim().length > 0;
   }
 
