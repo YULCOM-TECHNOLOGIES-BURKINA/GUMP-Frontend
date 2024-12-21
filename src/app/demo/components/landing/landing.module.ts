@@ -42,6 +42,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { BadgeModule } from 'primeng/badge';
 import { TabViewModule } from 'primeng/tabview';
 import { ChipsModule } from 'primeng/chips';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
     imports: [
@@ -80,7 +81,8 @@ import { ChipsModule } from 'primeng/chips';
         BadgeModule,
         TabViewModule,
         ChipsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        InputMaskModule
     ],
     declarations: [
         LandingComponent, 

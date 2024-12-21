@@ -59,7 +59,7 @@ export class DrtssService {
 
   approveRequest(requestId: number, requestData: any): Observable<any> {
     return this.http.post(`${this.apiGateway}/demandes/${requestId}/approve?service=drtss-ms`, requestData, {
-      headers: this.getHeaders()
+      headers: this.getFormDataHeaders()
     });
   }
 
@@ -88,13 +88,8 @@ export class DrtssService {
   }
 
   updatePaymentStatus( demandeId: number, paymentId: string): Observable<any> {
-
-    const paymentData = {
-      paymentId: paymentId
-    };
-
     return this.http.post(`${this.apiGateway}/demandes/${demandeId}/update-payment-status?paymentId=${paymentId}&service=drtss-ms`, {
-      headers: this.getHeaders()
+      headers: this.getFormDataHeaders()
     });
   }
 }

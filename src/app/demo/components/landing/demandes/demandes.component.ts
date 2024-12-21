@@ -14,6 +14,7 @@ import { DemandeService } from '../../../services/demande.service';
 import { AjeService } from '../../../services/aje.service';
 import { AsfService } from '../../../services/asf.service';
 import { interval } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-demandes',
@@ -94,6 +95,10 @@ export class DemandesComponent implements OnInit {
   readonly VALIDITY_DAYS = 90; // Durée de validité en jours
   readonly WARNING_DAYS = 14; // Seuil d'alerte en jours
 
+  nesForm: FormGroup;
+  nesValidated: boolean = false;
+  loading: boolean = false;
+
   constructor(
     private drtssService: DrtssService, 
     private ajeService: AjeService, 
@@ -101,7 +106,13 @@ export class DemandesComponent implements OnInit {
     private anpeService: AnpeService, 
     private rccmService: RccmService, 
     private demandeService: DemandeService, 
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private fb: FormBuilder) {
+      this.nesForm = this.fb.group({
+        nes: ['', [Validators.required, Validators.pattern('^[0-9]{13}$')]]
+      });
+    }
+
 
   ngOnInit() {
       this.getDemandesDrtss();
@@ -111,6 +122,7 @@ export class DemandesComponent implements OnInit {
       this.getDemandesAsf();
       this.getDemandesSimulation();
       this.setupValidityCheck();
+      this.nesValidated = false;
 
       this.cols = [
           { field: 'reference', header: 'Reference du marché' },
@@ -353,5 +365,52 @@ export class DemandesComponent implements OnInit {
         });
       }
     });
+  }
+
+  validateNes() {
+    if (this.nesForm.valid) {
+        this.loading = true;
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        
+        if (!currentUser.username) {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Erreur',
+                detail: 'Impossible de récupérer votre numéro IFU'
+            });
+            this.loading = false;
+            return;
+        }
+
+        const requestData = {
+            ifu: currentUser.username,
+            nes: this.nesForm.get('nes')?.value
+        };
+
+        this.asfService.getDemandesHistory(requestData).subscribe((data: DemandeAsfResponse) =>{
+            this.requestsAsf = data.content;
+            this.totalRecordsAsf = data.totalElements;
+            this.countAsf = this.requestsAsf.length;
+            this.nesValidated = true;
+            this.loading = false;
+            // next: (data: DemandeAsfResponse) => {
+            //     this.requestAsf = data.content;
+            //     this.totalRecordsAsf = data.totalElements;
+            //     this.countAsf = this.requestAsf.length;
+            //     this.nesValidated = true;
+            // },
+            // error: (error) => {
+            //     this.messageService.add({
+            //         severity: 'error',
+            //         summary: 'Erreur',
+            //         detail: 'Impossible de récupérer l\'historique des demandes'
+            //     });
+            // },
+            // complete: () => {
+            //     this.loading = false;
+            // }
+        });
+        this.loading = false;
+    }
   }
 }

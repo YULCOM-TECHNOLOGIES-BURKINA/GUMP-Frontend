@@ -285,51 +285,84 @@
 
                         <!-- ASF -->
                         <p-tabPanel header="Attestation de situation fiscale ({{ countAsf }})">
-                            <p-table #dtasf [value]="requestAsf" [columns]="cols" responsiveLayout="scroll" 
-                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                            [showCurrentPageReport]="true" 
-                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsCnss" [(selection)]="selectedCnssRequests" 
-                            selectionMode="multiple" [rowHover]="true" dataKey="id">
+                             <!-- Formulaire NES -->
+                            <div *ngIf="!nesValidated" class="surface-card p-4 shadow-2 border-round">
+                                <div class="text-center mb-5">
+                                    <div class="text-900 text-3xl font-medium mb-3">Accès à l'historique ASF</div>
+                                    <span class="text-600 font-medium">Veuillez saisir votre numéro NES pour consulter vos demandes</span>
+                                </div>
 
-                                <ng-template pTemplate="caption">
-                                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                                    <h5 class="m-0">Historique de mes demandes d'attestation de situation fiscale</h5>
-                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
-                                        <i class="pi pi-search"></i>
-                                        <input pInputText type="text" (input)="onGlobalFilter(dtasf, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
-                                    </span>
+                                <form [formGroup]="nesForm" (ngSubmit)="validateNes()" class="flex flex-column gap-2">
+                                    <div class="flex flex-column gap-2">
+                                        <label for="nes" class="font-medium text-900">Numéro NES</label>
+                                        <p-inputMask id="nes" 
+                                                    formControlName="nes" 
+                                                    mask="9999999999999"
+                                                    placeholder="Entrez votre numéro NES"
+                                                    [style]="{'width':'100%'}"
+                                                    class="w-full">
+                                        </p-inputMask>
+                                        <small *ngIf="nesForm.get('nes')?.invalid && nesForm.get('nes')?.touched" 
+                                            class="p-error">Le numéro NES est requis et doit contenir 13 chiffres</small>
                                     </div>
-                                </ng-template>
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
-                                        <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-requestsAsf>
-                                    <tr>
-                                        <td>{{ requestsAsf.createdAt | date: 'dd/MM/yyyy' }}</td>
-                                        <td>
-                                            <span class="p-badge" [ngClass]="{
-                                            'p-badge-success': requestsAsf.status === 'APPROVED',
-                                                'p-badge-primary': requestsAsf.status === 'PROCESSING',
-                                                'p-badge-danger': requestsAsf.status === 'REJECTED',
-                                                'p-badge-info': requestsAsf.status === 'PENDING'
-                                            }">
-                                            {{ getTranslatedStatus(requestsAsf.status) }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button  pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestsAsf)" 
-                                            pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
-                                        </td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
+
+                                    <p-button type="submit" 
+                                            label="Valider" 
+                                            icon="pi pi-check" 
+                                            [loading]="loading"
+                                            [disabled]="nesForm.invalid"
+                                            styleClass="w-full mt-3 p-button-success">
+                                    </p-button>
+                                </form>
+                            </div>
+
+                            <div *ngIf="nesValidated">
+                                <p-table #dtasf [value]="requestAsf" [columns]="cols" responsiveLayout="scroll" 
+                                [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
+                                [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
+                                [showCurrentPageReport]="true" 
+                                currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                                [totalRecords]="totalRecordsCnss" [(selection)]="selectedCnssRequests" 
+                                selectionMode="multiple" [rowHover]="true" dataKey="id">
+
+                                    <ng-template pTemplate="caption">
+                                        <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                        <h5 class="m-0">Historique de mes demandes d'attestation de situation fiscale</h5>
+                                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                            <i class="pi pi-search"></i>
+                                            <input pInputText type="text" (input)="onGlobalFilter(dtasf, $event)" placeholder="Rechercher..." class="w-full sm:w-auto" />
+                                        </span>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                            <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-requestsAsf>
+                                        <tr>
+                                            <td>{{ requestsAsf.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                            <td>
+                                                <span class="p-badge" [ngClass]="{
+                                                'p-badge-success': requestsAsf.status === 'APPROVED',
+                                                    'p-badge-primary': requestsAsf.status === 'PROCESSING',
+                                                    'p-badge-danger': requestsAsf.status === 'REJECTED',
+                                                    'p-badge-info': requestsAsf.status === 'PENDING'
+                                                }">
+                                                {{ getTranslatedStatus(requestsAsf.status) }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button  pButton pRipple icon="pi pi-download" 
+                                                class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestsAsf)" 
+                                                pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
                         </p-tabPanel>
 
                         <!-- CNSS -->
