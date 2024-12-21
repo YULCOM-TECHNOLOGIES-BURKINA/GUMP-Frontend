@@ -256,23 +256,6 @@ export class RegisterComponent implements OnInit {
                 });
             }
         });
-        // this.userService.verifyNes(this.ifuForm.get('nes')?.value).subscribe({
-        //     next: (response) => {
-        //         this.messageService.add({
-        //             severity: 'error',
-        //             summary: 'Erreur',
-        //             detail: 'Un compte avec ce numéro IFU existe déjà.'
-        //         });
-        //     },
-        //     error: (error) => {
-        //         this.messageService.add({
-        //             severity: 'success',
-        //             summary: 'Succès',
-        //             detail: 'Votre NES est invalide'
-        //         });
-
-        //     }
-        // });
     }
 
     onFileSelect(event: any, fileType: string) {

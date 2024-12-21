@@ -29,7 +29,7 @@ export class AsfService {
 
   submitAttestationRequest(requestData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/demandes?service=asf-ms`, requestData, {
-      headers: this.getHeaders()
+      // headers: this.getHeaders()
     });
   }
 
@@ -40,12 +40,22 @@ export class AsfService {
     });
   }
 
+  // getDemandesHistory(data: { ifu: string, nes: string }): Observable<any> {
+  //   return this.http.get(`${this.apiUrl}/demandes?service=asf-ms`, {
+  //     headers: this.getHeaders(),
+  //     params: data 
+  //   });
+  // }
+
   getDemandesHistory(data: { ifu: string, nes: string }): Observable<any> {
-    return this.http.get(`${this.apiUrl}/demandes?service=asf-ms`, {
-      headers: this.getHeaders(),
-      params: data 
+    return this.http.get(`${this.apiUrl}/demandes`, {
+        // headers: this.getHeaders(),
+        params: {
+            ...data,
+            service: 'asf-ms'
+        }
     });
-  }
+}
 
   getDemandes(): Observable<DemandeAsfResponse> {
     return this.http.get<DemandeAsfResponse>(`${this.apiUrl}?service=asf-ms`, {

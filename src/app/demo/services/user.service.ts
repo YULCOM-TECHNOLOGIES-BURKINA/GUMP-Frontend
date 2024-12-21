@@ -27,6 +27,12 @@ export class UserService {
       });
   }
 
+  private getHeadersMultipart(): HttpHeaders {
+    return new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+    });
+}
+
   verifyIfu(ifuNumber: string): Observable<any> {
       return this.http.get(
           `${this.apiUrl}/get-ifu/${ifuNumber}?service=users-ms`
@@ -87,7 +93,7 @@ saveMe(userData: any): Observable<any> {
   register(userData: any): Observable<any> {
       return this.http.post(
           `${this.apiUrl}/auth/register?service=users-ms`,
-          userData
+          userData, {headers:this.getHeadersMultipart()}
       );
   }
 

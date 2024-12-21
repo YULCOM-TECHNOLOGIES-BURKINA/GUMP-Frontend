@@ -59,7 +59,7 @@ export class DrtssService {
 
   approveRequest(requestId: number, requestData: any): Observable<any> {
     return this.http.post(`${this.apiGateway}/demandes/${requestId}/approve?service=drtss-ms`, requestData, {
-      headers: this.getHeaders()
+      headers: this.getFormDataHeaders()
     });
   }
 
