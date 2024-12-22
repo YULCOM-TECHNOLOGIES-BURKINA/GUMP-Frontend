@@ -70,31 +70,25 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
                     { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
                 ]
-
-
-                // items: [
-                //     { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'], visible: this.userRole.includes('ADMIN')  || this.userRole.includes('DRTSS_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
-                //     { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole.includes('ADMIN')  || this.userRole.includes('TRESOR_AGENT') }
-                // ]
             },
 
-            {
-                label: 'Traitement des demandes',
-                visible: this.userRole.includes('DRTSS_AGENT') || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER')  ,
-                items: [
-                    { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
-                ]
-            },
-            {
-                label: 'Traitement des demandes',
-                visible:this.userRole.includes('TRESOR_AGENT'),
-                items: [
-                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
-                ]
-            },
+            // {
+            //     label: 'Traitement des demandes',
+            //     visible: this.userRole.includes('DRTSS_AGENT') || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER')  ,
+            //     items: [
+            //         { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
+            //     ]
+            // },
+            // {
+            //     label: 'Traitement des demandes',
+            //     visible:this.userRole.includes('TRESOR_AGENT'),
+            //     items: [
+            //         { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
+            //     ]
+            // },
             {
                 label: 'Paramètres',
-                visible: this.userRole.includes('ADMIN') || this.userRole.includes('DRTSS_AGENT') || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER'),
+                visible: this.userRole.includes('ADMIN') || this.signatory_value.includes(true) || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER'),
                 items: [
                     // { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
                     { label: 'Gestions Utilisateurs AJE', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-aje/gestions'], visible:this.userRole.includes('ADMIN') || this.userRole.includes('TRESOR_AGENT')  },
