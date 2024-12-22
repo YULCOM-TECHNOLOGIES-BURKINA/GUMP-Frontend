@@ -56,6 +56,8 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.signatureService.getUsersInfoByEmail(user.email).subscribe({
             next: (res: any) => {
                 this.userInfo = res;
+                console.log("this.userInfo.region",this.userInfo.region);
+
              },
             error: (error) => {},
         });
@@ -72,19 +74,21 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.loading = true;
         this.signElectService.listUtilisateurDrtss(page, size).subscribe(
             (response: any) => {
-                if (user.role=='ADMIN') {
-                    const filterdrtpsUser = response.content
-                    this.utilisateurs = filterdrtpsUser;
+                let filterdrtpsUser
+              if (user.role=='ADMIN') {
+                     filterdrtpsUser = response.content
+                     this.utilisateurs = filterdrtpsUser;
 
                 }else{
-                const filterdrtpsUser = response.content.filter(
+
+                 filterdrtpsUser = response.content.filter(
                     (user) =>
                         user.region === this.userInfo.region
 
                 );
+                this.utilisateurs = filterdrtpsUser;
 
-                }
-
+             }
 
                 this.totalRecords = response.totalPages;
                 this.loading = false;
