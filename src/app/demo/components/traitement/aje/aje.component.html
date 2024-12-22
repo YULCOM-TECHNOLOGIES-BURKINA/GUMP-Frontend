@@ -355,8 +355,8 @@
                 <span class="font-bold">Entreprise: {{request.requesterId }}</span>
             </div>
             <div class="col-6">
-                <p><strong>Localisation: </strong> {{request.address }}</p>
-                <p><strong>Téléphone: </strong>{{request.phoneNumber }}</p>
+                <p><strong>Localisation: </strong> {{request.organizationAddress }}</p>
+                <p><strong>Téléphone: </strong>{{request.organizationPhone }}</p>
             </div>
             <div class="col-6">
                 <p><strong>RCCM: </strong> {{request.rccmReference }}</p>
@@ -370,7 +370,6 @@
 
             <div class="col-6">
                 <p><strong>Organisme attribuant le marché: </strong> {{request.contractingOrganizationName }}</p>
-                <p><strong>Adresse: </strong>{{request.organizationAddress }}</p>
             </div>
         </div>
     </p-dialog>

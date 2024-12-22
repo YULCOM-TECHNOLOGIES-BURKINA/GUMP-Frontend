@@ -87,8 +87,15 @@ export class AjeComponent implements OnInit {
       this.ajeService.submitAttestationRequest(requestData).subscribe({
         next: (response) => {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !', life: 2000 });
+          // Récupérer l'ID de la demande depuis la réponse
+          const demandeId = response.id;
+
+          // Construction du callback URL
+          const callbackUrl = `${window.location.origin}/actes/aje/payment-callback/${demandeId}`;
+
+          // Initier le paiement
           setTimeout(() => {
-            this.router.navigate(['/demandes']);
+            this.initatePayment(demandeId, callbackUrl);
           }, 2000);
         },
         error: (err) => {
@@ -96,5 +103,22 @@ export class AjeComponent implements OnInit {
         }
       });
     }
+  }
+
+  private initatePayment(demandeId: number, callbackUrl: string) {
+    this.ajeService.makePayment(demandeId, callbackUrl).subscribe({
+      next: (paymentResponse) => {
+        if (paymentResponse.url) {
+          window.location.href = paymentResponse.url;
+        }
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Erreur lors de l\'initialisation du paiement.'
+        });
+      }
+    });
   }
 }

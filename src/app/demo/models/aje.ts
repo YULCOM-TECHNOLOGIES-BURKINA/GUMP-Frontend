@@ -18,6 +18,7 @@ export interface DemandeAje {
     organizationPhone?: string;
     createdAt?: string;
     publicContractNumber?: string;
+    isPaid?: boolean;
 }
 
 export interface DemandeAjeResponse {

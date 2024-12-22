@@ -239,11 +239,11 @@ export class TraitementAjeComponent implements OnInit {
     }
   }
 
-  getDemandes() { // TODO: seuement les dema,ndes payées
+  getDemandes() { 
     this.loading = true;
     this.ajeService.getDemandes().subscribe((data: DemandeAjeResponse) => {
-      this.requests = data.content;  // Récupère le tableau des demandes
-      this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+      this.requests = data.content.filter(request => request.isPaid === true);  
+      this.totalRecords = this.requests.length; 
       this.filteredRequests = [...this.requests];
       this.categorizeRequests();
       this.loading = false;

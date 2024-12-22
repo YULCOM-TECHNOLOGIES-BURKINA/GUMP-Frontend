@@ -8,7 +8,7 @@ import { DemandeAnpe, DemandeAnpeResponse } from '../models/anpe';
 })
 export class AnpeService {
 
-  private apiUrl = 'http://195.35.48.198:8080/api/demandes';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes';
 
   constructor(private http: HttpClient) {}
 

@@ -62,4 +62,21 @@ export class AjeService {
       headers: this.getFormDataHeaders()
     });
   }
+
+  makePayment(demandeId: number, callbackUrl: string): Observable<any> {
+    const paymentData = {
+      // requestType: "AJE",
+      callbackUrl: callbackUrl
+    };
+
+    return this.http.post(`${this.apiUrl}/${demandeId}/pay?service=tresor-ms`, paymentData, {
+      headers: this.getHeaders()
+    });
+  }
+
+  updatePaymentStatus( demandeId: number, paymentId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${demandeId}/update-payment-status?paymentId=${paymentId}&service=tresor-ms`, {
+      headers: this.getFormDataHeaders()
+    });
+  }
 }
