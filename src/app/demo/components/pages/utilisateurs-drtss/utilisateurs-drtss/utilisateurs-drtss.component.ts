@@ -37,7 +37,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
-    currentUser:any
+    currentUser: any;
     userInfo: any;
     constructor(
         public layoutService: LayoutService,
@@ -52,18 +52,17 @@ export class UtilisateursDrtssComponent implements OnInit {
     ngOnInit(): void {
         const userDetails = localStorage.getItem('currentUser');
         let user = JSON.parse(userDetails);
-        this.currentUser=user
+        this.currentUser = user;
         this.signatureService.getUsersInfoByEmail(user.email).subscribe({
             next: (res: any) => {
                 this.userInfo = res;
-                console.log("this.userInfo.region",this.userInfo.region);
-
-             },
+                console.log('this.userInfo.region', this.userInfo.region);
+            },
             error: (error) => {},
         });
 
         this.loadUsers(this.pageNumber, this.pageSize);
-        this.listRegions()
+        this.listRegions();
     }
 
     dataResponse: any;
@@ -74,35 +73,29 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.loading = true;
         this.signElectService.listUtilisateurDrtss(page, size).subscribe(
             (response: any) => {
-                let filterdrtpsUser
-              if (user.role=='ADMIN') {
-                     filterdrtpsUser = response.content
-                     this.utilisateurs = filterdrtpsUser;
-
-                }else{
-
-                 filterdrtpsUser = response.content.filter(
-                    (user) =>
-                        user.region === this.userInfo.region
-
-                );
-                this.utilisateurs = filterdrtpsUser;
-
-             }
+                let filterdrtpsUser;
+                if (user.role == 'ADMIN') {
+                    filterdrtpsUser = response.content;
+                    this.utilisateurs = filterdrtpsUser;
+                } else {
+                    filterdrtpsUser = response.content.filter(
+                        (user) => user.region === this.userInfo.region
+                    );
+                    this.utilisateurs = filterdrtpsUser;
+                }
 
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
-             },
+            },
             (error) => {
-                 this.loading = false;
+                this.loading = false;
                 this.cdr.detectChanges();
             }
         );
     }
 
     onPageChange(event: any) {
-
         this.pageNumber = event.first / event.rows;
         this.pageSize = event.rows;
         this.loadUsers(this.pageNumber, this.pageSize);
@@ -111,7 +104,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     selectLine: Utilisateur;
     onLineClick(event: any) {
         this.selectLine = event;
-         let modifier = true;
+        let modifier = true;
         if (this.selectLine.isActive == true) {
             this.selectlabel = 'Desactiver';
         } else {
@@ -125,7 +118,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 icon: 'pi pi-refresh',
                 visible: modifier,
                 command: () => {
-                     this.openNew('UPDATE');
+                    this.openNew('UPDATE');
                 },
             },
             { separator: true },
@@ -133,7 +126,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 label: this.selectlabel,
                 icon: 'pi pi-times',
                 command: () => {
-                     this.openDeleteDialog(this.selectLine);
+                    this.openDeleteDialog(this.selectLine);
                 },
             },
         ];
@@ -163,7 +156,6 @@ export class UtilisateursDrtssComponent implements OnInit {
     openNew(type: string) {
         this.modalDialog = true;
         if (type == 'UPDATE') {
-
             this.isUpdate = true;
             this.initForm();
             this.userForm.setValue({
@@ -190,7 +182,7 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.confirmDeleteSelected();
     }
     public initForm() {
-        if (this.currentUser.role=="ADMIN") {
+        if (this.currentUser.role == 'ADMIN') {
             this.userForm = this.fb.group({
                 id: [],
                 forename: ['', Validators.required],
@@ -223,15 +215,13 @@ export class UtilisateursDrtssComponent implements OnInit {
                 username: [''],
             });
         }
-
     }
     submitForm() {
         if (this.userForm.valid) {
-
-            if (this.currentUser.role=="ADMIN") {
-             this.userForm.patchValue({
-            region:this.selectedRegion.code
-        })
+            if (this.currentUser.role == 'ADMIN') {
+                this.userForm.patchValue({
+                    region: this.selectedRegion.code,
+                });
             }
             let usersInfo = this.userForm.value;
 
@@ -249,9 +239,9 @@ export class UtilisateursDrtssComponent implements OnInit {
     createUsersCompteRequest() {
         let form = this.userForm.value;
         this.userForm.patchValue({ username: form.email });
-               this.signElectService.createUserRequest(this.userForm.value).subscribe(
+        this.signElectService.createUserRequest(this.userForm.value).subscribe(
             (response: any) => {
-                 this.modalDialog;
+                this.modalDialog;
                 this.loadUsers(0, 100000);
                 this.loadUsers(this.pageNumber, this.pageSize);
                 this.messageSucces('Utilisateur créé avec succès.', 'success');
@@ -353,5 +343,5 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
 
         this.filteredRegionsAutoComplete = filtered;
-     }
+    }
 }
