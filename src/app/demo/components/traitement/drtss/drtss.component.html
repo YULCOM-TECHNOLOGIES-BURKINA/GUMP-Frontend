@@ -271,6 +271,7 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="isForPublicContract">Type <p-sortIcon field="isForPublicContract"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -284,7 +285,24 @@
                                 <td>
                                     <p-tableCheckbox [value]="request"></p-tableCheckbox>
                                 </td>
-                                <!-- <td>{{ request.id }}</td> -->
+                                <td>
+                                    <div *ngIf="requestDrtss.isForPublicContract">
+                                        <p>
+                                            <!-- <p-badge value="Soumission à un marché public"
+                                                    severity="info">
+                                            </p-badge> -->
+                                            Soumission à un marché public
+                                        </p>
+                                    </div>
+                                    <div *ngIf="!requestDrtss.isForPublicContract">
+                                        <p>
+                                            <!-- <p-badge value="Demande normale"
+                                                    severity="tertiary">
+                                            </p-badge> -->
+                                            Demande normale
+                                        </p>
+                                    </div>
+                                </td>
                                 <td>{{request.company.name}}</td>
                                 <td>{{ request.publicContractNumber }}</td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>

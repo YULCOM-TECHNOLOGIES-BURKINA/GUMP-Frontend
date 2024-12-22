@@ -34,6 +34,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
+                                        <th pSortableColumn="isForPublicContract">Type <p-sortIcon field="isForPublicContract"></p-sortIcon></th>
                                         <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
                                         <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                         <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -45,8 +46,28 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestDrtss>
                                     <tr>
-                                        <td>{{ requestDrtss.publicContractNumber }}</td>
-                                        <td>{{ requestDrtss.contractPurpose }} </td>
+                                        <td>
+                                            <div *ngIf="requestDrtss.isForPublicContract">
+                                                <p>
+                                                    <!-- <p-badge value="Soumission à un marché public"
+                                                            severity="info">
+                                                    </p-badge> -->
+                                                    Soumission à un marché public
+                                                </p>
+                                            </div>
+                                            <div *ngIf="!requestDrtss.isForPublicContract">
+                                                <p>
+                                                    <!-- <p-badge value="Demande normale"
+                                                            severity="tertiary">
+                                                    </p-badge> -->
+                                                    Demande normale
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td *ngIf="requestDrtss.isForPublicContract">{{ requestDrtss.publicContractNumber }}</td>
+                                        <td *ngIf="!requestDrtss.isForPublicContract">---</td>
+                                        <td *ngIf="requestDrtss.isForPublicContract">{{ requestDrtss.contractPurpose }} </td>
+                                        <td *ngIf="!requestDrtss.isForPublicContract">--- </td>
                                         <td>{{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{

@@ -132,7 +132,7 @@ export class AsfComponent implements OnInit {
               severity: 'success',
               summary: 'Succès',
               detail: serverMessage,
-              life: 10000
+              life: 3000
             });
             // Téléchargement automatique du document
             this.asfService.downloadAsf({
@@ -146,10 +146,13 @@ export class AsfComponent implements OnInit {
                   severity: 'success',
                   summary: 'Téléchargement',
                   detail: 'Le document a été téléchargé avec succès !',
-                  life: 15000 
+                  life: 5000 
                 });
                 // Réinitialisation du formulaire
                 this.resetForm();
+                setTimeout(() => {
+                  this.router.navigate(['/demandes']);
+                }, 1000);
               },
               error: (err) => {
                 this.messageService.add({

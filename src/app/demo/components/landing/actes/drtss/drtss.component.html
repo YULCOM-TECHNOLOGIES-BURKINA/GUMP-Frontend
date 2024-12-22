@@ -11,26 +11,40 @@
             <div class="col-12">
                 <div class="card">
                     <div class="field col-12 mb-4">
-                        <p-checkbox 
+                        <label class="font-bold block mb-2">Type de demande</label>
+                        <p-radioButton 
+                            name="contractType"
+                            value="true" 
                             [(ngModel)]="isForPublicContract" 
-                            [binary]="true" 
                             inputId="publicMarket"
                             label="Soumission au marché public">
-                        </p-checkbox>
+                        </p-radioButton>
+                        <p-radioButton 
+                            name="contractType"
+                            value="false" 
+                            [(ngModel)]="isForPublicContract" 
+                            inputId="regularMarket"
+                            label="Demande normale"
+                            class="ml-4">
+                        </p-radioButton>
                     </div>
-        
-                    <div class="p-fluid p-formgrid grid" *ngIf="isForPublicContract">
+
+                    <!-- Partie marché public -->
+                    <div class="p-fluid p-formgrid grid" *ngIf="isForPublicContract ==='true'">
                         <div class="col-4 mt-2">
-                            <span>Reference du contrat</span>
+                            <span class="font-bold block mb-2">Reference du contrat (*)</span>
                             <input [(ngModel)]="contractReference" pInputText id="contractReference" placeholder="Reference du contrat" required />
+                            <small class="p-error" *ngIf="submitted && !contractReference">Ce champ est obligatoire</small>
                         </div>
                         <div class="col-8 mt-2">
-                            <span>Objet du contrat</span>
+                            <span class="font-bold block mb-2">Objet du contrat (*)</span>
                             <input [(ngModel)]="contractPurpose" pInputText id="contractPurpose" placeholder="Objet du contrat" required />
+                            <small class="p-error" *ngIf="submitted && !contractPurpose">Ce champ est obligatoire</small>
                         </div>
                         <div class="col-5 mt-2">
-                            <span>Identité de l'organisme attribuant le marché</span>
+                            <span class="font-bold block mb-2">Identité de l'organisme attribuant le marché (*)</span>
                             <input [(ngModel)]="contractingOrganizationName" pInputText id="contractingOrganizationName" placeholder="Identité de l'organisme attribuant le marché" required />
+                            <small class="p-error" *ngIf="submitted && !contractingOrganizationName">Ce champ est obligatoire</small>
                         </div>
                         <div class="col-4 mt-2">
                             <span>Adresse</span>
@@ -40,20 +54,19 @@
                             <span>Numéro de téléphone</span>
                             <input [(ngModel)]="organizationPhone" pInputText id="organizationPhone" placeholder="Numéro de téléphone" required />
                         </div>
-                    </div>
-        
-                    <div class="p-fluid p-formgrid grid">
+
                         <div class="field col-12 md:col-6">
                             <label htmlFor="city">Reférence de l'attestion ANPE (*)</label>
                             <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Reférence de l'attestion ANPE" required />
+                            <small class="p-error" *ngIf="submitted && !attestationAnpeNumber">Ce champ est obligatoire</small>
                         </div>
                         <div class="field col-12 md:col-6">
                             <label htmlFor="city">Reférence de l'attestation de situation cotisante (*)</label>
                             <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Reférence de l'attestation de situation cotisante" required />
+                            <small class="p-error" *ngIf="submitted && !attestationCnssNumber">Ce champ est obligatoire</small>
                         </div>
-                    </div>
-        
-                    <div class="p-fluid p-formgrid grid">
+                       
+            
                         <div class="field col-12 md:col-6">
                             <label htmlFor="city">Joindre une copie de l'attestion ANPE (*)</label>
                             <p-toast />
@@ -66,6 +79,8 @@
                                 accept="image/*,.pdf" 
                                 maxFileSize="1000000000" 
                                 (onSelect)="onFileSelect($event, 'anpeFile')"/>
+                            <small class="p-error" *ngIf="submitted && !anpeFile">Ce champ est obligatoire</small>
+
                         </div>
                         <div class="field col-12 md:col-6">
                             <label htmlFor="city">Joindre une copie de l'attestion de situation cotisante (*)</label>
@@ -79,19 +94,75 @@
                                 accept="image/*,.pdf" 
                                 maxFileSize="1000000000" 
                                 (onSelect)="onFileSelect($event, 'cnssFile')"/>
+                                <small class="p-error" *ngIf="submitted && !cnssFile">Ce champ est obligatoire</small>
+                        </div>
+            
+                        <div class="field col-12 text-right">
+                            <button 
+                                pButton 
+                                pRipple 
+                                icon="pi pi-check" 
+                                label="Valider et envoyer le formulaire" 
+                                class="p-button-success" 
+                                (click)="onSubmit()">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-fluid p-formgrid grid" *ngIf="isForPublicContract ==='false'">
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="city">Reférence de l'attestion ANPE (*)</label>
+                            <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Reférence de l'attestion ANPE" required />
+                            <small class="p-error" *ngIf="submitted && !attestationAnpeNumber">Ce champ est obligatoire</small>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="city">Reférence de l'attestation de situation cotisante (*)</label>
+                            <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Reférence de l'attestation de situation cotisante" required />
+                            <small class="p-error" *ngIf="submitted && !attestationCnssNumber">Ce champ est obligatoire</small>
+                        </div>
+            
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="city">Joindre une copie de l'attestion ANPE (*)</label>
+                            <p-toast />
+                            <p-fileUpload 
+                                mode="basic" 
+                                chooseLabel="Charger l'attestion ANPE" 
+                                chooseIcon="pi pi-upload"
+                                styleClass="p-button-secondary"
+                                name="anpeFile" 
+                                accept="image/*,.pdf" 
+                                maxFileSize="1000000000" 
+                                (onSelect)="onFileSelect($event, 'anpeFile')"/>
+                                <small class="p-error" *ngIf="submitted && !anpeFile">Ce champ est obligatoire</small>
+                        </div>
+                        <div class="field col-12 md:col-6">
+                            <label htmlFor="city">Joindre une copie de l'attestion de situation cotisante (*)</label>
+                            <p-toast />
+                            <p-fileUpload 
+                                mode="basic" 
+                                chooseLabel="Charger l'attestion CNSS" 
+                                styleClass="p-button-secondary"
+                                chooseIcon="pi pi-upload"
+                                name="cnssFile" 
+                                accept="image/*,.pdf" 
+                                maxFileSize="1000000000" 
+                                (onSelect)="onFileSelect($event, 'cnssFile')"/>
+                                <small class="p-error" *ngIf="submitted && !cnssFile">Ce champ est obligatoire</small>
+                        </div>
+            
+                        <div class="field col-12 text-right">
+                            <button 
+                                pButton 
+                                pRipple 
+                                icon="pi pi-check" 
+                                label="Valider et envoyer le formulaire" 
+                                class="p-button-success" 
+                                (click)="onSubmit()">
+                            </button>
                         </div>
                     </div>
         
-                    <div class="field col-12 text-right">
-                        <button 
-                            pButton 
-                            pRipple 
-                            icon="pi pi-check" 
-                            label="Valider et envoyer le formulaire" 
-                            class="p-button-success" 
-                            (click)="onSubmit()">
-                        </button>
-                    </div>
+                    
                 </div>
             </div>
         </div>

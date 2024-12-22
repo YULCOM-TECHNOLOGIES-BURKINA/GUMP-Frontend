@@ -87,6 +87,9 @@ export class AjeComponent implements OnInit {
       this.ajeService.submitAttestationRequest(requestData).subscribe({
         next: (response) => {
           this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Formulaire envoyé avec succès !', life: 2000 });
+          setTimeout(() => {
+            this.router.navigate(['/demandes']);
+          }, 2000);
         },
         error: (err) => {
           this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Une erreur est survenue lors de l\'envoi.' });

@@ -33,7 +33,9 @@ export class AnpeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
+    // setTimeout(() => {
+    //   this.router.navigate(['/demandes']);
+    // }, 2000);
   }
 
 }
