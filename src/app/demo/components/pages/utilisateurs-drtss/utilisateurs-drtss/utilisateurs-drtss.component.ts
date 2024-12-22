@@ -37,6 +37,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
+    currentUser:any
     userInfo: any;
     constructor(
         public layoutService: LayoutService,
@@ -51,7 +52,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     ngOnInit(): void {
         const userDetails = localStorage.getItem('currentUser');
         let user = JSON.parse(userDetails);
-
+        this.currentUser=user
         this.signatureService.getUsersInfoByEmail(user.email).subscribe({
             next: (res: any) => {
                 this.userInfo = res;
@@ -60,20 +61,30 @@ export class UtilisateursDrtssComponent implements OnInit {
         });
 
         this.loadUsers(this.pageNumber, this.pageSize);
+        this.listRegions()
     }
 
     dataResponse: any;
     loadUsers(page: number, size: number) {
+        const userDetails = localStorage.getItem('currentUser');
+        let user = JSON.parse(userDetails);
 
         this.loading = true;
         this.signElectService.listUtilisateurDrtss(page, size).subscribe(
             (response: any) => {
+                if (user.role=='ADMIN') {
+                    const filterdrtpsUser = response.content
+                    this.utilisateurs = filterdrtpsUser;
+
+                }else{
                 const filterdrtpsUser = response.content.filter(
                     (user) =>
                         user.region === this.userInfo.region
 
                 );
-                this.utilisateurs = filterdrtpsUser;
+
+                }
+
 
                 this.totalRecords = response.totalPages;
                 this.loading = false;
@@ -175,29 +186,50 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.confirmDeleteSelected();
     }
     public initForm() {
-        this.userForm = this.fb.group({
-            id: [],
-            forename: ['', Validators.required],
-            lastname: ['', Validators.required],
-            tel: [],
-            matricule: [],
-            titre_honorifique: [],
-            email: ['', Validators.required],
-            region: [this.userInfo.region],
+        if (this.currentUser.role=="ADMIN") {
+            this.userForm = this.fb.group({
+                id: [],
+                forename: ['', Validators.required],
+                lastname: ['', Validators.required],
+                tel: [],
+                matricule: [],
+                titre_honorifique: [],
+                email: ['', Validators.required],
+                region: [''],
 
-            role: ['DRTSS_AGENT'],
-            userType: ['DRTSS_USER'],
-            password: ['password'],
-            username: [''],
-        });
+                role: ['DRTSS_AGENT'],
+                userType: ['DRTSS_USER'],
+                password: ['password'],
+                username: [''],
+            });
+        } else {
+            this.userForm = this.fb.group({
+                id: [],
+                forename: ['', Validators.required],
+                lastname: ['', Validators.required],
+                tel: [],
+                matricule: [],
+                titre_honorifique: [],
+                email: ['', Validators.required],
+                region: [this.userInfo.region],
+
+                role: ['DRTSS_AGENT'],
+                userType: ['DRTSS_USER'],
+                password: ['password'],
+                username: [''],
+            });
+        }
+
     }
     submitForm() {
         if (this.userForm.valid) {
-            /*  this.userForm.patchValue({
-            region:this.selectedRegion.code
-        })*/
-            let usersInfo = this.userForm.value;
 
+            if (this.currentUser.role=="ADMIN") {
+             this.userForm.patchValue({
+            region:this.selectedRegion.code
+        })
+            }
+            let usersInfo = this.userForm.value;
 
             this.createUsersCompteRequest();
         } else {
