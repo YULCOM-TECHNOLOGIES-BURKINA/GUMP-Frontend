@@ -20,8 +20,8 @@
             header="Enregistrement Agent DRTSS Région du {{this.userInfo.region}}" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="card shadow-2  ">
-                    <!--
-                  <div class="field" appendTo="body">
+
+                  <div *ngIf="currentUser.role=='ADMIN'" class="field" appendTo="body">
                         <label for="email">Sélectionner Région</label>
                         <p-autoComplete appendTo="body"
                                         [(ngModel)]="selectedRegion"
@@ -31,7 +31,7 @@
                                         [dropdown]="true">
                         </p-autoComplete>
                     </div>
-                -->
+
 
                     <form (ngSubmit)="submitForm()" [formGroup]="userForm">
 

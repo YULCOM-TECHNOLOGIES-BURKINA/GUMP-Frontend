@@ -98,7 +98,7 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     // { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
                     { label: 'Gestions Utilisateurs AJE', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-aje/gestions'], visible:this.userRole.includes('ADMIN') || this.userRole.includes('TRESOR_AGENT')  },
-                    { label: 'Gestions Utilisateurs DRTSS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible:this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
+                    { label: 'Gestions Utilisateurs DRTSS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible:this.userRole.includes('ADMIN')||this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
                     { label: 'Gestions Compte Directeurs ', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/directeurs-regional/gestions'], visible: this.userRole.includes('ADMIN')},
                    { label: 'Signatures electroniques', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('ADMIN') ||  this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
                     { label: 'Signer Attestations', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/pages/signature-electronique/sign_attestation'],visible: this.signatory_value.includes(true)},
