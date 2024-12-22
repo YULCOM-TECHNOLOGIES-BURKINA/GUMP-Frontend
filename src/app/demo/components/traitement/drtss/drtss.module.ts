@@ -27,6 +27,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { BadgeModule } from 'primeng/badge';
 import { PanelModule } from 'primeng/panel';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [TraitementDrtssComponent],
@@ -57,7 +58,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 	TabViewModule,
 	BadgeModule,
 	PanelModule,
-	PdfViewerModule
+	PdfViewerModule,
+	TagModule
   ]
 })
 export class DrtssModule { }

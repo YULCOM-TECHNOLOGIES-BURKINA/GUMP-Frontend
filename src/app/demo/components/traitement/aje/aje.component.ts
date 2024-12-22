@@ -99,6 +99,7 @@ export class TraitementAjeComponent implements OnInit {
   pendingRequests: DemandeAje[] = [];
   processingRequests: DemandeAje[] = [];
   approvedRequests: DemandeAje[] = [];
+  rejectedRequests: DemandeAje[] = [];
   selectedRequest: DemandeAje | null = null;
   selectedRequests: DemandeAje[] = [];
   request: DemandeAje = {};
@@ -117,6 +118,7 @@ export class TraitementAjeComponent implements OnInit {
   countPending = 0;
   countProcessing = 0;
   countApproved = 0;
+  countRejected = 0;
 
   req: number; 
   requesterId: string = ''; 
@@ -128,6 +130,8 @@ export class TraitementAjeComponent implements OnInit {
   readonly VALIDITY_HOURS = 72;
   readonly WARNING_HOURS = 48; 
 
+  userRole: string = '';
+
   constructor(
     private ajeService: AjeService, 
     private messageService: MessageService, 
@@ -137,6 +141,8 @@ export class TraitementAjeComponent implements OnInit {
   }
 
   ngOnInit() {
+    const savedUser = localStorage.getItem('currentUser');
+    this.userRole=  JSON.parse(savedUser).role ;
     this.getDemandes();
     this.setupValidityCheck();
     this.initializeColumns();
@@ -233,15 +239,16 @@ export class TraitementAjeComponent implements OnInit {
     }
   }
 
-  getDemandes() {
+  getDemandes() { 
     this.loading = true;
     this.ajeService.getDemandes().subscribe((data: DemandeAjeResponse) => {
-      this.requests = data.content;  // Récupère le tableau des demandes
-      this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+      this.requests = data.content.filter(request => request.isPaid === true);  
+      this.totalRecords = this.requests.length; 
       this.filteredRequests = [...this.requests];
       this.categorizeRequests();
       this.loading = false;
     });
+    this.loading = false;
   }
 
   openViewRequest(request: DemandeAje) {
@@ -264,6 +271,31 @@ export class TraitementAjeComponent implements OnInit {
     });
     this.displayRejectModal = true;
   }
+
+  processReviewRequest(identifiant) {
+    this.ajeService.reviewRequest(identifiant).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Demande traitée et en attente de validation',
+          life: 3000
+        });
+        this.displayProcessModal = false;
+        setTimeout(() => {
+          this.router.navigate(['/app/traitement/aje']); 
+        }, 500); 
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Une erreur est survenue lors de la validation de la demande.',
+          life: 3000
+        });
+      }
+    });
+}
 
   openDownloadRequest(file: any) {
     console.log('Téléchargement du fichier:', file);
@@ -304,6 +336,29 @@ export class TraitementAjeComponent implements OnInit {
     });
   }
 
+  rejectRequest(req: number) {
+    this.ajeService.rejectRequest(req).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Demande rejettée!',
+          life: 3000
+        });
+        setTimeout(() => {
+          this.router.navigate(['/app/traitement/aje']); 
+        }, 500); 
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Une erreur est survenue lors de l\'approbation de la demande.',
+          life: 3000
+        });
+      }
+    });
+  }
 
   closeProcessModal() {
     this.displayProcessModal = false;
@@ -454,9 +509,11 @@ export class TraitementAjeComponent implements OnInit {
     this.pendingRequests = requestsToUse.filter(request => request.status === 'PENDING');
     this.processingRequests = requestsToUse.filter(request => request.status === 'PROCESSING');
     this.approvedRequests = requestsToUse.filter(request => request.status === 'APPROVED');
+    this.rejectedRequests = requestsToUse.filter(request => request.status === 'REJECTED');
 
     this.countPending = this.pendingRequests.length;
     this.countProcessing = this.processingRequests.length;
     this.countApproved = this.approvedRequests.length;
+    this.countRejected = this.rejectedRequests.length;
   }
 }

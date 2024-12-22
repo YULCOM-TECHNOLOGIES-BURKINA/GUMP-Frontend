@@ -51,4 +51,32 @@ export class AjeService {
     });
   }
 
+  rejectRequest(requestId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/review?status=REJECTED&service=tresor-ms`, {
+      headers: this.getFormDataHeaders()
+    });
+  }
+
+  reviewRequest(requestId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING&service=tresor-ms`, {}, {
+      headers: this.getFormDataHeaders()
+    });
+  }
+
+  makePayment(demandeId: number, callbackUrl: string): Observable<any> {
+    const paymentData = {
+      // requestType: "AJE",
+      callbackUrl: callbackUrl
+    };
+
+    return this.http.post(`${this.apiUrl}/${demandeId}/pay?service=tresor-ms`, paymentData, {
+      headers: this.getHeaders()
+    });
+  }
+
+  updatePaymentStatus( demandeId: number, paymentId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${demandeId}/update-payment-status?paymentId=${paymentId}&service=tresor-ms`, {
+      headers: this.getFormDataHeaders()
+    });
+  }
 }

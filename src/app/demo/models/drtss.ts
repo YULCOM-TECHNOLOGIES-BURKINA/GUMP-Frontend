@@ -20,6 +20,7 @@ export interface DemandeDrtss {
     company?: Company;
     files?: File[];
     isForPublicContract?: boolean;
+    isPaid?: boolean;
 }
 
 export interface DemandeDrtssResponse {
