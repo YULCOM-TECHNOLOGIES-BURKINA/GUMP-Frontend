@@ -55,20 +55,20 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Accueil', icon: 'pi pi-fw pi-home', routerLink: ['/app'] },
                 ]
             },
+            // {
+            //     label: 'Modules',
+            //     visible: this.userRole.includes('ADMIN'),
+            //     items: [
+            //         { label: 'Statistiques', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/app/pages/statistiques'], visible: this.userRole.includes('ADMIN')  },
+            //         // { label: 'Rapport', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole.includes('ADMIN')   }
+            //     ]
+            // },
             {
                 label: 'Modules',
                 visible: this.userRole.includes('ADMIN'),
                 items: [
-                    { label: 'Statistiques', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/app/pages/statistiques'], visible: this.userRole.includes('ADMIN')  },
-                    { label: 'Rapport', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole.includes('ADMIN')   }
-                ]
-            },
-            {
-                label: 'Traitement des demandes',
-                visible: this.userRole.includes('ADMIN'),
-                items: [
-                    { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
-                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
+                    { label: 'DRTPS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
+                    { label: 'AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
                 ]
             },
 
