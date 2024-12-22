@@ -17,7 +17,7 @@ import { ToastModule } from 'primeng/toast';
 import { TraitementAjeComponent } from './aje.component';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
-
+import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -52,8 +52,8 @@ import { TabViewModule } from 'primeng/tabview';
 		RatingModule,
 		RadioButtonModule,
 		TooltipModule,
-		TabViewModule
-    
+		TabViewModule,
+		BadgeModule    
   ]
 })
 export class AjeModule { }
