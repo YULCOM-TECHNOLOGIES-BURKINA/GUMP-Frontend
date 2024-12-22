@@ -51,4 +51,15 @@ export class AjeService {
     });
   }
 
+  rejectRequest(requestId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/review?status=REJECTED&service=tresor-ms`, {
+      headers: this.getFormDataHeaders()
+    });
+  }
+
+  reviewRequest(requestId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${requestId}/review?status=PROCESSING&service=tresor-ms`, {}, {
+      headers: this.getFormDataHeaders()
+    });
+  }
 }
