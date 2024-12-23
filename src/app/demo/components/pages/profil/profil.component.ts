@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
-import { Utilisateur } from '../../../models/utilisateurs';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -34,11 +33,41 @@ export class ProfilComponent implements OnInit {
     this.getUserProfile();
   }
 
+saveProfil() {
+    if (this.request) {
+        const userData = {
+            lastname: this.request.lastname,
+            forename: this.request.forename            
+        };
+
+        this.userService.saveMe(userData).subscribe({
+            next: (response) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Profil mis à jour',
+                    detail: 'Les nouvelles informations du profil ont été sauvegardées!'
+                });
+            },
+            error: (err) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: "Une erreur est survenue lors de la modification du profil."
+                });
+            }
+        });
+    } else {
+        this.messageService.add({
+            severity: 'warn',
+            summary: 'Attention',
+            detail: 'Veuillez remplir le nom et le prénom.'
+        });
+    }
+}
 
   getUserProfile() {
     if (this.currentUser !== null) {
-        const user = JSON.parse(this.currentUser);
-        this.userService.getUserByIfu(user.nom).subscribe({
+        this.userService.getMe().subscribe({
             next: (response) => {
                 this.request = response; 
             },
@@ -52,33 +81,5 @@ export class ProfilComponent implements OnInit {
         }); 
        
     }
-  }
-
-  desactivateAccount() {
-      this.desactivateAccountDialog = true;
-  }
-
-  confirmDesactivateAccount() {
-      this.desactivateAccountDialog = false;
-      this.messageService.add({
-          severity: 'success',
-          summary: 'Compte désactivé',
-          detail: 'Votre a été désactivé avec succès',
-          life: 3000,
-      });
-  }
-
-  deleteAccount() {
-      this.deleteAccountDialog = true;
-  }
-
-  confirmDeleteAccount() {
-      this.deleteAccountDialog = false;
-      this.messageService.add({
-          severity: 'success',
-          summary: 'Compte supprimé',
-          detail: 'Votre a été supprimé avec succès',
-          life: 3000,
-      });
   }
 }

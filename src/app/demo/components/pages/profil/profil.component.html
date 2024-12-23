@@ -8,57 +8,27 @@
             <div class="p-fluid formgrid grid">
                 <div class="field col-12 md:col-6">
                     <label for="nom">Nom</label>
-                    <input pInputText id="nom" [(ngModel)]="request.lastname" placeholder="Nom" />
+                    <input class="readonly-input" pInputText id="lastname" [(ngModel)]="request.lastname" placeholder="Nom" readonly/>
                 </div>
                 <div class="field col-12 md:col-6">
                     <label for="prenom">Prénom</label>
-                    <input pInputText id="prenom" [(ngModel)]="request.forename" placeholder="Prénom" />
+                    <input class="readonly-input" pInputText id="forename" [(ngModel)]="request.forename" placeholder="Prénom" readonly/>
                 </div>
                 <div class="field col-12 md:col-6">
                     <label for="email">Email</label>
-                    <input pInputText id="email" [(ngModel)]="request.email" placeholder="Email" readonly />
-                </div>
-
-                <div class="field col-12 md:col-6">
-                    <label for="password">Nouveau mot de passe</label>
-                    <p-password id="password" [(ngModel)]="profil.password" toggleMask feedback="false" placeholder="••••••••"
-                    promptLabel="Choisissez un mot de passe" weakLabel="Très faible"  mediumLabel="bon"  strongLabel="Fort"></p-password>
-                </div>
-
-                <div class="field col-12 md:col-6">
-                    <label for="passwordConfirm">Confirmer mot de passe</label>
-                    <p-password id="passwordConfirm" [(ngModel)]="profil.passwordConfirm" toggleMask feedback="false" placeholder="••••••••"
-                    promptLabel="Confirmer votre mot de passe" weakLabel="Très faible"  mediumLabel="bon"  strongLabel="Fort"></p-password>
+                    <input class="readonly-input" pInputText id="email" [(ngModel)]="request.email" placeholder="Email" readonly />
                 </div>
             </div>
-            <div class="mt-4">
-                <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success"></p-button>
-            </div>
-
-            
+            <!-- <div class="mt-4">
+                <p-button label="Sauvegarder les modifications" icon="pi pi-save" severity="success" (click)="saveProfil()"></p-button>
+            </div> -->
         </div>
-
-        <!-- Dialogs -->
-        <p-dialog [(visible)]="deleteAccountDialog" header="Confirmation de suppression" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="deleteAccountDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDeleteAccount()"></button>
-            </ng-template>
-        </p-dialog>
-
-        <p-dialog [(visible)]="desactivateAccountDialog" header="Confirmation de désactivation" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Voulez-vous vraiment désactiver votre compte ? Vous pouvez le réactiver ultérieurement.</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="desactivateAccountDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDesactivateAccount()"></button>
-            </ng-template>
-        </p-dialog>
     </div>
 </div>
+<style>
+    .readonly-input[readonly] {
+    background-color: #f0f0f0; /* Gris clair */
+    color: #6c757d; /* Texte gris */
+    cursor: not-allowed;
+}
+</style>

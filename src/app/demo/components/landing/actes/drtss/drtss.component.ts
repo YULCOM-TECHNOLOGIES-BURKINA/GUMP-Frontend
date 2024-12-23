@@ -27,7 +27,9 @@ export class DrtssComponent {
   organizationAddress: string;
   organizationPhone: string;
 
-  isForPublicContract: boolean = true;
+  // isForPublicContract: boolean = true;
+  isForPublicContract: string = null; 
+  submitted: boolean = false;
 
   constructor(
     private messageService: MessageService,
@@ -46,7 +48,28 @@ export class DrtssComponent {
   }
 
   onSubmit() {
-    if (this.anpeFile && this.cnssFile) {
+    this.submitted = true;
+    if (this.isForPublicContract === 'true') {
+      if (!this.contractReference || !this.contractPurpose || !this.contractingOrganizationName) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Attention',
+          detail: 'Veuillez remplir tous les champs obligatoires'
+        });
+        return;
+      }
+    }
+
+    if (!this.attestationAnpeNumber || !this.attestationCnssNumber || !this.cnssFile || !this.anpeFile) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Attention',
+        detail: 'Veuillez remplir tous les champs obligatoires'
+      });
+      return;
+    }
+
+    // if (this.anpeFile && this.cnssFile) {
       const formData = new FormData();
       formData.append('attestationAnpe', this.anpeFile);
       formData.append('attestationCnss', this.cnssFile);
@@ -88,14 +111,15 @@ export class DrtssComponent {
           });
         }
       });
-    } else {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Attention',
-        detail: 'Veuillez charger les deux fichiers.'
-      });
-    }
+    // } else {
+    //   this.messageService.add({
+    //     severity: 'warn',
+    //     summary: 'Attention',
+    //     detail: 'Veuillez charger les deux fichiers.'
+    //   });
+    // }
   }
+
 
   private initatePayment(demandeId: number, callbackUrl: string) {
     this.drtssService.makePayment(demandeId, callbackUrl).subscribe({

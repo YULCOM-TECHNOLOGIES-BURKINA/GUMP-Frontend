@@ -55,20 +55,20 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Accueil', icon: 'pi pi-fw pi-home', routerLink: ['/app'] },
                 ]
             },
+            // {
+            //     label: 'Modules',
+            //     visible: this.userRole.includes('ADMIN'),
+            //     items: [
+            //         { label: 'Statistiques', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/app/pages/statistiques'], visible: this.userRole.includes('ADMIN')  },
+            //         // { label: 'Rapport', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole.includes('ADMIN')   }
+            //     ]
+            // },
             {
                 label: 'Modules',
                 visible: this.userRole.includes('ADMIN'),
                 items: [
-                    { label: 'Statistiques', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/app/pages/statistiques'], visible: this.userRole.includes('ADMIN')  },
-                    { label: 'Rapport', icon: 'pi pi-fw pi-list', routerLink: ['/app/pages/demandes'], visible: this.userRole.includes('ADMIN')   }
-                ]
-            },
-            {
-                label: 'Traitement des demandes',
-                visible: this.userRole.includes('ADMIN'),
-                items: [
-                    { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
-                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
+                    { label: 'DRTPS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
+                    { label: 'AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
                 ]
 
 
@@ -94,7 +94,7 @@ export class AppMenuComponent implements OnInit {
             },
             {
                 label: 'Paramètres',
-                visible: this.userRole.includes('ADMIN') || this.userRole.includes('DRTSS_AGENT') || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER'),
+                visible: this.userRole.includes('ADMIN') || this.signatory_value.includes(true) || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER'),
                 items: [
                     // { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
                     { label: 'Gestions Utilisateurs AJE', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-aje/gestions'], visible:this.userRole.includes('ADMIN') || this.userRole.includes('TRESOR_AGENT')  },

@@ -1,103 +1,59 @@
-<div class="grid " *ngIf="userRole.includes('ADMIN')">
-    <!-- Card 1: Nombre de demandes -->
+<div class="grid" *ngIf="userRole.includes('ADMIN')">
     <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-red-100">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-red-100 cursor-pointer transition-colors transition-duration-150 hover:bg-red-200"
+             (click)="onCardClick('drtps')">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium text-lg mb-2">Nombre de demandes</span>
-                    <div class="text-900 font-bold text-3xl">250</div>
-                    <span class="text-green-500 font-medium text-sm">+5% depuis le mois dernier</span>
+                    <span class="block text-500 font-medium text-lg mb-2">DRTPS</span>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-red-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                <div class="flex align-items-center justify-content-center bg-red-300 border-round" 
+                     [ngStyle]="{width: '3rem', height: '3rem'}">
                     <i class="pi pi-file text-red-800 text-2xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Card 2: Actes délivrés -->
     <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-green-100">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-green-100 cursor-pointer transition-colors transition-duration-150 hover:bg-green-200"
+             (click)="onCardClick('aje')">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium text-lg mb-2">Actes délivrés</span>
-                    <div class="text-900 font-bold text-3xl">180</div>
-                    <span class="text-green-500 font-medium text-sm">+10% cette semaine </span>
+                    <span class="block text-500 font-medium text-lg mb-2">AJE</span>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-green-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                <div class="flex align-items-center justify-content-center bg-green-300 border-round" 
+                     [ngStyle]="{width: '3rem', height: '3rem'}">
                     <i class="pi pi-check-circle text-green-800 text-2xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Card 3: Entreprises inscrites -->
     <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-yellow-100">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-yellow-100 cursor-pointer transition-colors transition-duration-150 hover:bg-yellow-200"
+             (click)="onCardClick('entreprises')">
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium text-lg mb-2">Entreprises inscrites</span>
-                    <div class="text-900 font-bold text-3xl">75</div>
-                    <span class="text-red-500 font-medium text-sm">-2% ce mois-ci</span>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-yellow-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                <div class="flex align-items-center justify-content-center bg-yellow-300 border-round" 
+                     [ngStyle]="{width: '3rem', height: '3rem'}">
                     <i class="pi pi-building text-yellow-800 text-2xl"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Card 4: PME actives -->
     <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-orange-100">
+        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-orange-100 cursor-pointer transition-colors transition-duration-150 hover:bg-orange-200"
+             (click)="onCardClick('signatures')">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium text-lg mb-2">PME actives</span>
-                    <div class="text-900 font-bold text-3xl">55</div>
-                    <span class="text-green-500 font-medium text-sm">+8% ce trimestre</span>
+                    <span class="block text-500 font-medium text-lg mb-2">Signatures électroniques</span>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-orange-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
+                <div class="flex align-items-center justify-content-center bg-orange-300 border-round" 
+                     [ngStyle]="{width: '3rem', height: '3rem'}">
                     <i class="pi pi-users text-orange-800 text-2xl"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Exemple de graphique -->
-    <div class="col-12 xl:col-12">
-        <div class="card p-4 shadow-lg">
-            <h5 class="font-medium text-xl mb-4">Évolution des demandes et des actes délivrés</h5>
-            <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
-        </div>
-    </div>
-</div>
-
-<div class="grid " *ngIf="userRole === 'entreprise'">
-    <!-- Card 1: Nombre de demandes -->
-    <div class="col-12 lg:col-6 xl:col-6">
-        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-red-100">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium text-lg mb-2">Demandes en cours de traitement</span>
-                    <div class="text-900 font-bold text-3xl">2</div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-red-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
-                    <i class="pi pi-file text-red-800 text-2xl"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Card 2: Actes délivrés -->
-    <div class="col-12 lg:col-6 xl:col-6">
-        <div class="card mb-4 p-4 shadow-lg border-round-lg bg-green-100">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium text-lg mb-2">Total de vos demandes</span>
-                    <div class="text-900 font-bold text-3xl">5</div>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-green-300 border-round" [ngStyle]="{width: '3rem', height: '3rem'}">
-                    <i class="pi pi-check-circle text-green-800 text-2xl"></i>
                 </div>
             </div>
         </div>

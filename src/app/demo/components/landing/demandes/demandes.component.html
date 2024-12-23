@@ -34,6 +34,7 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
+                                        <th pSortableColumn="isForPublicContract">Type <p-sortIcon field="isForPublicContract"></p-sortIcon></th>
                                         <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
                                         <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                         <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -45,8 +46,28 @@
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestDrtss>
                                     <tr>
-                                        <td>{{ requestDrtss.publicContractNumber }}</td>
-                                        <td>{{ requestDrtss.contractPurpose }} </td>
+                                        <td>
+                                            <div *ngIf="requestDrtss.isForPublicContract">
+                                                <p>
+                                                    <!-- <p-badge value="Soumission à un marché public"
+                                                            severity="info">
+                                                    </p-badge> -->
+                                                    Soumission à un marché public
+                                                </p>
+                                            </div>
+                                            <div *ngIf="!requestDrtss.isForPublicContract">
+                                                <p>
+                                                    <!-- <p-badge value="Demande normale"
+                                                            severity="tertiary">
+                                                    </p-badge> -->
+                                                    Demande normale
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td *ngIf="requestDrtss.isForPublicContract">{{ requestDrtss.publicContractNumber }}</td>
+                                        <td *ngIf="!requestDrtss.isForPublicContract">---</td>
+                                        <td *ngIf="requestDrtss.isForPublicContract">{{ requestDrtss.contractPurpose }} </td>
+                                        <td *ngIf="!requestDrtss.isForPublicContract">--- </td>
                                         <td>{{ requestDrtss.createdAt | date: 'dd/MM/yyyy' }}</td>
                                         <td>
                                             <span class="p-badge" [ngClass]="{
@@ -143,15 +164,19 @@
                                 </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
+                                        <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
                                         <th pSortableColumn="reference">Reference du marché <p-sortIcon field="reference"></p-sortIcon></th>
                                         <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                         <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                         <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                        <th pSortableColumn="validity">Validité <p-sortIcon field="validity"></p-sortIcon></th>
+                                        <th pSortableColumn="payment">Paiement <p-sortIcon field="payment"></p-sortIcon></th>
                                         <th>Actions</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-requestAje>
                                     <tr>
+                                        <td>{{ requestAje.requestType }}</td>
                                         <td>{{ requestAje.contractReference }}</td>
                                         <td>{{ requestAje.contractPurpose }} </td>
                                         <td>{{ requestAje.createdAt | date: 'dd/MM/yyyy' }}</td>
@@ -166,6 +191,30 @@
                                             </span>
                                         </td>
                                         <td>
+                                            <div *ngIf="requestAje.status == 'APPROVED'">
+                                                <p>
+                                                    <!-- <strong>Validité de l'acte: </strong>  -->
+                                                    <p-badge [value]="getValidityStatus(requestAje.createdAt).text"
+                                                            [severity]="getValidityStatus(requestAje.createdAt).severity">
+                                                    </p-badge>
+                                                </p>
+                                            </div>
+                                            <div *ngIf="requestAje.status != 'APPROVED'">--</div>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="requestAje.isPaid" class="p-badge p-badge-success"> Payé  </span>
+                                            <span *ngIf="!requestAje.isPaid" class="p-badge p-badge-danger"> Non Payé  </span>
+                                        </td>
+                                        <td>
+                                            <button 
+                                                    *ngIf="!requestAje.isPaid" 
+                                                    pButton 
+                                                    pRipple 
+                                                    icon="pi pi-wallet" 
+                                                    class="p-button-outlined p-button-warning mr-2" 
+                                                    (click)="initatePaymentAJE(requestAje.id)" 
+                                                    label="Payer">
+                                                </button>
                                             <button *ngIf="requestAje.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
                                             class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequestAje(requestAje)" 
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>

@@ -16,13 +16,15 @@ import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from 'primeng/toast';
 import { AnpeComponent } from './anpe.component';
 import { SharedModule } from '../../shared/shared.module';
-
 import { StepsModule } from 'primeng/steps';
 import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PanelModule } from 'primeng/panel';
 import { ChartModule } from 'primeng/chart';
+import { ButtonModule } from 'primeng/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [AnpeComponent],
@@ -48,7 +50,9 @@ import { ChartModule } from 'primeng/chart';
 		FieldsetModule,
 		SelectButtonModule,
 		PanelModule,
-		ChartModule 
+		ChartModule,
+		ButtonModule, 
+		ReactiveFormsModule
   ]
 })
 export class AnpeModule { }

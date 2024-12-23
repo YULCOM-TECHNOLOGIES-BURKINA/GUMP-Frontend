@@ -53,13 +53,13 @@ export class DrtssService {
 
   getOneDemande(requestId: number): Observable<any> {
     return this.http.get(`${this.apiGateway}/demandes/${requestId}?service=drtss-ms`, {
-      headers: this.getHeaders()
+      headers: this.getFormDataHeaders()
     });
   }
 
   approveRequest(requestId: number, requestData: any): Observable<any> {
     return this.http.post(`${this.apiGateway}/demandes/${requestId}/approve?service=drtss-ms`, requestData, {
-      headers: this.getFormDataHeaders()
+      headers: this.getHeaders()
     });
   }
 
