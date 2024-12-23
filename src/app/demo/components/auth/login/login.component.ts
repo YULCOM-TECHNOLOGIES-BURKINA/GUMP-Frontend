@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
           case 'DRTSS_AGENT':
             this.router.navigate(['/app']);
             break;
-          case 'DRTSS_ADMIN':
+          case 'DRTSS_REGIONAL_MANAGER':
             this.router.navigate(['/app']);
             break;
           case 'TRESOR_AGENT':

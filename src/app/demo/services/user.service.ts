@@ -90,10 +90,10 @@ saveMe(userData: any): Observable<any> {
       );
   }
 
-  register(userData: any): Observable<any> {
+  register(formData: FormData): Observable<any> {
       return this.http.post(
           `${this.apiUrl}/auth/register?service=users-ms`,
-          userData, {headers:this.getHeadersMultipart()}
+          formData
       );
   }
 

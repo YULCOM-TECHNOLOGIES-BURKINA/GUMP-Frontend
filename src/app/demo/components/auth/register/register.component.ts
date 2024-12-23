@@ -82,7 +82,7 @@ export class RegisterComponent implements OnInit {
             nip: [''],
             rccm: [''],
             cnssNumber: [''],
-            region: [''],
+            selectedRegion: [''],
             nes: ['']
         },{
             validators: this.passwordMatchValidator
@@ -215,28 +215,30 @@ export class RegisterComponent implements OnInit {
 
         this.loading = true;
         if (this.cnibFile && this.statutFile) {
-            const userData = {
-            ifuNumber: this.registerForm.get('ifuNumber')?.value,
-            cnssNumber: this.registerForm.get('cnssNumber')?.value,
-            password: this.registerForm.get('password')?.value,
-            passwordConfirmation: this.registerForm.get('passwordConfirmation')?.value,
-            representantPhone: this.registerForm.get('phoneNumberR')?.value,
-            representantLastname: this.registerForm.get('lastname')?.value,
-            representantFirstname: this.registerForm.get('forename')?.value,
-            representantNip: this.registerForm.get('nip')?.value,
-            email: this.registerForm.get('email')?.value,
-            nes: this.registerForm.get('nes')?.value,
-            region: this.registerForm.get('selectedRegion')?.value,
-            
-            // region: this.registerForm.get('region')?.value,
-            cnibFile: this.cnibFile,
-            statutFile: this.statutFile,
+            const formData = new FormData();
+            const registerRequest = {
+                ifuNumber: this.registerForm.get('ifuNumber')?.value,
+                cnssNumber: this.registerForm.get('cnssNumber')?.value,
+                password: this.registerForm.get('password')?.value,
+                passwordConfirmation: this.registerForm.get('passwordConfirmation')?.value,
+                representantPhone: this.registerForm.get('phoneNumberR')?.value,
+                representantLastname: this.registerForm.get('lastname')?.value,
+                representantFirstname: this.registerForm.get('forename')?.value,
+                representantNip: this.registerForm.get('nip')?.value,
+                email: this.registerForm.get('email')?.value,
+                nes: this.ifuForm.get('nes')?.value,
+                region: this.registerForm.get('selectedRegion')?.value.code
             };
-            console.log("region selectioner code", this.selectedRegion.code);
-            console.log("region selectioner form value", this.registerForm.get('selectedRegion')?.value);
 
-            this.userService.register(userData).subscribe({
-                next: () => {
+            formData.append('registerRequest', new Blob([JSON.stringify(registerRequest)], {
+                type: 'application/json'
+            }));
+
+            formData.append('cnibFile', this.cnibFile);
+            formData.append('statutFile', this.statutFile);
+
+            this.userService.register(formData).subscribe({
+                next: (response) => {
                     this.loading = false;
                     this.messageService.add({
                         severity: 'success',
@@ -244,6 +246,9 @@ export class RegisterComponent implements OnInit {
                         detail: 'Inscription réussie ! Vous allez être redigé vers la page de connexion.',
                         life: 5000
                     });
+                    setTimeout(() => {
+                        this.router.navigate(['/auth/login']);
+                    }, 1000);
                 },
                 error: (error) => {
                     this.loading = false;
