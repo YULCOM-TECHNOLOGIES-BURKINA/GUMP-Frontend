@@ -400,7 +400,7 @@
                                             pTooltip="Voir la demande" 
                                             tooltipPosition="bottom">
                                     </button>
-                                    <button pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
+                                    <button *ngIf="requestDrtss.status == 'SIGNED'" pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
                                     (click)="openDownloadRequest(request)" pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
