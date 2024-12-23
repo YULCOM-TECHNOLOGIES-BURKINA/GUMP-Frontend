@@ -80,7 +80,7 @@ export class AppMenuComponent implements OnInit {
 
             {
                 label: 'Traitement des demandes',
-                visible: this.userRole.includes('DRTSS_AGENT') || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER')  ,
+                visible: this.userRole.includes('DRTSS_AGENT') ||this.userRole.includes('DRTSS_REGIONAL_MANAGER')  ,
                 items: [
                     { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
                 ]
