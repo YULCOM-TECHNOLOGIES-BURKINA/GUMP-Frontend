@@ -12,6 +12,7 @@ interface VerificationResult {
   expiryDate?: string;
   organization?: string;
   additionalInfo?: string;
+  documentData?: any;
 }
 
 @Component({
@@ -73,49 +74,6 @@ export class VerificationComponent implements OnInit {
     this.verificationForm.get('ifu').updateValueAndValidity();
   }
 
-  // verify() {
-  //   if (this.selectedDocType === 'ASF' &&
-  //       (!this.verificationForm.get('nes').value ||
-  //        !this.verificationForm.get('ifu').value ||
-  //        !this.verificationForm.get('reference').value)) {
-  //     this.messageService.add({
-  //       severity: 'warn',
-  //       summary: 'Attention',
-  //       detail: 'Veuillez remplir tous les champs requis'
-  //     });
-  //     return;
-  //   } else if (!this.selectedDocType || !this.verificationForm.get('reference').value) {
-  //     this.messageService.add({
-  //       severity: 'warn',
-  //       summary: 'Attention',
-  //       detail: 'Veuillez saisir une référence et sélectionner un type de document'
-  //     });
-  //     return;
-  //   }
-
-  //   this.loading = true;
-  //   this.showResult = false;
-
-  //   // Simuler la vérification (à remplacer par votre appel API réel)
-  //   setTimeout(() => {
-  //     // Simulation d'un document invalide (à adapter selon vos besoins)
-  //     const isValid = Math.random() > 0.5;
-
-  //     this.verificationResult = {
-  //       docType: this.selectedDocType,
-  //       reference: this.verificationForm.get('reference').value,
-  //       status: isValid ? 'valid' : 'invalid',
-  //       issueDate: isValid ? '2024-01-15' : undefined,
-  //       expiryDate: isValid ? '2024-12-31' : undefined,
-  //       organization: isValid ? 'Direction Régionale du Travail et de la Protection Sociale' : undefined,
-  //       additionalInfo: isValid ? 'Document émis par la DRPTS du Centre' : 'Document non valide ou inexistant'
-  //     };
-
-  //     this.loading = false;
-  //     this.showResult = true;
-  //   }, 1500);
-  // }
-
   verify() {
     if (this.selectedDocType === 'ASF' &&
         (!this.verificationForm.get('nes').value ||
@@ -147,11 +105,14 @@ export class VerificationComponent implements OnInit {
       };
 
       this.verificationService.verifyASF(asfData).subscribe({
-        next: (response) => {
-          this.handleVerificationResponse(response);
+        next: (response: Blob) => {
+
+          if (response) {
+            this.handleVerificationResponseASF(response);
+          }
         },
         error: (error) => {
-          this.handleVerificationError(error);
+          this.handleVerificationErrorASF(error);
         }
       });
     } else {
@@ -184,6 +145,45 @@ export class VerificationComponent implements OnInit {
       additionalInfo: isValid ?
         `Le document N° ${response.documentNumber} est valide` :
         'Document non valide ou inexistant'
+    };
+  
+    this.showResult = true;
+  }
+
+  private handleVerificationErrorASF(error: any) {
+    this.loading = false;
+    
+    let errorMessage: string;
+    
+    if (error.status === 404) {
+      // Essayer de lire le message d'erreur du corps de la réponse
+      try {
+        const errorBody = JSON.parse(error.error);
+        errorMessage = errorBody.error || 'Document non valide ou inexistant';
+      } catch {
+        errorMessage = 'Document non valide ou inexistant';
+      }
+    } else {
+      switch (error.status) {
+        case 500:
+          errorMessage = 'Le serveur a rencontré une erreur';
+          break;
+        default:
+          errorMessage = 'Une erreur est survenue lors de la vérification du document';
+      }
+    }
+  
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erreur',
+      detail: errorMessage
+    });
+  
+    this.verificationResult = {
+      docType: this.selectedDocType,
+      reference: this.verificationForm.get('reference').value,
+      status: 'invalid',
+      additionalInfo: errorMessage
     };
   
     this.showResult = true;
@@ -222,6 +222,34 @@ export class VerificationComponent implements OnInit {
     this.showResult = true;
   }
 
+  private handleVerificationResponseASF(response: Blob) {
+    this.loading = false;
+
+    // Vérifier que c'est bien un PDF
+    if (response.type === 'application/pdf') {
+      this.verificationResult = {
+        docType: this.selectedDocType,
+        reference: this.verificationForm.get('reference').value,
+        status: 'valid',
+        additionalInfo: 'Document valide',
+        documentData: response
+      };
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Succès',
+        detail: 'Document valide'
+      });
+
+      this.showResult = true;
+    } else {
+      this.handleVerificationErrorASF({
+        status: 400,
+        message: 'Format de document invalide'
+      });
+    }
+  }
+
   reset() {
     this.verificationForm.reset();
     this.selectedDocType = '';
@@ -256,6 +284,26 @@ export class VerificationComponent implements OnInit {
         return 'pi pi-times-circle';
       default:
         return 'pi pi-info-circle';
+    }
+  }
+
+  private downloadDocument() {
+    if (this.verificationResult?.documentData) {
+      // Créer une URL pour le blob
+      const url = window.URL.createObjectURL(this.verificationResult.documentData);
+      
+      // Créer un élément <a> pour le téléchargement
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `ASF-${this.verificationResult.reference}.pdf`;
+      
+      // Déclencher le téléchargement
+      document.body.appendChild(link);
+      link.click();
+      
+      // Nettoyer
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     }
   }
 }

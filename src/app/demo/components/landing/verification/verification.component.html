@@ -125,6 +125,12 @@
                                     <div class="text-900">{{verificationResult.additionalInfo}}</div>
                                 </div>
                             </div>
+
+                            <button *ngIf="verificationResult?.docType === 'ASF'"
+                                    (click)="downloadDocument()"
+                                    class="p-button p-button-success">
+                                Télécharger le document
+                            </button>
                         </div>
 
                         <div *ngIf="verificationResult.status === 'invalid'" class="text-center p-4">

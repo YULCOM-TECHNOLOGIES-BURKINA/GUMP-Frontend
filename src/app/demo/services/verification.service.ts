@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface VerifyASFData {
   reference: string;
@@ -34,7 +35,20 @@ export class VerificationService {
     return this.http.get(`${this.apiGateway}/verify-document/${reference}?service=${service}`);
   }
 
-  verifyASF(data: VerifyASFData): Observable<any> {
-    return this.http.post(`${this.apiGateway}/verify-document?service=asf-ms`, data);
+  verifyASF(data: VerifyASFData): Observable<Blob> {
+    return this.http.post(`${this.apiGateway}/verify_asf_doc?service=asf-ms`, 
+      data,
+      {
+        responseType: 'blob',
+        observe: 'response'
+      }
+    ).pipe(
+      map(response => {
+        if (response.status === 200) {
+          return response.body;
+        }
+        throw new Error('Erreur lors de la vérification');
+      })
+    );
   }
 }
