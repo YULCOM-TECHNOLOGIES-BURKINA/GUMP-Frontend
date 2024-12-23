@@ -413,4 +413,26 @@ export class DemandesComponent implements OnInit {
         this.loading = false;
     }
   }
+
+  initatePaymentAJE(demandeId: number) {
+    const callbackUrl = `${window.location.origin}/actes/aje/payment-callback/${demandeId}`;
+    console.log('callback', callbackUrl);
+    localStorage.setItem('callbackurl', callbackUrl);
+
+    this.ajeService.makePayment(demandeId, callbackUrl).subscribe({
+      next: (paymentResponse) => {
+        // Si l'API retourne une URL de paiement, rediriger l'utilisateur
+        if (paymentResponse.url) {
+          window.location.href = paymentResponse.url;
+        }
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Erreur lors de l\'initialisation du paiement.'
+        });
+      }
+    });
+  }
 }

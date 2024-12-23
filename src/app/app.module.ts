@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
 import { DrtssService } from './demo/services/drtss.service';
+import { AjeService } from './demo/services/aje.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -60,6 +61,7 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
         },
 
         DrtssService,
+        AjeService,
         MessageService,
         KeycloakAuthService
     ],

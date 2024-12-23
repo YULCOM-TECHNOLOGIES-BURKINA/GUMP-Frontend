@@ -133,7 +133,7 @@
                         <!-- Header -->
                         <ng-template pTemplate="header">
                             <tr>
-                                <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="contractReference">Reference du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="contractPurpose">Objet du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -147,10 +147,8 @@
                         <!-- Body -->
                         <ng-template pTemplate="body" let-request>
                             <tr [ngClass]="{'expired-row': isExpired(request.createdAt)}">
-                                <td>
-                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
-                                </td>
-                                <td>{{request.company?.name}}</td>
+                                <td>{{request.requestType}}</td>
+                                <td>{{request.contractingOrganizationName}}</td>
                                 <td>{{ request.contractReference }}</td>
                                 <td>{{ request.contractPurpose }}</td>
                                 <td>
@@ -164,8 +162,15 @@
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
-                                    <button pButton pRipple icon="pi pi-clock" class="p-button-outlined p-button-success mr-2" 
-                                    (click)="processReviewRequest(request.id)" pTooltip="Traiter la demande" tooltipPosition="bottom"></button> 
+                                    <button *ngIf="!userRole.includes('ADMIN')" pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-success mr-2"
+                                    (click)="openProcessRequest(request)" pTooltip="Valider la demande" tooltipPosition="bottom"></button>
+                                    <button *ngIf="!userRole.includes('ADMIN')"
+                                            pButton pRipple icon="pi pi-times" 
+                                            class="p-button-outlined p-button-danger  mr-2" 
+                                            (click)="openRejectRequest(request)" 
+                                            pTooltip="Rejeter la demande" 
+                                            tooltipPosition="bottom">
+                                    </button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -173,7 +178,7 @@
                 </p-tabPanel>
 
                 <!-- Onglet En cours de traitement -->
-                <p-tabPanel header="En cours de traitement ({{ countProcessing }})" leftIcon="pi pi-spinner">
+                <!-- <p-tabPanel header="En cours de traitement ({{ countProcessing }})" leftIcon="pi pi-spinner">
                     <p-table #dt [value]="processingRequests" 
                         [columns]="cols" 
                         responsiveLayout="scroll" 
@@ -196,9 +201,6 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="contractReference">Reference du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="contractPurpose">Objet du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -210,9 +212,6 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-request>
                             <tr [ngClass]="{'expired-row': isExpired(request.createdAt)}">
-                                <td>
-                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
-                                </td>
                                 <td>{{request.company?.name}}</td>
                                 <td>{{ request.contractReference }}</td>
                                 <td>{{ request.contractPurpose }}</td>
@@ -226,17 +225,24 @@
                                 </td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
+                                    <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                     <button pButton pRipple icon="pi pi-check" class="p-button-outlined p-button-success mr-2"
                                     (click)="openProcessRequest(request)" pTooltip="Valider la demande" tooltipPosition="bottom"></button>
-                                    <button pButton pRipple icon="pi pi-times" class="p-button-outlined p-button-danger  mr-2" (click)="openRejectRequest(request)" pTooltip="Rejeter la demande" tooltipPosition="bottom"></button>
+                                    <button *ngIf="!userRole.includes('ADMIN')"
+                                            pButton pRipple icon="pi pi-times" 
+                                            class="p-button-outlined p-button-danger  mr-2" 
+                                            (click)="openRejectRequest(request)" 
+                                            pTooltip="Rejeter la demande" 
+                                            tooltipPosition="bottom">
+                                    </button>
                                 </td>
                             </tr>
                         </ng-template>
                     </p-table>
-                </p-tabPanel>
+                </p-tabPanel> -->
 
                 <!-- Onglet Approuvée -->
-                <p-tabPanel header="Approuvée ({{ countApproved }})" leftIcon="pi pi-check">
+                <p-tabPanel header="Approuvées ({{ countApproved }})" leftIcon="pi pi-check">
                     <p-table #dt 
                         [value]="approvedRequests" 
                         [columns]="cols" 
@@ -259,9 +265,7 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>
-                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                                </th>
+                                <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="contractReference">Reference du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="contractPurpose">Objet du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
@@ -272,10 +276,8 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-request>
                             <tr>
-                                <td>
-                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
-                                </td>
-                                <td>{{request.company?.name}}</td>
+                                <td>{{request.requestType}}</td>
+                                <td>{{request.contractingOrganizationName}}</td>
                                 <td>{{ request.contractReference }}</td>
                                 <td>{{ request.contractPurpose }}</td>
                                 <td>
@@ -283,8 +285,60 @@
                                 </td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
+                                    <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                     <button pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
                                     (click)="openDownloadRequest(request)" pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+
+                <!-- Onglet rejettée -->
+                <p-tabPanel header="Rejetées ({{ countRejected }})" leftIcon="pi pi-check">
+                    <p-table #dt 
+                        [value]="rejectedRequests" 
+                        [columns]="cols" 
+                        responsiveLayout="scroll" 
+                        [rows]="10"
+                        [paginator]="true" 
+                        [rowsPerPageOptions]="[10,20,30]" 
+                        [showCurrentPageReport]="true"
+                        currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes approuvées"
+                        [(selection)]="selectedRequests" 
+                        selectionMode="multiple" 
+                        dataKey="id"
+                        [globalFilterFields]="['demandeur', 'reference', 'status', 'region', 'createdAt']"
+                        [loading]="loading"
+                        [customSort]="true">
+                        <ng-template pTemplate="caption">
+                            <div class="flex justify-content-between">
+                                <h5 class="m-0">Demandes rejettées</h5>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
+                                <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
+                                <th pSortableColumn="contractReference">Reference du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="contractPurpose">Objet du contrat<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
+                                <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-request>
+                            <tr>
+                                <td>{{request.requestType}}</td>
+                                <td>{{request.contractingOrganizationName}}</td>
+                                <td>{{ request.contractReference }}</td>
+                                <td>{{ request.contractPurpose }}</td>
+                                <td>
+                                    <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
+                                </td>
+                                <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -301,11 +355,11 @@
                 <span class="font-bold">Entreprise: {{request.requesterId }}</span>
             </div>
             <div class="col-6">
-                <p><strong>Localisation: </strong> {{request.address }}</p>
-                <p><strong>Téléphone: </strong>{{request.phoneNumber }}</p>
+                <p><strong>Localisation: </strong> {{request.organizationAddress }}</p>
+                <p><strong>Téléphone: </strong>{{request.organizationPhone }}</p>
             </div>
             <div class="col-6">
-                <p><strong>RCCM: </strong> {{request.rccmNumber }}</p>
+                <p><strong>RCCM: </strong> {{request.rccmReference }}</p>
                 <p><strong>IFU: </strong>{{request.ifuNumber }}</p>
             </div>
 
@@ -316,7 +370,6 @@
 
             <div class="col-6">
                 <p><strong>Organisme attribuant le marché: </strong> {{request.contractingOrganizationName }}</p>
-                <p><strong>Adresse: </strong>{{request.organizationAddress }}</p>
             </div>
         </div>
     </p-dialog>
@@ -324,55 +377,24 @@
     <p-dialog header="Traitement de la demande" [(visible)]="displayProcessModal" [modal]="true" [style]="{width: '600px'}" *ngIf="request">
         <div class="grid">
             <div class="col-12">
-                <span class="font-bold">Entreprise: Kaboré et Frères SARL</span>
-            </div>
-            <div class="col-6">
-                <p><strong>Localisation: </strong> Ouagadougou</p>
-                <p><strong>BP: </strong> 01 BP 5678 Ouagadougou</p>
-            </div>
-            <div class="col-6">
-                <p><strong>Adresse: </strong> Quartier Patte d'oie</p>
-                <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
-            </div>
-            <div class="col-6 mt-2">
-                <span>N° Attestation ANPE</span>
-                <input pInputText id="attestationAnpeNumber" [(ngModel)]="attestationAnpeNumber" placeholder="Numéro Attestation ANPE" required />
-            </div>
-            <div class="col-6 mt-2">
-                <span>Date Attestation ANPE</span>
-                <p-calendar [(ngModel)]="attestationAnpeDate" dateFormat="yy-mm-dd" required  />
-                <!-- <input type="'date" id="attestationAnpeDate" [(ngModel)]="attestationAnpeDate" placeholder="Date Attestation ANPE" required /> -->
-
-            </div>
-            <div class="col-6 mt-2">
-                <span>N° Attestation CNSS</span>
-                <input pInputText id="attestationCnssNumber" [(ngModel)]="attestationCnssNumber" placeholder="Numéro Attestation CNSS" required  />
-            </div>
-            <div class="col-6 mt-2">
-                <span>Date Attestation CNSS</span>
-                <p-calendar [(ngModel)]="attestationCnssDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" dateFormat="yy-mm-dd" required />
-                <!-- <input type="'date" id="attestationCnssDate" [(ngModel)]="attestationCnssDate" placeholder="Date Attestation CNSS" required /> -->
+                <span class="font-bold">Confirmez-vous la validation de la demande?</span>
             </div>
         </div>
         <ng-template pTemplate="footer">
-            <button pButton label="Valider la demande" icon="pi pi-check" (click)="processRequest()" class="p-button-success" [disabled]="!isFormValid()"></button>
+            <button pButton label="Confirmer la validation" icon="pi pi-check" (click)="processRequest(request.id)" class="p-button-success"></button>
             <button pButton label="Annuler" icon="pi pi-times" (click)="closeProcessModal()" class="p-button-secondary"></button>
         </ng-template>
     </p-dialog>
 
     <!-- Modal de rejet -->
-    <p-dialog header="Rejet de la demande" [(visible)]="displayRejectModal" [modal]="true" [style]="{width: '400px'}">
-        <div class="col-12">
-            <textarea 
-                rows="5"
-                cols="40" 
-                placeholder="Motif du rejet"
-                pInputTextarea 
-                [(ngModel)]="rejectionReason">
-            </textarea>
+    <p-dialog header="Rejet de la demande" [(visible)]="displayRejectModal" [modal]="true" [style]="{width: '400px'}" *ngIf="request">
+        <div class="grid">
+            <div class="col-12">
+                <span class="font-bold">Confirmez-vous le rejet de la demande?</span>
+            </div>
         </div>
         <ng-template pTemplate="footer">
-            <button pButton label="Rejeter la demande" icon="pi pi-times" (click)="rejectRequest()" class="p-button-danger"></button>
+            <button pButton label="Rejeter la demande" icon="pi pi-times" (click)="rejectRequest(request.id)" class="p-button-danger"></button>
             <button pButton label="Annuler" icon="pi pi-times" (click)="closeRejectModal()" class="p-button-secondary"></button>
         </ng-template>
     </p-dialog>

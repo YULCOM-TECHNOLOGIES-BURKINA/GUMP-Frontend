@@ -19,9 +19,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DividerModule } from 'primeng/divider';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SharedModule } from '../../shared/shared.module';
+import { PaymentCallbackComponent } from './paymentCallback.component';
 
 @NgModule({
-  declarations: [AjeComponent],
+  declarations: [AjeComponent, PaymentCallbackComponent],
   imports: [
     CommonModule,
     AjeRoutingModule,

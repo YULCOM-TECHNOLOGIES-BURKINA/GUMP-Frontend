@@ -198,9 +198,10 @@
                 
                         <ng-template pTemplate="header">
                             <tr>
-                                <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="isForPublicContract">Type <p-sortIcon field="isForPublicContract"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="validity">Traitement<p-sortIcon field="validity"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
@@ -211,11 +212,19 @@
                         <ng-template pTemplate="body" let-request>
                             <tr [ngClass]="{'expired-row': isExpired(request.createdAt)}">
                                 <td>
-                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                    <div *ngIf="request.isForPublicContract">Soumission à un marché public</div>
+                                    <div *ngIf="!request.isForPublicContract"> Demande normale</div>
                                 </td>
-                                <!-- <td>{{ request.id }}</td> -->
                                 <td>{{request.company.name}}</td>
-                                <td>{{ request.publicContractNumber }}</td>
+                                <td>
+                                    <span *ngIf="request.isForPublicContract">{{ request.publicContractNumber }}</span>
+                                    <span *ngIf="!request.isForPublicContract">---</span>
+                                </td>
+                                <td>
+                                    <span *ngIf="request.isForPublicContract">{{ request.contractPurpose }}</span>
+                                    <span *ngIf="!request.isForPublicContract">---</span>
+                                </td>
+                               
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <p-badge [value]="getValidityStatus(request.createdAt).text"
@@ -270,9 +279,10 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="isForPublicContract">Type <p-sortIcon field="isForPublicContract"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="validity">Traitement<p-sortIcon field="validity"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
@@ -282,11 +292,18 @@
                         <ng-template pTemplate="body" let-request>
                             <tr [ngClass]="{'expired-row': isExpired(request.createdAt)}">
                                 <td>
-                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                    <div *ngIf="request.isForPublicContract">Soumission à un marché public</div>
+                                    <div *ngIf="!request.isForPublicContract"> Demande normale</div>
                                 </td>
-                                <!-- <td>{{ request.id }}</td> -->
                                 <td>{{request.company.name}}</td>
-                                <td>{{ request.publicContractNumber }}</td>
+                                <td>
+                                    <span *ngIf="request.isForPublicContract">{{ request.publicContractNumber }}</span>
+                                    <span *ngIf="!request.isForPublicContract">---</span>
+                                </td>
+                                <td>
+                                    <span *ngIf="request.isForPublicContract">{{ request.contractPurpose }}</span>
+                                    <span *ngIf="!request.isForPublicContract">---</span>
+                                </td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <p-badge [value]="getValidityStatus(request.createdAt).text"
@@ -348,9 +365,10 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="isForPublicContract">Type <p-sortIcon field="isForPublicContract"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
@@ -359,11 +377,18 @@
                         <ng-template pTemplate="body" let-request>
                             <tr>
                                 <td>
-                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                    <div *ngIf="request.isForPublicContract">Soumission à un marché public</div>
+                                    <div *ngIf="!request.isForPublicContract"> Demande normale</div>
                                 </td>
-                                <!-- <td>{{ request.id }}</td> -->
                                 <td>{{request.company.name}}</td>
-                                <td>{{ request.publicContractNumber }}</td>
+                                <td>
+                                    <span *ngIf="request.isForPublicContract">{{ request.publicContractNumber }}</span>
+                                    <span *ngIf="!request.isForPublicContract">---</span>
+                                </td>
+                                <td>
+                                    <span *ngIf="request.isForPublicContract">{{ request.contractPurpose }}</span>
+                                    <span *ngIf="!request.isForPublicContract">---</span>
+                                </td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
@@ -408,9 +433,10 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                                <th pSortableColumn="isForPublicContract">Type <p-sortIcon field="isForPublicContract"></p-sortIcon></th>
                                 <th pSortableColumn="demandeur">Demandeur <p-sortIcon field="demandeur"></p-sortIcon></th>
                                 <th pSortableColumn="reference">Ref. du marché <p-sortIcon field="reference"></p-sortIcon></th>
+                                <th pSortableColumn="objet">Objet du marché <p-sortIcon field="objet"></p-sortIcon></th>
                                 <th pSortableColumn="createdAt">Date de demande<p-sortIcon field="createdAt"></p-sortIcon></th>
                                 <th pSortableColumn="status">Statut <p-sortIcon field="status"></p-sortIcon></th>
                                 <th>Actions</th>
@@ -419,11 +445,18 @@
                         <ng-template pTemplate="body" let-request>
                             <tr>
                                 <td>
-                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                    <div *ngIf="request.isForPublicContract">Soumission à un marché public</div>
+                                    <div *ngIf="!request.isForPublicContract"> Demande normale</div>
                                 </td>
-                                <!-- <td>{{ request.id }}</td> -->
                                 <td>{{request.company.name}}</td>
-                                <td>{{ request.publicContractNumber }}</td>
+                                <td>
+                                    <span *ngIf="request.isForPublicContract">{{ request.publicContractNumber }}</span>
+                                    <span *ngIf="!request.isForPublicContract">---</span>
+                                </td>
+                                <td>
+                                    <span *ngIf="request.isForPublicContract">{{ request.contractPurpose }}</span>
+                                    <span *ngIf="!request.isForPublicContract">---</span>
+                                </td>
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <span class="p-badge p-badge-success">{{ getTranslatedStatus(request.status) }}</span>
@@ -451,8 +484,8 @@
                 <span class="font-bold">Entreprise: {{ request?.company?.name }}</span>
             </div>
             <div class="col-6">
-                <p><strong>Adresse: </strong>{{ request?.company?.adress }}</p>
-                <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
+                <p><strong>Adresse: </strong>{{ request?.company?.address }}</p>
+                <p><strong>Téléphone: </strong>{{ request?.company?.phone }}</p>
             </div>
             <div class="col-6">
                 <p><strong>IFU: </strong> {{request?.company?.ifu}}</p>
@@ -461,8 +494,10 @@
                 <p><strong>RCCM: </strong> {{request?.company?.rccm}}</p>
             </div>
             <div class="col-12">
-                <p><strong>Réfrence de l'appel d'offre: </strong> {{ request?.publicContractNumber }}</p>
-                <p><strong>Objet de l'appel d'offre: </strong> {{ request?.contractPurpose }}</p>
+                <div *ngIf="request.isForPublicContract"><span class="p-badge p-badge-info">Soumission à un marché public</span></div>
+                <div *ngIf="!request.isForPublicContract"><span class="p-badge p-badge-secondary"> Demande normale</span></div>
+                <p *ngIf="request.isForPublicContract"><strong>Réfrence de l'appel d'offre: </strong> {{ request?.publicContractNumber }}</p>
+                <p *ngIf="request.isForPublicContract"><strong>Objet de l'appel d'offre: </strong> {{ request?.contractPurpose }}</p>
             </div>
             <div class="col-12 mt-2 flex" *ngIf="request.files">            
                 <button 
@@ -516,8 +551,8 @@
                 <span class="font-bold">Entreprise: {{ request?.company?.name }}</span>
             </div>
             <div class="col-6">
-                <p><strong>Adresse: </strong>{{ request?.company?.adress }}</p>
-                <p><strong>Téléphone: </strong> +226 70 45 67 89</p>
+                <p><strong>Adresse: </strong>{{ request?.company?.address }}</p>
+                <p><strong>Téléphone: </strong> {{ request?.company?.phone }}</p>
             </div>
             <div class="col-6">
                 <p><strong>IFU: </strong> {{request?.company?.ifu}}</p>
@@ -526,8 +561,10 @@
                 <p><strong>RCCM: </strong> {{request?.company?.rccm}}</p>
             </div>
             <div class="col-12">
-                <p><strong>Réfrence de l'appel d'offre: </strong> {{ request?.publicContractNumber }}</p>
-                <p><strong>Objet de l'appel d'offre: </strong> {{ request?.contractPurpose }}</p>
+                <div *ngIf="request.isForPublicContract"><span class="p-badge p-badge-info">Soumission à un marché public</span></div>
+                <div *ngIf="!request.isForPublicContract"><span class="p-badge p-badge-secondary"> Demande normale</span></div>
+                <p *ngIf="request.isForPublicContract"><strong>Réfrence de l'appel d'offre: </strong> {{ request?.publicContractNumber }}</p>
+                <p *ngIf="request.isForPublicContract"><strong>Objet de l'appel d'offre: </strong> {{ request?.contractPurpose }}</p>
             </div>
             <div class="col-6 mt-2">
                 <label>N° Attestation ANPE</label>

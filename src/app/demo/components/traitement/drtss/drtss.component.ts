@@ -252,12 +252,26 @@ export class TraitementDrtssComponent implements OnInit {
     }
   }
 
+  // getDemandes() {
+  //   this.loading = true;
+  //   this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
+  //     this.requests = data.content; 
+  //     this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
+  //     this.filteredRequests = [...this.requests]; // Copie initiale pour les filtres
+  //     this.categorizeRequests();
+  //     this.loading = false;
+  //   });
+  //   this.loading = false;
+  // }
+
   getDemandes() {
     this.loading = true;
     this.drtssService.getDemandes().subscribe((data: DemandeDrtssResponse) => {
-      this.requests = data.content; 
-      this.totalRecords = data.totalElements;  // Récupère le nombre total d'éléments pour la pagination
-      this.filteredRequests = [...this.requests]; // Copie initiale pour les filtres
+      // Filtrer pour ne garder que les demandes payées
+      this.requests = data.content.filter(request => request.isPaid === true);
+      
+      this.totalRecords = this.requests.length; 
+      this.filteredRequests = [...this.requests];
       this.categorizeRequests();
       this.loading = false;
     });

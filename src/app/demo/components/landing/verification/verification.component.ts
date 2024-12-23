@@ -171,21 +171,21 @@ export class VerificationComponent implements OnInit {
 
   private handleVerificationResponse(response: any) {
     this.loading = false;
-
-    const isValid = response.status === 200 && response.data?.valid;
-
+  
+    const isValid = response.isDocumentValid;
+  
     this.verificationResult = {
       docType: this.selectedDocType,
       reference: this.verificationForm.get('reference').value,
       status: isValid ? 'valid' : 'invalid',
-      issueDate: isValid ? response.data?.issueDate : undefined,
-      expiryDate: isValid ? response.data?.expiryDate : undefined,
-      organization: isValid ? response.data?.organization : undefined,
+      issueDate: isValid ? response.documentGenerationDate : undefined,
+      expiryDate: isValid ? response.documentExpirationDate : undefined,
+      organization: isValid ? response.documentOwner : undefined,
       additionalInfo: isValid ?
-        response.data?.additionalInfo || 'Document valide' :
-        response.data?.message || 'Document non valide ou inexistant'
+        `Le document N° ${response.documentNumber} est valide` :
+        'Document non valide ou inexistant'
     };
-
+  
     this.showResult = true;
   }
 
