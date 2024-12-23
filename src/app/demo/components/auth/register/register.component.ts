@@ -44,6 +44,11 @@ export class RegisterComponent implements OnInit {
     cnibFile: File | null = null;
     statutFile: File | null = null;
 
+    filteredRegionsAutoComplete: any[] = [];
+    listeFiltreRegions: any[] = [];
+
+    selectedRegion: any ;
+
     constructor(
         private fb: FormBuilder,
         private userService: UserService,
@@ -221,11 +226,14 @@ export class RegisterComponent implements OnInit {
             representantNip: this.registerForm.get('nip')?.value,
             email: this.registerForm.get('email')?.value,
             nes: this.registerForm.get('nes')?.value,
-            region: this.selectedRegion.code,
+            region: this.registerForm.get('selectedRegion')?.value,
+            
             // region: this.registerForm.get('region')?.value,
             cnibFile: this.cnibFile,
             statutFile: this.statutFile,
             };
+            console.log("region selectioner code", this.selectedRegion.code);
+            console.log("region selectioner form value", this.registerForm.get('selectedRegion')?.value);
 
             this.userService.register(userData).subscribe({
                 next: () => {
@@ -258,11 +266,7 @@ export class RegisterComponent implements OnInit {
             this.listeFiltreRegions = regions;
         });
     }
-    filteredRegionsAutoComplete: any[] = [];
-    listeFiltreRegions: any[] = [];
-
-    selectedRegion: any ;
-
+    
     filterRegion(event: any) {
         const filtered: any[] = [];
         const query = event.query.toLowerCase();

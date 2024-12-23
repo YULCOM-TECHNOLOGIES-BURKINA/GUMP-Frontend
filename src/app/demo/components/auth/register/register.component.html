@@ -130,6 +130,8 @@
                                     <label for="region">Sélectionner Région</label>
                                     <p-autoComplete appendTo="body"
                                                     [(ngModel)]="selectedRegion"
+                                                    formControlName="selectedRegion"
+                                                    id="selectedRegion"
                                                     [suggestions]="filteredRegionsAutoComplete"
                                                     (completeMethod)="filterRegion($event)"
                                                     field="nomComplet"
