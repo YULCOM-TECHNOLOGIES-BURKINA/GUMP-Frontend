@@ -106,12 +106,30 @@ saveMe(userData: any): Observable<any> {
       );
   }
 
-  getUsersCompany(): Observable<UserResponse> {
-      return this.http.get<UserResponse>(
-          `${this.apiUrl}/users?service=users-ms`,
-          {
-              headers: this.getFormDataHeaders(),
-          }
-      );
+//   getUsersCompany(): Observable<UserResponse> {
+//       return this.http.get<UserResponse>(
+//           `${this.apiUrl}/users?service=users-ms`,
+//           {
+//               headers: this.getFormDataHeaders(),
+//           }
+//       );
+//   }
+
+//   getUsersCompany(page: number = 0, size: number = 20): Observable<UserResponse> {
+//     return this.http.get<UserResponse>(
+//       `${this.apiUrl}/users?page=${page}&size=${size}&service=users-ms`,
+//       {
+//         headers: this.getFormDataHeaders(),
+//       }
+//     );
+//   }
+
+  getUsersCompany(page: number, size: number = 100): Observable<UserResponse> {
+    return this.http.get<UserResponse>(
+      `${this.apiUrl}/users?page=${page}&size=${size}&service=users-ms`,
+      {
+        headers: this.getFormDataHeaders(),
+      }
+    );
   }
 }
