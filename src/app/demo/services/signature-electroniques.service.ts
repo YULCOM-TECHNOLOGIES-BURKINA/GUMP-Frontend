@@ -361,8 +361,7 @@ export class SignatureElectroniquesService {
 
     approveRequestSigned(id:string) {
   return this.fastService.get<boolean>(
-      `${this._gateway}signature_electronique/demandes/${id}/signed?` +
-          this._ms_drtss
+      `http://195.35.48.198:8082/api/signature_electronique/demandes/${id}/signed`
   );
     }
 }
