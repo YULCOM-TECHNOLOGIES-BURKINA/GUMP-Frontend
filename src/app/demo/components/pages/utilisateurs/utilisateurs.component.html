@@ -4,7 +4,24 @@
         <div class="card px-6 py-6">
             <p-toast></p-toast>
            
-            <p-table #dt [value]="requests" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['company','username','email', 'cnssNumber', 'region']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" [(selection)]="selectedRequests" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt 
+                [value]="requests" 
+                [columns]="cols" 
+                responsiveLayout="scroll" 
+                [rows]="rows" 
+                [globalFilterFields]="['company','username','email', 'cnssNumber', 'region']" 
+                [paginator]="true" 
+                [totalRecords]="totalRecords"
+                [rowsPerPageOptions]="[10,20,30]" 
+                [showCurrentPageReport]="true" 
+                currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
+                [lazy]="true"
+                (onPage)="onPageChange($event)"
+                [first]="first"
+                [(selection)]="selectedRequests" 
+                selectionMode="multiple" 
+                [rowHover]="true" 
+                dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Gestion des Utilisateurs</h5>

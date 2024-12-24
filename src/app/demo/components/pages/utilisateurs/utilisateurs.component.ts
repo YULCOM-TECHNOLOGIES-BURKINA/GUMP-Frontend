@@ -4,6 +4,7 @@ import { Utilisateur } from '../../../models/utilisateurs';
 import { User, UserResponse } from '../../../models/utilisateurs';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-utilisateurs',
@@ -20,10 +21,40 @@ export class UtilisateursComponent implements OnInit {
     selectedRequests: User[] = [];
     cols: any[] = [];
 
-    constructor(private utilisateurService: UserService, private messageService: MessageService) { }
+    first: number = 0;
+    last: number = 0;
+    totalRecords: number = 0;
+    rows: number = 100; // Nombre d'éléments par page
+    currentPage: number = 0;
+
+    constructor(private utilisateurService: UserService, private messageService: MessageService, private router: Router) { }
+
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.last = event.last;
+    this.rows = event.rows;
+    this.currentPage = event.page;
+    this.loadUsers(this.currentPage, this.rows);
+  }
+
+  loadUsers(page: number, size: number) {
+    this.utilisateurService.getUsersCompany(page, size).subscribe({
+      next: (response: UserResponse) => {
+        this.requests = response.content.filter(user => user.role === 'USER');
+        // this.requests = response.content;
+        this.totalRecords = this.requests.length;
+        // this.totalRecords = response.totalElements; 
+        
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des utilisateurs', err);
+      }
+    });
+  }
 
     ngOnInit(): void {
-      this.getUtilisateurs();
+      // this.getUtilisateurs();
+      this.loadUsers(0, this.rows);
       this.cols = [
         { field: 'company', header: 'Entité' },
         { field: 'username', header: 'IFU' },
@@ -34,11 +65,12 @@ export class UtilisateursComponent implements OnInit {
       ];
     }
 
-    getUtilisateurs() {
-        this.utilisateurService.getUsersCompany().subscribe((data: UserResponse) => {
-            this.requests = data.content.filter(user => user.role === 'USER');
-        });
-    }
+    // getUtilisateurs() {
+    //     this.utilisateurService.getUsersCompany().subscribe((data: UserResponse) => {
+    //         this.requests = data.content.filter(user => user.role === 'USER');
+    //     });
+    // }
+    
 
   approveRequest(request: Utilisateur) {
       this.request = { ...request };
@@ -61,6 +93,9 @@ export class UtilisateursComponent implements OnInit {
             life: 5000
           });
           this.request = null;
+          setTimeout(() => {
+            this.router.navigate(['/app/pages/utilisateurs']); 
+          }, 500); 
         },
         error: (err) => {
           this.messageService.add({
@@ -85,6 +120,9 @@ export class UtilisateursComponent implements OnInit {
           life: 3000
         });
         this.request = null;
+        setTimeout(() => {
+          this.router.navigate(['/app/pages/utilisateurs']); 
+        }, 500); 
       },
       error: (err) => {
         this.messageService.add({
