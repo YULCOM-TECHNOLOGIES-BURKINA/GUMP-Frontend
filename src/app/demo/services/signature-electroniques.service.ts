@@ -319,6 +319,7 @@ export class SignatureElectroniquesService {
         formData.append('signatoryId', signatoryId);
         formData.append('requestId', demandeId);
         formData.append('attestationPath', attestationPath);
+        console.log(signatoryId, demandeId, attestationPath);
 
         return this.fastService
             .post<any>(
@@ -343,6 +344,8 @@ export class SignatureElectroniquesService {
             );
     }
 
+
+
     /**
      * Vérifie si un utilisateur avec un rôle donné existe dans une région donnée.
      * @param role Rôle de l'utilisateur
@@ -354,5 +357,12 @@ export class SignatureElectroniquesService {
             `${this._gateway}users/exists?role=${role}&region=${region}&` +
                 this._ms_users
         );
+    }
+
+    approveRequestSigned(id:string) {
+  return this.fastService.get<boolean>(
+      `${this._gateway}signature_electronique/demandes/${id}/signed?` +
+          this._ms_drtss
+  );
     }
 }

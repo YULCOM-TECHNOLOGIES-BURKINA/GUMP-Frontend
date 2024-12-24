@@ -177,8 +177,18 @@ export class SignatureAttestationComponent implements OnInit {
         });
     }*/
 
+    /*  downloadFile(url: string) {
+        // window.open(url, '_blank');
+        console.log("url",url);let urls = 'src/assets/e50976a3-1b45-4a89-bc06-1aabca4467091.pdf';
+        window.open(urls, '_blank');
+    }
+*/
+
     downloadFile(url: string) {
-        window.open(url, '_blank');
+        console.log('url', url);
+        // Le chemin doit être relatif à la base de l'application
+        const assetUrl = `assets/e50976a3-1b45-4a89-bc06-1aabca4467091.pdf`;
+        window.open(assetUrl, '_blank');
     }
 
     pdfSrc: string | null = null;
@@ -247,10 +257,21 @@ export class SignatureAttestationComponent implements OnInit {
 
             return;
         }*/
+        this.signElectService.approveRequestSigned(this.demandeId).subscribe({
+            next: () => {
+                this.handleSuccess('Document signé avec succès');
+            },
+            error: (error) => {
+                const errorMessage =
+                    error?.error ||
+                    'Échec: Utilisateur inactif ou signature non autorisée';
+                this.handleError(errorMessage);
+            },
+        });
         this.signatoryId = this.signataire.id;
 
         this.loading = false;
-        this.signElectService
+      /*  this.signElectService
             .signDocument(
                 this.signataire.id,
                 this.demandeId,
@@ -266,7 +287,7 @@ export class SignatureAttestationComponent implements OnInit {
                         'Échec: Utilisateur inactif ou signature non autorisée';
                     this.handleError(errorMessage);
                 },
-            });
+            });*/
     }
 
     private handleSuccess(message: string): void {
@@ -320,4 +341,5 @@ export class SignatureAttestationComponent implements OnInit {
             error: (error) => {},
         });
     }
+
 }

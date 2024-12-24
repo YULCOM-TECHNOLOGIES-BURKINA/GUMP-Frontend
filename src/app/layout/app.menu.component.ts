@@ -21,7 +21,8 @@ export class AppMenuComponent implements OnInit {
         const user = JSON.parse(userDetails);
         this.checkSignatory(user.email)
         this.userRole = user.role;
-         this.initMenu()
+         this.initMenu();
+
     }
     signatory_value:any[]=[]
     isSignatory:boolean=false;
@@ -35,9 +36,9 @@ export class AppMenuComponent implements OnInit {
                 this.signatory_value.push(res?.signatureCertificat.actif);
                          this.userRole.push(res?.signatureCertificat.actif)
                          this.initMenu()
-
+                this.isSignatory = res?.signatureCertificat.actif;
             }
-
+                    console.log('---', this.signatory_value);
           },
           error: (error) => {
              this.isSignatory = false;
@@ -100,7 +101,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Gestion Utilisateurs AJE', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-aje/gestions'], visible:this.userRole.includes('ADMIN') || this.userRole.includes('TRESOR_AGENT')  },
                     { label: 'Gestion Utilisateurs DRTPS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible:this.userRole.includes('ADMIN')||this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
                     { label: 'Gestion Directeurs Regionaux DRTPS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/directeurs-regional/gestions'], visible: this.userRole.includes('ADMIN')},
-                   { label: 'Gestion Signataires', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('ADMIN') ||  this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
+                   { label: 'Gestion Signataires', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
                     { label: 'Signer Attestations', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/pages/signature-electronique/sign_attestation'],visible: this.signatory_value.includes(true)},
                     { label: 'Paramétrage', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/application-config'], visible:  this.userRole.includes('ADMIN')},
                     { label: 'Gestion débiteurs AJE', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/debiteurs'], visible: this.userRole.includes('TRESOR_AGENT')}
