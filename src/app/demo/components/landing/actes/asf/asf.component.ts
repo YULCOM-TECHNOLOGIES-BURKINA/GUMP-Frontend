@@ -193,7 +193,7 @@ export class AsfComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Erreur',
-            detail: 'Une erreur est survenue lors de l\'envoi.',
+            detail: err.error?.error?.message || 'Une erreur est survenue',
             life: 5000
           });
         }
