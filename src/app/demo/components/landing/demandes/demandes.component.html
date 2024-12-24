@@ -1,12 +1,12 @@
 <div class="surface-0">
     <div class="guide-wrapper overflow-hidden">
-        <app-header></app-header>  
+        <app-header></app-header>
         <!-- Hero Section -->
         <div class="other-hero bg-green-800 text-white px-4 py-8 md:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl font-bold mb-4">Historique de vos demandes</h1>
             </div>
-        </div>       
+        </div>
         <div class="px-4 py-8 md:px-6 lg:px-8">
             <div class="col-12">
                 <div class="card px-6 py-6">
@@ -15,12 +15,12 @@
                     <p-tabView>
                         <!-- DRTSS -->
                         <p-tabPanel header="Attestation DRTPS ({{ countDrtss }})">
-                            <p-table #dtdrtps [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll" 
-                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                            [showCurrentPageReport]="true" 
-                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecords" [(selection)]="selectedDrtssRequests" 
+                            <p-table #dtdrtps [value]="requestsDrtss" [columns]="cols" responsiveLayout="scroll"
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                            [totalRecords]="totalRecords" [(selection)]="selectedDrtssRequests"
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -82,47 +82,47 @@
                                         </td>
                                         <td>
                                             <!-- <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="viewRequest(requestDrtss)" pTooltip="Voir la demande" tooltipPosition="bottom"></button> -->
-                                            <div class="col-12 mt-2 flex" > 
-                                                <button 
-                                                    *ngIf="!requestDrtss.isPaid" 
-                                                    pButton 
-                                                    pRipple 
-                                                    icon="pi pi-wallet" 
-                                                    class="p-button-outlined p-button-warning mr-2" 
-                                                    (click)="initatePaymentDRTPS(requestDrtss.id)" 
+                                            <div class="col-12 mt-2 flex" >
+                                                <button
+                                                    *ngIf="!requestDrtss.isPaid"
+                                                    pButton
+                                                    pRipple
+                                                    icon="pi pi-wallet"
+                                                    class="p-button-outlined p-button-warning mr-2"
+                                                    (click)="initatePaymentDRTPS(requestDrtss.id)"
                                                     label="Payer">
                                                 </button>
                                                 <!-- <div *ngIf="requestDrtss.files"> -->
-                                                    <button 
+                                                    <button
                                                         *ngFor="let file of requestDrtss.files"
-                                                        pButton 
-                                                        pRipple 
-                                                        icon="pi pi-download" 
+                                                        pButton
+                                                        pRipple
+                                                        icon="pi pi-download"
                                                         [label]="' ' + file.label"
                                                         class="p-button-secondary p-button-outlined mr-2"
                                                         (click)="download(file)" >
                                                     </button>
                                                 <!-- </div>            -->
-                                                <button 
-                                                    *ngIf="requestDrtss.status == 'SIGNED'" 
-                                                    pButton 
-                                                    pRipple 
-                                                    icon="pi pi-download" 
-                                                    class="p-button-outlined p-button-info mr-2" 
-                                                    (click)="openDownloadRequest(requestDrtss)" 
+                                                <button
+                                                    *ngIf="requestDrtss.status == 'SIGNED'"
+                                                    pButton
+                                                    pRipple
+                                                    icon="pi pi-download"
+                                                    class="p-button-outlined p-button-info mr-2"
+                                                    (click)="openDownloadRequest(requestDrtss)"
                                                     label="Télécharger l'attestation DRTPS">
                                                 </button>
-                                                <button 
-                                                    *ngIf="requestDrtss.status == 'REJECTED'" 
-                                                    pButton 
-                                                    pRipple 
-                                                    icon="pi pi-eye" 
-                                                    class="p-button-outlined p-button-danger mr-2" 
-                                                    (click)="openMotif(requestDrtss)" 
+                                                <button
+                                                    *ngIf="requestDrtss.status == 'REJECTED'"
+                                                    pButton
+                                                    pRipple
+                                                    icon="pi pi-eye"
+                                                    class="p-button-outlined p-button-danger mr-2"
+                                                    (click)="openMotif(requestDrtss)"
                                                     label="Voir le motif de rejet">
                                                 </button>
                                             </div>
-                                            
+
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -131,12 +131,12 @@
 
                         <!-- AJE -->
                         <p-tabPanel header="Attestation de non engagement (AJE) ({{ countAje }})" >
-                            <p-table #dtaje [value]="requestsAje" [columns]="cols" responsiveLayout="scroll" 
-                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                            [showCurrentPageReport]="true" 
-                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsAje" [(selection)]="selectedAjeRequests" 
+                            <p-table #dtaje [value]="requestsAje" [columns]="cols" responsiveLayout="scroll"
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                            [totalRecords]="totalRecordsAje" [(selection)]="selectedAjeRequests"
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -192,17 +192,17 @@
                                             <span *ngIf="!requestAje.isPaid" class="p-badge p-badge-danger"> Non Payé  </span>
                                         </td>
                                         <td>
-                                            <button 
-                                                    *ngIf="!requestAje.isPaid" 
-                                                    pButton 
-                                                    pRipple 
-                                                    icon="pi pi-wallet" 
-                                                    class="p-button-outlined p-button-warning mr-2" 
-                                                    (click)="initatePaymentAJE(requestAje.id)" 
+                                            <button
+                                                    *ngIf="!requestAje.isPaid"
+                                                    pButton
+                                                    pRipple
+                                                    icon="pi pi-wallet"
+                                                    class="p-button-outlined p-button-warning mr-2"
+                                                    (click)="initatePaymentAJE(requestAje.id)"
                                                     label="Payer">
                                                 </button>
-                                            <button *ngIf="requestAje.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequestAje(requestAje)" 
+                                            <button *ngIf="requestAje.status == 'APPROVED'" pButton pRipple icon="pi pi-download"
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequestAje(requestAje)"
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -212,12 +212,12 @@
 
                         <!-- ANPE -->
                         <p-tabPanel header="Attestation ANPE ({{ countAnpe }})">
-                            <p-table #dtanpe [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll" 
-                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                            [showCurrentPageReport]="true" 
-                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests" 
+                            <p-table #dtanpe [value]="requestsAnpe" [columns]="cols" responsiveLayout="scroll"
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                            [totalRecords]="totalRecordsAnpe" [(selection)]="selectedAnpeRequests"
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -254,8 +254,8 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)" 
+                                            <button *ngIf="requestAnpe.status == 'APPROVED'" pButton pRipple icon="pi pi-download"
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestAnpe)"
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -265,12 +265,12 @@
 
                         <!-- RCCM -->
                         <p-tabPanel header="Extrait RCCM et Certificat de non faillite({{ countRccm }})">
-                            <p-table #dtrccm [value]="requestsRccm" [columns]="cols" responsiveLayout="scroll" 
-                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                            [showCurrentPageReport]="true" 
-                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsRccm" [(selection)]="selectedRccmRequests" 
+                            <p-table #dtrccm [value]="requestsRccm" [columns]="cols" responsiveLayout="scroll"
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                            [totalRecords]="totalRecordsRccm" [(selection)]="selectedRccmRequests"
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -309,8 +309,8 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button *ngIf="requestRccm.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestRccm)" 
+                                            <button *ngIf="requestRccm.status == 'APPROVED'" pButton pRipple icon="pi pi-download"
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestRccm)"
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -330,20 +330,20 @@
                                 <form [formGroup]="nesForm" (ngSubmit)="validateNes()" class="flex flex-column gap-2">
                                     <div class="flex flex-column gap-2">
                                         <label for="nes" class="font-medium text-900">Numéro NES</label>
-                                        <p-inputMask id="nes" 
-                                                    formControlName="nes" 
+                                        <p-inputMask id="nes"
+                                                    formControlName="nes"
                                                     mask="9999999999999"
                                                     placeholder="Entrez votre numéro NES"
                                                     [style]="{'width':'100%'}"
                                                     class="w-full">
                                         </p-inputMask>
-                                        <small *ngIf="nesForm.get('nes')?.invalid && nesForm.get('nes')?.touched" 
-                                            class="p-error">Le numéro NES est requis et doit contenir 13 chiffres</small>
+                                        <small *ngIf="nesForm.get('nes')?.invalid && nesForm.get('nes')?.touched"
+                                            class="p-error">Le numéro NES est requis et doit contenir  chiffres</small>
                                     </div>
 
-                                    <p-button type="submit" 
-                                            label="Valider" 
-                                            icon="pi pi-check" 
+                                    <p-button type="submit"
+                                            label="Valider"
+                                            icon="pi pi-check"
                                             [loading]="loading"
                                             [disabled]="nesForm.invalid"
                                             styleClass="w-full mt-3 p-button-success">
@@ -352,12 +352,12 @@
                             </div>
 
                             <div *ngIf="nesValidated">
-                                <p-table #dtasf [value]="requestAsf" [columns]="cols" responsiveLayout="scroll" 
-                                [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                                [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                                [showCurrentPageReport]="true" 
-                                currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                                [totalRecords]="totalRecordsCnss" [(selection)]="selectedCnssRequests" 
+                                <p-table #dtasf [value]="requestAsf" [columns]="cols" responsiveLayout="scroll"
+                                [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                                [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                                [showCurrentPageReport]="true"
+                                currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                                [totalRecords]="totalRecordsCnss" [(selection)]="selectedCnssRequests"
                                 selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                     <ng-template pTemplate="caption">
@@ -390,8 +390,8 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <button  pButton pRipple icon="pi pi-download" 
-                                                class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestsAsf)" 
+                                                <button  pButton pRipple icon="pi pi-download"
+                                                class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestsAsf)"
                                                 pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                             </td>
                                         </tr>
@@ -402,12 +402,12 @@
 
                         <!-- CNSS -->
                         <p-tabPanel header="Situation cotisante CNSS ({{ countCnss }})">
-                            <p-table #dtcnss [value]="requestCnss" [columns]="cols" responsiveLayout="scroll" 
-                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                            [showCurrentPageReport]="true" 
-                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsCnss" [(selection)]="selectedCnssRequests" 
+                            <p-table #dtcnss [value]="requestCnss" [columns]="cols" responsiveLayout="scroll"
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                            [totalRecords]="totalRecordsCnss" [(selection)]="selectedCnssRequests"
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -444,8 +444,8 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button *ngIf="requestCnss.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestCnss)" 
+                                            <button *ngIf="requestCnss.status == 'APPROVED'" pButton pRipple icon="pi pi-download"
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestCnss)"
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -455,12 +455,12 @@
 
                         <!-- CNF -->
                         <!-- <p-tabPanel header="Certificat de non faillite ({{ countCnf }})">
-                            <p-table #dtcnf [value]="requestsRccm" [columns]="cols" responsiveLayout="scroll" 
-                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']" 
-                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]" 
-                            [showCurrentPageReport]="true" 
-                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes" 
-                            [totalRecords]="totalRecordsCnf" [(selection)]="selectedCnfRequests" 
+                            <p-table #dtcnf [value]="requestsRccm" [columns]="cols" responsiveLayout="scroll"
+                            [rows]="10" [globalFilterFields]="['acte','createdAt','status']"
+                            [paginator]="true" [rowsPerPageOptions]="[10,20,30]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} demandes"
+                            [totalRecords]="totalRecordsCnf" [(selection)]="selectedCnfRequests"
                             selectionMode="multiple" [rowHover]="true" dataKey="id">
 
                                 <ng-template pTemplate="caption">
@@ -497,8 +497,8 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <button *ngIf="requestsCnf.status == 'APPROVED'" pButton pRipple icon="pi pi-download" 
-                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestsCnf)" 
+                                            <button *ngIf="requestsCnf.status == 'APPROVED'" pButton pRipple icon="pi pi-download"
+                                            class="p-button-outlined p-button-info mr-2" (click)="openDownloadRequest(requestsCnf)"
                                             pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                         </td>
                                     </tr>
@@ -522,6 +522,6 @@
                 </p-dialog>
             </div>
         </div>
-        <app-footer></app-footer>  
+        <app-footer></app-footer>
     </div>
 </div>

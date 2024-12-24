@@ -59,7 +59,7 @@ export class DemandesComponent implements OnInit {
 
   requestsAsf: DemandeAsf[] = [];
   requestAsf: DemandeAsf = {};
-  
+
 
   selectedDrtssRequests: DemandeDrtss[] = [];
   selectedAjeRequests: DemandeAje[] = [];
@@ -76,13 +76,13 @@ export class DemandesComponent implements OnInit {
   displayProcessModalAnpe: boolean = false;
   displayMotifModal: boolean = false;
 
-  totalRecords: number = 0; 
-  totalRecordsAje: number = 0; 
-  totalRecordsAnpe: number = 0; 
-  totalRecordsAsf: number = 0; 
-  totalRecordsRccm: number = 0; 
-  totalRecordsCnf: number = 0; 
-  totalRecordsCnss: number = 5; 
+  totalRecords: number = 0;
+  totalRecordsAje: number = 0;
+  totalRecordsAnpe: number = 0;
+  totalRecordsAsf: number = 0;
+  totalRecordsRccm: number = 0;
+  totalRecordsCnf: number = 0;
+  totalRecordsCnss: number = 5;
 
   countDrtss = 0;
   countAje= 0;
@@ -100,16 +100,16 @@ export class DemandesComponent implements OnInit {
   loading: boolean = false;
 
   constructor(
-    private drtssService: DrtssService, 
-    private ajeService: AjeService, 
-    private asfService: AsfService, 
-    private anpeService: AnpeService, 
-    private rccmService: RccmService, 
-    private demandeService: DemandeService, 
+    private drtssService: DrtssService,
+    private ajeService: AjeService,
+    private asfService: AsfService,
+    private anpeService: AnpeService,
+    private rccmService: RccmService,
+    private demandeService: DemandeService,
     private messageService: MessageService,
     private fb: FormBuilder) {
       this.nesForm = this.fb.group({
-        nes: ['', [Validators.required, Validators.pattern('^[0-9]{13}$')]]
+        nes: ['', [Validators.required]]
       });
     }
 
@@ -167,7 +167,7 @@ export class DemandesComponent implements OnInit {
 
   getValidityStatus(createdAt: string) {
     const daysLeft = this.calculateDaysLeft(createdAt);
-    
+
     if (daysLeft <= 0) {
       return {
         text: 'Expiré',
@@ -317,7 +317,7 @@ export class DemandesComponent implements OnInit {
   closeProcessModalAje() {
     this.displayProcessModalAje = false;
   }
-  
+
   closeProcessModalAnpe() {
     this.displayProcessModalAnpe = false;
   }
@@ -371,7 +371,7 @@ export class DemandesComponent implements OnInit {
     if (this.nesForm.valid) {
         this.loading = true;
         const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-        
+
         if (!currentUser.username) {
             this.messageService.add({
                 severity: 'error',

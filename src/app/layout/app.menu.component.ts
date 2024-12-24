@@ -98,10 +98,10 @@ export class AppMenuComponent implements OnInit {
                 visible: this.userRole.includes('ADMIN') || this.signatory_value.includes(true) || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER'),
                 items: [
                     // { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
-                    { label: 'Gestion Utilisateurs AJE', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-aje/gestions'], visible:this.userRole.includes('ADMIN') || this.userRole.includes('TRESOR_AGENT')  },
+                    { label: 'Gestion Utilisateurs AJE', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-aje/gestions'], visible:this.userRole.includes('ADMIN') },
                     { label: 'Gestion Utilisateurs DRTPS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible:this.userRole.includes('ADMIN')||this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
                     { label: 'Gestion Directeurs Regionaux DRTPS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/directeurs-regional/gestions'], visible: this.userRole.includes('ADMIN')},
-                   { label: 'Gestion Signataires', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
+                    { label: 'Gestion Signataires', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
                     { label: 'Signer Attestations', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/pages/signature-electronique/sign_attestation'],visible: this.signatory_value.includes(true)},
                     { label: 'Paramétrage', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/application-config'], visible:  this.userRole.includes('ADMIN')},
                     { label: 'Gestion débiteurs AJE', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/debiteurs'], visible: this.userRole.includes('TRESOR_AGENT')}
