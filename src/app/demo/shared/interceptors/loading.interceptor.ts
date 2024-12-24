@@ -22,18 +22,20 @@ export class LoadingInterceptor implements HttpInterceptor {
         req: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        this.spinnerService.show();
-
         const token = this.getToken();
-        let modifiedReq = req;
 
-        if (token) {
-            modifiedReq = req.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+         if (!token) {
+            return next.handle(req);
         }
+
+         this.spinnerService.show();
+
+        const modifiedReq = req.clone({
+            setHeaders: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
 
         return next.handle(modifiedReq).pipe(
             finalize(() => {
