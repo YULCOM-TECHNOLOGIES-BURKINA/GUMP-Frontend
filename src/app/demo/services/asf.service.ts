@@ -43,12 +43,15 @@ export class AsfService {
   // getDemandesHistory(data: { ifu: string, nes: string }): Observable<any> {
   //   return this.http.get(`${this.apiUrl}/demandes?service=asf-ms`, {
   //     headers: this.getHeaders(),
-  //     params: data 
+  //     params: data
   //   });
-  // }
+    // }
+
+
+    
 
   getDemandesHistory(data: { ifu: string, nes: string }): Observable<any> {
-    return this.http.get(`${this.apiUrl}/demandes`, {
+    return this.http.post(`${this.apiUrl}/demandes`, {
         // headers: this.getHeaders(),
         params: {
             ...data,
