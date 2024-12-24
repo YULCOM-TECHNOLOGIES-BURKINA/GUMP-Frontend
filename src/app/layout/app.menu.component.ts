@@ -70,34 +70,40 @@ export class AppMenuComponent implements OnInit {
                     { label: 'DRTPS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
                     { label: 'AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
                 ]
+
+
+                // items: [
+                //     { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'], visible: this.userRole.includes('ADMIN')  || this.userRole.includes('DRTSS_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
+                //     { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'], visible: this.userRole.includes('ADMIN')  || this.userRole.includes('TRESOR_AGENT') }
+                // ]
             },
 
-            // {
-            //     label: 'Traitement des demandes',
-            //     visible: this.userRole.includes('DRTSS_AGENT') || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER')  ,
-            //     items: [
-            //         { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
-            //     ]
-            // },
-            // {
-            //     label: 'Traitement des demandes',
-            //     visible:this.userRole.includes('TRESOR_AGENT'),
-            //     items: [
-            //         { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
-            //     ]
-            // },
+            {
+                label: 'Traitement des demandes',
+                visible: this.userRole.includes('DRTSS_AGENT') ||this.userRole.includes('DRTSS_REGIONAL_MANAGER')  ,
+                items: [
+                    { label: 'Attestation DRTSS', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/drtss'] },
+                ]
+            },
+            {
+                label: 'Traitement des demandes',
+                visible:this.userRole.includes('TRESOR_AGENT'),
+                items: [
+                    { label: 'Attestation AJE', icon: 'pi pi-fw pi-file', routerLink: ['/app/traitement/aje'] }
+                ]
+            },
             {
                 label: 'Paramètres',
                 visible: this.userRole.includes('ADMIN') || this.signatory_value.includes(true) || this.userRole.includes('TRESOR_AGENT')|| this.userRole.includes('DRTSS_REGIONAL_MANAGER'),
                 items: [
                     // { label: 'Informations générales', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
-                    { label: 'Gestions Utilisateurs AJE', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-aje/gestions'], visible:this.userRole.includes('ADMIN') || this.userRole.includes('TRESOR_AGENT')  },
-                    { label: 'Gestions Utilisateurs DRTSS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible:this.userRole.includes('ADMIN')||this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
-                    { label: 'Gestions Compte Directeurs ', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/directeurs-regional/gestions'], visible: this.userRole.includes('ADMIN')},
-                   { label: 'Signatures electroniques', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('ADMIN') ||  this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
+                    { label: 'Gestion Utilisateurs AJE', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-aje/gestions'], visible:this.userRole.includes('ADMIN') || this.userRole.includes('TRESOR_AGENT')  },
+                    { label: 'Gestion Utilisateurs DRTPS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs-drtss/gestions'], visible:this.userRole.includes('ADMIN')||this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
+                    { label: 'Gestion Directeurs Regionaux DRTPS', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/directeurs-regional/gestions'], visible: this.userRole.includes('ADMIN')},
+                   { label: 'Gestion Signataires', icon: 'pi pi-fw pi-qrcode', routerLink: ['/app/pages/signature-electronique/signataire'], visible: this.userRole.includes('ADMIN') ||  this.userRole.includes('DRTSS_REGIONAL_MANAGER') },
                     { label: 'Signer Attestations', icon: 'pi pi-fw pi-file-edit', routerLink: ['/app/pages/signature-electronique/sign_attestation'],visible: this.signatory_value.includes(true)},
                     { label: 'Paramétrage', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/application-config'], visible:  this.userRole.includes('ADMIN')},
-                    { label: 'Gestion des débiteurs', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/debiteurs'], visible: this.userRole.includes('TRESOR_AGENT')}
+                    { label: 'Gestion débiteurs AJE', icon: 'pi pi-fw pi-paperclip', routerLink: ['/app/pages/debiteurs'], visible: this.userRole.includes('TRESOR_AGENT')}
                 ]
             },
             {

@@ -6,10 +6,19 @@ import { Observable, finalize } from 'rxjs';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-  constructor(private spinnerService: NgxSpinnerService) {}
+    constructor(private spinnerService: NgxSpinnerService) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.spinnerService.show();
+
+    // Récupère le token depuis le localStorage
+    private getToken(): string | null {
+        return localStorage.getItem('currentToken');
+    }
+
+    intercept(
+        req: HttpRequest<any>,
+        next: HttpHandler
+    ): Observable<HttpEvent<any>> {
+        this.spinnerService.show();
 
     return next.handle(req).pipe(
       finalize(() => {
@@ -17,4 +26,21 @@ export class LoadingInterceptor implements HttpInterceptor {
       })
     );
   }
+        const token = this.getToken();
+        let modifiedReq = req;
+
+        if (token) {
+            modifiedReq = req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${token}`
+                 },
+            });
+        }
+
+        return next.handle(modifiedReq).pipe(
+            finalize(() => {
+                this.spinnerService.hide();
+            })
+        );
+    }
 }
