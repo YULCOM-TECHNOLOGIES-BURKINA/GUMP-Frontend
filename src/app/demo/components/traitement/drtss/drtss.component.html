@@ -400,7 +400,7 @@
                                             pTooltip="Voir la demande" 
                                             tooltipPosition="bottom">
                                     </button>
-                                    <button *ngIf="requestDrtss.status == 'SIGNED'" pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
+                                    <button *ngIf="request.status == 'SIGNED'" pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
                                     (click)="openDownloadRequest(request)" pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
@@ -522,7 +522,7 @@
                 </button>
             </div>
             <div class="col-12 mt-2 flex" *ngIf="request.rejectionReason">
-                <p><strong>Motif de rejet</strong></p>
+                <p><strong>Motif de rejet: </strong></p>
                 <p>{{request.rejectionReason }}</p>
             </div>
         </div>
