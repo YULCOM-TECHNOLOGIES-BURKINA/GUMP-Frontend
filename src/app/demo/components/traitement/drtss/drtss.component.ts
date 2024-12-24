@@ -412,8 +412,7 @@ export class TraitementDrtssComponent implements OnInit {
             detail: 'Demande rejettée!',
             life: 3000
           });
-          this.displayProcessModal = false;
-          this.request = null;
+          this.displayRejectModal = false;
           setTimeout(() => {
             this.router.navigate(['/app/traitement/drtss']); 
           }, 500); 
