@@ -353,7 +353,7 @@ export class TraitementAjeComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Erreur',
-          detail: 'Une erreur est survenue lors de l\'approbation de la demande.',
+          detail: 'Une erreur est survenue lors du rejet de la demande.',
           life: 3000
         });
       }
