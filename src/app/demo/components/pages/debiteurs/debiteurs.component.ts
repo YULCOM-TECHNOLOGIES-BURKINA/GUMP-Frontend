@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 interface Debiteur {
   id?: number;
@@ -71,7 +71,8 @@ export class DebiteursComponent implements OnInit {
 
   loading: boolean = false;
 
-  private apiUrl = 'http://195.35.48.198:8080/api/debiteurs';
+  private apiUrl = 'https://gump-gateway.yulpay.com/api/debiteurs';
+  private token = localStorage.getItem('currentToken');
 
   constructor(
     private http: HttpClient,
@@ -82,10 +83,15 @@ export class DebiteursComponent implements OnInit {
     this.getDebiteurs();
   }
 
+
+
   // Récupération des débiteurs
   getDebiteurs() {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
     this.loading = true;
-    this.http.get<DebiteurResponse>(this.apiUrl).subscribe({
+    this.http.get<DebiteurResponse>(`${this.apiUrl}?service=tresor-ms`, { headers }).subscribe({
       next: (data) => {
         this.debiteurs = data.content;
         this.loading = false;
@@ -124,7 +130,11 @@ export class DebiteursComponent implements OnInit {
     const formData = new FormData();
     formData.append('file', this.selectedFile);
 
-    this.http.post(`${this.apiUrl}/import`, formData).subscribe({
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    this.http.post(`${this.apiUrl}/import?service=tresor-ms`, formData, { headers }).subscribe({
       next: (response) => {
         this.messageService.add({
           severity: 'success',
@@ -152,7 +162,10 @@ export class DebiteursComponent implements OnInit {
 
   saveNewDebiteur() {
     this.loading = true;
-    this.http.post(this.apiUrl, this.newDebiteur).subscribe({
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+    this.http.post(`${this.apiUrl}?service=tresor-ms`, this.newDebiteur, { headers }).subscribe({
       next: (response) => {
         this.messageService.add({
           severity: 'success',
@@ -182,9 +195,12 @@ export class DebiteursComponent implements OnInit {
   }
 
   saveEdit() {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
     if (this.editingDebiteur && this.editingDebiteur.id) {
       this.loading = true;
-      this.http.put(`${this.apiUrl}/${this.editingDebiteur.id}`, this.editingDebiteur).subscribe({
+      this.http.put(`${this.apiUrl}/${this.editingDebiteur.id}?service=tresor-ms`, this.editingDebiteur, { headers }).subscribe({
         next: (response) => {
           this.messageService.add({
             severity: 'success',

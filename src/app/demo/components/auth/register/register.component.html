@@ -130,6 +130,8 @@
                                     <label for="region">Sélectionner Région</label>
                                     <p-autoComplete appendTo="body"
                                                     [(ngModel)]="selectedRegion"
+                                                    formControlName="selectedRegion"
+                                                    id="selectedRegion"
                                                     [suggestions]="filteredRegionsAutoComplete"
                                                     (completeMethod)="filterRegion($event)"
                                                     field="nomComplet"
@@ -157,7 +159,7 @@
                     <div class="col-12">
                         <p-fieldset legend="Informations du représentant" [toggleable]="true">
                             <div class="grid">
-                                <div class="col-12 md:col-6">
+                                <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
                                         <input id="lastname"
                                                pInputText
@@ -166,7 +168,7 @@
                                         <label for="lastname">Nom</label>
                                     </span>
                                 </div>
-                                <div class="col-12 md:col-6">
+                                <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
                                         <input id="forename"
                                                pInputText
@@ -175,13 +177,22 @@
                                         <label for="forename">Prénom</label>
                                     </span>
                                 </div>
-                                <div class="col-12 md:col-6">
+                                <div class="col-12 md:col-4">
                                     <span class="p-float-label mt-4">
                                         <input id="phoneNumberR"
                                                pInputText
                                                formControlName="phoneNumberR"
                                                class="w-full"/>
                                         <label for="phoneNumberR">Téléphone</label>
+                                    </span>
+                                </div>
+                                <div class="col-12 md:col-6">
+                                    <span class="p-float-label mt-4">
+                                        <input id="nip"
+                                               pInputText
+                                               formControlName="nip"
+                                               class="w-full"/>
+                                        <label for="nip">Numéro NIP</label>
                                     </span>
                                 </div>
                                 <div class="col-12 md:col-6">

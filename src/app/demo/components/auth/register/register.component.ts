@@ -44,6 +44,11 @@ export class RegisterComponent implements OnInit {
     cnibFile: File | null = null;
     statutFile: File | null = null;
 
+    filteredRegionsAutoComplete: any[] = [];
+    listeFiltreRegions: any[] = [];
+
+    selectedRegion: any ;
+
     constructor(
         private fb: FormBuilder,
         private userService: UserService,
@@ -74,109 +79,15 @@ export class RegisterComponent implements OnInit {
             password: ['', [Validators.required, Validators.minLength(8)]],
             passwordConfirmation: ['', [Validators.required]],
             ifuNumber: [''],
+            nip: [''],
             rccm: [''],
             cnssNumber: [''],
-            region: [''],
+            selectedRegion: [''],
             nes: ['']
         },{
             validators: this.passwordMatchValidator
         });
     }
-
-    // verifyIfu() {
-    //     this.submitted = true;
-    //     if (this.ifuForm.invalid) {
-    //         return;
-    //     }
-
-    //     this.loading = true;
-    //     this.ifuForm.get('nes')?.value
-    //     const vData = {
-    //         ifu : this.ifuForm.get('ifuNumber')?.value,
-    //         nes: this.ifuForm.get('nes')?.value
-    //     }
-
-    //     // vérification du NES
-    //     this.userService.verifyNes(vData).subscribe({
-    //         next: (data) => {
-    //             if (data.error.code === 200){
-    //                 // Vérification du IFU
-    //                 this.userService.verifyIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
-    //                     next: (response) => {
-    //                         this.loading = false;
-    //                         // Vérification de l'existance d'un compte avec le même IFU
-    //                         this.userService.getUserByIfu(this.ifuForm.get('ifuNumber')?.value).subscribe({
-    //                             next: (response) => {
-    //                                 this.messageService.add({
-    //                                     severity: 'error',
-    //                                     summary: 'Erreur',
-    //                                     detail: 'Un compte avec ce numéro IFU existe déjà.'
-    //                                 });
-    //                             },
-    //                             error: (error) => {
-    //                                 this.showFullForm = true;
-
-    //                                 // Pré-remplir le formulaire avec les données de l'entreprise
-    //                                 this.registerForm.patchValue({
-    //                                     companyName: response.name,
-    //                                     address: response.address,
-    //                                     phoneNumber: response.phoneNumber,
-    //                                     ifuNumber: this.ifuForm.get('ifuNumber')?.value
-    //                                 });
-
-    //                                 this.messageService.add({
-    //                                     severity: 'success',
-    //                                     summary: 'Succès',
-    //                                     detail: 'IFU vérifié avec succès'
-    //                                 });
-    //                             }
-    //                         });
-    //                     },
-    //                     error: (error) => {
-    //                         this.loading = false;
-    //                         this.messageService.add({
-    //                             severity: 'error',
-    //                             summary: 'Erreur',
-    //                             detail: 'Numéro IFU invalide ou non trouvé'
-    //                         });
-    //                     }
-    //                 });
-    //             } else {
-    //                 this.messageService.add({
-    //                     severity: 'error',
-    //                     summary: 'Erreur',
-    //                     detail: data.error.message
-    //                     // detail: 'Votre NES est invalide'
-    //                 });
-    //             }
-    //         },
-    //         error: (error) => {
-    //             this.messageService.add({
-    //                 severity: 'error',
-    //                 summary: 'Erreur',
-    //                 detail: 'Une erreur est survenue lors de la vérification du NES'
-    //             });
-    //         }
-    //     });
-    //     // this.userService.verifyNes(this.ifuForm.get('nes')?.value).subscribe({
-    //     //     next: (response) => {
-    //     //         this.messageService.add({
-    //     //             severity: 'error',
-    //     //             summary: 'Erreur',
-    //     //             detail: 'Un compte avec ce numéro IFU existe déjà.'
-    //     //         });
-    //     //     },
-    //     //     error: (error) => {
-    //     //         this.messageService.add({
-    //     //             severity: 'success',
-    //     //             summary: 'Succès',
-    //     //             detail: 'Votre NES est invalide'
-    //     //         });
-
-    //     //     }
-    //     // });
-    // }
-
 
     verifyIfu() {
         this.submitted = true;
@@ -256,6 +167,8 @@ export class RegisterComponent implements OnInit {
                 });
             }
         });
+        this.submitted = false;
+        this.loading = false;
     }
 
     onFileSelect(event: any, fileType: string) {
@@ -302,21 +215,30 @@ export class RegisterComponent implements OnInit {
 
         this.loading = true;
         if (this.cnibFile && this.statutFile) {
-            const userData = {
-            ifuNumber: this.registerForm.get('ifuNumber')?.value,
-            cnssNumber: this.registerForm.get('cnssNumber')?.value,
-            password: this.registerForm.get('password')?.value,
-            tel: this.registerForm.get('phoneNumberR')?.value,
-            email: this.registerForm.get('email')?.value,
-            nes: this.registerForm.get('nes')?.value,
-            region: this.selectedRegion.code,
-            // region: this.registerForm.get('region')?.value,
-            cnibFile: this.cnibFile,
-            statutFile: this.statutFile,
+            const formData = new FormData();
+            const registerRequest = {
+                ifuNumber: this.registerForm.get('ifuNumber')?.value,
+                cnssNumber: this.registerForm.get('cnssNumber')?.value,
+                password: this.registerForm.get('password')?.value,
+                passwordConfirmation: this.registerForm.get('passwordConfirmation')?.value,
+                representantPhone: this.registerForm.get('phoneNumberR')?.value,
+                representantLastname: this.registerForm.get('lastname')?.value,
+                representantFirstname: this.registerForm.get('forename')?.value,
+                representantNip: this.registerForm.get('nip')?.value,
+                email: this.registerForm.get('email')?.value,
+                nes: this.ifuForm.get('nes')?.value,
+                region: this.registerForm.get('selectedRegion')?.value.code
             };
 
-            this.userService.register(userData).subscribe({
-                next: () => {
+            formData.append('registerRequest', new Blob([JSON.stringify(registerRequest)], {
+                type: 'application/json'
+            }));
+
+            formData.append('cnibFile', this.cnibFile);
+            formData.append('statutFile', this.statutFile);
+
+            this.userService.register(formData).subscribe({
+                next: (response) => {
                     this.loading = false;
                     this.messageService.add({
                         severity: 'success',
@@ -325,8 +247,8 @@ export class RegisterComponent implements OnInit {
                         life: 5000
                     });
                     setTimeout(() => {
-                    this.router.navigate(['/auth/login']);
-                }, 5000);
+                        this.router.navigate(['/auth/login']);
+                    }, 1000);
                 },
                 error: (error) => {
                     this.loading = false;
@@ -338,8 +260,10 @@ export class RegisterComponent implements OnInit {
                 }
             });
         } else {
+            this.loading = false;
             this.messageService.add({ severity: 'warn', summary: 'Attention', detail: 'Veuillez charger correctement les fichiers.' });
         }
+        this.loading = false;
     }
 
     listRegions() {
@@ -347,11 +271,7 @@ export class RegisterComponent implements OnInit {
             this.listeFiltreRegions = regions;
         });
     }
-    filteredRegionsAutoComplete: any[] = [];
-    listeFiltreRegions: any[] = [];
-
-    selectedRegion: any ;
-
+    
     filterRegion(event: any) {
         const filtered: any[] = [];
         const query = event.query.toLowerCase();

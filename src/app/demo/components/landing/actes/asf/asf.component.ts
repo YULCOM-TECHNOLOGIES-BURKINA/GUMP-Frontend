@@ -59,7 +59,7 @@ interface AsfResponse {
       resultat: {
         numero_ifu: string;
         reference: string;
-        code: string;
+        code: number;
         message: string;
       }
     },
@@ -132,8 +132,22 @@ export class AsfComponent implements OnInit {
               severity: 'success',
               summary: 'Succès',
               detail: serverMessage,
-              life: 3000
+              life: 2000
             });
+            // Vérification du message d'erreur du serveur
+            if (response.data.items.resultat.code === 201) {
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Demande en cours de traitement',
+                detail: response.data.items.resultat.message,
+                life: 5000 
+              });
+              // Réinitialisation du formulaire
+              this.resetForm();
+              setTimeout(() => {
+                this.router.navigate(['/demandes']);
+              }, 1000);
+            }
             // Téléchargement automatique du document
             this.asfService.downloadAsf({
               ifu: this.ifu,
@@ -146,7 +160,7 @@ export class AsfComponent implements OnInit {
                   severity: 'success',
                   summary: 'Téléchargement',
                   detail: 'Le document a été téléchargé avec succès !',
-                  life: 5000 
+                  life: 2000 
                 });
                 // Réinitialisation du formulaire
                 this.resetForm();
@@ -159,8 +173,11 @@ export class AsfComponent implements OnInit {
                   severity: 'error',
                   summary: 'Erreur',
                   detail: 'Erreur lors du téléchargement du document.',
-                  life: 15000
+                  life: 5000
                 });
+                setTimeout(() => {
+                  this.router.navigate(['/demandes']);
+                }, 1000);
               }
             });
           } else {
@@ -168,7 +185,7 @@ export class AsfComponent implements OnInit {
               severity: 'error',
               summary: 'Erreur',
               detail: 'La référence du document est manquante.',
-              life: 15000
+              life: 5000
             });
           }
         },
@@ -177,7 +194,7 @@ export class AsfComponent implements OnInit {
             severity: 'error',
             summary: 'Erreur',
             detail: 'Une erreur est survenue lors de l\'envoi.',
-            life: 15000
+            life: 5000
           });
         }
       });

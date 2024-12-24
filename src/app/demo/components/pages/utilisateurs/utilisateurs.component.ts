@@ -36,7 +36,7 @@ export class UtilisateursComponent implements OnInit {
 
     getUtilisateurs() {
         this.utilisateurService.getUsersCompany().subscribe((data: UserResponse) => {
-            this.requests = data.content.filter(user => user.role === 'USER');;
+            this.requests = data.content.filter(user => user.role === 'USER');
         });
     }
 

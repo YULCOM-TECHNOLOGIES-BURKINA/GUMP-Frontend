@@ -213,7 +213,7 @@
                             <tr [ngClass]="{'expired-row': isExpired(request.createdAt)}">
                                 <td>
                                     <div *ngIf="request.isForPublicContract">Soumission à un marché public</div>
-                                    <div *ngIf="!request.isForPublicContract"> Demande normale</div>
+                                    <div *ngIf="!request.isForPublicContract">Autre</div>
                                 </td>
                                 <td>{{request.company.name}}</td>
                                 <td>
@@ -293,7 +293,7 @@
                             <tr [ngClass]="{'expired-row': isExpired(request.createdAt)}">
                                 <td>
                                     <div *ngIf="request.isForPublicContract">Soumission à un marché public</div>
-                                    <div *ngIf="!request.isForPublicContract"> Demande normale</div>
+                                    <div *ngIf="!request.isForPublicContract">Autre</div>
                                 </td>
                                 <td>{{request.company.name}}</td>
                                 <td>
@@ -378,7 +378,7 @@
                             <tr>
                                 <td>
                                     <div *ngIf="request.isForPublicContract">Soumission à un marché public</div>
-                                    <div *ngIf="!request.isForPublicContract"> Demande normale</div>
+                                    <div *ngIf="!request.isForPublicContract">Autre</div>
                                 </td>
                                 <td>{{request.company.name}}</td>
                                 <td>
@@ -400,7 +400,7 @@
                                             pTooltip="Voir la demande" 
                                             tooltipPosition="bottom">
                                     </button>
-                                    <button pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
+                                    <button *ngIf="requestDrtss.status == 'SIGNED'" pButton pRipple icon="pi pi-download" class="p-button-outlined p-button-info mr-2" 
                                     (click)="openDownloadRequest(request)" pTooltip="Télécharger l'attestation" tooltipPosition="bottom"></button>
                                 </td>
                             </tr>
@@ -446,7 +446,7 @@
                             <tr>
                                 <td>
                                     <div *ngIf="request.isForPublicContract">Soumission à un marché public</div>
-                                    <div *ngIf="!request.isForPublicContract"> Demande normale</div>
+                                    <div *ngIf="!request.isForPublicContract">Autre</div>
                                 </td>
                                 <td>{{request.company.name}}</td>
                                 <td>

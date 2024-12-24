@@ -47,22 +47,8 @@
                                 <ng-template pTemplate="body" let-requestDrtss>
                                     <tr>
                                         <td>
-                                            <div *ngIf="requestDrtss.isForPublicContract">
-                                                <p>
-                                                    <!-- <p-badge value="Soumission à un marché public"
-                                                            severity="info">
-                                                    </p-badge> -->
-                                                    Soumission à un marché public
-                                                </p>
-                                            </div>
-                                            <div *ngIf="!requestDrtss.isForPublicContract">
-                                                <p>
-                                                    <!-- <p-badge value="Demande normale"
-                                                            severity="tertiary">
-                                                    </p-badge> -->
-                                                    Demande normale
-                                                </p>
-                                            </div>
+                                            <div *ngIf="requestDrtss.isForPublicContract">Soumission à un marché public</div>
+                                            <div *ngIf="!requestDrtss.isForPublicContract">Autre</div>
                                         </td>
                                         <td *ngIf="requestDrtss.isForPublicContract">{{ requestDrtss.publicContractNumber }}</td>
                                         <td *ngIf="!requestDrtss.isForPublicContract">---</td>
@@ -118,7 +104,7 @@
                                                     </button>
                                                 <!-- </div>            -->
                                                 <button 
-                                                    *ngIf="requestDrtss.status == 'APPROVED'" 
+                                                    *ngIf="requestDrtss.status == 'SIGNED'" 
                                                     pButton 
                                                     pRipple 
                                                     icon="pi pi-download" 

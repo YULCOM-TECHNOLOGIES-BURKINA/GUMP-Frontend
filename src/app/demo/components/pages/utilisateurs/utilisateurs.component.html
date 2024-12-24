@@ -39,21 +39,21 @@
                         
                         <td>
                             <div class="flex">
-                                <button 
+                                <button *ngIf="request.statutDocumentPath"
                                     pButton 
                                     pRipple 
                                     icon="pi pi-download" 
                                     label="Statuts"
                                     class="p-button-secondary p-button-outlined mr-2"
-                                    (click)="download(statutDocumentPath)" >
+                                    (click)="download(request.statutDocumentPath)" >
                                 </button>
-                                <button 
+                                <button *ngIf="request.cnibDocumentPath"
                                     pButton 
                                     pRipple 
                                     icon="pi pi-download" 
                                     label="CNIB"
                                     class="p-button-secondary p-button-outlined mr-2"
-                                    (click)="download(cnibDocumentPath)" >
+                                    (click)="download(request.cnibDocumentPath)" >
                                 </button>
                                 <button 
                                         pButton pRipple icon="pi pi-check" 

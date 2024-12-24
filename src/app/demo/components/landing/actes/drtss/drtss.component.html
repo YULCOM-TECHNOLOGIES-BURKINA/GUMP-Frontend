@@ -24,7 +24,7 @@
                             value="false" 
                             [(ngModel)]="isForPublicContract" 
                             inputId="regularMarket"
-                            label="Demande normale"
+                            label="Autre"
                             class="ml-4">
                         </p-radioButton>
                     </div>
@@ -76,7 +76,7 @@
                                 chooseIcon="pi pi-upload"
                                 styleClass="p-button-secondary"
                                 name="anpeFile" 
-                                accept="image/*,.pdf" 
+                                accept=".pdf" 
                                 maxFileSize="1000000000" 
                                 (onSelect)="onFileSelect($event, 'anpeFile')"/>
                             <small class="p-error" *ngIf="submitted && !anpeFile">Ce champ est obligatoire</small>
@@ -91,7 +91,7 @@
                                 styleClass="p-button-secondary"
                                 chooseIcon="pi pi-upload"
                                 name="cnssFile" 
-                                accept="image/*,.pdf" 
+                                accept=".pdf" 
                                 maxFileSize="1000000000" 
                                 (onSelect)="onFileSelect($event, 'cnssFile')"/>
                                 <small class="p-error" *ngIf="submitted && !cnssFile">Ce champ est obligatoire</small>
@@ -130,7 +130,7 @@
                                 chooseIcon="pi pi-upload"
                                 styleClass="p-button-secondary"
                                 name="anpeFile" 
-                                accept="image/*,.pdf" 
+                                accept=".pdf" 
                                 maxFileSize="1000000000" 
                                 (onSelect)="onFileSelect($event, 'anpeFile')"/>
                                 <small class="p-error" *ngIf="submitted && !anpeFile">Ce champ est obligatoire</small>
@@ -144,7 +144,7 @@
                                 styleClass="p-button-secondary"
                                 chooseIcon="pi pi-upload"
                                 name="cnssFile" 
-                                accept="image/*,.pdf" 
+                                accept=".pdf" 
                                 maxFileSize="1000000000" 
                                 (onSelect)="onFileSelect($event, 'cnssFile')"/>
                                 <small class="p-error" *ngIf="submitted && !cnssFile">Ce champ est obligatoire</small>
