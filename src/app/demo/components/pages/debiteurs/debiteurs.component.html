@@ -90,7 +90,7 @@
                 </div>
             </p-panel>
 
-            <div class="flex justify-content-between mb-3">
+            <div class="flex gap-2 mb-3">
                 <button pButton 
                         pRipple 
                         type="button" 
@@ -102,7 +102,14 @@
 
                 <button pButton label="Importer CSV" 
                         (click)="showDialog()" 
+                        icon="pi pi-file"
                         class="p-button-success">
+                </button>
+
+                <button pButton label="Ajouter un nouveau" 
+                        (click)="openNewDebiteur()" 
+                        icon="pi pi-plus"
+                        class="p-button-info">
                 </button>
             </div>
             
@@ -193,7 +200,7 @@
 
             <!-- Dialog pour éditer -->
             <p-dialog [(visible)]="displayEditDialog" 
-                     [style]="{width: '450px'}" 
+                     [style]="{width: '550px'}" 
                      header="Modifier le débiteur" 
                      [modal]="true">
                 <div class="grid p-fluid" *ngIf="editingDebiteur">
@@ -252,6 +259,70 @@
                             (click)="saveEdit()">
                     </button>
                 </ng-template>
+            </p-dialog>
+
+            <!-- Dialog pour créer un nouveau débiteur -->
+            <p-dialog [(visible)]="displayNewDialog" 
+            [style]="{width: '550px'}" 
+            header="Ajouter un nouveau débiteur" 
+            [modal]="true">
+            <div class="grid p-fluid" *ngIf="newDebiteur">
+            <div class="col-12">
+            <div class="field">
+                <label for="debiteur">Débiteur</label>
+                <input type="text" pInputText [(ngModel)]="newDebiteur.debiteur" required>
+            </div>
+            <div class="field">
+                <label for="promoteur">Promoteur</label>
+                <input type="text" pInputText [(ngModel)]="newDebiteur.promoteur" required>
+            </div>
+            <div class="field">
+                <label for="numeroIFU">Numéro IFU</label>
+                <input type="text" pInputText [(ngModel)]="newDebiteur.numeroIFU" required>
+            </div>
+            <div class="field">
+                <label for="numeroImmatriculation">Numéro d'immatriculation</label>
+                <input type="text" pInputText [(ngModel)]="newDebiteur.numeroImmatriculation">
+            </div>
+            <div class="field">
+                <label for="registreCommerce">Registre de commerce</label>
+                <input type="text" pInputText [(ngModel)]="newDebiteur.registreCommerce">
+            </div>
+            <div class="field">
+                <label for="contacts">Contacts</label>
+                <input type="text" pInputText [(ngModel)]="newDebiteur.contacts">
+            </div>
+            <div class="field">
+                <label for="numeroCNIB">Numéro CNIB</label>
+                <input type="text" pInputText [(ngModel)]="newDebiteur.numeroCNIB">
+            </div>
+            <div class="field">
+                <label for="numeroCheque">Numéro de chèque</label>
+                <input type="text" pInputText [(ngModel)]="newDebiteur.numeroCheque">
+            </div>
+            <div class="field">
+                <label for="montantDu">Montant dû</label>
+                <p-inputNumber [(ngModel)]="newDebiteur.montantDu"
+                            mode="currency" 
+                            currency="XOF" 
+                            locale="fr-FR"
+                            required>
+                </p-inputNumber>
+            </div>
+            </div>
+            </div>
+            <ng-template pTemplate="footer">
+            <button pButton pRipple label="Annuler" 
+                icon="pi pi-times" 
+                class="p-button-text" 
+                (click)="displayNewDialog = false">
+            </button>
+            <button pButton pRipple label="Sauvegarder" 
+                icon="pi pi-check" 
+                class="p-button-text" 
+                (click)="saveNewDebiteur()">
+            </button>
+            </ng-template>
             </p-dialog>
 
             
