@@ -13,7 +13,7 @@ export class LoadingInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       finalize(() => {
-        this.spinnerService.hide(); 
+        this.spinnerService.hide();
       })
     );
   }
