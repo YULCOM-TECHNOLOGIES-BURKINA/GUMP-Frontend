@@ -138,7 +138,7 @@
                     </td>
                     <td>
 
-                        <button *ngIf="res?.status=='APPROVED'" [disabled]="!res?.attestation?.pathFile"
+                        <button *ngIf="res?.status=='APPROVED' " [disabled]="!res?.attestation?.pathFile"
                             (click)="openNew(res?.attestation?.pathFile,res?.attestation?.path,res.id)"
                             [disabled]="!res?.attestation?.pathFile" class="p-button-success p-button-outlined mr-2"
                             pButton pRipple icon="pi pi-pencil" label="Signer"
@@ -154,7 +154,8 @@
                         </button>
 
 
-                        <button   *ngIf="res?.status=='SIGNED'"  [disabled]="!res?.attestation"  (click)="downloadFile('attestations/6f2c15e1-1274-4827-821e-980d1b800cd2.pdf')" pButton
+                        <button   *ngIf="res?.status=='SIGNED'"  [disabled]="!res?.attestation"  (click)="downloadFile(res?.attestation?.path)"
+                            pButton
                             pRipple icon="pi pi-download" label="'Télécharger'" class="p-button-outlined p-button-info">
                         </button>
 

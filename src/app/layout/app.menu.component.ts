@@ -111,7 +111,7 @@ export class AppMenuComponent implements OnInit {
                 label: 'Sécurité',
                 items: [
                     { label: 'Profil', icon: 'pi pi-fw pi-user', routerLink: ['/app/pages/profil'] },
-                    { label: 'Utilisateurs', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole.includes('ADMIN')  }
+                    { label: 'Entreprise', icon: 'pi pi-fw pi-users', routerLink: ['/app/pages/utilisateurs'], visible: this.userRole.includes('ADMIN')  }
                 ]
             }
         ];
