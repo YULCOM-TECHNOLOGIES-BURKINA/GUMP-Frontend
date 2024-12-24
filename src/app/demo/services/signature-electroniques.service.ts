@@ -157,7 +157,6 @@ export class SignatureElectroniquesService {
             );
     }
 
-
     public updateUserRequest(formData: any): Observable<any> {
         return this.fastService
             .post<CreateUserRequest>(
@@ -175,7 +174,6 @@ export class SignatureElectroniquesService {
                 })
             );
     }
-
 
     public createUserCompte(
         createUserRequest: CreateUserRequest
@@ -313,18 +311,14 @@ export class SignatureElectroniquesService {
     }
 
     public signDocument(
-        selectedFile: File,
-        signatoryId: number,
-        attestationPath: string,
-        alias: string,
-        keyStorePassword: string
+        signatoryId: string,
+        demandeId: string,
+        attestationPath: string
     ): Observable<any> {
         const formData = new FormData();
-        formData.append('keyStore', selectedFile);
-        formData.append('signatoryId', signatoryId.toString());
+        formData.append('signatoryId', signatoryId);
+        formData.append('requestId', demandeId);
         formData.append('attestationPath', attestationPath);
-        formData.append('alias', alias);
-        formData.append('keyStorePassword', keyStorePassword);
 
         return this.fastService
             .post<any>(
@@ -349,15 +343,16 @@ export class SignatureElectroniquesService {
             );
     }
 
-   /**
-   * Vérifie si un utilisateur avec un rôle donné existe dans une région donnée.
-   * @param role Rôle de l'utilisateur
-   * @param region Région de l'utilisateur
-   * @returns Un Observable contenant un boolean
-   */
-   checkUserExists(role: string, region: string): Observable<boolean> {
-
-    return this.fastService.get<boolean>(`${this._gateway}users/exists?role=${role}&region=${region}&`+this._ms_users);
-
-  }
+    /**
+     * Vérifie si un utilisateur avec un rôle donné existe dans une région donnée.
+     * @param role Rôle de l'utilisateur
+     * @param region Région de l'utilisateur
+     * @returns Un Observable contenant un boolean
+     */
+    checkUserExists(role: string, region: string): Observable<boolean> {
+        return this.fastService.get<boolean>(
+            `${this._gateway}users/exists?role=${role}&region=${region}&` +
+                this._ms_users
+        );
+    }
 }

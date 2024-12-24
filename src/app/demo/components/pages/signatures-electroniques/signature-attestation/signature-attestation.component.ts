@@ -30,9 +30,9 @@ export class SignatureAttestationComponent implements OnInit {
     private token = localStorage.getItem('currentToken');
 
     private getHeaders(): HttpHeaders {
-      return new HttpHeaders({
-        'Authorization': `Bearer ${this.token}`
-       });
+        return new HttpHeaders({
+            Authorization: `Bearer ${this.token}`,
+        });
     }
 
     signDocForm: FormGroup;
@@ -63,6 +63,9 @@ export class SignatureAttestationComponent implements OnInit {
     ) {}
     ngOnInit(): void {
         this.loadDemande(this.pageNumber, this.pageSize);
+        const userDetails = localStorage.getItem('currentUser');
+        const user = JSON.parse(userDetails);
+        this.checkSignatory(user.email);
     }
 
     loadDemande(page: number, size: number) {
@@ -74,17 +77,15 @@ export class SignatureAttestationComponent implements OnInit {
                 this.totalRecords = response.totalPages;
                 this.loading = false;
                 this.cdr.detectChanges();
-
             },
             (error) => {
-                 this.loading = false;
+                this.loading = false;
                 this.cdr.detectChanges();
             }
         );
     }
 
     onPageChange(event: any) {
-
         this.pageNumber = event.first / event.rows;
         this.pageSize = event.rows;
         this.loadDemande(this.pageNumber, this.pageSize);
@@ -92,17 +93,20 @@ export class SignatureAttestationComponent implements OnInit {
     selectLine: Demande;
     onLineClick(event: any) {
         this.selectLine = event;
-     }
+    }
 
     submitted: boolean;
     modalDialog: boolean;
-    openNew(attestationPath: string,pdfSrc:string) {
+    openNew(attestationPath: string, pdfSrc: string, demandeId: any) {
         this.attestationPath = '';
         if (!attestationPath) {
             this.messageSucces('Le document est en traitement', 'error');
         } else {
+            console.log('Select doc', demandeId);
+
+            this.demandeId = demandeId;
             this.attestationPath = attestationPath;
-            this.pdfSrc=pdfSrc
+            this.pdfSrc = pdfSrc;
             this.signElectService
                 .listUtilisateurSignataieDrtss(0, 1000)
                 .subscribe(
@@ -113,7 +117,7 @@ export class SignatureAttestationComponent implements OnInit {
                         this.cdr.detectChanges();
                     },
                     (error) => {
-                         this.loading = false;
+                        this.loading = false;
                         this.cdr.detectChanges();
                     }
                 );
@@ -163,7 +167,7 @@ export class SignatureAttestationComponent implements OnInit {
     }
 
     uploadedFiles: any[] = [];
-    onUpload(event: any) {
+    /* onUpload(event: any) {
         this.selectedFile = event;
 
         this.messageService.add({
@@ -171,61 +175,56 @@ export class SignatureAttestationComponent implements OnInit {
             summary: 'Success',
             detail: 'File Uploaded',
         });
-    }
+    }*/
 
     downloadFile(url: string) {
-        window.open(
-            url,
-            '_blank'
-        );
+        window.open(url, '_blank');
     }
-
-
 
     pdfSrc: string | null = null;
     viewAttestation(url: string) {
+        this.http
+            .get(url, { responseType: 'blob', headers: this.getHeaders() })
+            .subscribe(
+                (response: Blob) => {
+                    if (response.size > 0) {
+                        this.pdfSrc = url;
+                        this.viewpdfDialog = true;
+                    } else {
+                        alert(
+                            'Le document PDF est vide et ne peut pas être ouvert.'
+                        );
+                    }
+                },
+                (error) => {
+                    alert("Le document n'a pas pu être chargé.");
+                }
+            );
+    }
 
-         this.http.get(url, { responseType: 'blob',headers:this.getHeaders() }).subscribe(
-          (response: Blob) => {
-            if (response.size > 0) {
-               this.pdfSrc = url;
-              this.viewpdfDialog = true;
-            } else {
-               alert('Le document PDF est vide et ne peut pas être ouvert.');
-            }
-          },
-          (error) => {
-              alert("Le document n'a pas pu être chargé.");
-          }
-        );
-      }
-
-      closeDialog() {
+    closeDialog() {
         this.viewpdfDialog = false;
-      }
+    }
     onFileSelect(event: any): void {
-        if (event.currentFiles && event.currentFiles.length > 0) {
+        /* if (event.currentFiles && event.currentFiles.length > 0) {
             this.selectedFile = event.currentFiles[0];
-         }
+        }*/
     }
 
     selectedUser: any;
 
-    selectedFile!: any;
-    signDocumentselectedFile: any;
+    // selectedFile!: any;
     signatoryId!: number;
+    demandeId!: string;
     attestationPath!: any;
-    alias!: any;
-    keyStorePassword!: any;
 
-     submitForm() {
-
-        if (!this.selectedFile) {
+    submitForm() {
+        /*  if (!this.selectedFile) {
             this.messageSucces('Vous devez Ajouter votre certificat', 'error');
 
             return;
-        }
-
+        }*/
+        /*
         if (!this.keyStorePassword) {
             this.messageSucces(
                 'Vous devez Ajouter votre  Password certificat',
@@ -234,8 +233,8 @@ export class SignatureAttestationComponent implements OnInit {
 
             return;
         }
-
-        if (!this.alias) {
+*/
+        /*  if (!this.alias) {
             this.messageSucces(
                 'Vous devez Ajouter votre alias certificat',
                 'error'
@@ -247,28 +246,27 @@ export class SignatureAttestationComponent implements OnInit {
             this.messageSucces('Aucun utilisateur sélectionné.', 'error');
 
             return;
-        }
-        this.signatoryId = this.selectedUser.id;
+        }*/
+        this.signatoryId = this.signataire.id;
 
-       this.loading = false;
-       this.signElectService
-       .signDocument(
-           this.selectedFile,
-           this.signatoryId,
-           this.attestationPath,
-           this.alias,
-           this.keyStorePassword
-       )
-       .subscribe({
-           next: () => {
-
-               this.handleSuccess('Document signé avec succès');
-           },
-           error: (error) => {
-               const errorMessage = error?.error || 'Échec: Utilisateur inactif ou signature non autorisée';
-               this.handleError(errorMessage);
-           }
-       });
+        this.loading = false;
+        this.signElectService
+            .signDocument(
+                this.signataire.id,
+                this.demandeId,
+                this.attestationPath
+            )
+            .subscribe({
+                next: () => {
+                    this.handleSuccess('Document signé avec succès');
+                },
+                error: (error) => {
+                    const errorMessage =
+                        error?.error ||
+                        'Échec: Utilisateur inactif ou signature non autorisée';
+                    this.handleError(errorMessage);
+                },
+            });
     }
 
     private handleSuccess(message: string): void {
@@ -309,5 +307,17 @@ export class SignatureAttestationComponent implements OnInit {
         }
 
         this.filteredUsersAutoComplete = filtered;
+    }
+    signataire: any;
+    checkSignatory(email: string): void {
+        this.signElectService.getSignatoryByEmail(email).subscribe({
+            next: (res: any) => {
+                if (!!res?.signatureCertificat) {
+                    console.log('Signataire', res);
+                    this.signataire = res;
+                }
+            },
+            error: (error) => {},
+        });
     }
 }

@@ -3,13 +3,14 @@
 <div class="sticky-bar">
 
 
-    <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Enregistrement Signataire Document"
+    <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Signe l'attestation"
         [modal]="true" class="p-fluid">
         <ng-template pTemplate="content">
 
             <div class="card shadow-2  ">
 
 
+                <!---
                 <div class="field" appendTo="body">
                     <label for="email">Sectionner l'utilisateur</label>
 
@@ -18,8 +19,22 @@
                     </p-autoComplete>
 
                 </div>
+                -->
+
                 <div class="p-fluid formgrid grid">
 
+
+                            <div class="field col-12 md:col-6">
+
+                                <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
+                                </div>
+
+                            <div class="field col-12 md:col-6">
+
+                                <button (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
+                                    class="p-button-text p-button-success"></button>
+                            </div>
+                    <!--
                     <div class="field col-12 md:col-6">
                         <label for="alias">Certificat Alias </label>
                         <input [(ngModel)]="alias" pInputText id="alias" placeholder="alias" />
@@ -30,41 +45,11 @@
                         <input [(ngModel)]="keyStorePassword" pInputText id="keyStorePassword"
                             placeholder="certificat password" />
                     </div>
+                    -->
                 </div>
-
-                <div class="field">
-                    <div class="card">
-                        <h5>Veuillez ajouter l'empreinte numérique de la signature.</h5>
-                        <p-fileUpload name="file" [multiple]="false" accept=".p12" [maxFileSize]="3000000"
-                            chooseLabel="Choisir" uploadLabel="Télécharger" cancelLabel="Annuler"
-                            chooseIcon="pi pi-plus" uploadIcon="pi pi-cloud-upload" cancelIcon="pi pi-times"
-                            [showUploadButton]="false" [showCancelButton]="false" [auto]="false"
-                            invalidFileSizeMessageSummary="Taille de fichier invalide"
-                            invalidFileSizeMessageDetail="La taille maximale est de 3 Mo"
-                            (onSelect)="onFileSelect($event)">
-
-                            <ng-template pTemplate="content">
-                                <ul *ngIf="uploadedFiles.length">
-                                    <li *ngFor="let file of uploadedFiles">
-                                        {{file.name}} - {{file.size}} octets
-                                    </li>
-                                </ul>
-                            </ng-template>
-                        </p-fileUpload>
-
-
-                    </div>
-                </div>
-
             </div>
 
 
-        </ng-template>
-
-        <ng-template pTemplate="footer">
-            <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
-            <button (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
-                class="p-button-text p-button-success"></button>
         </ng-template>
     </p-dialog>
 
@@ -153,20 +138,25 @@
                     </td>
                     <td>
 
-                        <button [disabled]="!res?.attestation?.pathFile"  (click)="openNew(res?.attestation?.pathFile,res?.attestation?.path)" [disabled]="!res?.attestation?.pathFile"  class="p-button-success p-button-outlined mr-2" pButton pRipple icon="pi pi-pencil"
-                        label="Signer" class="p-button-outlined p-button-danger">
-                       </button>
+                        <button [disabled]="!res?.attestation?.pathFile"
+                            (click)="openNew(res?.attestation?.pathFile,res?.attestation?.path,res.id)"
+                            [disabled]="!res?.attestation?.pathFile" class="p-button-success p-button-outlined mr-2"
+                            pButton pRipple icon="pi pi-pencil" label="Signer"
+                            class="p-button-outlined p-button-danger">
+                        </button>
 
 
 
-                        <button  [disabled]="!res?.attestation" (click)="viewAttestation(res?.attestation?.path)" [disabled]="!res?.attestation?.pathFile"  style="margin-left: 10px;margin-right: 10px;"  pButton pRipple icon="pi pi-eye"
-                        label="Visualiser" class="p-button-outlined p-button-success">
-                       </button>
+                        <button [disabled]="!res?.attestation" (click)="viewAttestation(res?.attestation?.path)"
+                            [disabled]="!res?.attestation?.pathFile" style="margin-left: 10px;margin-right: 10px;"
+                            pButton pRipple icon="pi pi-eye" label="Visualiser"
+                            class="p-button-outlined p-button-success">
+                        </button>
 
 
-                        <button  [disabled]="!res?.attestation" (click)="downloadFile(res?.attestation?.path)"  pButton pRipple icon="pi pi-download"
-                        label="'Télécharger'" class="p-button-outlined p-button-info">
-                       </button>
+                        <button [disabled]="!res?.attestation" (click)="downloadFile(res?.attestation?.path)" pButton
+                            pRipple icon="pi pi-download" label="'Télécharger'" class="p-button-outlined p-button-info">
+                        </button>
 
 
 
