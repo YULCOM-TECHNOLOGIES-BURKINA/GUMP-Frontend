@@ -230,6 +230,8 @@ export class DemandesComponent implements OnInit {
     switch (status) {
       case 'APPROVED':
         return 'Approuvée';
+      case 'SIGNED':
+        return 'Signée';
       case 'PROCESSING':
         return 'En cours de traitement';
       case 'REJECTED':
