@@ -89,7 +89,7 @@
         <h5>Listes des Signataires de la DRTSS</h5>
         <p-table #dt1 (onPage)="onPageChange($event)" [value]="utilisateurs" dataKey="id" [rows]="pageSize"
             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
-            groupRowsBy="forename" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
+            groupRowsBy="region" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
             currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
             [scrollable]="true" scrollHeight="500px">
@@ -144,13 +144,22 @@
                             <p-columnFilter type="text" field="email" display="menu"
                                 placeholder="rechercher ...  "></p-columnFilter>
                         </div>
+
                     </th>
+                    <!--
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                                 Telecharger
                         </div>
                     </th>
+                    -->
+                    <th style="min-width: 12rem">
+                        <div class="flex justify-content-between align-items-center">
+                            Region
+                            <p-columnFilter type="text" field="region" display="menu" placeholder="rechercher ...  "></p-columnFilter>
+                        </div>
 
+                    </th>
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Actions
@@ -173,6 +182,7 @@
                         {{ res?.signatureCertificat.commonName }}
                     </td>
 
+
                     <td>
                         {{ res?.signatureCertificat?.alias }}
                     </td>
@@ -180,14 +190,19 @@
                         {{ res.signatureCertificat.actif ? 'Actif' : 'Inactif' }}
                     </td>
 
+                    <!--
                     <td>
-
 
                         <button class="p-button-success p-button-outlined mr-2" pButton pRipple icon="pi pi-download"
                             label="Télécharger Certificat" class="p-button-outlined p-button-info"
                             (click)="downloadCertificat(res?.signatureCertificat?.cheminCertificat,res?.signatureCertificat?.certificatFile)">
                         </button>
 
+                    </td>
+                    -->
+
+                    <td>
+                     {{ res?.region }}
                     </td>
 
                     <td>

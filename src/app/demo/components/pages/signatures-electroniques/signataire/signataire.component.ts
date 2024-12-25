@@ -111,29 +111,26 @@ export class SignataireComponent implements OnInit {
 
     loadUsers(page: number, size: number) {
         this.loading = true;
-        console.log("Hello ftk");
 
         this.signElectService
             .listUtilisateurSignataieDrtss(page, size)
             .subscribe(
                 (response: any) => {
+                    const filterdrtpsUser = response.content.filter(
+                        (user) =>
 
-              const filterdrtpsUser = response.content.filter(user => user.userType === "DRTSS_USER" );
-               // this.utilisateurs =response;
-               console.log("hrllo",response.content);
+                            this.userInfo.region === user.region
+                    );
+                   this.utilisateurs =filterdrtpsUser;
 
-
-                   // this.dataResponse = response;
-                   this.utilisateurs =response.content;
 
                     this.totalRecords = response.totalPages;
                     this.loading = false;
                     this.cdr.detectChanges();
                 },
                 (error) => {
-                    console.log("Une erreur s'est produite :", error);
-                    this.loading = false;
-                    this.cdr.detectChanges(); // Forcer la détection des changements
+                     this.loading = false;
+                    this.cdr.detectChanges();  
                 }
             );
 
@@ -143,11 +140,6 @@ export class SignataireComponent implements OnInit {
 
                const filterdrtpsUser = response.content.filter(user => user.region === this.userInfo.region &&  user.is_signatory === false  && user.userType === "DRTSS_USER"  );
                this.listeFiltreUtilisateurs=filterdrtpsUser;
-               /*this.utilisateurs =filterdrtpsUser;
-                this.totalRecords = response.totalPages;
-                this.loading = false;
-                this.cdr.detectChanges();
-                console.log('dataResponse', this.dataResponse);*/
 
                 this.loading = false;
                 this.cdr.detectChanges();

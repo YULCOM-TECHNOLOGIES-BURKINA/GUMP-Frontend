@@ -107,29 +107,51 @@ export class UtilisateursDrtssComponent implements OnInit {
         let modifier = true;
         if (this.selectLine.isActive == true) {
             this.selectlabel = 'Desactiver';
-        } else {
+        }
+
+       else {
             this.selectlabel = 'Activer';
             modifier = false;
         }
 
-        this.items = [
-            {
-                label: 'Modifier',
-                icon: 'pi pi-refresh',
-                visible: modifier,
-                command: () => {
-                    this.openNew('UPDATE');
-                },
-            },
-            { separator: true },
-            {
-                label: this.selectlabel,
-                icon: 'pi pi-times',
-                command: () => {
-                    this.openDeleteDialog(this.selectLine);
-                },
-            },
-        ];
+
+        if (this.currentUser.email != this.selectLine.email) {
+
+               this.items = [
+                   {
+                       label: 'Modifier',
+                       icon: 'pi pi-refresh',
+                       visible: modifier,
+                       command: () => {
+                           this.openNew('UPDATE');
+                       },
+                   },
+                   { separator: true },
+                   {
+                       label: this.selectlabel,
+                       icon: 'pi pi-times',
+                       command: () => {
+                           this.openDeleteDialog(this.selectLine);
+                       },
+                   },
+               ];
+        }
+        else {
+
+             this.items = [
+                 {
+                     label: 'Modifier',
+                     icon: 'pi pi-refresh',
+                     visible: modifier,
+                     command: () => {
+                         this.openNew('UPDATE');
+                     },
+                 },
+
+             ];
+        }
+
+
     }
 
     onConfirm() {

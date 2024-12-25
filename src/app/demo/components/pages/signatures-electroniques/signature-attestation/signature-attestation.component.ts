@@ -47,7 +47,7 @@ export class SignatureAttestationComponent implements OnInit {
     viewpdfDialog = false;
 
     // Pagination
-    pageSize: number = 10;
+    pageSize: number = 1000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
 
@@ -97,17 +97,19 @@ export class SignatureAttestationComponent implements OnInit {
 
     submitted: boolean;
     modalDialog: boolean;
-    openNew(attestationPath: string, pdfSrc: string, demandeId: any) {
+    openNew(demande:any) {
+            console.log("demande",demande);
+            console.log("this.signataire",this.signataire);
+
         this.attestationPath = '';
-        if (!attestationPath) {
+        if (!demande.attestation.pathFile) {
             this.messageSucces('Le document est en traitement', 'error');
         } else {
-            console.log('Select doc', demandeId);
 
-            this.demandeId = demandeId;
-            this.attestationPath = attestationPath;
-            this.pdfSrc = pdfSrc;
-            this.signElectService
+            this.demandeId = demande.id;
+            this.attestationPath = demande.attestation.pathFile;
+            this.pdfSrc = demande.attestation?.path;
+            /*          this.signElectService
                 .listUtilisateurSignataieDrtss(0, 1000)
                 .subscribe(
                     (response: any) => {
@@ -121,7 +123,7 @@ export class SignatureAttestationComponent implements OnInit {
                         this.cdr.detectChanges();
                     }
                 );
-
+*/
             this.modalDialog = true;
         }
     }
@@ -166,48 +168,46 @@ export class SignatureAttestationComponent implements OnInit {
         });
     }
 
-    uploadedFiles: any[] = [];
-    /* onUpload(event: any) {
-        this.selectedFile = event;
-
-        this.messageService.add({
-            severity: 'info',
-            summary: 'Success',
-            detail: 'File Uploaded',
-        });
-    }*/
-
-    /*  downloadFile(url: string) {
-        // window.open(url, '_blank');
-        console.log("url",url);let urls = 'src/assets/e50976a3-1b45-4a89-bc06-1aabca4467091.pdf';
-        window.open(urls, '_blank');
-    }
-*/
-
     downloadFile(url: string) {
-        console.log('url', url);
-          window.open(url, '_blank');
+        console.log("Téléchargement du fichier à partir de l'URL:", url);
+
+        // Créer un élément <a> temporaire
+        const a = document.createElement('a');
+        a.href = url; // URL du fichier
+        a.target = '_blank'; // Ouvrir dans un nouvel onglet (optionnel)
+
+        // Extraire le nom du fichier de l'URL (ou un nom par défaut)
+        a.download = url.split('/').pop() || 'fichier.pdf';
+
+        // Ajouter l'élément <a> au DOM, simuler un clic pour télécharger, puis le retirer
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }
 
     pdfSrc: string | null = null;
-    viewAttestation(url: string) {
-        this.http
-            .get(url, { responseType: 'blob', headers: this.getHeaders() })
-            .subscribe(
-                (response: Blob) => {
-                    if (response.size > 0) {
-                        this.pdfSrc = url;
-                        this.viewpdfDialog = true;
-                    } else {
-                        alert(
-                            'Le document PDF est vide et ne peut pas être ouvert.'
-                        );
-                    }
-                },
-                (error) => {
-                    alert("Le document n'a pas pu être chargé.");
-                }
-            );
+    async viewAttestation(url: string) {
+        try {
+            const response: Blob = await this.http
+                .get(url, { responseType: 'blob', headers: this.getHeaders() })
+                .toPromise();
+
+            if (response.size > 0) {
+                const blobUrl = URL.createObjectURL(response);
+                this.pdfSrc = blobUrl;
+                this.viewpdfDialog = true;
+
+                setTimeout(() => {
+                    URL.revokeObjectURL(blobUrl);
+                }, 1000);
+            } else {
+                this.handleError(
+                    'Le document PDF est vide et ne peut pas être ouvert.'
+                );
+            }
+        } catch (error) {
+            this.handleError("Le document n'a pas pu être chargé.");
+        }
     }
 
     closeDialog() {
@@ -226,7 +226,7 @@ export class SignatureAttestationComponent implements OnInit {
     demandeId!: string;
     attestationPath!: any;
 
-    submitForm() {
+    signedForm() {
         /*  if (!this.selectedFile) {
             this.messageSucces('Vous devez Ajouter votre certificat', 'error');
 
@@ -256,39 +256,37 @@ export class SignatureAttestationComponent implements OnInit {
             return;
         }*/
 
-        this.signElectService.approveRequestSigned(this.demandeId).subscribe({
-            next: () => {
-                this.handleSuccess('Document signé avec succès');
-            },
-            error: (error) => {
-               /* const errorMessage =
-                    error?.error ||
-                    'Échec: Utilisateur inactif ou signature non autorisée';*/
-               // this.handleError(errorMessage);
-            },
-        });
-                            this.handleSuccess('Document signé avec succès');
-
-        this.signatoryId = this.signataire.id;
 
         this.loading = false;
-      /*  this.signElectService
+        this.signElectService
             .signDocument(
-                this.signataire.id,
+                this.signataire.user_id,
                 this.demandeId,
                 this.attestationPath
             )
             .subscribe({
-                next: () => {
-                    this.handleSuccess('Document signé avec succès');
+                next: (response: Blob) => {
+                    console.info(
+                        'Signature réussie, affichage du fichier PDF...'
+                    );
+
+                    const blobUrl = URL.createObjectURL(response);
+                    this.pdfSrc = blobUrl;
+                    setTimeout(() => {
+                        URL.revokeObjectURL(blobUrl);
+                    }, 1000);
+                    this.viewpdfDialog = true;
+                    this.modalDialog = false;
+                    this.handleSuccess('Signature réussie');
                 },
                 error: (error) => {
                     const errorMessage =
                         error?.error ||
                         'Échec: Utilisateur inactif ou signature non autorisée';
-                    this.handleError(errorMessage);
+                       this.modalDialog = false;
+                   // this.handleError(errorMessage);
                 },
-            });*/
+            });
     }
 
     private handleSuccess(message: string): void {
@@ -342,5 +340,4 @@ export class SignatureAttestationComponent implements OnInit {
             error: (error) => {},
         });
     }
-
 }

@@ -3,49 +3,29 @@
 <div class="sticky-bar">
 
 
-    <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Signe l'attestation"
-        [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Signer l'attestation" [modal]="true"
+        class="p-fluid">
         <ng-template pTemplate="content">
 
             <div class="card shadow-2  ">
 
 
-                <!---
-                <div class="field" appendTo="body">
-                    <label for="email">Sectionner l'utilisateur</label>
 
-                    <p-autoComplete appendTo="body" [(ngModel)]="selectedUser" [suggestions]="filteredUsersAutoComplete"
-                        (completeMethod)="filterUsers($event)" field="nomComplet" [dropdown]="true">
-                    </p-autoComplete>
-
-                </div>
-                -->
 
                 <div class="p-fluid formgrid grid">
 
 
-                            <div class="field col-12 md:col-6">
-
-                                <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
-                                </div>
-
-                            <div class="field col-12 md:col-6">
-
-                                <button (click)="submitForm()" pButton pRipple label="Valider" icon="pi pi-check"
-                                    class="p-button-text p-button-success"></button>
-                            </div>
-                    <!--
                     <div class="field col-12 md:col-6">
-                        <label for="alias">Certificat Alias </label>
-                        <input [(ngModel)]="alias" pInputText id="alias" placeholder="alias" />
+
+                        <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
                     </div>
 
                     <div class="field col-12 md:col-6">
-                        <label for="keyStorePassword">key Password</label>
-                        <input [(ngModel)]="keyStorePassword" pInputText id="keyStorePassword"
-                            placeholder="certificat password" />
+
+                        <button (click)="signedForm()" pButton pRipple label="Valider" icon="pi pi-check"
+                            class="p-button-text p-button-success"></button>
                     </div>
-                    -->
+
                 </div>
             </div>
 
@@ -53,9 +33,8 @@
         </ng-template>
     </p-dialog>
 
-    <p-dialog header="Voir document!" [(visible)]="viewpdfDialog" [modal]="true" [style]="{ width: '850px' }"
+    <p-dialog header="Attestation DRTPS" [(visible)]="viewpdfDialog" [modal]="true" [style]="{ width: '850px' }"
         [breakpoints]="{'760px': '100vw'}">
-        <h3 class="line-height-5 m-0">Voir Document</h3>
 
         <pdf-viewer [src]="pdfSrc" [render-text]="true"
             style="width: 100%; height: 500px; display: block;"></pdf-viewer>
@@ -75,8 +54,8 @@
         <h5>Listes des attestations DRTPS</h5>
         <p-table #dt1 (onPage)="onPageChange($event)" [value]="demandes" dataKey="id" [rows]="pageSize"
             [rowHover]="true" styleClass="p-datatable-gridlines p-datatable-striped" rowGroupMode="subheader"
-            groupRowsBy="nom" sortField="nom" [paginator]="true" [totalRecords]="{totalRecords}"
-            [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
+            groupRowsBy="createdAt" sortField="createdAt" [paginator]="true" [totalRecords]="{totalRecords}"
+            [showCurrentPageReport]="true"
             currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
             [scrollable]="true" scrollHeight="500px">
             <ng-template pTemplate="caption">
@@ -131,36 +110,40 @@
                     </td>
 
                     <td>
-                        Demandeur
+                        {{ res?.company.name}}
                     </td>
                     <td>
-                        {{ res?.status }}
+                        <span *ngIf=" res?.status=='SIGNED'" class="p-badge p-badge-success">{{ res?.status }}</span>
+                        <span *ngIf=" res?.status=='APPROVED'" class="p-badge p-badge-secondary">{{ res?.status
+                            }}</span>
+                        <span *ngIf=" res?.status=='REJECTED'" class="p-badge p-badge-danger">{{ res?.status }}</span>
+                        <span *ngIf=" res?.status=='PENDING'" class="p-badge p-badge-warning">{{ res?.status }}</span>
+
                     </td>
                     <td>
+
+                        <button *ngIf="res?.attestation?.pathFile" (click)="viewAttestation(res?.attestation?.path)"
+                             style="margin-left: 10px;margin-right: 10px;"
+                            pButton pRipple icon="pi pi-eye" label="Visualiser" class="p-button-outlined ">
+                        </button>
+
+                        <button *ngIf="res?.status === 'SIGNED' && res?.attestation?.path "
+                            (click)="downloadFile(res?.attestation?.path)" pButton pRipple icon="pi pi-download"
+                            label="Télécharger" class="p-button-outlined p-button-info">
+                        </button>
+
+
 
                         <button *ngIf="res?.status=='APPROVED' " [disabled]="!res?.attestation?.pathFile"
-                            (click)="openNew(res?.attestation?.pathFile,res?.attestation?.path,res.id)"
-                            [disabled]="!res?.attestation?.pathFile" class="p-button-success p-button-outlined mr-2"
-                            pButton pRipple icon="pi pi-pencil" label="Signer"
-                            class="p-button-outlined p-button-danger">
+                            class="  p-button-outlined mr-2 p-button-danger" pButton pRipple icon="pi pi-times-circle"
+                            label="Rejeter">
                         </button>
 
-
-
-                        <button [disabled]="!res?.attestation" *ngIf="res?.status=='SIGNED'" (click)="viewAttestation(res?.attestation?.path)"
-                            [disabled]="!res?.attestation?.pathFile" style="margin-left: 10px;margin-right: 10px;"
-                            pButton pRipple icon="pi pi-eye" label="Visualiser"
-                            class="p-button-outlined p-button-success">
+                        <button *ngIf="res?.status=='APPROVED' " [disabled]="!res?.attestation?.pathFile"
+                            (click)="openNew(res)"
+                            [disabled]="!res?.attestation?.pathFile" class="p-button-outlined mr-2 p-button-success "
+                            pButton pRipple icon="pi pi-pencil" label="Signer">
                         </button>
-
-
-                        <button   *ngIf="res?.status=='SIGNED'"  [disabled]="!res?.attestation"  (click)="downloadFile(res?.attestation?.path)"
-                            pButton
-                            pRipple icon="pi pi-download" label="'Télécharger'" class="p-button-outlined p-button-info">
-                        </button>
-
-
-
                     </td>
 
 

@@ -41,7 +41,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     pageNumber: number = 0;
     items: MenuItem[] = [];
     isLoading: boolean = false; // Contrôle l'affichage du spinner
-
+    currentUser:any
     constructor(
         public layoutService: LayoutService,
         public router: Router,
@@ -55,6 +55,8 @@ export class UtilisateursDrtssComponent implements OnInit {
     ngOnInit(): void {
         this.loadUsers(this.pageNumber, this.pageSize);
         this.listRegions();
+        const userDetails = localStorage.getItem('currentUser');
+        this.currentUser = JSON.parse(userDetails);
     }
 
     dataResponse: any;
@@ -70,7 +72,6 @@ export class UtilisateursDrtssComponent implements OnInit {
                 this.loading = false;
                 this.cdr.detectChanges();
                 this.isLoading = false;
-
             },
             (error) => {
                 this.loading = false;
@@ -90,8 +91,11 @@ export class UtilisateursDrtssComponent implements OnInit {
     selectLine: Utilisateur;
     onLineClick(event: any) {
         this.selectLine = event;
+ 
         let modifier = true;
-        if (this.selectLine.isActive == true) {
+        if (
+            this.selectLine.isActive == true &&
+            this.selectLine.email != this.currentUser.email) {
             this.selectlabel = 'Desactiver';
         } else {
             this.selectlabel = 'Activer';
@@ -220,45 +224,20 @@ export class UtilisateursDrtssComponent implements OnInit {
         console.log(this.userForm.value);
         let region = this.userForm.get('region').value;
         let role = this.userForm.get('role').value;
-        let drExist: Observable<boolean> =
-            this.signElectService.checkUserExists(role, region);
-
-        drExist.subscribe({
-            next: (exists: boolean) => {
-                if (exists) {
-                    this.messageSucces(
-                        'Un Directeur Regional existe deja  dans cette région.',
-                        'error'
-                    );
-                } else {
-                    this.isClicked = true;
-
-                    this.signElectService
-                        .createUserRequest(this.userForm.value)
-                        .pipe(
-                            retry(2)
-                          )
-                        .subscribe({
-                            next: (response: any) => {
-                                this.handleSuccess();
-                            },
-                            error: (error) => {
-                                this.handleError(error);
-                            },
-                            complete: () => {
-                                this.isClicked = false;
-                            },
-                        });
-                }
-            },
-            error: (err) => {
-                this.messageSucces(
-                    'Erreur lors de la vérification de des utlisateur de la region .',
-                    'error'
-                );
-            },
-        });
-        console.log(drExist);
+        this.signElectService
+            .createUserRequest(this.userForm.value)
+            .pipe(retry(2))
+            .subscribe({
+                next: (response: any) => {
+                    this.handleSuccess();
+                },
+                error: (error) => {
+                    this.handleError(error);
+                },
+                complete: () => {
+                    this.isClicked = false;
+                },
+            });
     }
     UpdateUsersCompteRequest() {
         const form = this.userForm.value;
@@ -267,20 +246,20 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.isClicked = true;
         console.log('Formulaire mis à jour :', this.userForm.value);
 
-        this.signElectService.updateUserRequest(this.userForm.value)
-        .pipe(
-            retry(2)
-          ).subscribe({
-            next: (response: any) => {
-                this.handleUpdateSuccess();
-            },
-            error: (error: any) => {
-                this.handleUpdateError(error);
-            },
-            complete: () => {
-                this.isClicked = false;
-            },
-        });
+        this.signElectService
+            .updateUserRequest(this.userForm.value)
+            .pipe(retry(2))
+            .subscribe({
+                next: (response: any) => {
+                    this.handleUpdateSuccess();
+                },
+                error: (error: any) => {
+                    this.handleUpdateError(error);
+                },
+                complete: () => {
+                    this.isClicked = false;
+                },
+            });
     }
 
     saveUsersDrtssCompte() {
@@ -313,8 +292,6 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.modalDialog = false;
         this.submitted = false;
     }
-
-
 
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal(
@@ -396,8 +373,6 @@ export class UtilisateursDrtssComponent implements OnInit {
     }
 
     private handleUpdateError(error: any): void {
-
-
         this.messageSucces(
             "Une erreur s'est produite lors de la mise à jour",
             'error'

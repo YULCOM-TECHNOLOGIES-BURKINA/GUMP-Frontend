@@ -313,38 +313,36 @@ export class SignatureElectroniquesService {
     public signDocument(
         signatoryId: string,
         demandeId: string,
-        attestationPath: string
+        attestationPath: string,
     ): Observable<any> {
-        const formData = new FormData();
-        formData.append('signatoryId', signatoryId);
-        formData.append('requestId', demandeId);
-        formData.append('attestationPath', attestationPath);
-        console.log(signatoryId, demandeId, attestationPath);
-
-        return this.fastService
-            .post<any>(
-                `${
-                    this._gateway +
-                    'signature_electronique/sign_attestation&' +
-                    this._ms_drtss
-                }`,
-                formData
-            )
-            .pipe(
-                tap((res) => {
-                    console.log('Attestation signée avec succès :', res);
-                }),
-                catchError((error) => {
-                    console.error('Erreur lors de la signature :', error);
-                    return throwError(
-                        () =>
-                            new Error('Échec de la signature de l’attestation.')
-                    );
-                })
+        if (!signatoryId || !demandeId || !attestationPath) {
+            return throwError(
+                () => new Error('Tous les paramètres sont requis.')
             );
+        }
+
+         const url = `${
+             this._gateway
+         }signature_electronique/sign_attestation?attestationPath=${encodeURIComponent(
+             attestationPath
+         )}&signatoryId=${encodeURIComponent(
+             signatoryId
+         )}&requestId=${encodeURIComponent(demandeId)}&${this._ms_drtss}`;
+   return this.http.post(url, {}, { responseType: 'blob' }).pipe(
+        tap((response: Blob) => {
+            console.info('Signature réussie, téléchargement du fichier...');
+
+
+        }),
+        catchError((error) => {
+            console.error('Erreur lors de la signature :', error.message);
+            return throwError(
+                () => new Error(`Échec de la signature de l’attestation : ${error.message}`)
+            );
+        })
+    );
+
     }
-
-
 
     /**
      * Vérifie si un utilisateur avec un rôle donné existe dans une région donnée.
@@ -359,9 +357,9 @@ export class SignatureElectroniquesService {
         );
     }
 
-    approveRequestSigned(id:string) {
-  return this.fastService.get<boolean>(
-      `http://195.35.48.198:8082/api/signature_electronique/demandes/${id}/signed`
-  );
+    approveRequestSigned(id: string) {
+        return this.fastService.get<boolean>(
+            `http://195.35.48.198:8082/api/signature_electronique/demandes/${id}/signed`
+        );
     }
 }
