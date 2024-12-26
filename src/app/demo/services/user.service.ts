@@ -102,7 +102,7 @@ saveMe(userData: any): Observable<any> {
 
 desactivateUser(userId: number): Observable<any> {
     return this.http.post(
-        `${this.apiUrl}/users/${userId}/desactivate?service=users-ms`,
+        `${this.apiUrl}/users/${userId}/deactivate?service=users-ms`,
         {
             headers: this.getFormDataHeaders(),
         }
