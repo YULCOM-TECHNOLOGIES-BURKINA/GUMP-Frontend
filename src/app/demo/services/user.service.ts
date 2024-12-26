@@ -90,6 +90,25 @@ saveMe(userData: any): Observable<any> {
       );
   }
 
+
+  activateUser(userId: number): Observable<any> {
+    return this.http.post(
+        `${this.apiUrl}/users/${userId}/activate?service=users-ms`,
+        {
+            headers: this.getFormDataHeaders(),
+        }
+    );
+}
+
+desactivateUser(userId: number): Observable<any> {
+    return this.http.post(
+        `${this.apiUrl}/users/${userId}/desactivate?service=users-ms`,
+        {
+            headers: this.getFormDataHeaders(),
+        }
+    );
+}
+
   register(formData: FormData): Observable<any> {
       return this.http.post(
           `${this.apiUrl}/auth/register?service=users-ms`,

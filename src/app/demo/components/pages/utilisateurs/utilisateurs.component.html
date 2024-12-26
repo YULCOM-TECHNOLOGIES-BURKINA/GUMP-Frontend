@@ -50,8 +50,10 @@
                         <td>{{ request.cnssNumber }}</td>
                         <td>{{ request.region }}</td>
                         <td>
-                            <span *ngIf="request.isActive" class="p-badge p-badge-success"> Validé  </span>
-                            <span *ngIf="!request.isActive" class="p-badge p-badge-danger"> Non Validé  </span>
+                            <span *ngIf="request.isPendingForActivation" class="p-badge p-badge-primary"> En attente de validation  </span>
+                            <span *ngIf="request.isActive && !request.isPendingForActivation" class="p-badge p-badge-success"> Activé  </span>
+                            <span *ngIf="!request.isActive && request.isPendingForActivation" class="p-badge p-badge-warning"> Non Validé  </span>
+                            <span *ngIf="!request.isActive && !request.isPendingForActivation" class="p-badge p-badge-danger"> Désactivé  </span>
                         </td>
                         
                         <td>
@@ -74,19 +76,35 @@
                                 </button>
                                 <button 
                                         pButton pRipple icon="pi pi-check" 
-                                        class="p-button-outlined p-button-info mr-2"
-                                        *ngIf="!request.isActive"
+                                        class="p-button-outlined p-button-success mr-2"
+                                        *ngIf="request.isPendingForActivation"
                                         label="Valider l'inscription" 
                                         tooltipPosition="bottom"
                                         (click)="approveRequest(request)">
                                 </button>
                                 <button 
-                                        pButton pRipple icon="pi pi-lock" 
-                                        class="p-button-outlined p-button-warning mr-2"
-                                        *ngIf="!request.isActive"
+                                        pButton pRipple icon="pi pi-times" 
+                                        class="p-button-outlined p-button-danger mr-2"
+                                        *ngIf="request.isPendingForActivation"
                                         label="Rejeter l'inscription" 
                                         tooltipPosition="bottom"
                                         (click)="rejectRequest(request)">
+                                </button>
+                                <button 
+                                        pButton pRipple icon="pi pi-lock-open" 
+                                        class="p-button-outlined p-button-info mr-2"
+                                        *ngIf="!request.isActive && !request.isPendingForActivation"
+                                        label="Activer le compte" 
+                                        tooltipPosition="bottom"
+                                        (click)="activateRequest(request)">
+                                </button>
+                                <button 
+                                        pButton pRipple icon="pi pi-lock" 
+                                        class="p-button-outlined p-button-warning mr-2"
+                                        *ngIf="request.isActive && !request.isPendingForActivation"
+                                        label="Désactiver le compte" 
+                                        tooltipPosition="bottom"
+                                        (click)="desactivateRequest(request)">
                                 </button>
                             </div>
                         </td>
@@ -115,6 +133,28 @@
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="rejectRequestDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmRejectRequest()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="activateRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Voulez-vous vraiment activer le compte de l'entreprise <b>{{request?.company?.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="rejectRequestDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmActivateRequest()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="desactivateRequestDialog" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Voulez-vous vraiment désactiver le compte de l'entreprise <b>{{request?.company?.name}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="rejectRequestDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDesctivateRequest()"></button>
             </ng-template>
         </p-dialog>
     </div>

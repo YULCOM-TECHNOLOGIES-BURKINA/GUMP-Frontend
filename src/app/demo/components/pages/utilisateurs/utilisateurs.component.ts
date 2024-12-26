@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 
 export class UtilisateursComponent implements OnInit {
     approveRequestDialog: boolean = false;
+    activateRequestDialog: boolean = false;
+    desactivateRequestDialog: boolean = false;
     rejectRequestDialog: boolean = false;
     requests: User[] = [];
     request: User = {};
@@ -41,10 +43,7 @@ export class UtilisateursComponent implements OnInit {
     this.utilisateurService.getUsersCompany(page, size).subscribe({
       next: (response: UserResponse) => {
         this.requests = response.content.filter(user => user.role === 'USER');
-        // this.requests = response.content;
-        this.totalRecords = this.requests.length;
-        // this.totalRecords = response.totalElements; 
-        
+        this.totalRecords = this.requests.length;        
       },
       error: (err) => {
         console.error('Erreur lors du chargement des utilisateurs', err);
@@ -53,7 +52,6 @@ export class UtilisateursComponent implements OnInit {
   }
 
     ngOnInit(): void {
-      // this.getUtilisateurs();
       this.loadUsers(0, this.rows);
       this.cols = [
         { field: 'company', header: 'Entité' },
@@ -65,13 +63,6 @@ export class UtilisateursComponent implements OnInit {
       ];
     }
 
-    // getUtilisateurs() {
-    //     this.utilisateurService.getUsersCompany().subscribe((data: UserResponse) => {
-    //         this.requests = data.content.filter(user => user.role === 'USER');
-    //     });
-    // }
-    
-
   approveRequest(request: Utilisateur) {
       this.request = { ...request };
       this.approveRequestDialog = true;
@@ -80,6 +71,18 @@ export class UtilisateursComponent implements OnInit {
   rejectRequest(request: Utilisateur) {
     this.request = { ...request };
     this.rejectRequestDialog = true;
+}
+
+
+activateRequest(request: Utilisateur) {
+  this.request = { ...request };
+  this.activateRequestDialog = true;
+}
+
+
+desactivateRequest(request: Utilisateur) {
+  this.request = { ...request };
+  this.desactivateRequestDialog = true;
 }
 
   confirmApproveRequest() {
@@ -99,7 +102,7 @@ export class UtilisateursComponent implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Erreur',
-            detail: 'Une erreur est survenue lors de l\'activation.',
+            detail: 'Une erreur est survenue lors de la validation.',
             life: 5000
           });
         }
@@ -124,11 +127,60 @@ export class UtilisateursComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Erreur',
-          detail: 'Une erreur est survenue lors de l\'activation.',
+          detail: 'Une erreur est survenue lors du rejet.',
           life: 3000
         });
       }
     });
+}
+
+confirmActivateRequest() {
+  this.activateRequestDialog = false;
+  this.utilisateurService.activateUser(this.request.id).subscribe({
+    next: () => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Succès',
+        detail: 'Utilisateur activé avec succès!',
+        life: 5000
+      });
+      this.request = null;
+      this.loadUsers(0, this.rows); 
+    },
+    error: (err) => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Une erreur est survenue lors de l\'activation.',
+        life: 5000
+      });
+    }
+  });
+}
+
+
+confirmDesactivateRequest() {
+  this.desactivateRequestDialog = false;
+  this.utilisateurService.desactivateUser(this.request.id).subscribe({
+    next: () => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Succès',
+        detail: 'Utilisateur désactivé avec succès!',
+        life: 5000
+      });
+      this.request = null;
+      this.loadUsers(0, this.rows); 
+    },
+    error: (err) => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Une erreur est survenue lors de la désactivation.',
+        life: 5000
+      });
+    }
+  });
 }
 
 download(file: any) {
