@@ -58,7 +58,7 @@ export class DemandesComponent implements OnInit {
   requestCnss: Demande[] = [];
 
   requestsAsf: DemandeAsf[] = [];
-  requestAsf: DemandeAsf = {};
+  // requestAsf: DemandeAsf = {};
 
 
   selectedDrtssRequests: DemandeDrtss[] = [];
@@ -119,7 +119,6 @@ export class DemandesComponent implements OnInit {
       this.getDemandesAje();
       this.getDemandesAnpe();
       this.getDemandesRccm();
-      this.getDemandesAsf();
       this.getDemandesSimulation();
       this.setupValidityCheck();
       this.nesValidated = false;
@@ -221,18 +220,6 @@ export class DemandesComponent implements OnInit {
     });
   }
 
-  getDemandesAsf() {
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-    this.asfService.getDemandesHistory({
-      ifu: user.username,
-      nes: user.nes
-    }).subscribe((data: DemandeAsfResponse) => {
-      this.requestsAsf = data.content;
-      this.totalRecordsAsf = data.totalElements;
-      this.countAsf = this.requestsAsf.length;
-    });
-  }
-
   getDemandesSimulation() {
     this.demandeService.getDemandes().subscribe((data: Demande[]) => {
       this.requestCnss = data;
@@ -243,8 +230,12 @@ export class DemandesComponent implements OnInit {
     switch (status) {
       case 'APPROVED':
         return 'Approuvée';
+      case 'SIGNED':
+        return 'Signée';
       case 'PROCESSING':
         return 'En cours de traitement';
+      case 'COMPANY_HAS_DEBT_WAITING_FOR_MANUAL_REVIEW':
+        return 'En cours de traitement'; 
       case 'REJECTED':
         return 'Rejetée';
       case 'PENDING':
@@ -372,7 +363,7 @@ export class DemandesComponent implements OnInit {
         this.loading = true;
         const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
 
-        if (!currentUser.username) {
+        if (!currentUser.ifu) {
             this.messageService.add({
                 severity: 'error',
                 summary: 'Erreur',
@@ -383,32 +374,17 @@ export class DemandesComponent implements OnInit {
         }
 
         const requestData = {
-            ifu: currentUser.username,
+            ifu: currentUser.ifu,
             nes: this.nesForm.get('nes')?.value
         };
 
         this.asfService.getDemandesHistory(requestData).subscribe((data: DemandeAsfResponse) =>{
-            this.requestsAsf = data.content;
-            this.totalRecordsAsf = data.totalElements;
+          this.requestsAsf = data.data.items.resultat;
+          this.totalRecordsAsf = data.data.items.resultat.length;
+          this.countAsf = this.totalRecordsAsf;
             this.countAsf = this.requestsAsf.length;
             this.nesValidated = true;
             this.loading = false;
-            // next: (data: DemandeAsfResponse) => {
-            //     this.requestAsf = data.content;
-            //     this.totalRecordsAsf = data.totalElements;
-            //     this.countAsf = this.requestAsf.length;
-            //     this.nesValidated = true;
-            // },
-            // error: (error) => {
-            //     this.messageService.add({
-            //         severity: 'error',
-            //         summary: 'Erreur',
-            //         detail: 'Impossible de récupérer l\'historique des demandes'
-            //     });
-            // },
-            // complete: () => {
-            //     this.loading = false;
-            // }
         });
         this.loading = false;
     }
@@ -431,6 +407,43 @@ export class DemandesComponent implements OnInit {
           severity: 'error',
           summary: 'Erreur',
           detail: 'Erreur lors de l\'initialisation du paiement.'
+        });
+      }
+    });
+  }
+
+  handleDownload(blob: Blob, fileName: string) {
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  openDownloadAsf(asf) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+    this.asfService.downloadAsf({
+      ifu: currentUser.ifu,
+      nes: this.nesForm.get('nes')?.value,
+      reference: asf.reference
+    }).subscribe({
+      next: (blob) => {
+        this.handleDownload(blob, `ASF_${asf.reference}.pdf`);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Téléchargement',
+          detail: 'Le document a été téléchargé avec succès !',
+          life: 2000 
+        });
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Erreur lors du téléchargement du document.',
+          life: 5000
         });
       }
     });

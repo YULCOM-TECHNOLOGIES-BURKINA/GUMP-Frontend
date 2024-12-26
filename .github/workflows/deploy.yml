@@ -35,7 +35,7 @@ jobs:
       with:
           host: ${{ vars.REMOTE_HOST }}
           username: ${{ vars.REMOTE_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dist/gump"
           target: "/var/www/html"
     - name: Deploy to dev

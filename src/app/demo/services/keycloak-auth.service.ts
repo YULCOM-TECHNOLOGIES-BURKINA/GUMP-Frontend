@@ -141,6 +141,7 @@ export class KeycloakAuthService {
         nes: decodedToken.nes,
         role_realm_access: decodedToken.realm_access?.roles || [],
         role: decodedToken.resource_access?.gump?.roles || [],
+        ifu: decodedToken.given_name,
         username: decodedToken.preferred_username
       };
       this.userDetailsSubject.next(userDetails);

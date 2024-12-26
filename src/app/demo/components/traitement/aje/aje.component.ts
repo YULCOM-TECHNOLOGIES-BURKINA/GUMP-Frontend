@@ -234,6 +234,8 @@ export class TraitementAjeComponent implements OnInit {
         return 'Rejetée';
       case 'PENDING':
         return 'En attente';
+      case 'COMPANY_HAS_DEBT_WAITING_FOR_MANUAL_REVIEW':
+        return 'En attente'; 
       default:
         return status;  // Si le statut est inconnu, on le retourne tel quel
     }
@@ -506,7 +508,7 @@ export class TraitementAjeComponent implements OnInit {
   categorizeRequests() {
     const requestsToUse = this.filteredRequests || this.requests;
     
-    this.pendingRequests = requestsToUse.filter(request => request.status === 'PENDING');
+    this.pendingRequests = requestsToUse.filter(request => request.status === 'PENDING' || request.status === 'COMPANY_HAS_DEBT_WAITING_FOR_MANUAL_REVIEW');
     this.processingRequests = requestsToUse.filter(request => request.status === 'PROCESSING');
     this.approvedRequests = requestsToUse.filter(request => request.status === 'APPROVED');
     this.rejectedRequests = requestsToUse.filter(request => request.status === 'REJECTED');
