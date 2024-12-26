@@ -9,30 +9,27 @@ import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
-  selector: 'app-application-config-aje',
-  standalone: true,
-  imports: [UtilsModuleModule],
+    selector: 'app-application-config-aje',
+    standalone: true,
+    imports: [UtilsModuleModule],
     templateUrl: './application-config-aje.component.html',
-  styleUrl: './application-config-aje.component.scss',
-  providers: [ConfirmationService, MessageService],
-
+    styleUrl: './application-config-aje.component.scss',
+    providers: [ConfirmationService, MessageService],
 })
 export class ApplicationConfigAjeComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
 
-     configForn: FormGroup;
+    configForn: FormGroup;
 
-
-
-     deleteDialog = false;
+    deleteDialog = false;
 
     // Pagination
 
     constructor(
         public layoutService: LayoutService,
         public router: Router,
-         private appConfigService: ApplicationConfigService,
-         private fb: FormBuilder,
+        private appConfigService: ApplicationConfigService,
+        private fb: FormBuilder,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private http: HttpClient
@@ -43,11 +40,11 @@ export class ApplicationConfigAjeComponent implements OnInit {
 
     appConfigArr: any[] = [];
     loadConfig() {
-         this.appConfigService.getConfigAje().subscribe({
+        this.appConfigService.getConfigAje().subscribe({
             next: (res: AjeConfig) => {
-                this.appConfigArr=[]
+                this.appConfigArr = [];
                 this.appConfigArr.push(res);
-             },
+            },
             error: (error) => {
                 const errorMessage = error?.error;
             },
@@ -60,10 +57,10 @@ export class ApplicationConfigAjeComponent implements OnInit {
             processingTimeInDaysForLiquidation: [],
             processingTimeInDaysForSoumission: [],
 
-            validityTimeInMonthsForLiquidation:[],
+            validityTimeInMonthsForLiquidation: [],
             validityTimeInMonthsForSoumission: [],
 
-           // logo: [],
+            // logo: [],
         });
     }
 
@@ -79,17 +76,19 @@ export class ApplicationConfigAjeComponent implements OnInit {
         this.configForn.setValue({
             footer: config.footer,
             header: config.header,
-            processingTimeInDaysForLiquidation: config.processingTimeInDaysForLiquidation,
-            processingTimeInDaysForSoumission: config.processingTimeInDaysForSoumission,
+            processingTimeInDaysForLiquidation:
+                config.processingTimeInDaysForLiquidation,
+            processingTimeInDaysForSoumission:
+                config.processingTimeInDaysForSoumission,
 
-            validityTimeInMonthsForLiquidation: config.validityTimeInMonthsForLiquidation,
-            validityTimeInMonthsForSoumission: config.validityTimeInMonthsForSoumission,
+            validityTimeInMonthsForLiquidation:
+                config.validityTimeInMonthsForLiquidation,
+            validityTimeInMonthsForSoumission:
+                config.validityTimeInMonthsForSoumission,
 
             //  logo: config.logo,
         });
     }
-
-
 
     confirmDeleteSelected() {
         this.deleteDialog = true;
@@ -129,23 +128,28 @@ export class ApplicationConfigAjeComponent implements OnInit {
         }
     }
 
-
     onUpdateConfig() {
         const file = this.selectedFile;
 
-        const configData = this.configForn.value
+        const configData = this.configForn.value;
 
-        this.appConfigService.updateApplicationConfigDrtps(file, configData).subscribe(
-          (response) => {
-            this.handleSuccess("Mise à jour des informations effectuée avec succès.")
-           },
-          (error) => {
-            this.handleError("Échec de la mise à jour des informations. Veuillez réessayer.")
-           }
-        );
-      }
+        this.appConfigService
+            .updateApplicationConfigDrtps(file, configData)
+            .subscribe(
+                (response) => {
+                    this.handleSuccess(
+                        'Mise à jour des informations effectuée avec succès.'
+                    );
+                },
+                (error) => {
+                    this.handleError(
+                        'Échec de la mise à jour des informations. Veuillez réessayer.'
+                    );
+                }
+            );
+    }
 
-      private handleSuccess(message: string): void {
+    private handleSuccess(message: string): void {
         this.loadConfig();
 
         this.messageSucces(message, 'success');
