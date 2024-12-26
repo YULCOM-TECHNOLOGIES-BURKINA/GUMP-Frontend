@@ -104,7 +104,7 @@ export class SignatureElectroniquesService {
 
     public listDemandes(page: number, size: number) {
         return this.fastService
-            .get<Utilisateur[]>(this._gateway + `demandes?` + this._ms_drtss)
+            .get<Utilisateur[]>(`${this._gateway}demandes?${this._ms_drtss}`)
             .pipe(
                 tap((utilisateurs) => {}),
                 catchError((error) => {
@@ -115,7 +115,7 @@ export class SignatureElectroniquesService {
 
     public listRegions() {
         return this.fastService
-            .getWithoutToken<any[]>(`${API_ROOT.API_LISTE_REGIONS}`)
+            .getWithoutToken<any[]>(`${this._gateway}regions?${this._ms_users}`)
             .pipe(
                 tap((regions) => {}),
                 catchError((error) => {
@@ -125,6 +125,24 @@ export class SignatureElectroniquesService {
     }
 
     public creerUtilisateurDrtss(formData: FormData) {
+        return this.fastService
+            .post<Utilisateur>(
+                `${this._gateway}/utilisateur_drtss/save?`+this._ms_drtss,
+                formData
+            )
+            .pipe(
+                tap((res: Utilisateur) => {}),
+                catchError((error) => {
+                    console.error(
+                        "Erreur lors de l'enregistrement de l'utilisateur :",
+                        error
+                    );
+                    return of(null);
+                })
+            );
+    }
+
+ /*   public creerUtilisateurDrtss(formData: FormData) {
         return this.fastService
             .post<Utilisateur>(API_ROOT.API_CREATE_USERS_DRTSS, formData)
             .pipe(
@@ -138,7 +156,7 @@ export class SignatureElectroniquesService {
                 })
             );
     }
-
+*/
     public createUserRequest(formData: any): Observable<any> {
         return this.fastService
             .post<CreateUserRequest>(
@@ -313,7 +331,7 @@ export class SignatureElectroniquesService {
     public signDocument(
         signatoryId: number,
         demandeId: number,
-        attestationPath: string,
+        attestationPath: string
     ): Observable<any> {
         if (!signatoryId || !demandeId || !attestationPath) {
             return throwError(
@@ -321,27 +339,27 @@ export class SignatureElectroniquesService {
             );
         }
 
-         const url = `${
-             this._gateway
-         }signature_electronique/sign_attestation?attestationPath=${encodeURIComponent(
-             attestationPath
-         )}&signatoryId=${encodeURIComponent(
-             signatoryId
-         )}&requestId=${encodeURIComponent(demandeId)}&${this._ms_drtss}`;
-   return this.http.post(url, {}, { responseType: 'blob' }).pipe(
-        tap((response: Blob) => {
-            console.info('Signature réussie, téléchargement du fichier...');
-
-
-        }),
-        catchError((error) => {
-            console.error('Erreur lors de la signature :', error.message);
-            return throwError(
-                () => new Error(`Échec de la signature de l’attestation : ${error.message}`)
-            );
-        })
-    );
-
+        const url = `${
+            this._gateway
+        }signature_electronique/sign_attestation?attestationPath=${encodeURIComponent(
+            attestationPath
+        )}&signatoryId=${encodeURIComponent(
+            signatoryId
+        )}&requestId=${encodeURIComponent(demandeId)}&${this._ms_drtss}`;
+        return this.http.post(url, {}, { responseType: 'blob' }).pipe(
+            tap((response: Blob) => {
+                console.info('Signature réussie, téléchargement du fichier...');
+            }),
+            catchError((error) => {
+                console.error('Erreur lors de la signature :', error.message);
+                return throwError(
+                    () =>
+                        new Error(
+                            `Échec de la signature de l’attestation : ${error.message}`
+                        )
+                );
+            })
+        );
     }
 
     /**
