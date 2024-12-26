@@ -29,6 +29,14 @@ export class UtilisateursComponent implements OnInit {
     rows: number = 100; // Nombre d'éléments par page
     currentPage: number = 0;
 
+    pendingRequests: User[] = [];
+    activeRequests: User[] = [];
+    inactiveRequests: User[] = [];
+
+    countPending = 0;
+    countActive = 0;
+    countInactive = 0;
+
     constructor(private utilisateurService: UserService, private messageService: MessageService, private router: Router) { }
 
   onPageChange(event: any) {
@@ -43,12 +51,25 @@ export class UtilisateursComponent implements OnInit {
     this.utilisateurService.getUsersCompany(page, size).subscribe({
       next: (response: UserResponse) => {
         this.requests = response.content.filter(user => user.role === 'USER');
-        this.totalRecords = this.requests.length;        
+        this.totalRecords = this.requests.length;
+        this.categorizeRequests();        
       },
       error: (err) => {
         console.error('Erreur lors du chargement des utilisateurs', err);
       }
     });
+  }
+
+  categorizeRequests() {
+    const requestsToUse = this.requests;
+    
+    this.pendingRequests = requestsToUse.filter(request => request.isPendingForActivation);
+    this.activeRequests = requestsToUse.filter(request => request.isActive && !request.isPendingForActivation);
+    this.inactiveRequests = requestsToUse.filter(request => !request.isActive && !request.isPendingForActivation);
+
+    this.countPending = this.pendingRequests.length;
+    this.countActive = this.activeRequests.length;
+    this.countInactive = this.inactiveRequests.length;
   }
 
     ngOnInit(): void {
