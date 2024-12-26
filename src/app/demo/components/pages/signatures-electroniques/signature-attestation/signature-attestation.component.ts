@@ -15,6 +15,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 // import { U } from '@fullcalendar/core/internal-common';
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
 import { Demande } from 'src/app/demo/models/demande';
+import { DrtssService } from 'src/app/demo/services/drtss.service';
 
 @Component({
     selector: 'app-signature-attestation',
@@ -59,7 +60,8 @@ export class SignatureAttestationComponent implements OnInit {
         private fb: FormBuilder,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
-        private http: HttpClient
+        private http: HttpClient,
+        private drtssService: DrtssService
     ) {}
     ngOnInit(): void {
         this.loadDemande(this.pageNumber, this.pageSize);
@@ -97,15 +99,14 @@ export class SignatureAttestationComponent implements OnInit {
 
     submitted: boolean;
     modalDialog: boolean;
-    openNew(demande:any) {
-            console.log("demande",demande);
-            console.log("this.signataire",this.signataire);
+    openNew(demande: any) {
+        console.log('demande', demande);
+        console.log('this.signataire', this.signataire);
 
         this.attestationPath = '';
         if (!demande.attestation.pathFile) {
             this.messageSucces('Le document est en traitement', 'error');
         } else {
-
             this.demandeId = demande.id;
             this.attestationPath = demande.attestation.pathFile;
             this.pdfSrc = demande.attestation?.path;
@@ -256,7 +257,6 @@ export class SignatureAttestationComponent implements OnInit {
             return;
         }*/
 
-
         this.loading = false;
         this.signElectService
             .signDocument(
@@ -283,8 +283,8 @@ export class SignatureAttestationComponent implements OnInit {
                     const errorMessage =
                         error?.error ||
                         'Échec: Utilisateur inactif ou signature non autorisée';
-                       this.modalDialog = false;
-                   // this.handleError(errorMessage);
+                    this.modalDialog = false;
+                    // this.handleError(errorMessage);
                 },
             });
     }
@@ -340,4 +340,35 @@ export class SignatureAttestationComponent implements OnInit {
             error: (error) => {},
         });
     }
+    processReviewRequest(identifiant) {
+        this.drtssService.reviewRequest(identifiant).subscribe({
+            next: () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Succès',
+                    detail: 'Demande traitée et en attente de validation',
+                    life: 3000,
+                });
+                setTimeout(() => {
+                    this.router.navigate(['/app/traitement/drtss']);
+                }, 500);
+            },
+            error: (err) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Une erreur est survenue lors de la validation de la demande.',
+                    life: 3000,
+                });
+            },
+        });
+    }
+
+    statusMapping: { [key: string]: { class: string; label: string } } = {
+        SIGNED: { class: 'p-badge-success', label: 'Signer' },
+        APPROVED: { class: 'p-badge-success', label: 'Approuver' },
+        REJECTED: { class: 'p-badge-danger', label: 'Rejeter' },
+        PENDING: { class: 'p-badge-primary', label: 'En cours de Traitement' },
+        PROCESSING: { class: 'p-badge-secondary', label: 'En Attente' },
+    };
 }

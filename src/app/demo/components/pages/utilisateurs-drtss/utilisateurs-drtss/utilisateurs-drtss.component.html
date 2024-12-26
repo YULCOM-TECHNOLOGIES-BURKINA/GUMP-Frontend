@@ -21,14 +21,11 @@
             <ng-template pTemplate="content">
                 <div class="card shadow-2  ">
 
-                  <div *ngIf="currentUser.role=='ADMIN'" class="field" appendTo="body">
+                    <div *ngIf="currentUser.role=='ADMIN'" class="field" appendTo="body">
                         <label for="email">Sélectionner Région</label>
-                        <p-autoComplete appendTo="body"
-                                        [(ngModel)]="selectedRegion"
-                                        [suggestions]="filteredRegionsAutoComplete"
-                                        (completeMethod)="filterRegion($event)"
-                                        field="nomComplet"
-                                        [dropdown]="true">
+                        <p-autoComplete appendTo="body" [(ngModel)]="selectedRegion"
+                            [suggestions]="filteredRegionsAutoComplete" (completeMethod)="filterRegion($event)"
+                            field="nomComplet" [dropdown]="true">
                         </p-autoComplete>
                     </div>
 
@@ -117,7 +114,10 @@
             groupRowsBy="forename" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
             currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
-            [scrollable]="true" scrollHeight="500px">
+            [scrollable]="true" scrollHeight="500px"
+            [globalFilterFields]="['email', 'forename','lastname','matricule', 'titre_honorifique','matricule','status', 'region', 'createdAt']">
+
+
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
                     <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash"

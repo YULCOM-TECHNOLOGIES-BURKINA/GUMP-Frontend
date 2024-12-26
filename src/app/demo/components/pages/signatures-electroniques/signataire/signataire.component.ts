@@ -20,6 +20,7 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import {
     HttpClient,
 } from '@angular/common/http';
+import { DrtssService } from 'src/app/demo/services/drtss.service';
 
 @Component({
     selector: 'app-signataire',
@@ -47,7 +48,7 @@ export class SignataireComponent implements OnInit {
     pageSize: number = 10;
     pageNumber: number = 0;
     items: MenuItem[] = [];
-    userInfo:any
+    userInfo: any;
     constructor(
         public layoutService: LayoutService,
         public router: Router,
@@ -55,9 +56,7 @@ export class SignataireComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private fb: FormBuilder,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService,
-        private http: HttpClient,
-        private signatureService:SignatureElectroniquesService
+         private signatureService: SignatureElectroniquesService,
     ) {}
     ngOnInit(): void {
         const userDetails = localStorage.getItem('currentUser');
@@ -66,12 +65,11 @@ export class SignataireComponent implements OnInit {
         this.signatureService.getUsersInfoByEmail(user.email).subscribe({
             next: (res: any) => {
                 this.userInfo = res;
-             },
+            },
             error: (error) => {},
         });
         this.loadUsers(this.pageNumber, this.pageSize);
         this.items = [
-
             { separator: true },
             {
                 label: 'Activer',
@@ -83,30 +81,30 @@ export class SignataireComponent implements OnInit {
         ];
     }
 
-    selectlabel=""
-    selectLine:any
-    onLineClick(event: any){
-        this.selectLine=event
-        console.log("this.selectLine",this.selectLine);
-        let modifier=true
-        if (this.selectLine.signatureCertificat.actif==true) {
-            this.selectlabel="Desactiver"
-        }else{
-            this.selectlabel="Activer"
-            modifier=false
+    selectlabel = '';
+    selectLine: any;
+    onLineClick(event: any) {
+        this.selectLine = event;
+        console.log('this.selectLine', this.selectLine);
+        let modifier = true;
+        if (this.selectLine.signatureCertificat.actif == true) {
+            this.selectlabel = 'Desactiver';
+        } else {
+            this.selectlabel = 'Activer';
+            modifier = false;
         }
 
         this.items = [
-
             { separator: true },
-            { label: this.selectlabel, icon: 'pi pi-times' ,command: () => {
-                console.log('TEST');
-                this.confirmToggleStatus(this.selectLine.user_id);
-            },},
-         ];
-
-
-
+            {
+                label: this.selectlabel,
+                icon: 'pi pi-times',
+                command: () => {
+                    console.log('TEST');
+                    this.confirmToggleStatus(this.selectLine.user_id);
+                },
+            },
+        ];
     }
 
     loadUsers(page: number, size: number) {
@@ -117,37 +115,35 @@ export class SignataireComponent implements OnInit {
             .subscribe(
                 (response: any) => {
                     const filterdrtpsUser = response.content.filter(
-                        (user) =>
-
-                            this.userInfo.region === user.region
+                        (user) => this.userInfo.region === user.region
                     );
-                   this.utilisateurs =filterdrtpsUser;
-
+                    this.utilisateurs = filterdrtpsUser;
 
                     this.totalRecords = response.totalPages;
                     this.loading = false;
                     this.cdr.detectChanges();
                 },
                 (error) => {
-                     this.loading = false;
-                    this.cdr.detectChanges();  
+                    this.loading = false;
+                    this.cdr.detectChanges();
                 }
             );
 
         this.signElectService.listUtilisateurDrtss(0, 100000).subscribe(
             (response: any) => {
-
-
-               const filterdrtpsUser = response.content.filter(user => user.region === this.userInfo.region &&  user.is_signatory === false  && user.userType === "DRTSS_USER"  );
-               this.listeFiltreUtilisateurs=filterdrtpsUser;
+                const filterdrtpsUser = response.content.filter(
+                    (user) =>
+                        user.region === this.userInfo.region &&
+                        user.is_signatory === false &&
+                        user.userType === 'DRTSS_USER'
+                );
+                this.listeFiltreUtilisateurs = filterdrtpsUser;
 
                 this.loading = false;
                 this.cdr.detectChanges();
-
-
             },
             (error) => {
-                 this.loading = false;
+                this.loading = false;
                 this.cdr.detectChanges();
             }
         );
@@ -161,12 +157,11 @@ export class SignataireComponent implements OnInit {
         this.loadUsers(this.pageNumber, this.pageSize);
     }
 
-
     submitted: boolean;
     modalDialog: boolean;
     openNew(type: string) {
-        this.selectedUser=''
-        this.selectedFile=''
+        this.selectedUser = '';
+        this.selectedFile = '';
         this.modalDialog = true;
         if (type == 'UPDATE') {
             this.initForm();
@@ -180,7 +175,6 @@ export class SignataireComponent implements OnInit {
         }
     }
 
-
     public initForm() {
         this.userForm = this.fb.group({
             userId: ['', Validators.required],
@@ -189,8 +183,6 @@ export class SignataireComponent implements OnInit {
     }
 
     download(file: any) {
-
-
         const url = file.path;
         window.open(url, '_blank');
         this.messageService.add({
@@ -201,34 +193,28 @@ export class SignataireComponent implements OnInit {
         });
     }
 
-    downloadCertificat(path: string,certificatFile:string) {
-
-
-        this.signElectService
-        .telechargerCertificat(path,certificatFile)
+    downloadCertificat(path: string, certificatFile: string) {
+        this.signElectService.telechargerCertificat(path, certificatFile);
     }
 
-    confirmToggleStatus(id:number) {
-
+    confirmToggleStatus(id: number) {
         this.signElectService.toggleSignatoryStatus(id).subscribe({
             next: (response: any) => {
-                 this.loadUsers(this.pageNumber, this.pageSize);
+                this.loadUsers(this.pageNumber, this.pageSize);
 
-                 this.messageSucces('Operation effecuee avec succès.', 'success');
-               // this.selectLine=null;
-                 this.userForm.reset();
+                this.messageSucces(
+                    'Operation effecuee avec succès.',
+                    'success'
+                );
+                // this.selectLine=null;
+                this.userForm.reset();
                 this.modalDialog = false;
-             },
+            },
             error: (err) => {
-
-                 this.messageSucces("Une erreur s'est produite", 'error');
-
-             },
+                this.messageSucces("Une erreur s'est produite", 'error');
+            },
         });
     }
-
-
-
 
     hideDialog() {
         this.modalDialog = false;
@@ -336,4 +322,6 @@ export class SignataireComponent implements OnInit {
                 }
             );
     }
+
+
 }

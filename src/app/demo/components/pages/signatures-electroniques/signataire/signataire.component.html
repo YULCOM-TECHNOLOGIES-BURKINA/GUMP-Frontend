@@ -92,6 +92,7 @@
             groupRowsBy="region" sortField="forename" [paginator]="true" [totalRecords]="{totalRecords}"
             [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,50,100]"
             currentPageReportTemplate="{first} à {last} sur {totalRecords}" responsiveLayout="scroll"
+            [globalFilterFields]="['email', 'signatureCertificat.commonName', 'status', 'region', 'createdAt']"
             [scrollable]="true" scrollHeight="500px">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between flex-column sm:flex-row">
@@ -133,13 +134,6 @@
 
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
-                            Alias
-                            <p-columnFilter type="text" field="email" display="menu"
-                                placeholder="rechercher ...  "></p-columnFilter>
-                        </div>
-                    </th>
-                    <th style="min-width: 12rem">
-                        <div class="flex justify-content-between align-items-center">
                             Status
                             <p-columnFilter type="text" field="email" display="menu"
                                 placeholder="rechercher ...  "></p-columnFilter>
@@ -156,7 +150,8 @@
                     <th style="min-width: 12rem">
                         <div class="flex justify-content-between align-items-center">
                             Region
-                            <p-columnFilter type="text" field="region" display="menu" placeholder="rechercher ...  "></p-columnFilter>
+                            <p-columnFilter type="text" field="region" display="menu"
+                                placeholder="rechercher ...  "></p-columnFilter>
                         </div>
 
                     </th>
@@ -183,9 +178,6 @@
                     </td>
 
 
-                    <td>
-                        {{ res?.signatureCertificat?.alias }}
-                    </td>
                     <td [ngClass]="{ '': res.signatureCertificat.actif, 'bg-custom': !res.signatureCertificat.actif }">
                         {{ res.signatureCertificat.actif ? 'Actif' : 'Inactif' }}
                     </td>
@@ -202,18 +194,18 @@
                     -->
 
                     <td>
-                     {{ res?.region }}
+                        {{ res?.region }}
                     </td>
 
                     <td>
-                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items" (click)="onLineClick(res)"
-                            styleClass="p-button-info"></p-splitButton>
+                        <p-splitButton appendTo="body" label="" icon="pi pi-plus" [model]="items"
+                            (click)="onLineClick(res)" styleClass="p-button-info"></p-splitButton>
                     </td>
                 </tr>
 
                 <p-confirmDialog header="Confirmation" key="confirm1" icon="pi pi-exclamation-triangle"
-                message="Are you sure you want to proceed?" [style]="{width: '350px'}"
-                acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+                    message="Are you sure you want to proceed?" [style]="{width: '350px'}"
+                    acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
 
             </ng-template>
             <ng-template pTemplate="emptymessage">

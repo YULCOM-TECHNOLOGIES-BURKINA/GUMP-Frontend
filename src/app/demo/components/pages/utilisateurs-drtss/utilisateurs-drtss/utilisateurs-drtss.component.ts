@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { retry } from 'rxjs';
 import { Utilisateur } from 'src/app/demo/models/utilisateurs';
 import { SignatureElectroniquesService } from 'src/app/demo/services/signature-electroniques.service';
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
@@ -37,7 +38,9 @@ export class UtilisateursDrtssComponent implements OnInit {
     pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
+    isLoading: boolean = false; // Contrôle l'affichage du spinner
     currentUser: any;
+
     userInfo: any;
     constructor(
         public layoutService: LayoutService,
@@ -46,14 +49,13 @@ export class UtilisateursDrtssComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private fb: FormBuilder,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService,
-        private signatureService: SignatureElectroniquesService
+        private confirmationService: ConfirmationService
     ) {}
     ngOnInit(): void {
         const userDetails = localStorage.getItem('currentUser');
         let user = JSON.parse(userDetails);
         this.currentUser = user;
-        this.signatureService.getUsersInfoByEmail(user.email).subscribe({
+        this.signElectService.getUsersInfoByEmail(user.email).subscribe({
             next: (res: any) => {
                 this.userInfo = res;
                 console.log('this.userInfo.region', this.userInfo.region);
@@ -63,6 +65,7 @@ export class UtilisateursDrtssComponent implements OnInit {
 
         this.loadUsers(this.pageNumber, this.pageSize);
         this.listRegions();
+        this.currentUser = JSON.parse(userDetails);
     }
 
     dataResponse: any;
@@ -94,7 +97,6 @@ export class UtilisateursDrtssComponent implements OnInit {
             }
         );
     }
-
     onPageChange(event: any) {
         this.pageNumber = event.first / event.rows;
         this.pageSize = event.rows;
@@ -104,54 +106,36 @@ export class UtilisateursDrtssComponent implements OnInit {
     selectLine: Utilisateur;
     onLineClick(event: any) {
         this.selectLine = event;
-        let modifier = true;
-        if (this.selectLine.isActive == true) {
-            this.selectlabel = 'Desactiver';
-        }
 
-       else {
+        let modifier = true;
+        if (
+            this.selectLine.isActive == true &&
+            this.selectLine.email != this.currentUser.email
+        ) {
+            this.selectlabel = 'Desactiver';
+        } else {
             this.selectlabel = 'Activer';
             modifier = false;
         }
 
-
-        if (this.currentUser.email != this.selectLine.email) {
-
-               this.items = [
-                   {
-                       label: 'Modifier',
-                       icon: 'pi pi-refresh',
-                       visible: modifier,
-                       command: () => {
-                           this.openNew('UPDATE');
-                       },
-                   },
-                   { separator: true },
-                   {
-                       label: this.selectlabel,
-                       icon: 'pi pi-times',
-                       command: () => {
-                           this.openDeleteDialog(this.selectLine);
-                       },
-                   },
-               ];
-        }
-        else {
-
-             this.items = [
-                 {
-                     label: 'Modifier',
-                     icon: 'pi pi-refresh',
-                     visible: modifier,
-                     command: () => {
-                         this.openNew('UPDATE');
-                     },
-                 },
-
-             ];
-        }
-
-
+        this.items = [
+            {
+                label: 'Modifier',
+                icon: 'pi pi-refresh',
+                visible: modifier,
+                command: () => {
+                    this.openNew('UPDATE');
+                },
+            },
+            { separator: true },
+            {
+                label: this.selectlabel,
+                icon: 'pi pi-times',
+                command: () => {
+                    this.openDeleteDialog(this.selectLine);
+                },
+            },
+        ];
     }
 
     onConfirm() {
@@ -178,6 +162,12 @@ export class UtilisateursDrtssComponent implements OnInit {
     openNew(type: string) {
         this.modalDialog = true;
         if (type == 'UPDATE') {
+            this.selectedRegion = {
+                code: this.selectLine.region,
+                name: this.selectLine.region,
+                nomComplet: this.selectLine.region,
+            };
+
             this.isUpdate = true;
             this.initForm();
             this.userForm.setValue({
@@ -188,7 +178,7 @@ export class UtilisateursDrtssComponent implements OnInit {
                 matricule: this.selectLine.matricule,
                 titre_honorifique: this.selectLine.titre_honorifique,
                 email: this.selectLine.email,
-                region: this.userInfo.region,
+                region: this.selectLine.region,
                 role: this.selectLine.role,
                 userType: this.selectLine.userType,
                 password: '',
@@ -204,50 +194,38 @@ export class UtilisateursDrtssComponent implements OnInit {
         this.confirmDeleteSelected();
     }
     public initForm() {
-        if (this.currentUser.role == 'ADMIN') {
-            this.userForm = this.fb.group({
-                id: [],
-                forename: ['', Validators.required],
-                lastname: ['', Validators.required],
-                tel: [],
-                matricule: [],
-                titre_honorifique: [],
-                email: ['', Validators.required],
-                region: [''],
+        this.userForm = this.fb.group({
+            id: [],
+            forename: ['', Validators.required],
+            lastname: ['', Validators.required],
+            tel: [],
+            matricule: [],
+            titre_honorifique: [],
+            email: ['', Validators.required],
+            region: [''],
 
-                role: ['DRTSS_AGENT'],
-                userType: ['DRTSS_USER'],
-                password: ['password'],
-                username: [''],
-            });
-        } else {
-            this.userForm = this.fb.group({
-                id: [],
-                forename: ['', Validators.required],
-                lastname: ['', Validators.required],
-                tel: [],
-                matricule: [],
-                titre_honorifique: [],
-                email: ['', Validators.required],
-                region: [this.userInfo.region],
-
-                role: ['DRTSS_AGENT'],
-                userType: ['DRTSS_USER'],
-                password: ['password'],
-                username: [''],
-            });
-        }
+            role: ['DRTSS_AGENT'],
+            userType: ['DRTSS_USER'],
+            password: ['password'],
+            username: [''],
+        });
     }
     submitForm() {
-        if (this.userForm.valid) {
-            if (this.currentUser.role == 'ADMIN') {
-                this.userForm.patchValue({
-                    region: this.selectedRegion.code,
-                });
-            }
-            let usersInfo = this.userForm.value;
+        let form = this.userForm.value;
 
+        this.userForm.patchValue({
+            region: this.selectedRegion.code,
+            username: form.email,
+        });
+
+        if (
+            !this.isUpdate &&
+            this.selectedRegion != undefined &&
+            this.userForm.valid
+        ) {
             this.createUsersCompteRequest();
+        } else if (this.isUpdate) {
+            this.UpdateUsersCompteRequest();
         } else {
             this.messageSucces(
                 'Veillez remplire tout les champs du formulaire',
@@ -259,22 +237,45 @@ export class UtilisateursDrtssComponent implements OnInit {
     isClicked: boolean = false;
 
     createUsersCompteRequest() {
-        let form = this.userForm.value;
+        console.log(this.userForm.value);
+        let region = this.userForm.get('region').value;
+        let role = this.userForm.get('role').value;
+        this.signElectService
+            .createUserRequest(this.userForm.value)
+            .pipe(retry(2))
+            .subscribe({
+                next: (response: any) => {
+                    this.handleSuccess();
+                },
+                error: (error) => {
+                    this.handleError(error);
+                },
+                complete: () => {
+                    this.isClicked = false;
+                },
+            });
+    }
+    UpdateUsersCompteRequest() {
+        const form = this.userForm.value;
         this.userForm.patchValue({ username: form.email });
-        this.signElectService.createUserRequest(this.userForm.value).subscribe(
-            (response: any) => {
-                this.modalDialog;
-                this.loadUsers(0, 100000);
-                this.loadUsers(this.pageNumber, this.pageSize);
-                this.messageSucces('Utilisateur créé avec succès.', 'success');
-                this.modalDialog = false;
-                this.isClicked = true;
-            },
-            (error) => {
-                this.messageSucces("Une erreur s'est produite", 'error');
-                this.isClicked = true;
-            }
-        );
+
+        this.isClicked = true;
+        console.log('Formulaire mis à jour :', this.userForm.value);
+
+        this.signElectService
+            .updateUserRequest(this.userForm.value)
+            .pipe(retry(2))
+            .subscribe({
+                next: (response: any) => {
+                    this.handleUpdateSuccess();
+                },
+                error: (error: any) => {
+                    this.handleUpdateError(error);
+                },
+                complete: () => {
+                    this.isClicked = false;
+                },
+            });
     }
 
     saveUsersDrtssCompte() {
@@ -306,14 +307,6 @@ export class UtilisateursDrtssComponent implements OnInit {
     hideDialog() {
         this.modalDialog = false;
         this.submitted = false;
-    }
-
-    /************************************* */
-    formatCurrency(value: number) {
-        return value.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        });
     }
 
     onGlobalFilter(table: Table, event: Event) {
@@ -365,5 +358,40 @@ export class UtilisateursDrtssComponent implements OnInit {
         }
 
         this.filteredRegionsAutoComplete = filtered;
+    }
+
+    private handleSuccess(): void {
+        this.loadUsers(0, 100000);
+        this.userForm.reset();
+        this.modalDialog = false;
+        this.isUpdate = false;
+        this.messageSucces('Utilisateur créé avec succès', 'success');
+    }
+
+    private handleError(error: any): void {
+        this.messageSucces("Une erreur s'est produite", 'error');
+    }
+
+    private resetFormAndDialog(): void {
+        this.userForm.reset();
+        this.modalDialog = false;
+        this.isUpdate = false;
+    }
+
+    private handleUpdateSuccess(): void {
+        this.loadUsers(0, 100000);
+        this.loadUsers(this.pageNumber, this.pageSize);
+        this.messageSucces(
+            'Information utilisateur mise à jour avec succès.',
+            'success'
+        );
+        this.resetFormAndDialog();
+    }
+
+    private handleUpdateError(error: any): void {
+        this.messageSucces(
+            "Une erreur s'est produite lors de la mise à jour",
+            'error'
+        );
     }
 }
