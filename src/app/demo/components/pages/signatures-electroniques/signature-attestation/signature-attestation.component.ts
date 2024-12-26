@@ -16,6 +16,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
 import { Demande } from 'src/app/demo/models/demande';
 import { DrtssService } from 'src/app/demo/services/drtss.service';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'app-signature-attestation',
@@ -224,40 +225,12 @@ export class SignatureAttestationComponent implements OnInit {
 
     // selectedFile!: any;
     signatoryId!: number;
-    demandeId!: string;
+    demandeId!: number;
     attestationPath!: any;
 
     signedForm() {
-        /*  if (!this.selectedFile) {
-            this.messageSucces('Vous devez Ajouter votre certificat', 'error');
+        this.loading = true;
 
-            return;
-        }*/
-        /*
-        if (!this.keyStorePassword) {
-            this.messageSucces(
-                'Vous devez Ajouter votre  Password certificat',
-                'error'
-            );
-
-            return;
-        }
-*/
-        /*  if (!this.alias) {
-            this.messageSucces(
-                'Vous devez Ajouter votre alias certificat',
-                'error'
-            );
-
-            return;
-        }
-        if (!this.selectedUser) {
-            this.messageSucces('Aucun utilisateur sélectionné.', 'error');
-
-            return;
-        }*/
-
-        this.loading = false;
         this.signElectService
             .signDocument(
                 this.signataire.user_id,
@@ -266,27 +239,48 @@ export class SignatureAttestationComponent implements OnInit {
             )
             .subscribe({
                 next: (response: Blob) => {
-                    console.info(
-                        'Signature réussie, affichage du fichier PDF...'
-                    );
-
-                    const blobUrl = URL.createObjectURL(response);
-                    this.pdfSrc = blobUrl;
-                    setTimeout(() => {
-                        URL.revokeObjectURL(blobUrl);
-                    }, 1000);
-                    this.viewpdfDialog = true;
-                    this.modalDialog = false;
-                    this.handleSuccess('Signature réussie');
+                    this.drtssService.signedRequest(this.demandeId).subscribe({
+                        next: () => {
+                            this.handleSuccessfulSignature(response);
+                        },
+                        error: (error) => {
+                            this.handleError(
+                                error?.error ||
+                                    "Erreur lors de l'enregistrement de la signature."
+                            );
+                        },
+                    });
                 },
                 error: (error) => {
-                    const errorMessage =
+                    this.handleError(
                         error?.error ||
-                        'Échec: Utilisateur inactif ou signature non autorisée';
-                    this.modalDialog = false;
-                    // this.handleError(errorMessage);
+                            'Échec: Utilisateur inactif ou signature non autorisée.'
+                    );
+                },
+                complete: () => {
+                    this.loading = false;
                 },
             });
+    }
+
+    private handleSuccessfulSignature(response: Blob): void {
+        const blobUrl = URL.createObjectURL(response);
+        this.pdfSrc = blobUrl;
+
+        setTimeout(() => {
+            URL.revokeObjectURL(blobUrl);
+        }, 1000);
+
+        this.viewpdfDialog = true;
+        this.modalDialog = false;
+        this.handleSuccess('Signature réussie');
+    }
+
+    private handleError(errorMessage: string): void {
+        this.loading = false;
+        this.modalDialog = false;
+        console.error(errorMessage);
+        this.handleError(errorMessage);
     }
 
     private handleSuccess(message: string): void {
@@ -295,9 +289,7 @@ export class SignatureAttestationComponent implements OnInit {
         this.loadDemande(0, 50);
     }
 
-    private handleError(message: string): void {
-        this.messageSucces(message, 'error');
-    }
+
 
     filteredUsersAutoComplete: any[] = [];
     listeFiltreUtilisateurs: any[] = [];

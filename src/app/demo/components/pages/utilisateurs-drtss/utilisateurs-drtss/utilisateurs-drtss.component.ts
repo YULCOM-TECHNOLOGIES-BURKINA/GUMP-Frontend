@@ -27,8 +27,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
 
     userForm: FormGroup;
-    //userCompteRequestForm: FormGroup;
-    dataSource: any[];
+     dataSource: any[];
     utilisateurs: Utilisateur[];
 
     totalRecords = 0;
@@ -38,7 +37,7 @@ export class UtilisateursDrtssComponent implements OnInit {
     pageSize: number = 10000;
     pageNumber: number = 0;
     items: MenuItem[] = [];
-    isLoading: boolean = false; // Contrôle l'affichage du spinner
+    isLoading: boolean = false;
     currentUser: any;
 
     userInfo: any;

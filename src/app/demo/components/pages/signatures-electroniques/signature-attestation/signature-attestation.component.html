@@ -166,7 +166,7 @@
                             pButton pRipple icon="pi pi-eye" label="Visualiser" class="p-button-outlined mr-1 ">
                         </button>
 
-                        <button *ngIf="res?.status === 'SIGNED' && res?.attestation?.path "
+                        <button *ngIf="res?.status === 'SIGNED' && res?.attestation?.pathFile "
                             (click)="downloadFile(res?.attestation?.path)" pButton pRipple icon="pi pi-download"
                             label="Télécharger" class="p-button-outlined p-button-info">
                         </button>

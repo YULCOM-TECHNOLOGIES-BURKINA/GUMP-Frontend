@@ -311,8 +311,8 @@ export class SignatureElectroniquesService {
     }
 
     public signDocument(
-        signatoryId: string,
-        demandeId: string,
+        signatoryId: number,
+        demandeId: number,
         attestationPath: string,
     ): Observable<any> {
         if (!signatoryId || !demandeId || !attestationPath) {
