@@ -45,10 +45,10 @@ export class AsfService {
   //     responseType: 'blob'
   //   });
   // }
-  
+
 
   downloadAsf(data: ASFData): Observable<Blob> {
-    return this.http.post(`${this.apiUrl}/verify_asf_doc?service=asf-ms`, 
+    return this.http.post(`${this.apiUrl}/verify_asf_doc?service=asf-ms`,
       data,
       {
         responseType: 'blob',
@@ -72,7 +72,7 @@ export class AsfService {
     }
 
 
-    
+
 
 //   getDemandesHistory(data: { ifu: string, nes: string }): Observable<any> {
 //     return this.http.post(`${this.apiUrl}/demandes`, {
