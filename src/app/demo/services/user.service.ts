@@ -16,14 +16,14 @@ export class UserService {
 
   private getHeaders(): HttpHeaders {
       return new HttpHeaders({
-          Authorization: `Bearer ${this.token}`,
+          'Authorization': `Bearer ${this.token}`,
           'Content-Type': 'application/json',
       });
   }
 
   private getFormDataHeaders(): HttpHeaders {
       return new HttpHeaders({
-          Authorization: `Bearer ${this.token}`,
+          'Authorization': `Bearer ${this.token}`,
       });
   }
 
@@ -124,7 +124,7 @@ saveMe(userData: any): Observable<any> {
 //     );
 //   }
 
-  getUsersCompany(page: number, size: number = 100): Observable<UserResponse> {
+  getUsersCompany(page: number, size: number): Observable<UserResponse> {
     return this.http.get<UserResponse>(
       `${this.apiUrl}/users?page=${page}&size=${size}&service=users-ms`,
       {

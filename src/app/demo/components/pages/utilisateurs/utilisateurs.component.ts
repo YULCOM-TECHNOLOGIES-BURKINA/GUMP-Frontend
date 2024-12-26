@@ -93,9 +93,7 @@ export class UtilisateursComponent implements OnInit {
             life: 5000
           });
           this.request = null;
-          setTimeout(() => {
-            this.router.navigate(['/app/pages/utilisateurs']); 
-          }, 500); 
+          this.loadUsers(0, this.rows); 
         },
         error: (err) => {
           this.messageService.add({
@@ -120,9 +118,7 @@ export class UtilisateursComponent implements OnInit {
           life: 3000
         });
         this.request = null;
-        setTimeout(() => {
-          this.router.navigate(['/app/pages/utilisateurs']); 
-        }, 500); 
+        this.loadUsers(0, this.rows); 
       },
       error: (err) => {
         this.messageService.add({

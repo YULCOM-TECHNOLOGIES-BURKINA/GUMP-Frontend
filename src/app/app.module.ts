@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
 import { LoadingInterceptor } from './demo/shared/interceptors/loading.interceptor';
 import { SpinnerComponent } from "./demo/shared/spinner/spinner.component";
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 export function initializeKeycloak(keycloak: KeycloakAuthService) {
     return () => keycloak.init();
@@ -59,6 +60,8 @@ export function initializeKeycloak(keycloak: KeycloakAuthService) {
             multi: true,
             deps: [KeycloakAuthService]
         },
+        { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+        JwtHelperService,
 
         DrtssService,
         AjeService,
