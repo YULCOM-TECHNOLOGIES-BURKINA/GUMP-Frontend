@@ -13,8 +13,7 @@ export class DrtssService {
         private keycloak: KeycloakAuthService
     ) {}
 
-    private apiUrl =
-        'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
+    private apiUrl = 'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
     private apiGateway = 'https://gump-gateway.yulpay.com/api';
     private token = localStorage.getItem('currentToken');
 
@@ -41,7 +40,6 @@ export class DrtssService {
     }
 
     getDemandes(): Observable<DemandeDrtssResponse> {
-        console.log('token actif', this.token);
         return this.http.get<DemandeDrtssResponse>(this.apiUrl, {
             headers: this.getFormDataHeaders(),
         });
@@ -88,6 +86,16 @@ export class DrtssService {
     reviewRequest(requestId: number): Observable<any> {
         return this.http.post(
             `${this.apiGateway}/demandes/${requestId}/review?status=PROCESSING&service=drtss-ms`,
+            {},
+            {
+                headers: this.getFormDataHeaders(),
+            }
+        );
+    }
+
+    rollbackRequest(requestId: number): Observable<any> {
+        return this.http.post(
+            `${this.apiGateway}/demandes/${requestId}/rollback-rejection?service=drtss-ms`,
             {},
             {
                 headers: this.getFormDataHeaders(),

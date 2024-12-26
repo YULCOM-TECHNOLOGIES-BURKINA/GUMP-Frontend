@@ -63,6 +63,16 @@ export class AjeService {
     });
   }
 
+  rollbackRequest(requestId: number): Observable<any> {
+    return this.http.post(
+        `${this.apiUrl}/${requestId}/rollback-rejection?service=tresor-ms`,
+        {},
+        {
+            headers: this.getFormDataHeaders(),
+        }
+    );
+}
+
   makePayment(demandeId: number, callbackUrl: string): Observable<any> {
     const paymentData = {
       // requestType: "AJE",

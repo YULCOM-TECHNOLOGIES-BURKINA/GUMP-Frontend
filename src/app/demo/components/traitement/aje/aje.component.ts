@@ -127,6 +127,8 @@ export class TraitementAjeComponent implements OnInit {
   attestationAnpeDate: Date = null;
   attestationCnssDate: Date = null;
 
+  displayRollbackModal: boolean = false;
+
   readonly VALIDITY_HOURS = 72;
   readonly WARNING_HOURS = 48; 
 
@@ -361,6 +363,38 @@ export class TraitementAjeComponent implements OnInit {
       }
     });
   }
+
+  openRollbackRequest(request: DemandeAje) {
+    this.ajeService.getOneDemande(request.id).subscribe(data => {
+      this.request = data;
+    });
+    this.displayRollbackModal = true;
+  }
+
+  rollbackRequest(identifiant) {
+    this.ajeService.rollbackRequest(identifiant).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Le rejet de la demande a été annulé.',
+          life: 3000
+        });
+        this.displayRollbackModal = false;
+        setTimeout(() => {
+          this.router.navigate(['/app/traitement/aje']); 
+        }, 500); 
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Une erreur est survenue lors de l\'annulation du rejet de la demande.',
+          life: 3000
+        });
+      }
+    });
+}
 
   closeProcessModal() {
     this.displayProcessModal = false;
