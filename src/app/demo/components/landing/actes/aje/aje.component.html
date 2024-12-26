@@ -37,6 +37,15 @@
                         </div>
 
                         <div class="col-3 mt-2">
+                            <span>Domaine d'activité (*) </span>
+                            <input [(ngModel)]="businessDomain" 
+                                pInputText 
+                                id="businessDomain"  
+                                placeholder="Référence du compte" 
+                                required />
+                        </div>
+
+                        <div class="col-3 mt-2">
                             <span>{{ formLabels.reference }} (*)</span>
                             <input [(ngModel)]="contractReference" 
                                 pInputText 
@@ -45,7 +54,7 @@
                                 required />
                         </div>
 
-                        <div class="col-6 mt-2">
+                        <div class="col-3 mt-2">
                             <span>{{ formLabels.purpose }} (*)</span>
                             <input [(ngModel)]="contractPurpose" 
                                 pInputText 

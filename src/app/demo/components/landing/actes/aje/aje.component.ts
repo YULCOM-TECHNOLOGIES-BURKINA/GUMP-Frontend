@@ -17,6 +17,7 @@ export class AjeComponent implements OnInit {
   contractingOrganizationName: string;
   organizationAddress: string;
   organizationPhone: string;
+  businessDomain: string;
 
   formLabels = {
     title: 'Fiche de demande et de retrait d\'attestation de non engagement - Liquidation',
@@ -56,6 +57,7 @@ export class AjeComponent implements OnInit {
   isFormValid(): boolean {
     return   !!this.bankAccountReference 
           && !!this.contractReference 
+          && !!this.businessDomain 
           && !!this.contractPurpose
           && !!this.contractingOrganizationName
           && !!this.organizationAddress
@@ -81,7 +83,8 @@ export class AjeComponent implements OnInit {
         contractPurpose: this.contractPurpose,
         contractingOrganizationName: this.contractingOrganizationName,
         organizationAddress: this.organizationAddress,
-        organizationPhone: this.organizationPhone
+        organizationPhone: this.organizationPhone,
+        businessDomain: this.businessDomain
       };
       
       this.ajeService.submitAttestationRequest(requestData).subscribe({

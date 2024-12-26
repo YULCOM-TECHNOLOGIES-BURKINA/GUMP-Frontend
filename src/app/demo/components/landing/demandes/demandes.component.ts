@@ -234,6 +234,8 @@ export class DemandesComponent implements OnInit {
         return 'Signée';
       case 'PROCESSING':
         return 'En cours de traitement';
+      case 'COMPANY_HAS_DEBT_WAITING_FOR_MANUAL_REVIEW':
+        return 'En cours de traitement'; 
       case 'REJECTED':
         return 'Rejetée';
       case 'PENDING':

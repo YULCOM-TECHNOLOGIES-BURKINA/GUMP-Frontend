@@ -232,10 +232,10 @@ export class TraitementAjeComponent implements OnInit {
         return 'En cours de traitement';
       case 'REJECTED':
         return 'Rejetée';
-        case 'PENDING':
-          return 'En attente';
-        case 'COMPANY_HAS_DEBT_WAITING_FOR_MANUAL_REVIEW':
-          return 'En attente'; 
+      case 'PENDING':
+        return 'En attente';
+      case 'COMPANY_HAS_DEBT_WAITING_FOR_MANUAL_REVIEW':
+        return 'En attente'; 
       default:
         return status;  // Si le statut est inconnu, on le retourne tel quel
     }
