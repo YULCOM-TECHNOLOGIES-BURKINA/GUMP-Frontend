@@ -44,7 +44,8 @@ export interface User {
     company?: Company;
     cnssNumber?:string;
     region?:string;
-    isActif?: boolean;
+    isActive?: boolean;
+    isPendingForActivation?: boolean;
     statutDocumentPath?: string;
     cnibDocumentPath?: string;
     nes?: string;

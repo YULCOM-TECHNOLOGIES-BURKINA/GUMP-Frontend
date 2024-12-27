@@ -395,6 +395,12 @@
                                 <td>{{ request.createdAt | date: 'dd/MM/yyyy' }}</td>
                                 <td>
                                     <button pButton pRipple icon="pi pi-eye" class="p-button-outlined p-button-secondary  mr-2" (click)="openViewRequest(request)" pTooltip="Voir la demande" tooltipPosition="bottom"></button>
+                                    <button pButton pRipple icon="pi pi-undo" 
+                                            class="p-button-outlined p-button-warning mr-2" 
+                                            (click)="openRollbackRequest(request)" 
+                                            pTooltip="Annuler le rejet" 
+                                            tooltipPosition="bottom">
+                                    </button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -452,6 +458,17 @@
         <ng-template pTemplate="footer">
             <button pButton label="Rejeter la demande" icon="pi pi-times" (click)="rejectRequest(request.id)" class="p-button-danger"></button>
             <button pButton label="Annuler" icon="pi pi-times" (click)="closeRejectModal()" class="p-button-secondary"></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="displayRollbackModal" header="Confirmation" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            <span>Voulez-vous vraiment annuler le rejet de la demande <b>{{request?.id}}</b>?</span>
+        </div>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Non" (click)="displayRollbackModal = false"></button>
+            <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="rollbackRequest(request?.id)"></button>
         </ng-template>
     </p-dialog>
 </div>

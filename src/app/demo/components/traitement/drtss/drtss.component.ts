@@ -117,6 +117,7 @@ export class TraitementDrtssComponent implements OnInit {
   displayProcessModal: boolean = false;
   displayRejectModal: boolean = false;
   displayProcessDetailModal: boolean = false;
+  displayRollbackModal: boolean = false;
   
   rejectionReason: string = '';
 
@@ -285,6 +286,13 @@ export class TraitementDrtssComponent implements OnInit {
     this.displayProcessDetailModal = true;
   }
 
+  openRollbackRequest(request: DemandeDrtss) {
+    this.drtssService.getOneDemande(request.id).subscribe(data => {
+      this.request = data;
+    });
+    this.displayRollbackModal = true;
+  }
+
   openProcessRequest(request: DemandeDrtss) {
     this.drtssService.getOneDemande(request.id).subscribe(data => {
       this.request = data;
@@ -428,6 +436,31 @@ export class TraitementDrtssComponent implements OnInit {
       });
     }
   }
+
+  rollbackRequest(identifiant) {
+    this.drtssService.rollbackRequest(identifiant).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Le rejet de la demande a été annulé.',
+          life: 3000
+        });
+        this.displayRollbackModal = false;
+        setTimeout(() => {
+          this.router.navigate(['/app/traitement/drtss']); 
+        }, 500); 
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Une erreur est survenue lors de l\'annulation du rejet de la demande.',
+          life: 3000
+        });
+      }
+    });
+}
 
   closeProcessModal() {
     this.displayProcessModal = false;
