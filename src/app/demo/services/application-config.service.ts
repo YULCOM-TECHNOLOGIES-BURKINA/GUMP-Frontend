@@ -8,8 +8,6 @@ import { HttpFastserviceService } from './http-fastservice.service';
     providedIn: 'root',
 })
 export class ApplicationConfigService {
-    private apiUrl =
-        'https://gump-gateway.yulpay.com/api/demandes?service=drtss-ms';
     _gateway = 'https://gump-gateway.yulpay.com/api/';
     _ms_drtss = 'service=drtss-ms';
     _ms_users = 'service=users-ms';

@@ -3,11 +3,17 @@ import { ApplicationConfigDrtpsComponent } from './application-config-drtps/appl
 import { ApplicationConfigAjeComponent } from './application-config-aje/application-config-aje.component';
 import { AuthService } from 'src/app/demo/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { ApplicationConfigActeComponent } from './application-config-acte/application-config-acte.component';
 
 @Component({
   selector: 'app-application-config',
   standalone: true,
-  imports: [CommonModule, ApplicationConfigDrtpsComponent,ApplicationConfigAjeComponent],
+  imports: [
+    CommonModule,
+    ApplicationConfigActeComponent,
+    // ApplicationConfigDrtpsComponent,
+    // ApplicationConfigAjeComponent
+  ],
   templateUrl: './application-config.component.html',
   styleUrl: './application-config.component.scss'
 })
