@@ -33,6 +33,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { SelectButtonModule } from 'primeng/selectbutton';
  import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
     declarations: [],
@@ -80,7 +81,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
         InputNumberModule,
         DialogModule,
         MessagesModule,
-
+        CardModule,
         ToggleButtonModule,
         MultiSelectModule,
         ProgressBarModule,

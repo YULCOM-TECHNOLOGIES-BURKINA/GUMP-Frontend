@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import {
     ChangeDetectorRef,
@@ -17,37 +18,278 @@ import { SignatureElectroniquesService } from 'src/app/demo/services/signature-e
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
+interface Params {
+    icon: string;
+    title: string;
+    code: string;
+    description: string;
+    acteConfig: ParamsConfigActe [];
+  }
+
+  interface ParamsConfigActe {
+    id: number;
+    param: string;
+    labelle: string;
+    value: string;
+  }
 @Component({
     selector: 'app-application-config-acte',
     standalone: true,
     imports: [UtilsModuleModule],
     templateUrl: './application-config-acte.component.html',
     styleUrl: './application-config-acte.component.scss',
-    providers: [ConfirmationService, MessageService],
+    providers: [ConfirmationService, MessageService],animations: [
+        trigger('fadeInOut', [
+          state('void', style({ opacity: 0, transform: 'translateY(20px)' })),
+          transition('void <=> *', animate('300ms ease-in-out'))
+        ])
+      ]
 })
+
 export class ApplicationConfigActeComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
 
-     configForn: FormGroup;
+    configForn: FormGroup;
 
-
-
-     deleteDialog = false;
-
-    // Pagination
+    deleteDialog = false;
+    params: Params[] = [];
+    selectedParams: Params | null = null;
+    loading: boolean = true;
+    selectedActeConfig: ParamsConfigActe | null = null;
 
     constructor(
         public layoutService: LayoutService,
         public router: Router,
-         private appConfigService: ApplicationConfigService,
-         private fb: FormBuilder,
+        private appConfigService: ApplicationConfigService,
+        private fb: FormBuilder,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private http: HttpClient
     ) {}
     ngOnInit(): void {
         this.loadConfig();
+
+        this.params = [
+            {
+                "icon": "pi pi-briefcase",
+                "title": "Attestation DRTPS",
+                "code": "drtps",
+                "description": "Informations sur l'attestation de la Direction Régionale du Travail et de la Protection Sociale.",
+                "acteConfig": [
+                    {
+                        id: 1,
+                        param: "drtps",
+                        labelle: "string",
+                        value: "Validité de l’acte"
+                    },
+                    {
+                        id: 2,
+                        param: "drtps",
+                        labelle: "delaiTraitement",
+                        value: "3 Mois"
+                    },
+                    {
+                        id: 3,
+                        param: "drtps",
+                        labelle: "prixActe",
+                        value: "250.000 Fr CFA"
+                    },
+                    {
+                        id: 4,
+                        param: "drtps",
+                        labelle: "description",
+                        value: "Description de l’acte"
+                    },
+                    {
+                        id: 5,
+                        param: "drtps",
+                        labelle: "intitule",
+                        value: "Intitulé de l’acte"
+                    },
+                    {
+                        id: 6,
+                        param: "drtps",
+                        labelle: "logo",
+                        value: "Logo de la structure"
+                    },
+                    {
+                        id: 7,
+                        param: "drtps",
+                        labelle: "titreActe",
+                        value: "Le titre des actes"
+                    },
+                    {
+                        id: 8,
+                        param: "drtps",
+                        labelle: "ministaire",
+                        value: "Ministraire DRTPS"
+                    },
+                    {
+                        id: 9,
+                        param: "drtps",
+                        labelle: "devise",
+                        value: "La Patrie ou la Mort, Nous Vaincrons."
+                    },
+                    {
+                        id: 10,
+                        param: "drtps",
+                        labelle: "adressEntreprise",
+                        value: "L’adresse de l’entreprise"
+                    },
+                    {
+                        id: 11,
+                        param: "drtps",
+                        labelle: "titreSignataire",
+                        value: "Le Directeur Régional"
+                    },
+                    {
+                        id: 12,
+                        param: "drtps",
+                        labelle: "adressEmetrice",
+                        value: "Adresse de la structure émétrice"
+                    },
+                    {
+                        id: 13,
+                        param: "drtps",
+                        labelle: "contactEmetrice",
+                        value: "Contact de la structure émétrice"
+                    }
+                ]
+            },
+            {
+                "icon": "pi pi-chart-line",
+                "title": "Attestation AJE",
+                "code": "aje",
+                "description": "Informations sur l'attestation de l'Agence pour la Jeunesse et l'Emploi.",
+                "acteConfig": [
+                    {
+                        id: 1,
+                        param: "aje",
+                        labelle: "contactEmetrice",
+                        value: "Contact de la structure émétrice"
+                    },
+                    {
+                        id: 2,
+                        param: "aje",
+                        labelle: "delaiTraitement",
+                        value: "3 Mois"
+                    },
+                    {
+                        id: 3,
+                        param: "aje",
+                        labelle: "prixActe",
+                        value: "250.000 Fr CFA"
+                    },
+                    {
+                        id: 4,
+                        param: "aje",
+                        labelle: "description",
+                        value: "Description de l’acte"
+                    },
+                    {
+                        id: 5,
+                        param: "aje",
+                        labelle: "intitule",
+                        value: "Intitulé de l’acte"
+                    },
+                    {
+                        id: 6,
+                        param: "aje",
+                        labelle: "logo",
+                        value: "Logo de la structure"
+                    },
+                    {
+                        id: 7,
+                        param: "aje",
+                        labelle: "titreActe",
+                        value: "Le titre des actes"
+                    },
+                    {
+                        id: 8,
+                        param: "aje",
+                        labelle: "ministaire",
+                        value: "Ministraire DRTPS"
+                    },
+                    {
+                        id: 9,
+                        param: "aje",
+                        labelle: "devise",
+                        value: "La Patrie ou la Mort, Nous Vaincrons."
+                    },
+                    {
+                        id: 10,
+                        param: "aje",
+                        labelle: "adressEntreprise",
+                        value: "L’adresse de l’entreprise"
+                    },
+                    {
+                        id: 11,
+                        param: "aje",
+                        labelle: "titreSignataire",
+                        value: "Le Directeur Régional"
+                    },
+                    {
+                        id: 12,
+                        param: "aje",
+                        labelle: "adressEmetrice",
+                        value: "Adresse de la structure émétrice"
+                    },
+                    {
+                        id: 13,
+                        param: "aje",
+                        labelle: "contactEmetrice",
+                        value: "Contact de la structure émétrice"
+                    }
+                ]
+            },
+            {
+              "icon": "pi pi-file",
+              "title": "Attestation de situation cotisante CNSS",
+              "code": "cnss-cotisant",
+              "description": "Informations sur l'attestation de situation cotisante CNSS et sa procédure d'obtention.",
+                "acteConfig": []
+            },
+            {
+                "icon": "pi pi-users",
+                "title": "Attestation ANPE",
+                "code": "anpe",
+                "description": "Informations sur l'attestation de l'Agence Nationale Pour l'Emploi.",
+                "acteConfig": []
+            },
+            {
+                "icon": "pi pi-building",
+                "title": "Extrait RCCM",
+                "code": "rccm",
+                "description": "Informations sur l'extrait du Registre du Commerce et du Crédit Mobilier.",
+                "acteConfig": []
+            },
+            {
+                "icon": "pi pi-check-circle",
+                "title": "Certificat de Non Faillite",
+                "code": "non-faillite",
+                "description": "Informations sur le certificat de non faillite et sa procédure d'obtention.",
+                "acteConfig": []
+            },
+            {
+                "icon": "pi pi-file",
+                "title": "Attestation de situation fiscale",
+                "code": "asf",
+                "description": "Informations sur l'attestation de situation fiscale et sa procédure d'obtention.",
+                "acteConfig": []
+            },
+
+        ];
+
+        this.selectedParams = this.params[0];
+
+        setTimeout(() => {
+            this.loading = false;
+        }, 1000);
     }
+
+    selectParam(param: Params) {
+        this.selectedParams = param;
+      }
 
     appConfigArr: any[] = [];
     loadConfig() {

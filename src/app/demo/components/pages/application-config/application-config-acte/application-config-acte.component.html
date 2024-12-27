@@ -71,7 +71,6 @@
                     class="p-button-text p-button-success"></button>
             </ng-template>
         </p-dialog>
-
     </div>
 
     <div class="card">
@@ -157,6 +156,49 @@
                 </tr>
             </ng-template>
         </p-table>
-
     </div>
+</div>
+
+<div class="col-12">
+    <div class="card">
+        <!-- Params -->
+        <div class="grid">
+            <!-- Params Sidebar -->
+            <div class="col-12 lg:col-3">
+                <div class="surface-card p-4 shadow-2 border-round">
+                    <h3 class="text-xl font-semibold mb-4">Parametres</h3>
+                    <div class="flex flex-column gap-2">
+                        <button *ngFor="let param of params"
+                                pButton
+                                [label]="param.title"
+                                [icon]="param.icon"
+                                [class]="selectedParam === param ? 'p-button-success' : 'p-button-text text-900'"
+                                (click)="selectParam(param)"
+                                class="p-button-lg justify-content-between">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 lg:col-9">
+                <p-card>
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center gap-3 p-4 border-bottom-1 surface-border">
+                            <i [class]="selectedParams?.icon + ' text-4xl text-green-500'"></i>
+                            <div>
+                                <h2 class="text-3xl font-bold m-0">{{selectedParams?.title}}</h2>
+                                <p class="text-700 m-0">{{selectedParams?.description}}</p>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <p-skeleton *ngIf="loading" height="150px" styleClass="mb-4"></p-skeleton>
+
+                    Contenu Form et liste de parametre valeurs
+                </p-card>
+            </div>
+        </div>
+    </div>
+
+
 </div>
