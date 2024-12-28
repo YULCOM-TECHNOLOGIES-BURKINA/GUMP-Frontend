@@ -16,3 +16,9 @@ export interface DrtpsConfig {
   processingTimeInDaysForLiquidation?:number,
   processingTimeInDaysForSoumission?:number
 }
+
+export interface ActeConfig {
+    value ?: any[]|any,
+    param: string,
+    labelle: string
+  }

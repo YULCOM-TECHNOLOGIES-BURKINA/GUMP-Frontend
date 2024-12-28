@@ -11,7 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
  import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { DrtpsConfig } from 'src/app/demo/models/appConfig';
+import { ActeConfig, DrtpsConfig } from 'src/app/demo/models/appConfig';
 import { Utilisateur } from 'src/app/demo/models/utilisateurs';
 import { ApplicationConfigService } from 'src/app/demo/services/application-config.service';
 import { SignatureElectroniquesService } from 'src/app/demo/services/signature-electroniques.service';
@@ -49,13 +49,17 @@ interface Params {
 export class ApplicationConfigActeComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
 
-    configForn: FormGroup;
+    configForn: FormGroup = this.fb.group({
+        param: [],
+        labelle: [],
+        value: [],
+    })
 
     deleteDialog = false;
     params: Params[] = [];
     selectedParams: Params | null = null;
     loading: boolean = true;
-    selectedActeConfig: ParamsConfigActe | null = null;
+    selectedActeConfig: ParamsConfigActe[] | null = [];
 
     constructor(
         public layoutService: LayoutService,
@@ -64,7 +68,8 @@ export class ApplicationConfigActeComponent implements OnInit {
         private fb: FormBuilder,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
-        private http: HttpClient
+        private http: HttpClient,
+        private _changeRef: ChangeDetectorRef
     ) {}
     ngOnInit(): void {
         this.loadConfig();
@@ -281,14 +286,20 @@ export class ApplicationConfigActeComponent implements OnInit {
         ];
 
         this.selectedParams = this.params[0];
+        this.selectedActeConfig = this.params[0].acteConfig!;
 
         setTimeout(() => {
             this.loading = false;
         }, 1000);
+
+        this._changeRef.markForCheck();
     }
 
     selectParam(param: Params) {
         this.selectedParams = param;
+        this.selectedActeConfig = param.acteConfig!;
+
+        this._changeRef.markForCheck();
       }
 
     appConfigArr: any[] = [];
@@ -303,31 +314,64 @@ export class ApplicationConfigActeComponent implements OnInit {
             },
         });
 
-        this.configForn = this.fb.group({
-            footer: [],
-            header: [],
-            processingTimeInDays: [],
-            validityTimeInMonths: [],
-           // logo: [],
-        });
+        // this.configForn = this.fb.group({
+        //     footer: [],
+        //     header: [],
+        //     processingTimeInDays: [],
+        //     validityTimeInMonths: [],
+        //    // logo: [],
+        // });
     }
 
     submitted: boolean;
     modalDialog: boolean;
-    openNew(config: DrtpsConfig) {
-        this.initConfirForm(config);
+    openNew() {
+        this.resetConfirForm();
         this.modalDialog = true;
+        this._changeRef.markForCheck();
     }
 
-    initConfirForm(config: DrtpsConfig) {
+    updateConfig(config: ActeConfig) {
+        this.initConfirForm(config);
+        this.modalDialog = true;
+        this._changeRef.markForCheck();
+    }
+
+    // openNew(config: DrtpsConfig) {
+    //     this.initConfirForm(config);
+    //     this.modalDialog = true;
+    // }
+
+    // initConfirForm(config: DrtpsConfig) {
+    //     console.log(' mise a jour');
+    //     this.configForn.setValue({
+    //         footer: config.footer,
+    //         header: config.header,
+    //         processingTimeInDays: config.processingTimeInDays,
+    //         validityTimeInMonths: config.validityTimeInMonths,
+    //       //  logo: config.logo,
+    //     });
+    // }
+
+    initConfirForm(config: ActeConfig) {
         console.log(' mise a jour');
         this.configForn.setValue({
-            footer: config.footer,
-            header: config.header,
-            processingTimeInDays: config.processingTimeInDays,
-            validityTimeInMonths: config.validityTimeInMonths,
-          //  logo: config.logo,
+            param: config.param,
+            labelle: config.labelle,
+            value: config.value,
         });
+
+        this._changeRef.markForCheck();
+    }
+
+    resetConfirForm() {
+        this.configForn.setValue({
+            param: this.selectedParams.code!,
+            labelle: "",
+            value: ""
+        });
+
+        this._changeRef.markForCheck();
     }
 
     openDeleteDialog(Utilisateur: Utilisateur) {
@@ -368,6 +412,7 @@ export class ApplicationConfigActeComponent implements OnInit {
     onFileSelect(event: any): void {
         if (event.currentFiles && event.currentFiles.length > 0) {
             this.selectedFile = event.currentFiles[0];
+            this.configForn.controls['value'].setValue(this.selectedFile);
             console.log('Fichier sélectionné:', this.selectedFile);
         }
     }
