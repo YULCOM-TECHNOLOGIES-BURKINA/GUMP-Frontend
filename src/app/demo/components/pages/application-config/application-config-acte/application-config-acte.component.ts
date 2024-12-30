@@ -11,6 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
  import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { forkJoin, of, switchMap } from 'rxjs';
 import { ActeConfig, DrtpsConfig } from 'src/app/demo/models/appConfig';
 import { Utilisateur } from 'src/app/demo/models/utilisateurs';
 import { ApplicationConfigService } from 'src/app/demo/services/application-config.service';
@@ -135,13 +136,35 @@ export class ApplicationConfigActeComponent implements OnInit {
     }
 
     loadConfig() {
-        this.appConfigService.getConfigDrtps().subscribe(
-            res => {
-                this.params = this.filterParamByUser(res);
+        of(true).pipe(
+            switchMap((execut: boolean) => {
+             return forkJoin([
+               this.appConfigService.getConfigDrtps(),
+            //    this.appConfigService.getConfigAje()
+              ])
+            })
+          )
+          .subscribe(([paramDrtps]) => {
+            let res = [paramDrtps[0]];
+            this.params = this.filterParamByUser(res);
                 this.selectParam(this.params[0]!);
                 this._changeRef.markForCheck();
-             }
-        );
+          });
+        //   .subscribe(([paramDrtps, paramAje]) => {
+        //     let res = [paramDrtps[0],paramAje[0]];
+        //     this.params = this.filterParamByUser(res);
+        //         this.selectParam(this.params[0]!);
+        //         this._changeRef.markForCheck();
+        //   });
+
+        // this.appConfigService.getConfigDrtps().subscribe(
+        //     res => {
+        //         this.params = this.filterParamByUser(res);
+        //         this.selectParam(this.params[0]!);
+        //         this._changeRef.markForCheck();
+        //      }
+        // );
+
     }
 
     submitted: boolean;
