@@ -14,15 +14,18 @@ import { Table } from 'primeng/table';
 import { ActeConfig, DrtpsConfig } from 'src/app/demo/models/appConfig';
 import { Utilisateur } from 'src/app/demo/models/utilisateurs';
 import { ApplicationConfigService } from 'src/app/demo/services/application-config.service';
+import { AuthService } from 'src/app/demo/services/auth.service';
 import { SignatureElectroniquesService } from 'src/app/demo/services/signature-electroniques.service';
 import { UtilsModuleModule } from 'src/app/demo/shared/utils-module/utils-module.module';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 interface Params {
+    id: number;
     icon: string;
     title: string;
     code: string;
     description: string;
+    logo: any;
     acteConfig: ParamsConfigActe [];
   }
 
@@ -30,7 +33,7 @@ interface Params {
     id: number;
     param: string;
     labelle: string;
-    value: string;
+    value: any;
   }
 @Component({
     selector: 'app-application-config-acte',
@@ -60,6 +63,7 @@ export class ApplicationConfigActeComponent implements OnInit {
     selectedParams: Params | null = null;
     loading: boolean = true;
     selectedActeConfig: ParamsConfigActe[] | null = [];
+    userRole: any;
 
     constructor(
         public layoutService: LayoutService,
@@ -69,35 +73,47 @@ export class ApplicationConfigActeComponent implements OnInit {
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private http: HttpClient,
-        private _changeRef: ChangeDetectorRef
-    ) {}
-    ngOnInit(): void {
-        this.loadConfig();
+        private _changeRef: ChangeDetectorRef,
+        private authService: AuthService ){
+        this.userRole = this.authService.getUserRole();
+
+        const userDetails = localStorage.getItem('currentUser');
+        const user = JSON.parse(userDetails);
+
+        this.userRole = user.role;
 
         this.params = [
             {
+                "id": 1,
                 "icon": "pi pi-briefcase",
                 "title": "Attestation DRTPS",
                 "code": "drtps",
                 "description": "Informations sur l'attestation de la Direction Régionale du Travail et de la Protection Sociale.",
+                "logo": "https://gump-gateway.yulpay.com/api/files/1/uploads-a8efd3de-c530-4826-9599-8207ec3fd6c6.png?service=drtss-ms",
                 "acteConfig": [
                     {
                         id: 1,
                         param: "drtps",
-                        labelle: "string",
-                        value: "Validité de l’acte"
+                        labelle: "validiteMois",
+                        value: 1
+                    },
+                    {
+                        id: 1,
+                        param: "drtps",
+                        labelle: "validiteJours",
+                        value: 1
                     },
                     {
                         id: 2,
                         param: "drtps",
                         labelle: "delaiTraitement",
-                        value: "3 Mois"
+                        value: 1
                     },
                     {
                         id: 3,
                         param: "drtps",
                         labelle: "prixActe",
-                        value: "250.000 Fr CFA"
+                        value: 250000
                     },
                     {
                         id: 4,
@@ -110,12 +126,6 @@ export class ApplicationConfigActeComponent implements OnInit {
                         param: "drtps",
                         labelle: "intitule",
                         value: "Intitulé de l’acte"
-                    },
-                    {
-                        id: 6,
-                        param: "drtps",
-                        labelle: "logo",
-                        value: "Logo de la structure"
                     },
                     {
                         id: 7,
@@ -158,14 +168,28 @@ export class ApplicationConfigActeComponent implements OnInit {
                         param: "drtps",
                         labelle: "contactEmetrice",
                         value: "Contact de la structure émétrice"
+                    },
+                    {
+                        id: 13,
+                        param: "drtps",
+                        labelle: "vu1",
+                        value: "Vue Decret 1"
+                    },
+                    {
+                        id: 13,
+                        param: "drtps",
+                        labelle: "vu2",
+                        value: "Vue Decret 2"
                     }
                 ]
             },
             {
+                "id": 2,
                 "icon": "pi pi-chart-line",
                 "title": "Attestation AJE",
                 "code": "aje",
                 "description": "Informations sur l'attestation de l'Agence pour la Jeunesse et l'Emploi.",
+                "logo": "https://gump-gateway.yulpay.com/api/files/3/uploads-logo.png?service=tresor-ms",
                 "acteConfig": [
                     {
                         id: 1,
@@ -228,12 +252,6 @@ export class ApplicationConfigActeComponent implements OnInit {
                         value: "L’adresse de l’entreprise"
                     },
                     {
-                        id: 11,
-                        param: "aje",
-                        labelle: "titreSignataire",
-                        value: "Le Directeur Régional"
-                    },
-                    {
                         id: 12,
                         param: "aje",
                         labelle: "adressEmetrice",
@@ -246,44 +264,14 @@ export class ApplicationConfigActeComponent implements OnInit {
                         value: "Contact de la structure émétrice"
                     }
                 ]
-            },
-            {
-              "icon": "pi pi-file",
-              "title": "Attestation de situation cotisante CNSS",
-              "code": "cnss-cotisant",
-              "description": "Informations sur l'attestation de situation cotisante CNSS et sa procédure d'obtention.",
-                "acteConfig": []
-            },
-            {
-                "icon": "pi pi-users",
-                "title": "Attestation ANPE",
-                "code": "anpe",
-                "description": "Informations sur l'attestation de l'Agence Nationale Pour l'Emploi.",
-                "acteConfig": []
-            },
-            {
-                "icon": "pi pi-building",
-                "title": "Extrait RCCM",
-                "code": "rccm",
-                "description": "Informations sur l'extrait du Registre du Commerce et du Crédit Mobilier.",
-                "acteConfig": []
-            },
-            {
-                "icon": "pi pi-check-circle",
-                "title": "Certificat de Non Faillite",
-                "code": "non-faillite",
-                "description": "Informations sur le certificat de non faillite et sa procédure d'obtention.",
-                "acteConfig": []
-            },
-            {
-                "icon": "pi pi-file",
-                "title": "Attestation de situation fiscale",
-                "code": "asf",
-                "description": "Informations sur l'attestation de situation fiscale et sa procédure d'obtention.",
-                "acteConfig": []
-            },
-
+            }
         ];
+
+        this.params = this.filterParamByUser();
+    }
+
+    ngOnInit(): void {
+        this.loadConfig();
 
         this.selectedParams = this.params[0];
         this.selectedActeConfig = this.params[0].acteConfig!;
@@ -295,6 +283,28 @@ export class ApplicationConfigActeComponent implements OnInit {
         this._changeRef.markForCheck();
     }
 
+    filterParamByUser(){
+
+        let tmp = this.params;
+        console.log("UserRol : ", this.userRole)
+
+        switch (this.userRole) {
+            case "DRTSS_AGENT":
+                this.params = tmp.filter(p => p.code == 'drtps');
+                break;
+
+            case "TRESOR_AGENT":
+                this.params = tmp.filter(p => p.code == 'aje');
+                break;
+
+            default:
+                this.params = tmp;
+                break;
+        }
+
+        return this.params;
+    }
+
     selectParam(param: Params) {
         this.selectedParams = param;
         this.selectedActeConfig = param.acteConfig!;
@@ -304,6 +314,7 @@ export class ApplicationConfigActeComponent implements OnInit {
 
     appConfigArr: any[] = [];
     loadConfig() {
+
          this.appConfigService.getConfigDrtps().subscribe({
             next: (res: DrtpsConfig) => {
                 this.appConfigArr=[]
@@ -313,14 +324,6 @@ export class ApplicationConfigActeComponent implements OnInit {
                 const errorMessage = error?.error;
             },
         });
-
-        // this.configForn = this.fb.group({
-        //     footer: [],
-        //     header: [],
-        //     processingTimeInDays: [],
-        //     validityTimeInMonths: [],
-        //    // logo: [],
-        // });
     }
 
     submitted: boolean;
