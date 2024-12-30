@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { AjeConfig } from 'src/app/demo/models/appConfig';
 import { ApplicationConfigService } from 'src/app/demo/services/application-config.service';
@@ -41,7 +41,7 @@ export class ApplicationConfigAjeComponent implements OnInit {
     appConfigArr: any[] = [];
     loadConfig() {
         this.appConfigService.getConfigAje().subscribe({
-            next: (res: AjeConfig) => {
+            next: (res: Params) => {
                 this.appConfigArr = [];
                 this.appConfigArr.push(res);
             },

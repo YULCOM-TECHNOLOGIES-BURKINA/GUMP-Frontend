@@ -11,14 +11,13 @@ import { ApplicationConfigActeComponent } from './application-config-acte/applic
   imports: [
     CommonModule,
     ApplicationConfigActeComponent,
-    ApplicationConfigDrtpsComponent,
-    ApplicationConfigAjeComponent
+    // ApplicationConfigDrtpsComponent,
+    // ApplicationConfigAjeComponent
   ],
   templateUrl: './application-config.component.html',
   styleUrl: './application-config.component.scss'
 })
 export class ApplicationConfigComponent {
-
 
     userRole: any;
    constructor(private authService: AuthService ){

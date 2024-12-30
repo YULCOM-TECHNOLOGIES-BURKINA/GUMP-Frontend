@@ -18,6 +18,7 @@ export interface DrtpsConfig {
 }
 
 export interface ActeConfig {
+    id: number,
     value ?: any[]|any,
     param: string,
     labelle: string

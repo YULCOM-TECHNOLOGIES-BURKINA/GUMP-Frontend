@@ -7,7 +7,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
  import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { DrtpsConfig } from 'src/app/demo/models/appConfig';
@@ -52,7 +52,7 @@ export class ApplicationConfigDrtpsComponent implements OnInit {
     appConfigArr: any[] = [];
     loadConfig() {
          this.appConfigService.getConfigDrtps().subscribe({
-            next: (res: DrtpsConfig) => {
+            next: (res: Params) => {
                 this.appConfigArr=[]
                 this.appConfigArr.push(res);
              },

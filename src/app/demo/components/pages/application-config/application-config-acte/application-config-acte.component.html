@@ -11,8 +11,8 @@
                     <div class="flex flex-column gap-2">
                         <button *ngFor="let param of params"
                                 pButton
-                                [label]="param.title"
-                                [icon]="param.icon"
+                                [label]="param.title!"
+                                [icon]="param.icon!"
                                 [class]="selectedParam === param ? 'p-button-success' : 'p-button-text text-900'"
                                 (click)="selectParam(param)"
                                 class="p-button-lg justify-content-between text-left">
@@ -25,16 +25,16 @@
                 <p-card>
                     <ng-template pTemplate="header">
                         <div class="flex align-items-center gap-3 p-4 border-bottom-1 surface-border">
-                            <i [class]="selectedParams?.icon + ' text-4xl text-green-500'"></i>
+                            <i [class]="selectedParams!.icon! + ' fi fi-ss-settings text-4xl text-green-500'"></i>
                             <div>
-                                <h2 class="text-3xl font-bold m-0">{{selectedParams?.title}}</h2>
-                                <p class="text-700 m-0">{{selectedParams?.description}}</p>
+                                <h2 class="text-3xl font-bold m-0">{{selectedParams?.title!}}</h2>
+                                <p class="text-700 m-0">{{selectedParams?.description!}}</p>
                             </div>
                         </div>
                     </ng-template>
 
                     <p-skeleton *ngIf="loading" height="150px" styleClass="mb-4"></p-skeleton>
-
+                    <!-- Modal Config param  -->
                     <div class="sticky-bar">
                         <p-dialog [(visible)]="modalDialog" [style]="{ width: '850px' }" header="Modification Informations"
                             [modal]="true" class="p-fluid">
@@ -42,27 +42,63 @@
 
                                 <div class="card shadow-2  ">
 
-                                    <form (ngSubmit)="submitForm()" [formGroup]="configForn">
+                                    <form (ngSubmit)="onUpdateConfig()" [formGroup]="configForn">
                                         <div class="p-fluid formgrid grid">
                                             <div class="field col-12 md:col-6">
                                                 <label for="code">Code</label>
-                                                <input formControlName="param" pInputText id="code" placeholder="Code" disabled />
+                                                <input formControlName="param" pInputText id="code" placeholder="Code" />
                                             </div>
 
                                             <div class="field col-12 md:col-6">
                                                 <label for="labelle">labelle</label>
-                                                <input formControlName="labelle" pInputText id="labelle" placeholder="Variable" />
+                                                <input formControlName="labelle" pInputText id="labelle" placeholder="Variable"/>
                                             </div>
 
-                                            <div class="field col-12 md:col-6">
+                                            <div class="field col-12">
                                                 <label for="valeur">Valeur</label>
-                                                <input formControlName="value" pInputText id="valeur"
-                                                    placeholder="Valeur" />
+                                                <textarea formControlName="value" pInputTextarea id="valeur" placeholder="Valeur" rows="5" cols="30"></textarea>
                                             </div>
                                         </div>
                                     </form>
 
+                                </div>
 
+                            </ng-template>
+
+                            <ng-template pTemplate="footer">
+                                <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
+                                <button (click)="onUpdateConfig()" pButton pRipple label="Valider" icon="pi pi-check"
+                                    class="p-button-text p-button-success"></button>
+                            </ng-template>
+                        </p-dialog>
+                    </div>
+
+                    <!-- Modale Info general  -->
+                    <div class="sticky-bar">
+                        <p-dialog [(visible)]="modalDialogActe" [style]="{ width: '850px' }" header="Modification Informations"
+                            [modal]="true" class="p-fluid">
+                            <ng-template pTemplate="content">
+
+                                <div class="card shadow-2  ">
+
+                                    <form (ngSubmit)="onUpdateActeInfoConfig()" [formGroup]="ActeConfigForn">
+                                        <div class="p-fluid formgrid grid">
+                                            <div class="field col-12 md:col-6">
+                                                <label for="code">Code</label>
+                                                <input formControlName="code" pInputText id="code" placeholder="Code" disabled />
+                                            </div>
+
+                                            <div class="field col-12 md:col-6">
+                                                <label for="title">Titre</label>
+                                                <input formControlName="title" pInputText id="title" placeholder="Titre de l'acte" />
+                                            </div>
+
+                                            <div class="field col-12">
+                                                <label for="description">Description</label>
+                                                <textarea formControlName="description" pInputTextarea id="description" placeholder="Description de l'acte" rows="5" cols="30"></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
 
                                     <div class="field">
                                         <div class="card">
@@ -83,34 +119,27 @@
                                                     </ul>
                                                 </ng-template>
                                             </p-fileUpload>
-
-
                                         </div>
                                     </div>
-
                                 </div>
-
 
                             </ng-template>
 
                             <ng-template pTemplate="footer">
                                 <button pButton pRipple label="Annuler" icon="pi pi-times" (click)="modalDialog=false"></button>
-                                <button (click)="onUpdateConfig()" pButton pRipple label="Valider" icon="pi pi-check"
+                                <button (click)="onUpdateActeInfoConfig()" pButton pRipple label="Valider" icon="pi pi-check"
                                     class="p-button-text p-button-success"></button>
                             </ng-template>
                         </p-dialog>
                     </div>
 
-                    <p-table #dt1 [value]="appConfigArr" dataKey="id" rows="1" [rowHover]="true"
+                    <p-table #dt1 [value]="selectedActeConfig" dataKey="id" [rowHover]="true"
                         styleClass="p-datatable-gridlines p-datatable-striped" [paginator]="false" responsiveLayout="scroll"
                         [scrollable]="true" scrollHeight="500px">
                         <ng-template pTemplate="caption">
                             <div class="flex justify-content-between flex-column sm:flex-row">
-
-                                <!-- <button pButton pRipple label="Modifier" icon="pi pi-pencil" class="p-button-success mr-2"
-                                    (click)="openNew(appConfigArr[0])"></button> -->
-                                <button pButton pRipple label="Ajouter" icon="pi pi-pencil" class="p-button-success mr-2"
-                                    (click)="openNew()"></button>
+                                <button pButton pRipple label="Mettre à jours Info General" icon="pi pi-pencil" class="p-button-success mr-2"
+                                    (click)="openActeInfoConfig()"></button>
                             </div>
                         </ng-template>
                         <ng-template pTemplate="header">
@@ -140,18 +169,18 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-res>
-                            <tr *ngFor="let config of selectedActeConfig">
+                            <tr>
                                 <td>
-                                    {{ config?.param! ?? "--" }}
+                                    {{ res?.param! ?? "--" }}
                                 </td>
                                 <td>
-                                    {{ config?.labelle! ?? "--" }}
+                                    {{ res?.labelle! ?? "--" }}
                                 </td>
                                 <td>
-                                    {{ config?.value! ?? "--" }}
+                                    {{ res?.value! ?? "--" }}
                                 </td>
                                 <td>
-                                    <button (click)="updateConfig(config)" pButton pRipple label="mettre à jours" icon="pi pi-check"
+                                    <button (click)="updateConfig(res)" pButton pRipple label="mettre à jours" icon="pi pi-check"
                                         class="p-button-text p-button-success"></button>
                                 </td>
                             </tr>

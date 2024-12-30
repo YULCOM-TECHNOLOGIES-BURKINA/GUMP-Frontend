@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap, catchError, throwError } from 'rxjs';
+import { Observable, tap, catchError, throwError, take } from 'rxjs';
 import { API_ROOT } from 'src/environments/environment';
 import { HttpFastserviceService } from './http-fastservice.service';
 
@@ -20,12 +20,13 @@ export class ApplicationConfigService {
         private http: HttpClient
     ) {}
 
-    public getConfigDrtps(): Observable<any> {
+    public getConfigDrtps(): Observable<any[]> {
         return this.fastService
-            .get<any>(
-                `${this._gateway + 'application-config?' + this._ms_drtss}`
+            .get<any[]>(
+                `${this._gateway + 'attestation-config?' + this._ms_drtss}`
             )
             .pipe(
+                take(1),
                 tap((res) => {}),
                 catchError((error) => {
                     return throwError(() => new Error('Échec'));
@@ -33,9 +34,9 @@ export class ApplicationConfigService {
             );
     }
 
-    public getConfigAje(): Observable<any> {
+    public getConfigAje(): Observable<any[]> {
         return this.fastService
-            .get<any>(`${this._gateway + 'application-config?' + this._ms_aje}`)
+            .get<any[]>(`${this._gateway + 'attestation-config?' + this._ms_aje}`)
             .pipe(
                 tap((res) => {
                     console.log('Config :', res);
@@ -84,6 +85,42 @@ export class ApplicationConfigService {
         });
         return this.http.put(
             `${this._gateway + 'application-config?' + this._ms_drtss}`,
+            formData,
+            { headers }
+        );
+    }
+
+    updateActeConfig(code: string, configData: any): Observable<any> {
+        const formData: FormData = new FormData();
+
+        formData.append('id', configData.id);
+        formData.append('value', configData.value);
+
+        const headers = new HttpHeaders({
+            Accept: '*/*',
+        });
+        return this.http.post(
+            `${this._gateway + 'attestation-params/update?' + this._ms_drtss}`,
+            formData,
+            { headers }
+        );
+    }
+
+    updateActeInfoConfig(code: string, configData: any, file: File = null,): Observable<any> {
+        const formData: FormData = new FormData();
+
+        if(file != null){
+            formData.append('logo', file, file.name);
+        }
+
+        formData.append('id', configData.id);
+        formData.append('value', configData.value);
+
+        const headers = new HttpHeaders({
+            Accept: '*/*',
+        });
+        return this.http.post(
+            `${this._gateway + 'attestation-params/update?' + this._ms_drtss}`,
             formData,
             { headers }
         );
