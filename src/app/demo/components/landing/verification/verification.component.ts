@@ -115,6 +115,18 @@ export class VerificationComponent implements OnInit {
           this.handleVerificationErrorASF(error);
         }
       });
+    } else if(this.selectedDocType === 'RCCM' || this.selectedDocType === 'CNF') {
+      this.verificationService.verifyDocument(
+        this.selectedDocType,
+        this.verificationForm.get('reference').value
+      ).subscribe({
+        next: (response) => {
+          this.handleVerificationResponseJustice(response);
+        },
+        error: (error) => {
+          this.handleVerificationError(error);
+        }
+      });
     } else {
       this.verificationService.verifyDocument(
         this.selectedDocType,
@@ -144,6 +156,26 @@ export class VerificationComponent implements OnInit {
       organization: isValid ? response.documentOwner : undefined,
       additionalInfo: isValid ?
         `Le document N° ${response.documentNumber} est valide` :
+        'Document non valide ou inexistant'
+    };
+  
+    this.showResult = true;
+  }
+
+  private handleVerificationResponseJustice(response: any) {
+    this.loading = false;
+  
+    const isValid = response.isExpired;
+  
+    this.verificationResult = {
+      docType: this.selectedDocType,
+      reference: this.verificationForm.get('reference').value,
+      status: isValid ? 'valid' : 'invalid',
+      issueDate: isValid ? response.documentGenerationDate : undefined,
+      expiryDate: isValid ? response.dateExpiration : undefined,
+      organization: isValid ? response.nomEntreprise : undefined,
+      additionalInfo: isValid ?
+        `Le document N° ${response.numeroDemande} est valide` :
         'Document non valide ou inexistant'
     };
   

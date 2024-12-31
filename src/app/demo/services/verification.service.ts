@@ -23,8 +23,8 @@ export class VerificationService {
       'CNSS': 'cnss-ms',
       'AJE': 'tresor-ms',
       'ANPE': 'anpe-ms',
-      'RCCM': 'rccm-ms',
-      'CNF': 'cnf-ms'
+      'RCCM': 'justice-ms',
+      'CNF': 'justice-ms'
     };
 
     const service = serviceMap[type];
