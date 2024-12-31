@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
     ChangeDetectorRef,
     Component,
@@ -140,30 +140,18 @@ export class ApplicationConfigActeComponent implements OnInit {
             switchMap((execut: boolean) => {
              return forkJoin([
                this.appConfigService.getConfigDrtps(),
-            //    this.appConfigService.getConfigAje()
+               this.appConfigService.getConfigAje()
               ])
             })
-          )
-          .subscribe(([paramDrtps]) => {
-            let res = [paramDrtps[0]];
+          ).subscribe(([paramDrtps, paramAje]) => {
+            let res = [paramDrtps[0],paramAje[0]];
             this.params = this.filterParamByUser(res);
-                this.selectParam(this.params[0]!);
+                let index = this.selectedParams != null ?
+                    this.params!.findIndex( p => p.code == this.selectedParams.code)
+                    :0;
+                this.selectParam(this.params[index]!);
                 this._changeRef.markForCheck();
           });
-        //   .subscribe(([paramDrtps, paramAje]) => {
-        //     let res = [paramDrtps[0],paramAje[0]];
-        //     this.params = this.filterParamByUser(res);
-        //         this.selectParam(this.params[0]!);
-        //         this._changeRef.markForCheck();
-        //   });
-
-        // this.appConfigService.getConfigDrtps().subscribe(
-        //     res => {
-        //         this.params = this.filterParamByUser(res);
-        //         this.selectParam(this.params[0]!);
-        //         this._changeRef.markForCheck();
-        //      }
-        // );
 
     }
 
@@ -183,7 +171,6 @@ export class ApplicationConfigActeComponent implements OnInit {
     }
 
     initConfirForm(config: ActeConfig) {
-        console.log(' mise a jour');
         this.configForn.setValue({
             id: config.id,
             param: config.param,
@@ -252,7 +239,7 @@ export class ApplicationConfigActeComponent implements OnInit {
 
     onUpdateConfig() {
 
-        const configData = this.configForn.value
+        const configData = this.configForn.value;
         this.appConfigService.updateActeConfig(this.selectedParams.code,configData).subscribe(
           (response) => {
             this.handleSuccess("Mise à jour des informations effectuée avec succès.")
@@ -272,7 +259,11 @@ export class ApplicationConfigActeComponent implements OnInit {
             this.handleSuccess("Mise à jour des informations effectuée avec succès.")
            },
           (error) => {
-            this.handleError("Échec de la mise à jour des informations. Veuillez réessayer.")
+            if(error.status == 200){
+                this.handleSuccess("Mise à jour des informations effectuée avec succès.");
+            }else{
+                this.handleError("Échec de la mise à jour des informations. Veuillez réessayer.");
+            }
            }
         );
 
@@ -287,5 +278,6 @@ export class ApplicationConfigActeComponent implements OnInit {
 
     private handleError(message: string): void {
         this.messageSucces(message, 'error');
+        this.loadConfig();
     }
 }

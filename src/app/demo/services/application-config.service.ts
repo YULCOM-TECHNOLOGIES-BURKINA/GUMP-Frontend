@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap, catchError, throwError, take } from 'rxjs';
+import { Observable, tap, catchError, throwError, take, map } from 'rxjs';
 import { API_ROOT } from 'src/environments/environment';
 import { HttpFastserviceService } from './http-fastservice.service';
 
@@ -96,34 +96,33 @@ export class ApplicationConfigService {
         formData.append('id', configData.id);
         formData.append('value', configData.value);
 
+        const _url = code == 'drtps' ?
+            this._gateway + 'attestation-params/update?' + this._ms_drtss
+            : this._gateway + 'attestation-params/update?' + this._ms_aje;
+
         const headers = new HttpHeaders({
             Accept: '*/*',
         });
-        return this.http.post(
-            `${this._gateway + 'attestation-params/update?' + this._ms_drtss}`,
-            formData,
-            { headers }
-        );
+        return this.http.post(`${_url}`, formData,{ headers });
     }
 
     updateActeInfoConfig(code: string, configData: any, file: File = null,): Observable<any> {
         const formData: FormData = new FormData();
-
         if(file != null){
-            formData.append('logo', file, file.name);
+            formData.append('logoFile', file, file.name);
         }
+        formData.append('title', configData.title);
+        formData.append('icone', configData.icon);
+        formData.append('description', configData.description);
 
-        formData.append('id', configData.id);
-        formData.append('value', configData.value);
+        const _url = code == 'drtps' ?
+            this._gateway + 'attestation-config/update?' + this._ms_drtss
+            : this._gateway + 'attestation-config/update?' + this._ms_aje;
 
         const headers = new HttpHeaders({
             Accept: '*/*',
         });
-        return this.http.post(
-            `${this._gateway + 'attestation-params/update?' + this._ms_drtss}`,
-            formData,
-            { headers }
-        );
+        return this.http.post(`${_url}`, formData,{ headers });
     }
 
     updateApplicationConfigAje(file: File, configData: any): Observable<any> {
